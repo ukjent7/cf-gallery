@@ -44,7 +44,7 @@ def norm(s):
 def floor_of_cid(cid):
     if re.match(r"^d_", cid, re.I):
         return "doujin"
-    if re.match(r"^[0-9]+[a-z]+[0-9]+$", cid, re.I):
+    if re.match(r"^[0-9]+[a-z]+[0-9]+[a-z]?$", cid, re.I):
         return "boxed"
     return "digital"
 
