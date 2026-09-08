@@ -300,13 +300,13 @@ async function gcCount(cid){
 function firstCover(item, v){
   // 质量排序：FANZA > EGS官方转存 > VNDB > DLsite
   const st = storeOf(item.gid);
-  const vv = (v&&v.image)?(v.image.thumbnail||v.image.url):"";
-  const dl = (st&&st.dlsite)?dlThumb(st.dlsite):"";
+  const vv = (v&&v.image)?(v.image.url||v.image.thumbnail):"";
+  const dl = (st&&st.dlsite)?dlMain(st.dlsite):"";
   const egs = egsImg(item.gid, 1);
   const ds=dmmList(st);
   if (ds.length){
-    const src = dmThumb(ds[0].id);
-    return {src, fb:[dmPkg(ds[0].id),egs, vv, dl].filter(u=>u&&u!==src)};
+    const src = dmPkg(ds[0].id);
+    return {src, fb:[egs, vv, dl].filter(u=>u&&u!==src)};
   }
   return {src:egs, fb:[vv, dl].filter(Boolean)};
 }
@@ -316,7 +316,7 @@ function cardHtml(item, v){
   if (TAB === "dlsite"){
     const d = st && st.dlsite;
     const n = d ? (d.n||0) : 0;
-    cover = d ? `<img loading="lazy" decoding="async" src="${esc(dlThumb(d))}" alt="dlsite">` : `<div class="novndb">EGS无DLsite ID</div>`;
+    cover = d ? `<img loading="lazy" decoding="async" src="${esc(dlMain(d))}" alt="dlsite">` : `<div class="novndb">EGS无DLsite ID</div>`;
     badge = d ? `<span class="shotcount">${n}张sample</span>` : "";
     sub2 = d ? esc(d.id) : "无DLsite";
   } else if (TAB === "dmm"){
@@ -324,7 +324,7 @@ function cardHtml(item, v){
     const d = ds[0];
     const n = ds.reduce((a,e)=>a+(e.n||0),0);
     const pkgs = ds.map(e=>dmPkg(e.id));
-    cover = d ? `<img loading="lazy" decoding="async" src="${esc(dmThumb(ds[0].id))}" data-fb="${esc(ds.slice(1).map(e=>dmThumb(e.id)).join("|"))}" data-full="${esc(pkgs[0])}" onerror="chainErr(this)" alt="fanza">` : `<div class="novndb">EGS无FANZA CID</div>`;
+    cover = d ? `<img loading="lazy" decoding="async" src="${esc(pkgs[0])}" data-fb="${esc(ds.slice(1).map(e=>dmPkg(e.id)).join("|"))}" data-full="${esc(pkgs[0])}" onerror="chainErr(this)" alt="fanza">` : `<div class="novndb">EGS无FANZA CID</div>`;
     badge = d ? `<span class="shotcount">${n}张sample</span>` : "";
     sub2 = ds.length ? esc(ds.map(e=>`${e.id}(${dmmFloor(e.id)})`).join(" / ")) : "无FANZA";
   } else if (TAB === "all"){
@@ -348,7 +348,7 @@ function cardHtml(item, v){
     badge = `<span class="shotcount">官方/Getchu</span>`;
     sub2 = cid ? ("Getchu id=" + esc(cid)) : "EGS官方转存";
   } else {
-    cover = v && v.image ? `<img loading="lazy" decoding="async" src="${esc(v.image.thumbnail||v.image.url)}" alt="cover">` : `<div class="novndb">VNDB未匹配<br>进入视口后自动查，或点下方按钮</div>`;
+    cover = v && v.image ? `<img loading="lazy" decoding="async" src="${esc(v.image.url||v.image.thumbnail)}" data-fb="${esc(v.image.thumbnail||"")}" data-full="${esc(v.image.url||"")}" onerror="chainErr(this)" alt="cover">` : `<div class="novndb">VNDB未匹配<br>进入视口后自动查，或点下方按钮</div>`;
     badge = v && v.shots ? `<span class="shotcount">${v.shots.length}张截图</span>` : "";
     sub2 = v ? esc(v.title||"") + (v.alttitle? " / "+esc(v.alttitle):"") : "未匹配";
   }
@@ -575,7 +575,7 @@ async function openDetail(gid){
     const glink = st && st.getchu ? ` | <a href="${esc(st.getchu.page)}" target="_blank" rel="noopener">Getchu(id=${esc(st.getchu.id)})</a>` : "";
     document.getElementById("mbody").innerHTML = `<h2>#${item.rank} ${esc(item.name)}</h2>
     <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票<br>VNDB: ${v?esc(v.title||"")+" / "+esc(v.alttitle||"")+" / "+esc(v.id):"未匹配（可切VNDB Tab手动查）"} </p>
-    ${v&&v.image?`<h3>VNDB截图（${v.shots?v.shots.length:0}张）</h3><img class="big" data-vi="0" src="${esc(v.image.thumbnail||v.image.url)}"><div class="sgrid">${vShots}</div>`:"<p class='hint'>VNDB未匹配。</p>"}
+    ${v&&v.image?`<h3>VNDB截图（${v.shots?v.shots.length:0}张）</h3><img class="big" data-vi="0" src="${esc(v.image.url||v.image.thumbnail)}"><div class="sgrid">${vShots}</div>`:"<p class='hint'>VNDB未匹配。</p>"}
     ${dlHtml}${dmHtml}${gcHtml}
     <p><a href="${v?"https://vndb.org/"+v.id:vndbSearchUrl(item.name)}" target="_blank" rel="noopener">VNDB</a> | <a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">EGS</a>${glink} | <button data-act="refetch" data-gid="${esc(item.gid)}">重查VNDB</button></p>`;
     document.getElementById("modal").classList.add("open");
@@ -596,7 +596,7 @@ async function openDetail(gid){
   const extraHtml = v&&v.extra&&v.extra.length ? `<br>合集另含：${v.extra.map(e=>`<a href="https://vndb.org/${esc(e.id)}" target="_blank" rel="noopener">${esc(e.alttitle||e.title)} (${esc(e.id)})</a>`).join(" / ")}` : "";
   document.getElementById("mbody").innerHTML = `<h2>#${item.rank} ${esc(item.name)}</h2>
   <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票<br>VNDB: ${v?esc(v.title)+" / "+esc(v.alttitle||"")+" / "+esc(v.id):"未匹配"}${extraHtml}${v&&v.release?`<br>经发行版映射：${esc(v.release.title||"")} (${esc(v.release.id)})`:""}${v&&v.via?`<br>匹配方式：${esc(v.via)}`:""} </p>
-  ${v&&v.image?`<img class="big" id="mcover" src="${esc(v.image.thumbnail||v.image.url)}" data-full="${esc(v.image.url)}">`:""}
+  ${v&&v.image?`<img class="big" id="mcover" src="${esc(v.image.url||v.image.thumbnail)}" data-full="${esc(v.image.url)}">`:""}
   <div class="sgrid">${shotsHtml}</div>
   <p><a href="${v?"https://vndb.org/"+v.id:vndbSearchUrl(item.name)}" target="_blank" rel="noopener">在VNDB打开</a> | <a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">在EGS打开</a> | <button data-act="refetch" data-gid="${esc(item.gid)}">重查VNDB</button></p>`;
   document.getElementById("modal").classList.add("open");
