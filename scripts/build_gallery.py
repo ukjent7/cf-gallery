@@ -145,18 +145,49 @@ function fullcgGoogleEh(name, alt){
   if (alt && alt !== name) q += ' OR "' + alt + '"';
   return "https://www.google.com/search?q=" + encodeURIComponent(q);
 }
+// Brand -> group tag slug. ASCII brands only (Waffle -> waffle,
+// Alice Soft -> alice_soft); Japanese brands cannot be romanized
+// reliably, so those fall back to title-only search.
+function brandSlug(brand){
+  const b = String(brand || "").trim();
+  if (!/^[A-Za-z0-9][A-Za-z0-9 _.'-]{0,40}$/.test(b)) return null;
+  const s = b.toLowerCase().replace(/[\\s.'-]+/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, "");
+  return s || null;
+}
+// On-site search URLs (verified format): hitomi takes the raw query
+// after search.html? (gallery-dl HitomiSearchExtractor), e-hentai uses
+// f_search with $ for exact tag match (EHWiki Gallery Searching).
+function hitomiSiteUrl(item, alt){
+  const parts = ["type:gamecg"];
+  const g = brandSlug(item.brand);
+  if (g) parts.push("group:" + g);
+  parts.push((alt && alt !== item.name) ? alt : item.name);
+  return "https://hitomi.la/search.html?" + encodeURIComponent(parts.join(" "));
+}
+function ehSiteUrl(item, alt){
+  const parts = [];
+  const g = brandSlug(item.brand);
+  if (g) parts.push("group:" + g + "$");
+  const t = (alt && alt !== item.name) ? alt : item.name;
+  parts.push('title:"' + t + '"');
+  return "https://e-hentai.org/?f_search=" + encodeURIComponent(parts.join(" ")) + "&f_apply=Apply+Filter";
+}
 function fullcgHtml(item, alt){
   const e = fullcgOf(item.gid);
   const direct = [];
   if (e && e.hitomi) direct.push(`<a href="${esc(e.hitomi)}" target="_blank" rel="noopener">hitomi全CG直连</a>`);
   if (e && e.ehentai) direct.push(`<a href="${esc(e.ehentai)}" target="_blank" rel="noopener">e-hentai全CG直连</a>`);
+  const g = brandSlug(item.brand);
+  const hUrl = hitomiSiteUrl(item, alt);
+  const sUrl = ehSiteUrl(item, alt);
   const gHitomi = fullcgGoogleHitomi(item.name, alt);
   const gEh = fullcgGoogleEh(item.name, alt);
   const keys = alt && alt !== item.name ? esc(item.name) + " / " + esc(alt) : esc(item.name);
   return `<h3>全CG（站外）</h3>`
     + (direct.length ? `<p>已核实：${direct.join(" | ")}</p>` : "")
+    + `<p><a href="${esc(hUrl)}" target="_blank" rel="noopener">hitomi站内搜${g ? "(group:" + esc(g) + ")" : "(标题)"}</a> | <a href="${esc(sUrl)}" target="_blank" rel="noopener">e-hentai站内搜${g ? "(group:" + esc(g) + "$)" : "(标题)"}</a></p>`
     + `<p><a href="${esc(gHitomi)}" target="_blank" rel="noopener">Google搜hitomi全CG</a> | <a href="${esc(gEh)}" target="_blank" rel="noopener">Google搜e-hentai全CG</a></p>`
-    + `<p class="hint">关键词：${keys}（已带site参数）。先用本页官方截图核对是否为同一作，确认再点进去。全CG图不在本画廊内展示，对方站内需各自过年龄确认/登录。</p>`;
+    + `<p class="hint">站内搜关键词：${keys}${g ? "＋品牌group:" + esc(g) : "（品牌是日文拼不出group标签，只用标题搜）"}。先用本页官方截图核对是否为同一作，全CG图不在本画廊内展示，对方站内需各自过年龄确认/登录。</p>`;
 }
 const GCN = Object.values(GETCHU).filter(x=>x&&x.ok).length;
 let TAB = "all";
