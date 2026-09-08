@@ -922,6 +922,10 @@ function getObserver() {
 // --- viewer -------------------------------------------------------------------
 var vList = [];
 var vIdx = 0;
+// Monotonic token: rapid prev/next clicks each start a load, and only the
+// latest one's callbacks may touch the UI — otherwise a slow earlier image
+// landing late would clear the spinner while the newest is still loading.
+var vToken = 0;
 
 function openViewer(list, idx) {
   vList = list;
@@ -933,14 +937,59 @@ function openViewer(list, idx) {
 function updateViewer() {
   var cur = vList[vIdx];
   if (!cur) return;
-  document.getElementById("vimg").src = cur.full;
+  var img = document.getElementById("vimg");
+  var spin = document.getElementById("vspin");
+  var my = ++vToken;
+  // Caption first: the counter reacts instantly so a fast click never feels lost.
   document.getElementById("vcap").textContent =
     (vIdx + 1) + " / " + vList.length + " " + (cur.label || "");
+  // Dim the outgoing picture at once: without this the old image sits unchanged
+  // behind the new caption and reads as "stuck / duplicate".
+  img.classList.add("loading");
+  // Delayed spinner: cached pictures resolve in ms and must not flash one.
+  setTimeout(function () {
+    if (my === vToken && !img.complete && spin) spin.classList.add("on");
+  }, 180);
+  img.onload = function () {
+    if (my !== vToken) return;
+    img.classList.remove("loading");
+    if (spin) spin.classList.remove("on");
+  };
+  img.onerror = function () {
+    if (my !== vToken) return;
+    img.classList.remove("loading");
+    if (spin) spin.classList.remove("on");
+  };
+  if (img.getAttribute("src") !== cur.full) img.src = cur.full;
+  else {
+    img.classList.remove("loading");
+    if (spin) spin.classList.remove("on");
+  }
+  preloadAround();
+}
+
+// Warm the neighbours' full-size files so rapid prev/next usually hits cache
+// instead of network. Adjacent only (±1): warming the whole list would hammer
+// bandwidth on 30-picture sections.
+function preloadAround() {
+  if (typeof Image === "undefined" || vList.length < 2) return;
+  for (var d = -1; d <= 1; d += 2) {
+    var it = vList[(vIdx + d + vList.length) % vList.length];
+    if (it && it.full) {
+      var im = new Image();
+      im.src = it.full;
+    }
+  }
 }
 
 function closeViewer() {
+  vToken++; // invalidate any in-flight load callbacks
   document.getElementById("viewer").classList.remove("open");
-  document.getElementById("vimg").removeAttribute("src");
+  var img = document.getElementById("vimg");
+  img.classList.remove("loading");
+  var spin = document.getElementById("vspin");
+  if (spin) spin.classList.remove("on");
+  img.removeAttribute("src");
 }
 
 function viewIdx(list, im) {

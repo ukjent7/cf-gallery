@@ -79,9 +79,17 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
 #modal h3{margin:22px 0 10px;font-size:14px;color:var(--text);border-top:1px solid var(--line);border-left:3px solid var(--accent);padding:14px 0 0 10px}
 #modal h3:first-of-type{margin-top:12px;border-top:0;padding-top:0}
 #modal p{color:var(--muted);font-size:13.5px}
-#modal img.big{width:100%;max-height:60vh;object-fit:contain;background:#0b0d10;border:1px solid var(--line);border-radius:10px;cursor:zoom-in}
+/* Cover stage: one fixed-height box for every platform's cover, image fitted
+   with contain and centered — identical outer size, never stretched/cropped.
+   (Card tiles are already uniform 3/4, sample tiles 4/3; the fullscreen viewer
+   intentionally stays free-size so originals are never cropped.) */
+#modal img.big{display:block;width:100%;height:clamp(240px,52vh,520px);object-fit:contain;object-position:center;background:#0b0d10;border:1px solid var(--line);border-radius:10px;cursor:zoom-in}
 #modal .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:12px}
-#modal .sgrid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;cursor:zoom-in;background:#0b0d10;border:1px solid transparent}
+/* Sample tiles: same stage idea as the cover — one fixed-height box per tile,
+   whole image fitted with contain. Uniform boxes, fully visible, no stretch.
+   (This replaces the old 4/3 cover-crop, which filled the tile but cut the
+   image edges — bad for samples that carry text/UI near the borders.) */
+#modal .sgrid img{width:100%;height:180px;object-fit:contain;object-position:center;border-radius:8px;cursor:zoom-in;background:#0b0d10;border:1px solid var(--line)}
 #modal .sgrid img:hover{border-color:var(--line-strong)}
 #close{float:right}
 .tab.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
@@ -89,7 +97,22 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
 
 #viewer{position:fixed;inset:0;background:rgba(4,6,9,.94);display:none;z-index:100;align-items:center;justify-content:center;flex-direction:column;padding:16px}
 #viewer.open{display:flex}
-#viewer img{max-width:min(1100px,96vw);max-height:82vh;object-fit:contain;background:#0b0d10;border-radius:10px;border:1px solid var(--line)}
+/* Viewer stage: fixed box for every image, fitted with contain — same outer
+   size when flipping through, never stretched/cropped (bars fill the rest). */
+#viewer img{display:block;width:min(1100px,96vw);height:min(80vh,820px);object-fit:contain;object-position:center;background:#0b0d10;border-radius:10px;border:1px solid var(--line);transition:opacity .16s ease}
+#viewer img.loading{opacity:.35}
+#vspin{display:none;position:absolute;left:50%;top:44%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:3px solid var(--line-strong);border-top-color:var(--accent);pointer-events:none}
+#vspin.on{display:block;animation:vspin .8s linear infinite}
+@keyframes vspin{to{transform:rotate(360deg)}}
+/* Tile loading shimmer: pure CSS, visible only while the tile image hasn't
+   painted yet (a loaded opaque tile fully covers its own background). Failed
+   tiles are removed by chainErr, taking the shimmer with them. */
+.cover img,#modal .sgrid img{background-color:#0d1015;background-image:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.07) 50%,transparent 65%);background-size:220% 100%;animation:tileShimmer 1.5s linear infinite}
+@keyframes tileShimmer{0%{background-position:180% 0}100%{background-position:-120% 0}}
+@media (prefers-reduced-motion: reduce){
+  #vspin.on{animation:none;border-top-color:var(--line-strong)}
+  .cover img,#modal .sgrid img{animation:none}
+}
 #viewer .bar{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13px;color:var(--muted);flex-wrap:wrap;justify-content:center}
 #viewer button{padding:9px 16px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text);cursor:pointer}
 #viewer button:hover{border-color:var(--accent)}
@@ -101,6 +124,7 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
   #modal .box{padding:14px 12px 6px}
   #modal h2{font-size:16px}
   #modal .sgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  #modal .sgrid img{height:120px}
 }
 
 @media (prefers-reduced-motion: no-preference){
