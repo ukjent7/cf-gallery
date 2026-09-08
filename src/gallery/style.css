@@ -73,19 +73,18 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
 /* Detail modal. Store sections are separated by a rule so the hierarchy
    (cover -> samples) reads at a glance instead of as one stacked wall of grids. */
 #modal{position:fixed;inset:0;background:rgba(4,6,9,.82);display:none;z-index:50;overflow:auto;padding:20px}
-#modal.open{display:block}
-#modal .box{max-width:1280px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 8px}
-/* Detail 3-column layout: recommendation rails flank the main content.
-   Rails are sticky so they stay visible while the middle scrolls. */
-.mwrap{display:grid;gap:18px;grid-template-columns:240px minmax(0,1fr) 240px;grid-template-areas:"relL main relR";align-items:start}
-.mmain{grid-area:main;min-width:0}
-.relrail.left{grid-area:relL}
-.relrail.right{grid-area:relR}
-.relrail{position:sticky;top:84px;display:flex;flex-direction:column;gap:10px;min-width:0}
+#modal.open{display:flex}
+#modal .box{flex:0 1 960px;min-width:0;margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 8px}
+/* Floating rails: OUTSIDE the modal box, over the backdrop — never boxed
+   together with the content. Own scroll when taller than the viewport. */
+.mwrap{display:flex;gap:18px;align-items:flex-start;margin:auto;max-width:1500px}
+.relrail{flex:none;width:220px;max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:12px;min-width:0}
+.relrail:empty{display:none}
 .relhead{margin:2px 0 0;font-size:13px;color:var(--muted);font-weight:700}
-@media(max-width:1100px){
-  .mwrap{grid-template-columns:minmax(0,1fr);grid-template-areas:"main" "relL" "relR"}
-  .relrail{position:static;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+@media(max-width:1500px){
+  .mwrap{flex-direction:column;align-items:stretch;width:100%;max-width:960px}
+  #modal .box{flex:none}
+  .relrail{width:auto;max-height:none;overflow:visible;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
   .relrail .relhead{grid-column:1/-1}
 }
 #modal h2{margin:0 0 4px;font-size:18px;line-height:1.4;color:var(--text);padding-right:72px}

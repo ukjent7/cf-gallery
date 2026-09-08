@@ -148,9 +148,10 @@ describe("detail modal", () => {
     expect(item, "no cached product has any related siblings").toBeTruthy();
     window.GALLERY.setTab("all");
     window.GALLERY.openDetail(String(item.gid));
-    expect(doc.getElementById("mbody").textContent).toContain("相关推荐");
-    const left = [...doc.querySelectorAll("#mbody .relrail.left .relcard")];
-    const right = [...doc.querySelectorAll("#mbody .relrail.right .relcard")];
+    expect(doc.getElementById("modal").textContent).toContain("相关推荐");
+    expect(doc.querySelector("#mbody .relrail"), "rails must float outside #mbody").toBeNull();
+    const left = [...doc.querySelectorAll("#relL .relcard")];
+    const right = [...doc.querySelectorAll("#relR .relcard")];
     const cards = left.concat(right);
     expect(left.length, "left rail is empty").toBeGreaterThan(0);
     expect(cards.length).toBeLessThanOrEqual(6);

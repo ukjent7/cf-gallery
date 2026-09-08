@@ -836,17 +836,9 @@ function relCardHtml(r) {
     '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></button>";
 }
 
-// Side rails: recommendations flank the main content (left/right), sticky while
-// the middle scrolls. Split half/half; the single heading lives on the left.
-function relatedRailsHtml(rel) {
-  var mid = Math.ceil(rel.length / 2);
-  function rail(list, cls, head) {
-    return '<aside class="relrail ' + cls + '">' +
-      (head ? '<h4 class="relhead">相关推荐</h4>' : "") +
-      list.map(relCardHtml).join("") + "</aside>";
-  }
-  return rail(rel.slice(0, mid), "left", true) + rail(rel.slice(mid), "right", false);
-}
+// Side rails live OUTSIDE the modal box (see index.src.html #relL/#relR): they
+// float over the backdrop instead of being boxed together with the content.
+// Split half/half; the single heading lives on the left.
 
 // --- state --------------------------------------------------------------------
 var TAB = "all";
@@ -1179,16 +1171,19 @@ function renderModal(item, sections) {
   }
   html += "</p>";
 
-  if (rel.length) {
-    html = '<div class="mwrap"><div class="mmain">' + html + "</div>" + relatedRailsHtml(rel) + "</div>";
-  }
-
   document.getElementById("mbody").innerHTML = html;
+  // Rails float outside the box, so rail covers are never under #mbody and can
+  // never pick up the viewer handler below — navigation only, by construction.
+  var relL = document.getElementById("relL");
+  var relR = document.getElementById("relR");
+  if (relL && relR) {
+    var mid = Math.ceil(rel.length / 2);
+    relL.innerHTML = rel.length
+      ? '<h4 class="relhead">相关推荐</h4>' + rel.slice(0, mid).map(relCardHtml).join("") : "";
+    relR.innerHTML = rel.length ? rel.slice(mid).map(relCardHtml).join("") : "";
+  }
   document.getElementById("modal").classList.add("open");
   document.querySelectorAll("#mbody img").forEach(function (im) {
-    // Recommendation covers navigate (delegated data-act), they must not also
-    // open the viewer: their urls are not in viewList and would land on index 0.
-    if (im.closest(".relrail")) return;
     im.style.cursor = "zoom-in";
     im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
   });
