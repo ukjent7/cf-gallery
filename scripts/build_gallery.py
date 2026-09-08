@@ -135,14 +135,28 @@ const STORE = __STORE__;
 const GETCHU = __GETCHU__;
 const FULLCG = __FULLCG__;
 function fullcgOf(gid){ return FULLCG[String(gid)] || null; }
-function fullcgHtml(gid){
-  const e = fullcgOf(gid);
-  if (!e) return "";
-  const links = [];
-  if (e.hitomi) links.push(`<a href="${esc(e.hitomi)}" target="_blank" rel="noopener">hitomi全CG</a>`);
-  if (e.ehentai) links.push(`<a href="${esc(e.ehentai)}" target="_blank" rel="noopener">e-hentai全CG</a>`);
-  if (!links.length) return "";
-  return `<h3>全CG外链（站外跳转）</h3><p>${links.join(" | ")}</p><p class="hint">先用本页官方截图核对是否为同一作，确认再点进去，免得白跑一趟。外链站需要各自过年龄确认/登录，全CG图不在本画廊内展示。</p>`;
+function fullcgGoogleHitomi(name, alt){
+  let q = 'site:hitomi.la gamecg "' + name + '"';
+  if (alt && alt !== name) q += ' OR "' + alt + '"';
+  return "https://www.google.com/search?q=" + encodeURIComponent(q);
+}
+function fullcgGoogleEh(name, alt){
+  let q = 'site:e-hentai.org "' + name + '"';
+  if (alt && alt !== name) q += ' OR "' + alt + '"';
+  return "https://www.google.com/search?q=" + encodeURIComponent(q);
+}
+function fullcgHtml(item, alt){
+  const e = fullcgOf(item.gid);
+  const direct = [];
+  if (e && e.hitomi) direct.push(`<a href="${esc(e.hitomi)}" target="_blank" rel="noopener">hitomi全CG直连</a>`);
+  if (e && e.ehentai) direct.push(`<a href="${esc(e.ehentai)}" target="_blank" rel="noopener">e-hentai全CG直连</a>`);
+  const gHitomi = fullcgGoogleHitomi(item.name, alt);
+  const gEh = fullcgGoogleEh(item.name, alt);
+  const keys = alt && alt !== item.name ? esc(item.name) + " / " + esc(alt) : esc(item.name);
+  return `<h3>全CG（站外）</h3>`
+    + (direct.length ? `<p>已核实：${direct.join(" | ")}</p>` : "")
+    + `<p><a href="${esc(gHitomi)}" target="_blank" rel="noopener">Google搜hitomi全CG</a> | <a href="${esc(gEh)}" target="_blank" rel="noopener">Google搜e-hentai全CG</a></p>`
+    + `<p class="hint">关键词：${keys}（已带site参数）。先用本页官方截图核对是否为同一作，确认再点进去。全CG图不在本画廊内展示，对方站内需各自过年龄确认/登录。</p>`;
 }
 const GCN = Object.values(GETCHU).filter(x=>x&&x.ok).length;
 let TAB = "all";
@@ -588,7 +602,7 @@ function openStoreDetail(item, st, viewList, coverHtml, shotsHtml, linkUrl, link
   <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票</p>
   ${coverHtml}
   <div class="sgrid">${shotsHtml}</div>
-  ${fullcgHtml(item.gid)}
+  ${fullcgHtml(item)}
   <p><a href="${linkUrl}" target="_blank" rel="noopener">${linkText}</a> | <a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">在EGS打开</a>${glink}</p>`;
   document.getElementById("modal").classList.add("open");
   const mc = document.getElementById("mcover");
@@ -653,7 +667,7 @@ async function openDetail(gid){
     document.getElementById("mbody").innerHTML = `<h2>#${item.rank} ${esc(item.name)}</h2>
     <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票<br>Getchu经Worker代理直连（file://下走EGS转存）${cid?`（id=`+esc(cid)+`）`:""}</p>
     <div class="sgrid">${slots}</div>
-    ${fullcgHtml(item.gid)}
+    ${fullcgHtml(item)}
     <p>${cid?`<a href="${gcPage(cid)}" target="_blank" rel="noopener">在Getchu打开</a> | `:""}<a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">在EGS打开</a></p>`;
     document.getElementById("modal").classList.add("open");
     document.querySelectorAll("#mbody .sgrid img").forEach((im)=>{
@@ -717,7 +731,7 @@ async function openDetail(gid){
     <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票<br>VNDB: ${v?esc(v.title||"")+" / "+esc(v.alttitle||"")+" / "+esc(v.id):"未匹配（可切VNDB Tab手动查）"} </p>
     ${v&&v.image?`<h3>VNDB截图（${v.shots?v.shots.length:0}张）</h3><img class="big" data-vi="0" src="${esc(v.image.url||v.image.thumbnail)}"><div class="sgrid">${vShots}</div>`:"<p class='hint'>VNDB未匹配。</p>"}
     ${dlHtml}${dmHtml}${gcHtml}
-    ${fullcgHtml(item.gid)}
+    ${fullcgHtml(item, v&&v.alttitle)}
     <p><a href="${v?"https://vndb.org/"+v.id:vndbSearchUrl(item.name)}" target="_blank" rel="noopener">VNDB</a> | <a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">EGS</a>${glink} | <button data-act="refetch" data-gid="${esc(item.gid)}">重查VNDB</button></p>`;
     document.getElementById("modal").classList.add("open");
     document.querySelectorAll("#mbody img.big, #mbody .sgrid img").forEach(im=>{
@@ -743,7 +757,7 @@ async function openDetail(gid){
   <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票<br>VNDB: ${v?esc(v.title)+" / "+esc(v.alttitle||"")+" / "+esc(v.id):"未匹配"}${extraHtml}${v&&v.release?`<br>经发行版映射：${esc(v.release.title||"")} (${esc(v.release.id)})`:""}${v&&v.via?`<br>匹配方式：${esc(v.via)}`:""} </p>
   ${v&&v.image?`<img class="big" id="mcover" src="${esc(v.image.url||v.image.thumbnail)}" data-full="${esc(v.image.url)}">`:""}
   <div class="sgrid">${shotsHtml}</div>
-  ${fullcgHtml(item.gid)}
+  ${fullcgHtml(item, v&&v.alttitle)}
   <p><a href="${v?"https://vndb.org/"+v.id:vndbSearchUrl(item.name)}" target="_blank" rel="noopener">在VNDB打开</a> | <a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">在EGS打开</a> | <button data-act="refetch" data-gid="${esc(item.gid)}">重查VNDB</button></p>`;
   document.getElementById("modal").classList.add("open");
   const mc = document.getElementById("mcover");
