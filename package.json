@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "bunx wrangler dev",
-    "deploy": "bunx wrangler deploy",
+    "deploy": "node scripts/setup-kv.cjs && bunx wrangler deploy",
+    "setup-kv": "node scripts/setup-kv.cjs",
     "test": "bun test"
   }
 }
