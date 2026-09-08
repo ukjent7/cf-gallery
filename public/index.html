@@ -246,8 +246,13 @@ function storeOf(gid){ return STORE[String(gid)] || null; }
 function dlMain(d){return `https://img.dlsite.jp/modpub/images2/work/${d.wt}/${d.folder}/${d.id}_img_main.webp`;}
 function dlThumb(d){return `https://img.dlsite.jp/resize/images2/work/${d.wt}/${d.folder}/${d.id}_img_main_240x240.webp`;}
 function dlSampleUrl(d,stem){return `https://img.dlsite.jp/modpub/images2/work/${d.wt}/${d.folder}/${d.id}_img_${stem}.webp`;}
-function dlSamples(d){const a=[];const stems=(d&&d.samples&&d.samples.length?d.samples:Array.from({length:(d&&d.n||0)},(_,k)=>"smp"+(k+1)));stems.forEach(s=>a.push(dlSampleUrl(d,s)));return a;}
+function dlStems(d){return (d&&d.samples&&d.samples.length?d.samples:Array.from({length:(d&&d.n||0)},(_,k)=>"smp"+(k+1)));}
+function dlSamples(d){return dlStems(d).map(s=>dlSampleUrl(d,s));}
+function dlSampleThumb(d,stem){return `https://img.dlsite.jp/resize/images2/work/${d.wt}/${d.folder}/${d.id}_img_${stem}_100x100.jpg`;}
+function dlThumbs(d){return dlStems(d).map(s=>dlSampleThumb(d,s));}
 function dlJpg(u){return u.replace(/\.webp$/,".jpg");}
+function dmThumb(cid){ const p=dmPkg(cid); return /^d_/i.test(cid) ? p : p.replace(/pl\.jpg$/,"ps.jpg"); }
+function dmBigSmall(cid,i){ const u=dmSampleUrls(cid,i); const small=u[1]||u[0]; const rest=(u[1]?[u[0]].concat(u.slice(2)):u.slice(1)); return {big:u[0], small, rest}; }
 function dmPkg(cid){ if(/^d_/i.test(cid)) return `https://doujin-assets.dmm.co.jp/digital/game/${cid}/${cid}pr.jpg`; if(/apc|will|mono/i.test(cid)) return `https://pics.dmm.co.jp/mono/game/${cid}/${cid}pl.jpg`; return `https://pics.dmm.co.jp/digital/pcgame/${cid}/${cid}pl.jpg`;}
 function dmSampleUrls(cid,i){
   // jp- is the full-size sample, js- is a 120x90 thumbnail. Verified.
@@ -298,10 +303,10 @@ function firstCover(item, v){
   const vv = (v&&v.image)?(v.image.thumbnail||v.image.url):"";
   const dl = (st&&st.dlsite)?dlThumb(st.dlsite):"";
   const egs = egsImg(item.gid, 1);
-  const pkgs=dmmList(st).map(e=>dmPkg(e.id));
-  if (pkgs.length){
-    const src = pkgs[0];
-    return {src, fb:[pkgs[1],egs, vv, dl].filter(u=>u&&u!==src)};
+  const ds=dmmList(st);
+  if (ds.length){
+    const src = dmThumb(ds[0].id);
+    return {src, fb:[dmPkg(ds[0].id),egs, vv, dl].filter(u=>u&&u!==src)};
   }
   return {src:egs, fb:[vv, dl].filter(Boolean)};
 }
@@ -319,7 +324,7 @@ function cardHtml(item, v){
     const d = ds[0];
     const n = ds.reduce((a,e)=>a+(e.n||0),0);
     const pkgs = ds.map(e=>dmPkg(e.id));
-    cover = d ? `<img loading="lazy" decoding="async" src="${esc(pkgs[0])}" data-fb="${esc(pkgs.slice(1).join("|"))}" data-full="${esc(pkgs[0])}" onerror="chainErr(this)" alt="fanza">` : `<div class="novndb">EGS无FANZA CID</div>`;
+    cover = d ? `<img loading="lazy" decoding="async" src="${esc(dmThumb(ds[0].id))}" data-fb="${esc(ds.slice(1).map(e=>dmThumb(e.id)).join("|"))}" data-full="${esc(pkgs[0])}" onerror="chainErr(this)" alt="fanza">` : `<div class="novndb">EGS无FANZA CID</div>`;
     badge = d ? `<span class="shotcount">${n}张sample</span>` : "";
     sub2 = ds.length ? esc(ds.map(e=>`${e.id}(${dmmFloor(e.id)})`).join(" / ")) : "无FANZA";
   } else if (TAB === "all"){
@@ -465,23 +470,24 @@ async function openDetail(gid){
   if (TAB === "dlsite"){
     const d = st && st.dlsite;
     const sl = d ? dlSamples(d) : [];
+    const th = d ? dlThumbs(d) : [];
     const viewList = [];
-    if (d){ viewList.push({thumb:dlThumb(d), full:dlMain(d), label:"主图 "+d.id}); sl.forEach((s,i)=>viewList.push({thumb:s, full:s, label:"sample"+(i+1)})); }
-    return openStoreDetail(item, st, viewList, d ? `<img class="big" id="mcover" src="${esc(dlMain(d))}">` : "", d ? sl.map(s=>`<img loading="lazy" decoding="async" src="${esc(s)}" data-fb="${esc(dlJpg(s))}" data-full="${esc(s)}" onerror="chainErr(this)">`).join("") : "<p class='hint'>EGS无DLsite ID。</p>", d ? d.page : vndbSearchUrl(item.name), "在DLsite打开");
+    if (d){ viewList.push({thumb:dlThumb(d), full:dlMain(d), label:"主图 "+d.id}); sl.forEach((s,i)=>viewList.push({thumb:th[i]||s, full:s, label:"sample"+(i+1)})); }
+    return openStoreDetail(item, st, viewList, d ? `<img class="big" id="mcover" src="${esc(dlMain(d))}">` : "", d ? sl.map((s,i)=>`<img loading="lazy" decoding="async" src="${esc(th[i]||s)}" data-fb="${esc(s+"|"+dlJpg(s))}" data-full="${esc(s)}" onerror="chainErr(this)">`).join("") : "<p class='hint'>EGS无DLsite ID。</p>", d ? d.page : vndbSearchUrl(item.name), "在DLsite打开");
   }
   if (TAB === "dmm"){
     const ds = dmmList(st);
     const viewList = [];
     ds.forEach(e=>{
       const fl = dmmFloor(e.id);
-      viewList.push({thumb:dmPkg(e.id), full:dmPkg(e.id), label:`包图 ${fl} ${e.id}`});
-      for (let i=1;i<=(e.n||0);i++){ const u=dmSampleUrls(e.id,i); u.forEach(x=>{ if(!viewList.some(y=>y.full===x)) viewList.push({thumb:x, full:x, label:`${fl} sample${i}`}); }); }
+      viewList.push({thumb:dmThumb(e.id), full:dmPkg(e.id), label:`包图 ${fl} ${e.id}`});
+      for (let i=1;i<=(e.n||0);i++){ const {big, small}=dmBigSmall(e.id,i); if(!viewList.some(y=>y.full===big)) viewList.push({thumb:small, full:big, label:`${fl} sample${i}`}); }
     });
     const simgs = ds.map(e=>{
       const fl = dmmFloor(e.id);
       return `<p class="hint">${fl} ${esc(e.id)}（${e.n||0}张） <a href="${dmmPageUrl(e.id)}" target="_blank" rel="noopener">商品页</a></p>`+Array.from({length:(e.n||0)},(_,k)=>{
-        const u = dmSampleUrls(e.id, k+1);
-        return `<img loading="lazy" decoding="async" src="${esc(u[0])}" data-fb="${esc(u.slice(1).join("|"))}" data-full="${esc(u[0])}" onerror="chainErr(this)" alt="sample">`;
+        const {big, small, rest}=dmBigSmall(e.id, k+1);
+        return `<img loading="lazy" decoding="async" src="${esc(small)}" data-fb="${esc(rest.join("|"))}" data-full="${esc(big)}" onerror="chainErr(this)" alt="sample">`;
       }).join("");
     }).join("");
     const pkgs = ds.map(e=>dmPkg(e.id));
@@ -527,9 +533,10 @@ async function openDetail(gid){
     let dlHtml = "";
     if (st && st.dlsite){
       const sl = dlSamples(st.dlsite);
+      const th = dlThumbs(st.dlsite);
       viewList.push({thumb:dlThumb(st.dlsite), full:dlMain(st.dlsite), label:"DLsite主图 "+st.dlsite.id});
-      sl.forEach((s,i)=>viewList.push({thumb:s, full:s, label:"DLsite sample"+(i+1)}));
-      dlHtml = `<h3>DLsite（${st.dlsite.id}，${sl.length}张sample）</h3><img class="big" data-vi="${viewList.length-sl.length-1}" src="${esc(dlMain(st.dlsite))}"><div class="sgrid">`+sl.map(s=>`<img loading="lazy" decoding="async" src="${esc(s)}" data-fb="${esc(dlJpg(s))}" data-full="${esc(s)}" onerror="chainErr(this)">`).join("")+`</div><p><a href="${esc(st.dlsite.page)}" target="_blank" rel="noopener">在DLsite打开</a></p>`;
+      sl.forEach((s,i)=>viewList.push({thumb:th[i]||s, full:s, label:"DLsite sample"+(i+1)}));
+      dlHtml = `<h3>DLsite（${st.dlsite.id}，${sl.length}张sample）</h3><img class="big" data-vi="${viewList.length-sl.length-1}" src="${esc(dlMain(st.dlsite))}"><div class="sgrid">`+sl.map((s,i)=>`<img loading="lazy" decoding="async" src="${esc(th[i]||s)}" data-fb="${esc(s+"|"+dlJpg(s))}" data-full="${esc(s)}" onerror="chainErr(this)">`).join("")+`</div><p><a href="${esc(st.dlsite.page)}" target="_blank" rel="noopener">在DLsite打开</a></p>`;
     }
     let dmHtml = "";
     if (dmmList(st).length){
@@ -537,11 +544,11 @@ async function openDetail(gid){
       const dmSecs = ds.map(e=>{
         const fl = dmmFloor(e.id);
         const pkg = dmPkg(e.id);
-        viewList.push({thumb:pkg, full:pkg, label:`FANZA包图 ${fl} ${e.id}`});
-        for (let i=1;i<=(e.n||0);i++){ dmSampleUrls(e.id,i).forEach(x=>{ if(!viewList.some(y=>y.full===x)) viewList.push({thumb:x, full:x, label:`FANZA ${fl} sample${i}`}); }); }
+        viewList.push({thumb:dmThumb(e.id), full:pkg, label:`FANZA包图 ${fl} ${e.id}`});
+        for (let i=1;i<=(e.n||0);i++){ const {big, small}=dmBigSmall(e.id,i); if(!viewList.some(y=>y.full===big)) viewList.push({thumb:small, full:big, label:`FANZA ${fl} sample${i}`}); }
         const simgs = Array.from({length:(e.n||0)},(_,k)=>{
-          const u = dmSampleUrls(e.id, k+1);
-          return `<img loading="lazy" decoding="async" src="${esc(u[0])}" data-fb="${esc(u.slice(1).join("|"))}" data-full="${esc(u[0])}" onerror="chainErr(this)" alt="sample">`;
+          const {big, small, rest}=dmBigSmall(e.id, k+1);
+          return `<img loading="lazy" decoding="async" src="${esc(small)}" data-fb="${esc(rest.join("|"))}" data-full="${esc(big)}" onerror="chainErr(this)" alt="sample">`;
         }).join("");
         return `<h3>FANZA ${fl}（${e.id}，${e.n||0}张sample）</h3><img class="big" data-full="${esc(pkg)}" src="${esc(pkg)}" onerror="chainErr(this)"><div class="sgrid">${simgs}</div><p><a href="${dmmPageUrl(e.id)}" target="_blank" rel="noopener">商品页（${fl}）</a></p>`;
       }).join("");
