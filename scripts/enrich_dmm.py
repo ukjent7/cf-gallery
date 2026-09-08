@@ -11,6 +11,10 @@ Writes dmm_counterparts.json incrementally (resume-safe), then merges
 dmm2/dmm2_n into store_ids.json. Throttled single-threaded to stay polite.
 
 Usage: python3 enrich_dmm.py [--limit N] [--gids GID,GID] [--merge-only]
+       [--digital-only]
+Only digital counterparts are wanted (FANZA download edition; boxed images
+come from Getchu). --digital-only skips stored-digital gids without any
+request and only records counterparts on the digital floor.
 """
 import csv
 import json
@@ -130,7 +134,7 @@ def sample_count(cid, floor, session):
     return max(nums) if nums else 0
 
 
-def enrich_gid(gid, title, stored, session):
+def enrich_gid(gid, title, stored, session, digital_only=False):
     import urllib.parse
     url = SEARCH_URL.format(q=urllib.parse.quote(title))
     html = get(url, session)
@@ -157,6 +161,8 @@ def enrich_gid(gid, title, stored, session):
     else:
         dig = by_floor.get("digital", [])
         box = by_floor.get("boxed", [])
+        if digital_only:
+            box = []
         if len(dig) == 1 and len(box) <= 1:
             prim, pfl = (dig[0][0], "digital") if dig else (box[0][0], "boxed")
             res.update({"ok": True, "fill": {"dmm": prim, "floor": pfl},
@@ -180,6 +186,7 @@ def main():
     if "--gids" in args:
         only = set(args[args.index("--gids") + 1].split(","))
     merge_only = "--merge-only" in args
+    digital_only = "--digital-only" in args
 
     if not merge_only:
         store = json.load(open(STORE_PATH, encoding="utf-8"))
@@ -205,9 +212,13 @@ def main():
             stored = (store.get(gid) or {}).get("dmm")
             if not title or not stored or floor_of_cid(stored) == "doujin":
                 done[gid] = {"gid": gid, "ok": False, "reason": "skip"}
+            elif digital_only and floor_of_cid(stored) != "boxed":
+                done[gid] = {"gid": gid, "ok": False,
+                             "reason": "digital-already"}
             else:
                 try:
-                    done[gid] = enrich_gid(gid, title, stored, session)
+                    done[gid] = enrich_gid(gid, title, stored, session,
+                                           digital_only)
                 except Exception as e:
                     done[gid] = {"gid": gid, "ok": False,
                                  "reason": f"error {e}"}
@@ -225,6 +236,8 @@ def main():
         if not r.get("ok") or gid not in store:
             continue
         if r.get("dmm2") and not store[gid].get("dmm2"):
+            if digital_only and floor_of_cid(r["dmm2"]) != "digital":
+                continue
             store[gid]["dmm2"] = r["dmm2"]
             store[gid]["dmm2_n"] = r.get("dmm2_n", 0)
             n2 += 1
