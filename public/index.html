@@ -250,12 +250,13 @@ function dlSamples(d){const a=[];const stems=(d&&d.samples&&d.samples.length?d.s
 function dlJpg(u){return u.replace(/\.webp$/,".jpg");}
 function dmPkg(cid){ if(/^d_/i.test(cid)) return `https://doujin-assets.dmm.co.jp/digital/game/${cid}/${cid}pr.jpg`; if(/apc|will|mono/i.test(cid)) return `https://pics.dmm.co.jp/mono/game/${cid}/${cid}pl.jpg`; return `https://pics.dmm.co.jp/digital/pcgame/${cid}/${cid}pl.jpg`;}
 function dmSampleUrls(cid,i){
+  // jp- is the full-size sample, js- is a 120x90 thumbnail. Verified.
   const z=String(i).padStart(3,"0");
-  const std=`https://pics.dmm.co.jp/digital/pcgame/${cid}/${cid}js-${z}.jpg`;
-  const stdJp=`https://pics.dmm.co.jp/digital/pcgame/${cid}/${cid}jp-${z}.jpg`;
-  if(/^d_/i.test(cid)) return [`https://doujin-assets.dmm.co.jp/digital/game/${cid}/${cid}js-${z}.jpg`, std];
-  if(/apc|will|mono/i.test(cid)) return [`https://pics.dmm.co.jp/mono/game/${cid}/${cid}js-${z}.jpg`, std];
-  return [std, stdJp];
+  const big=`https://pics.dmm.co.jp/digital/pcgame/${cid}/${cid}jp-${z}.jpg`;
+  const small=`https://pics.dmm.co.jp/digital/pcgame/${cid}/${cid}js-${z}.jpg`;
+  if(/^d_/i.test(cid)) return [`https://doujin-assets.dmm.co.jp/digital/game/${cid}/${cid}jp-${z}.jpg`, `https://doujin-assets.dmm.co.jp/digital/game/${cid}/${cid}js-${z}.jpg`, big];
+  if(/apc|will|mono/i.test(cid)) return [`https://pics.dmm.co.jp/mono/game/${cid}/${cid}jp-${z}.jpg`, `https://pics.dmm.co.jp/mono/game/${cid}/${cid}js-${z}.jpg`];
+  return [big, small];
 }
 // FANZA only shows the download edition (digital/doujin floors). Boxed
 // (mono) images are covered by Getchu instead, so boxed cids are ignored.
