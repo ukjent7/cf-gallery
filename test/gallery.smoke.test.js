@@ -149,9 +149,13 @@ describe("detail modal", () => {
     window.GALLERY.setTab("all");
     window.GALLERY.openDetail(String(item.gid));
     expect(doc.getElementById("mbody").textContent).toContain("相关推荐");
-    const cards = [...doc.querySelectorAll("#mbody .relcard")];
-    expect(cards.length).toBeGreaterThan(0);
+    const left = [...doc.querySelectorAll("#mbody .relrail.left .relcard")];
+    const right = [...doc.querySelectorAll("#mbody .relrail.right .relcard")];
+    const cards = left.concat(right);
+    expect(left.length, "left rail is empty").toBeGreaterThan(0);
     expect(cards.length).toBeLessThanOrEqual(6);
+    // Split is half/half (ceil left): 6 -> 3+3.
+    expect(Math.abs(left.length - right.length)).toBeLessThanOrEqual(1);
     cards.forEach((c) => {
       expect(c.dataset.gid, "recommendation card has no gid").toBeTruthy();
       expect(c.dataset.gid, "recommendation links to itself").not.toBe(String(item.gid));

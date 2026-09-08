@@ -81,7 +81,20 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
    (cover -> samples) reads at a glance instead of as one stacked wall of grids. */
 #modal{position:fixed;inset:0;background:rgba(4,6,9,.82);display:none;z-index:50;overflow:auto;padding:20px}
 #modal.open{display:block}
-#modal .box{max-width:920px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 8px}
+#modal .box{max-width:1280px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 8px}
+/* Detail 3-column layout: recommendation rails flank the main content.
+   Rails are sticky so they stay visible while the middle scrolls. */
+.mwrap{display:grid;gap:16px;grid-template-columns:200px minmax(0,1fr) 200px;grid-template-areas:"relL main relR";align-items:start}
+.mmain{grid-area:main;min-width:0}
+.relrail.left{grid-area:relL}
+.relrail.right{grid-area:relR}
+.relrail{position:sticky;top:84px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.relhead{margin:2px 0 0;font-size:13px;color:var(--muted);font-weight:700}
+@media(max-width:1100px){
+  .mwrap{grid-template-columns:minmax(0,1fr);grid-template-areas:"main" "relL" "relR"}
+  .relrail{position:static;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .relrail .relhead{grid-column:1/-1}
+}
 #modal h2{margin:0 0 4px;font-size:18px;line-height:1.4;color:var(--text);padding-right:72px}
 #modal h3{margin:22px 0 10px;font-size:14px;color:var(--text);border-top:1px solid var(--line);border-left:3px solid var(--accent);padding:14px 0 0 10px}
 #modal h3:first-of-type{margin-top:12px;border-top:0;padding-top:0}
@@ -90,7 +103,7 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
    with contain and centered — identical outer size, never stretched/cropped.
    (Card tiles are already uniform 3/4, sample tiles 4/3; the fullscreen viewer
    intentionally stays free-size so originals are never cropped.) */
-#modal img.big{display:block;width:100%;height:clamp(240px,52vh,520px);object-fit:contain;object-position:center;background:#0b0d10;border:1px solid var(--line);border-radius:10px;cursor:zoom-in}
+#modal img.big{display:block;width:100%;height:clamp(200px,44vh,440px);object-fit:contain;object-position:center;background:#0b0d10;border:1px solid var(--line);border-radius:10px;cursor:zoom-in}
 #modal .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:12px}
 /* Sample tiles: same stage idea as the cover — one fixed-height box per tile,
    whole image fitted with contain. Uniform boxes, fully visible, no stretch.
@@ -123,8 +136,7 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
 #viewer .bar{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13px;color:var(--muted);flex-wrap:wrap;justify-content:center}
 #viewer button{padding:9px 16px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text);cursor:pointer}
 #viewer button:hover{border-color:var(--accent)}
-/* Related-recommendation cover grid: cell jumps into that game's modal. */
-.relgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+/* Related-recommendation cell: jumps into that game's modal. */
 .relcard{display:flex;flex-direction:column;gap:6px;min-width:0;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px;cursor:pointer;color:var(--text);font:inherit;text-align:left}
 .relcard:hover{border-color:var(--accent)}
 .relcard .relimg,.relcard .relnocover{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;background:#0b0d10}
@@ -1275,25 +1287,32 @@ function relatedOf(item, v) {
   return out.slice(0, 6);
 }
 
-function relatedHtml(item, v) {
-  var rel = relatedOf(item, v);
-  var html = "<h3>相关推荐</h3>";
-  if (!rel.length) return html + '<p class="hint">暂无同社/系列作收录。</p>';
-  // Cover grid (not text rows): each cell jumps into that game's modal.
+function relCardHtml(r) {
+  // One recommendation cell: cover + name, jumps into that game's modal.
   // Covers reuse the all-tab quality order (FANZA > Getchu > EGS), so every
   // cell has the best picture available without new data.
-  return html + '<div class="relgrid">' + rel.map(function (r) {
-    var d = r.d;
-    var cov = ADAPTERS.all.cover(d, storeOf(d.gid), liveCache.get(d.gid) || null);
-    var thumb = cov
-      ? slotHtml(cov).replace("<img ", '<img class="relimg" ')
-      : '<span class="relnocover">暂无封面</span>';
-    var tag = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? "·" : "") + (r.sameSeries ? "同系列" : "");
-    return '<button class="relcard" data-act="detail" data-gid="' + attr(d.gid) + '">' +
-      thumb +
-      '<span class="relname">#' + d.rank + " " + esc(d.name) + "</span>" +
-      '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></button>";
-  }).join("") + "</div>";
+  var d = r.d;
+  var cov = ADAPTERS.all.cover(d, storeOf(d.gid), liveCache.get(d.gid) || null);
+  var thumb = cov
+    ? slotHtml(cov).replace("<img ", '<img class="relimg" ')
+    : '<span class="relnocover">暂无封面</span>';
+  var tag = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? "·" : "") + (r.sameSeries ? "同系列" : "");
+  return '<button class="relcard" data-act="detail" data-gid="' + attr(d.gid) + '">' +
+    thumb +
+    '<span class="relname">#' + d.rank + " " + esc(d.name) + "</span>" +
+    '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></button>";
+}
+
+// Side rails: recommendations flank the main content (left/right), sticky while
+// the middle scrolls. Split half/half; the single heading lives on the left.
+function relatedRailsHtml(rel) {
+  var mid = Math.ceil(rel.length / 2);
+  function rail(list, cls, head) {
+    return '<aside class="relrail ' + cls + '">' +
+      (head ? '<h4 class="relhead">相关推荐</h4>' : "") +
+      list.map(relCardHtml).join("") + "</aside>";
+  }
+  return rail(rel.slice(0, mid), "left", true) + rail(rel.slice(mid), "right", false);
 }
 
 // --- state --------------------------------------------------------------------
@@ -1603,7 +1622,10 @@ function renderModal(item, sections) {
     if (sec.link) html += "<p>" + extLink(sec.link.href, sec.link.text) + "</p>";
   });
 
-  html += relatedHtml(item, v);
+  // Recommendations flank the content as side rails (see wrap below); only the
+  // empty state renders inline in the main flow.
+  var rel = relatedOf(item, v);
+  if (!rel.length) html += "<h3>相关推荐</h3>" + '<p class="hint">暂无同社/系列作收录。</p>';
   html += fullcgHtml(item, v && v.alttitle);
 
   var links = [];
@@ -1624,12 +1646,16 @@ function renderModal(item, sections) {
   }
   html += "</p>";
 
+  if (rel.length) {
+    html = '<div class="mwrap"><div class="mmain">' + html + "</div>" + relatedRailsHtml(rel) + "</div>";
+  }
+
   document.getElementById("mbody").innerHTML = html;
   document.getElementById("modal").classList.add("open");
   document.querySelectorAll("#mbody img").forEach(function (im) {
     // Recommendation covers navigate (delegated data-act), they must not also
     // open the viewer: their urls are not in viewList and would land on index 0.
-    if (im.closest(".relgrid")) return;
+    if (im.closest(".relrail")) return;
     im.style.cursor = "zoom-in";
     im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
   });

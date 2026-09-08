@@ -820,25 +820,32 @@ function relatedOf(item, v) {
   return out.slice(0, 6);
 }
 
-function relatedHtml(item, v) {
-  var rel = relatedOf(item, v);
-  var html = "<h3>相关推荐</h3>";
-  if (!rel.length) return html + '<p class="hint">暂无同社/系列作收录。</p>';
-  // Cover grid (not text rows): each cell jumps into that game's modal.
+function relCardHtml(r) {
+  // One recommendation cell: cover + name, jumps into that game's modal.
   // Covers reuse the all-tab quality order (FANZA > Getchu > EGS), so every
   // cell has the best picture available without new data.
-  return html + '<div class="relgrid">' + rel.map(function (r) {
-    var d = r.d;
-    var cov = ADAPTERS.all.cover(d, storeOf(d.gid), liveCache.get(d.gid) || null);
-    var thumb = cov
-      ? slotHtml(cov).replace("<img ", '<img class="relimg" ')
-      : '<span class="relnocover">暂无封面</span>';
-    var tag = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? "·" : "") + (r.sameSeries ? "同系列" : "");
-    return '<button class="relcard" data-act="detail" data-gid="' + attr(d.gid) + '">' +
-      thumb +
-      '<span class="relname">#' + d.rank + " " + esc(d.name) + "</span>" +
-      '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></button>";
-  }).join("") + "</div>";
+  var d = r.d;
+  var cov = ADAPTERS.all.cover(d, storeOf(d.gid), liveCache.get(d.gid) || null);
+  var thumb = cov
+    ? slotHtml(cov).replace("<img ", '<img class="relimg" ')
+    : '<span class="relnocover">暂无封面</span>';
+  var tag = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? "·" : "") + (r.sameSeries ? "同系列" : "");
+  return '<button class="relcard" data-act="detail" data-gid="' + attr(d.gid) + '">' +
+    thumb +
+    '<span class="relname">#' + d.rank + " " + esc(d.name) + "</span>" +
+    '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></button>";
+}
+
+// Side rails: recommendations flank the main content (left/right), sticky while
+// the middle scrolls. Split half/half; the single heading lives on the left.
+function relatedRailsHtml(rel) {
+  var mid = Math.ceil(rel.length / 2);
+  function rail(list, cls, head) {
+    return '<aside class="relrail ' + cls + '">' +
+      (head ? '<h4 class="relhead">相关推荐</h4>' : "") +
+      list.map(relCardHtml).join("") + "</aside>";
+  }
+  return rail(rel.slice(0, mid), "left", true) + rail(rel.slice(mid), "right", false);
 }
 
 // --- state --------------------------------------------------------------------
@@ -1148,7 +1155,10 @@ function renderModal(item, sections) {
     if (sec.link) html += "<p>" + extLink(sec.link.href, sec.link.text) + "</p>";
   });
 
-  html += relatedHtml(item, v);
+  // Recommendations flank the content as side rails (see wrap below); only the
+  // empty state renders inline in the main flow.
+  var rel = relatedOf(item, v);
+  if (!rel.length) html += "<h3>相关推荐</h3>" + '<p class="hint">暂无同社/系列作收录。</p>';
   html += fullcgHtml(item, v && v.alttitle);
 
   var links = [];
@@ -1169,12 +1179,16 @@ function renderModal(item, sections) {
   }
   html += "</p>";
 
+  if (rel.length) {
+    html = '<div class="mwrap"><div class="mmain">' + html + "</div>" + relatedRailsHtml(rel) + "</div>";
+  }
+
   document.getElementById("mbody").innerHTML = html;
   document.getElementById("modal").classList.add("open");
   document.querySelectorAll("#mbody img").forEach(function (im) {
     // Recommendation covers navigate (delegated data-act), they must not also
     // open the viewer: their urls are not in viewList and would land on index 0.
-    if (im.closest(".relgrid")) return;
+    if (im.closest(".relrail")) return;
     im.style.cursor = "zoom-in";
     im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
   });
