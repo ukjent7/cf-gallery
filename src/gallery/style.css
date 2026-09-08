@@ -116,6 +116,12 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
 #viewer .bar{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13px;color:var(--muted);flex-wrap:wrap;justify-content:center}
 #viewer button{padding:9px 16px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text);cursor:pointer}
 #viewer button:hover{border-color:var(--accent)}
+/* Related-recommendation rows: text button jumps into that game's modal. */
+.relrow{display:flex;align-items:baseline;gap:8px;padding:6px 8px;border-radius:8px}
+.relrow:hover{background:var(--surface-2)}
+.relrow button{flex:1;min-width:0;text-align:left;background:none;border:0;color:var(--link);cursor:pointer;font:inherit;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0}
+.relrow button:hover{text-decoration:underline}
+.relrow .hint{flex:none}
 
 @media (max-width:640px){
   header{padding:12px}

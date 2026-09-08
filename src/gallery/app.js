@@ -765,6 +765,74 @@ function fullcgHtml(item, alt) {
     "。先用本页官方截图核对是否为同一作，全CG图不在本画廊内展示，对方站内需各自过年龄确认/登录。</p>";
 }
 
+// --- related recommendations --------------------------------------------------
+// Deterministic, data-local, no new payload: same brand (+100) and same series
+// (+60, title-core match including VNDB alt titles), tie-broken by median
+// closeness then rank. Rendered as compact rows that jump straight into that
+// game's detail modal via the existing delegated data-act handler.
+var SERIES_TAILS = [
+  /\s+DVD EDITION\s*$/i, /\s+EXTENDED EDITION\s*$/i, /\s+WORLD'S END COMPLETE\s*$/i,
+  /\s+COMPLETE\s*$/i, /パワーアップキット\s*$/, /限定再装版\s*$/,
+  /\s+Re-order~?\s*$/i, /~chocolat second brew Re-order~\s*$/i,
+  /\s*(完全版|決定版|豪華版|廉価版|普及版)\s*$/,
+  /\s*(续篇|続篇|续作|続作|外传|外伝|Fan ?Disc|ファンディスク)\s*$/i,
+];
+
+var seriesKeyCache = {};
+function seriesKey(name) {
+  var raw = String(name == null ? "" : name);
+  if (seriesKeyCache[raw] !== undefined) return seriesKeyCache[raw];
+  var t = raw.replace(/[～〜]/g, "~").replace(/　/g, " ").trim();
+  t = t.replace(/\s*[（(][^（）()]{0,30}[）)]\s*$/, "").trim();
+  for (var i = 0; i < SERIES_TAILS.length; i++) t = t.replace(SERIES_TAILS[i], "").trim();
+  // Subtitle cut: "A 〜 B" / "A - B" / "A Vol.2" all belong to series A.
+  var cut = t.search(/\s*[~～]\s*|\s+-\s+|\s+Vol\.?\s*\d+/i);
+  if (cut > 0) t = t.slice(0, cut).trim();
+  // Numbered sequels fold together: "ランス10" / "WHITE ALBUM2" / "D.C. III".
+  t = t.replace(/\s*(Vol\.?\s*)?\d+\s*$/, "").trim();
+  t = t.replace(/\s+[IVXLCDM]+\s*$/i, "").trim();
+  var key = t.length >= 3 ? t : (raw.trim().length >= 3 ? raw.trim() : "");
+  seriesKeyCache[raw] = key;
+  return key;
+}
+
+function relatedOf(item, v) {
+  var mine = {};
+  [item.name, v && v.title, v && v.alttitle].forEach(function (n) {
+    var k = n && seriesKey(n);
+    if (k) mine[k] = 1;
+  });
+  var out = [];
+  for (var i = 0; i < DATA.length; i++) {
+    var d = DATA[i];
+    if (String(d.gid) === String(item.gid)) continue;
+    var sameBrand = !!(d.brand && item.brand && d.brand === item.brand);
+    var dk = d.name && seriesKey(d.name);
+    var sameSeries = !!(dk && mine[dk]);
+    if (!sameBrand && !sameSeries) continue;
+    out.push({
+      d: d, s: (sameBrand ? 100 : 0) + (sameSeries ? 60 : 0),
+      md: Math.abs((d.median || 0) - (item.median || 0)),
+      sameBrand: sameBrand, sameSeries: sameSeries,
+    });
+  }
+  out.sort(function (a, b) { return b.s - a.s || a.md - b.md || a.d.rank - b.d.rank; });
+  return out.slice(0, 6);
+}
+
+function relatedHtml(item, v) {
+  var rel = relatedOf(item, v);
+  var html = "<h3>相关推荐</h3>";
+  if (!rel.length) return html + '<p class="hint">暂无同社/系列作收录。</p>';
+  return html + rel.map(function (r) {
+    var d = r.d;
+    var tag = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? "·" : "") + (r.sameSeries ? "同系列" : "");
+    return '<div class="relrow"><button data-act="detail" data-gid="' + attr(d.gid) + '">' +
+      "#" + d.rank + " " + esc(d.name) + "</button>" +
+      '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></div>";
+  }).join("");
+}
+
 // --- state --------------------------------------------------------------------
 var TAB = "all";
 // file:// has no same-origin /gc|/dm|/dl backend, so fall back to direct EGS.
@@ -919,6 +987,26 @@ function getObserver() {
   return observer;
 }
 
+// Infinite scroll: the 加载更多 button doubles as the sentinel, so environments
+// without IntersectionObserver keep working via click. Fires progressively as
+// the user nears the bottom; renderMore is slice-based, so a double trigger
+// just advances two pages, never duplicates.
+var moreObserver = null;
+function getMoreObserver() {
+  if (moreObserver) return moreObserver;
+  if (typeof IntersectionObserver === "undefined") return null;
+  moreObserver = new IntersectionObserver(function (entries) {
+    if (!document.getElementById("autoMore").checked) return;
+    var hit = false;
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) { hit = true; break; }
+    }
+    if (hit && shown < filtered.length) renderMore();
+  }, { rootMargin: "600px" });
+  moreObserver.observe(document.getElementById("more"));
+  return moreObserver;
+}
+
 // --- viewer -------------------------------------------------------------------
 var vList = [];
 var vIdx = 0;
@@ -1052,6 +1140,7 @@ function renderModal(item, sections) {
     if (sec.link) html += "<p>" + extLink(sec.link.href, sec.link.text) + "</p>";
   });
 
+  html += relatedHtml(item, v);
   html += fullcgHtml(item, v && v.alttitle);
 
   var links = [];
@@ -1216,6 +1305,7 @@ function wire() {
     applyFilter();
   };
   document.getElementById("more").onclick = renderMore;
+  getMoreObserver();
   document.getElementById("close").onclick = function () {
     document.getElementById("modal").classList.remove("open");
   };
@@ -1281,4 +1371,5 @@ window.GALLERY = {
   getTab: function () { return TAB; },
   getShown: function () { return shown; },
   dmmEntries: dmmEntries, dlEntry: dlEntry, gcEntry: gcEntry,
+  relatedOf: relatedOf, seriesKey: seriesKey,
 };

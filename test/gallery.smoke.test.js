@@ -133,6 +133,32 @@ describe("detail modal", () => {
     }
   });
 
+  test("more button is observed for infinite scroll", () => {
+    const { observed } = loadGallery();
+    expect(observed.some((el) => el.id === "more"), "#more was never observed").toBe(true);
+  });
+
+  test("detail modal shows related recommendations without self", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    // A cached product that actually has same-brand/series siblings, so the
+    // modal opens synchronously (no live VNDB lookup) and the rows render.
+    const item = G.DATA.find((d) =>
+      G.liveCache.get(d.gid) && G.relatedOf(d, G.liveCache.get(d.gid)).length > 0);
+    expect(item, "no cached product has any related siblings").toBeTruthy();
+    window.GALLERY.setTab("all");
+    window.GALLERY.openDetail(String(item.gid));
+    expect(doc.getElementById("mbody").textContent).toContain("相关推荐");
+    const rows = [...doc.querySelectorAll("#mbody .relrow")];
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.length).toBeLessThanOrEqual(6);
+    rows.forEach((r) => {
+      const b = r.querySelector("button[data-gid]");
+      expect(b, "recommendation row has no jump button").toBeTruthy();
+      expect(b.dataset.gid, "recommendation links to itself").not.toBe(String(item.gid));
+    });
+  });
+
   test("each store section keeps its own image grid", () => {
     const { doc, window } = loadGallery();
     const gid = richGid(window);
