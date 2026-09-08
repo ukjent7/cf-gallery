@@ -21,6 +21,22 @@ export function isValidSampleN(n) {
   return Number.isInteger(n) && n >= 1 && n <= MAX_SAMPLE_N;
 }
 
+// FANZA product id: brand prefix plus digits, e.g. alice_0053, d_054457.
+export function isValidDmmCid(cid) {
+  return typeof cid === "string" && /^[A-Za-z0-9_]+$/.test(cid) && cid.length >= 3 && cid.length <= 32;
+}
+
+// DLsite work id: RJ/VJ prefix plus digits.
+export function isValidDlId(rid) {
+  return typeof rid === "string" && /^[A-Z]+\d+$/.test(rid) && rid.length <= 12;
+}
+
+var DL_DOMAINS = ["maniax", "pro", "home"];
+
+export function isValidDlDomain(d) {
+  return DL_DOMAINS.indexOf(d) >= 0;
+}
+
 export function productUrl(cid) {
   return "https://" + UPSTREAM_HOST + "/soft.phtml?id=" + cid;
 }
@@ -45,7 +61,53 @@ export function parseSampleMax(cid, html) {
   return max;
 }
 
-// Route the three same-origin paths used by vndb_gallery.html.
+// Max sample index parsed from a FANZA detail page.
+export function parseDmmMax(cid, html) {
+  var re = new RegExp(cid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(js|jp)-(\\d+)\\.jpg", "g");
+  var m;
+  var max = 0;
+  while ((m = re.exec(html)) !== null) {
+    var v = parseInt(m[2], 10);
+    if (v > max) max = v;
+  }
+  return max;
+}
+
+// Sample stems parsed from a DLsite product page, e.g. ["smpa1", ...].
+// Stems differ per product (smp1 vs smpa1) and cannot be derived from the id.
+export function parseDlStems(rid, html) {
+  var re = new RegExp(rid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "_img_(smp[a-z]*\\d+)\\.(?:jpg|webp)", "g");
+  var m;
+  var seen = {};
+  var out = [];
+  while ((m = re.exec(html)) !== null) {
+    if (!seen[m[1]]) {
+      seen[m[1]] = true;
+      out.push(m[1]);
+    }
+  }
+  out.sort(function (a, b) {
+    var ma = /^smp([a-z]*)(\d+)$/.exec(a);
+    var mb = /^smp([a-z]*)(\d+)$/.exec(b);
+    if (ma[1] !== mb[1]) return ma[1] < mb[1] ? -1 : 1;
+    return parseInt(ma[2], 10) - parseInt(mb[2], 10);
+  });
+  return out;
+}
+
+export function dmmDetailUrl(cid) {
+  if (/^d_/i.test(cid)) return "https://www.dmm.co.jp/dc/doujin/-/detail/=/cid=" + cid + "/";
+  if (/^[0-9]+[a-z]+[0-9]+[a-z]?$/i.test(cid)) {
+    return "https://www.dmm.co.jp/mono/pcgame/-/detail/=/cid=" + cid + "/";
+  }
+  return "https://dlsoft.dmm.co.jp/detail/" + cid + "/";
+}
+
+export function dlProductUrl(rid, domain) {
+  return "https://www.dlsite.com/" + domain + "/work/=/product_id/" + rid + ".html";
+}
+
+// Route the same-origin paths used by the gallery.
 export function parseRoute(pathname) {
   var m;
   if ((m = /^\/gc\/meta\/([A-Za-z0-9_.-]+)$/.exec(pathname))) {
@@ -57,6 +119,12 @@ export function parseRoute(pathname) {
   if ((m = /^\/gc\/sample\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)\.jpg$/.exec(pathname))) {
     var n = Number(m[2]);
     return isValidCid(m[1]) && isValidSampleN(n) ? { kind: "sample", cid: m[1], n: n } : null;
+  }
+  if ((m = /^\/dm\/meta\/([A-Za-z0-9_.-]+)$/.exec(pathname))) {
+    return isValidDmmCid(m[1]) ? { kind: "dmm-meta", cid: m[1] } : null;
+  }
+  if ((m = /^\/dl\/meta\/([A-Za-z0-9_.-]+)$/.exec(pathname))) {
+    return isValidDlId(m[1]) ? { kind: "dl-meta", rid: m[1] } : null;
   }
   return null;
 }
@@ -85,31 +153,34 @@ function throttle() {
   });
 }
 
-function handleMeta(route, env) {
-  var key = "meta:" + route.cid;
+// Generic KV-backed lazy meta: serve cached JSON, otherwise fetch one
+// upstream page, parse it, cache the result. Misses are cached as a
+// sentinel so they are not refetched on every request.
+function handleLazyMeta(key, upstreamUrl, extraHeaders, parse, toResponse, env) {
   var kv = env && env.GC_META ? env.GC_META : null;
+  function respond(obj) {
+    if (obj && obj.hit) return json(toResponse(obj.data), 200, 3600);
+    return json({ error: "not found" }, 404, 60);
+  }
   function fromUpstream() {
     return throttle()
       .then(function () {
-        return fetch(productUrl(route.cid), {
-          headers: { "user-agent": UA, cookie: ADULT_COOKIE },
-        });
+        var headers = { "user-agent": UA };
+        for (var k in extraHeaders) headers[k] = extraHeaders[k];
+        return fetch(upstreamUrl, { headers: headers });
       })
       .then(function (up) {
         if (!up.ok) return json({ error: "upstream " + up.status }, 502, 60);
         return up.text().then(function (html) {
-          var n = parseSampleMax(route.cid, html);
-          // n<=0 (page has no samples) is cached as a miss sentinel so the
-          // same cid is not refetched on every request; KV hits with n<=0
-          // answer 404, same as a fresh miss.
-          var value = JSON.stringify({ n: n, ts: Date.now() });
-          var ttl = n > 0 ? META_TTL_S : MISS_TTL_S;
+          var data = parse(html);
+          var hit = data !== null && data !== undefined && data !== 0 &&
+            !(data instanceof Array && data.length === 0);
+          var value = JSON.stringify({ data: hit ? data : 0, hit: hit, ts: Date.now() });
           var done = kv
-            ? kv.put(key, value, { expirationTtl: ttl }).catch(function () {})
+            ? kv.put(key, value, { expirationTtl: hit ? META_TTL_S : MISS_TTL_S }).catch(function () {})
             : Promise.resolve();
           return done.then(function () {
-            if (!n) return json({ error: "not found" }, 404, 60);
-            return json({ n: n }, 200, 3600);
+            return respond({ data: data, hit: hit });
           });
         });
       })
@@ -124,10 +195,7 @@ function handleMeta(route, env) {
       if (cached) {
         try {
           var obj = JSON.parse(cached);
-          if (obj && Number.isInteger(obj.n)) {
-            if (obj.n > 0) return json({ n: obj.n }, 200, 3600);
-            return json({ error: "not found" }, 404, 60);
-          }
+          if (obj && typeof obj.hit === "boolean") return respond(obj);
         } catch (e) {
           // Fall through to upstream on corrupt entry.
         }
@@ -137,6 +205,39 @@ function handleMeta(route, env) {
     .catch(function () {
       return fromUpstream();
     });
+}
+
+function handleMeta(route, env) {
+  return handleLazyMeta(
+    "meta:" + route.cid,
+    productUrl(route.cid),
+    { cookie: ADULT_COOKIE },
+    function (html) { return parseSampleMax(route.cid, html); },
+    function (n) { return { n: n }; },
+    env
+  );
+}
+
+function handleDmmMeta(route, env) {
+  return handleLazyMeta(
+    "meta:dmm:" + route.cid,
+    dmmDetailUrl(route.cid),
+    { cookie: "age_check_done=1" },
+    function (html) { return parseDmmMax(route.cid, html); },
+    function (n) { return { n: n }; },
+    env
+  );
+}
+
+function handleDlMeta(route, domain, env) {
+  return handleLazyMeta(
+    "meta:dlsite:" + route.rid,
+    dlProductUrl(route.rid, domain),
+    {},
+    function (html) { return parseDlStems(route.rid, html); },
+    function (samples) { return { samples: samples, n: samples.length }; },
+    env
+  );
 }
 
 function handleImage(route, request, ctx) {
@@ -193,6 +294,14 @@ export default {
       return Promise.resolve(json({ error: "not found" }, 404, 60));
     }
     if (route.kind === "meta") return handleMeta(route, env);
+    if (route.kind === "dmm-meta") return handleDmmMeta(route, env);
+    if (route.kind === "dl-meta") {
+      var domain = url.searchParams.get("domain") || "maniax";
+      if (!isValidDlDomain(domain)) {
+        return Promise.resolve(json({ error: "bad domain" }, 400, 60));
+      }
+      return handleDlMeta(route, domain, env);
+    }
     return handleImage(route, request, ctx);
   },
 };
