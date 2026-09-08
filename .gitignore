@@ -1,3 +1,7 @@
 .wrangler/
 node_modules/
 dist-check.js
+# Local scratch / tooling output, never part of the site.
+tmp/
+__pycache__/
+*.sig

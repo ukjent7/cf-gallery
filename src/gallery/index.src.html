@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POV559 寝取り EROGE排名画廊 - 封面+Screenshots</title>
+<style>
+/*__STYLE__*/
+</style>
+</head>
+<body>
+<header>
+<h1>POV559 寝取り / EROGE限定 / 中央值排名画廊</h1>
+<p>数据：ErogameScape 中央值 + 票数。图片：VNDB开放接口 + DLsite/FANZA官方直链（EGS自带ID拼接）+ EGS官方转存直连 + Getchu经Worker代理（线上版；本地双击走EGS转存降级）。点封面看截图，点截图页内放大。</p>
+<div class="controls">
+<button id="tabAll" class="tab on">综合</button>
+<button id="tabVndb" class="tab">VNDB</button>
+<button id="tabDlsite" class="tab">DLsite</button>
+<button id="tabDmm" class="tab">FANZA</button>
+<button id="tabGc" class="tab">官方图</button>
+<input id="q" type="text" placeholder="搜索 游戏名 / 品牌 / VNDB标题">
+<select id="minMedian"><option value="0">中央值 ≥ 0</option><option value="70">中央值 ≥ 70</option><option value="80">中央值 ≥ 80</option><option value="85">中央值 ≥ 85</option><option value="90">中央值 ≥ 90</option></select>
+<label><input id="onlyMatched" type="checkbox"><span id="onlyMatchedLabel"> 只看有图</span></label>
+<label><input id="autoFetch" type="checkbox" checked> 滚动自动查VNDB</label>
+<button id="density" title="切换每行列数">密度：自动</button>
+<button id="reset">重置</button>
+</div>
+</header>
+<div id="stats"></div>
+<div id="grid"></div>
+<button id="more">加载更多</button>
+<div id="modal"><div class="box"><button id="close">关闭</button><div id="mbody"></div></div></div>
+<div id="viewer"><img id="vimg" alt="viewer"><div class="bar"><button id="vprev">上一张</button><span id="vcap"></span><button id="vnext">下一张</button><button id="vopen">原图新签页</button><button id="vclose">关闭</button></div></div>
+<script>
+/*__PAYLOAD__*/
+/*__URLS__*/
+/*__APP__*/
+</script>
+</body>
+</html>

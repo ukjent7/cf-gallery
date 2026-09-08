@@ -1,130 +1,95 @@
-// Zero-dependency Cloudflare Worker: serves gallery static assets and
-// proxies Getchu hotlink-protected images (browser can't set Referer).
+// Zero-dependency Cloudflare Worker: serves gallery static assets and proxies
+// Getchu hotlink-protected images (the browser can't set Referer).
+//
+// All store URL rules live in src/urls.js so the Worker, the browser bundle, and
+// the Python data scripts agree.
+//
+// KV write budget (free tier: 1,000 writes/day) drives three deliberate choices:
+//   1. Hits are cached in KV (durable, cheap, amortised over 30 days).
+//   2. Misses are NOT written to KV. They are negative-cached via the CDN
+//      edge cache with a long s-maxage instead, so a storm of misses costs
+//      zero KV writes.
+//   3. In-flight requests are deduplicated per isolate, so one page view that
+//      opens three stores issues at most one upstream fetch each.
 
-var UPSTREAM_HOST = "www.getchu.com";
+import {
+  DMM_SAMPLE_CAP,
+  GETCHU_SAMPLE_CAP,
+  dlProductUrl,
+  dmmDetailUrl,
+  gcCoverUrl,
+  gcProductUrl,
+  gcSampleUrl,
+  isDlDomain,
+  isDlId,
+  isDmmCid,
+  isGetchuCid,
+  parseDlStems,
+  parseDmmMax,
+  parseSampleMax,
+} from "./urls.js";
+
 var UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36";
 var ADULT_COOKIE = "getchu_adalt_flag=getchu.com";
+var DMM_COOKIE = "age_check_done=1";
 var THROTTLE_MS = 700;
-var MAX_SAMPLE_N = 40;
-var MAX_CID_LEN = 10;
-var META_TTL_S = 2592000; // 30 days
-var MISS_TTL_S = 604800; // 7 days, failure sentinel so misses are not refetched every time
+var META_TTL_S = 2592000; // 30 days: hits live long, so refetches stay rare
+var MISS_EDGE_TTL_S = 86400; // 24h negative cache at the edge, no KV write
+var HIT_EDGE_TTL_S = 3600;
+var INFLIGHT_TTL_MS = 30000;
 
 var lastUpstreamAt = 0;
+var inflight = new Map();
 
+// Thin validation wrappers over the shared rules, kept as named exports so the
+// route table and the tests speak one language.
 export function isValidCid(cid) {
-  return typeof cid === "string" && /^[0-9]+$/.test(cid) && cid.length <= MAX_CID_LEN;
+  return isGetchuCid(cid);
 }
 
 export function isValidSampleN(n) {
-  return Number.isInteger(n) && n >= 1 && n <= MAX_SAMPLE_N;
+  return Number.isInteger(n) && n >= 1 && n <= GETCHU_SAMPLE_CAP;
 }
 
-// FANZA product id: brand prefix plus digits, e.g. alice_0053, d_054457.
 export function isValidDmmCid(cid) {
-  return typeof cid === "string" && /^[A-Za-z0-9_]+$/.test(cid) && cid.length >= 3 && cid.length <= 32;
+  return isDmmCid(cid);
 }
 
-// DLsite work id: RJ/VJ prefix plus digits.
 export function isValidDlId(rid) {
-  return typeof rid === "string" && /^[A-Z]+\d+$/.test(rid) && rid.length <= 12;
+  return isDlId(rid);
 }
-
-var DL_DOMAINS = ["maniax", "pro", "home"];
 
 export function isValidDlDomain(d) {
-  return DL_DOMAINS.indexOf(d) >= 0;
+  return isDlDomain(d);
 }
 
-export function productUrl(cid) {
-  return "https://" + UPSTREAM_HOST + "/soft.phtml?id=" + cid;
-}
+export { dlProductUrl, dmmDetailUrl, gcCoverUrl, gcProductUrl, gcSampleUrl };
+export { parseDlStems, parseDmmMax, parseSampleMax };
 
-export function coverUrl(cid) {
-  return "https://" + UPSTREAM_HOST + "/brandnew/" + cid + "/rc" + cid + "package.jpg";
-}
+// Route table: one place mapping path -> what to do with it.
+var ROUTES = [
+  { re: /^\/gc\/meta\/([A-Za-z0-9_.-]+)$/, kind: "meta", idOf: function (m) { return { cid: m[1] }; }, ok: isGetchuCid },
+  { re: /^\/gc\/cover\/([A-Za-z0-9_.-]+)\.jpg$/, kind: "cover", idOf: function (m) { return { cid: m[1] }; }, ok: isGetchuCid },
+  {
+    re: /^\/gc\/sample\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)\.jpg$/,
+    kind: "sample",
+    idOf: function (m) { return { cid: m[1], n: Number(m[2]) }; },
+    ok: function (params, m) { return isGetchuCid(m[1]) && isValidSampleN(Number(m[2])); },
+  },
+  { re: /^\/dm\/meta\/([A-Za-z0-9_.-]+)$/, kind: "dmm-meta", idOf: function (m) { return { cid: m[1] }; }, ok: isDmmCid },
+  { re: /^\/dl\/meta\/([A-Za-z0-9_.-]+)$/, kind: "dl-meta", idOf: function (m) { return { rid: m[1] }; }, ok: isDlId },
+];
 
-export function sampleUrl(cid, n) {
-  return "https://" + UPSTREAM_HOST + "/brandnew/" + cid + "/c" + cid + "sample" + n + ".jpg";
-}
-
-// Max preview index parsed from the product page HTML.
-export function parseSampleMax(cid, html) {
-  var re = new RegExp("c" + cid + "sample(\\d+)\\.jpg", "g");
-  var m;
-  var max = 0;
-  while ((m = re.exec(html)) !== null) {
-    var v = parseInt(m[1], 10);
-    if (v > max) max = v;
-  }
-  return max;
-}
-
-// Max sample index parsed from a FANZA detail page.
-export function parseDmmMax(cid, html) {
-  var re = new RegExp(cid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(js|jp)-(\\d+)\\.jpg", "g");
-  var m;
-  var max = 0;
-  while ((m = re.exec(html)) !== null) {
-    var v = parseInt(m[2], 10);
-    if (v > max) max = v;
-  }
-  return max;
-}
-
-// Sample stems parsed from a DLsite product page, e.g. ["smpa1", ...].
-// Stems differ per product (smp1 vs smpa1) and cannot be derived from the id.
-export function parseDlStems(rid, html) {
-  var re = new RegExp(rid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "_img_(smp[a-z]*\\d+)\\.(?:jpg|webp)", "g");
-  var m;
-  var seen = {};
-  var out = [];
-  while ((m = re.exec(html)) !== null) {
-    if (!seen[m[1]]) {
-      seen[m[1]] = true;
-      out.push(m[1]);
-    }
-  }
-  out.sort(function (a, b) {
-    var ma = /^smp([a-z]*)(\d+)$/.exec(a);
-    var mb = /^smp([a-z]*)(\d+)$/.exec(b);
-    if (ma[1] !== mb[1]) return ma[1] < mb[1] ? -1 : 1;
-    return parseInt(ma[2], 10) - parseInt(mb[2], 10);
-  });
-  return out;
-}
-
-export function dmmDetailUrl(cid) {
-  if (/^d_/i.test(cid)) return "https://www.dmm.co.jp/dc/doujin/-/detail/=/cid=" + cid + "/";
-  if (/^[0-9]+[a-z]+[0-9]+[a-z]?$/i.test(cid)) {
-    return "https://www.dmm.co.jp/mono/pcgame/-/detail/=/cid=" + cid + "/";
-  }
-  return "https://dlsoft.dmm.co.jp/detail/" + cid + "/";
-}
-
-export function dlProductUrl(rid, domain) {
-  return "https://www.dlsite.com/" + domain + "/work/=/product_id/" + rid + ".html";
-}
-
-// Route the same-origin paths used by the gallery.
 export function parseRoute(pathname) {
-  var m;
-  if ((m = /^\/gc\/meta\/([A-Za-z0-9_.-]+)$/.exec(pathname))) {
-    return isValidCid(m[1]) ? { kind: "meta", cid: m[1] } : null;
-  }
-  if ((m = /^\/gc\/cover\/([A-Za-z0-9_.-]+)\.jpg$/.exec(pathname))) {
-    return isValidCid(m[1]) ? { kind: "cover", cid: m[1] } : null;
-  }
-  if ((m = /^\/gc\/sample\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)\.jpg$/.exec(pathname))) {
-    var n = Number(m[2]);
-    return isValidCid(m[1]) && isValidSampleN(n) ? { kind: "sample", cid: m[1], n: n } : null;
-  }
-  if ((m = /^\/dm\/meta\/([A-Za-z0-9_.-]+)$/.exec(pathname))) {
-    return isValidDmmCid(m[1]) ? { kind: "dmm-meta", cid: m[1] } : null;
-  }
-  if ((m = /^\/dl\/meta\/([A-Za-z0-9_.-]+)$/.exec(pathname))) {
-    return isValidDlId(m[1]) ? { kind: "dl-meta", rid: m[1] } : null;
+  for (var i = 0; i < ROUTES.length; i++) {
+    var r = ROUTES[i];
+    var m = r.re.exec(pathname);
+    if (!m) continue;
+    var params = r.idOf(m);
+    var key = Object.keys(params)[0];
+    if (!r.ok(params[key], m)) return null;
+    return Object.assign({ kind: r.kind }, params);
   }
   return null;
 }
@@ -153,95 +118,160 @@ function throttle() {
   });
 }
 
-// Generic KV-backed lazy meta: serve cached JSON, otherwise fetch one
-// upstream page, parse it, cache the result. Misses are cached as a
-// sentinel so they are not refetched on every request.
-function handleLazyMeta(key, upstreamUrl, extraHeaders, parse, toResponse, env) {
+// Deduplicate concurrent identical lookups within this isolate. Without this a
+// single 综合 modal open (Getchu + DLsite + FANZA, each possibly retried) can
+// issue several upstream fetches for the same key and multiply KV writes.
+function singleFlight(key, work) {
+  var now = Date.now();
+  var existing = inflight.get(key);
+  if (existing && now - existing.at < INFLIGHT_TTL_MS) return existing.p;
+  var p = work().then(
+    function (v) {
+      inflight.delete(key);
+      return v;
+    },
+    function (e) {
+      inflight.delete(key);
+      throw e;
+    }
+  );
+  inflight.set(key, { p: p, at: now });
+  return p;
+}
+
+// KV-backed lazy meta.
+//
+// Cached shape: {"data": <parsed>, "hit": <boolean>, "ts": <ms>}
+//   hit:true  -> serve data, no upstream call.
+//   hit:false -> serve 404, no upstream call. Only created by the seed file:
+//                writing runtime misses to KV is what burned the write budget.
+// Anything else (legacy {"n":..} entries, corrupt JSON) counts as absent and is
+// refetched, which rewrites it in the current shape.
+function handleLazyMeta(config, env) {
   var kv = env && env.GC_META ? env.GC_META : null;
-  function respond(obj) {
-    if (obj && obj.hit) return json(toResponse(obj.data), 200, 3600);
-    return json({ error: "not found" }, 404, 60);
+
+  function respondHit(data) {
+    return json(config.toResponse(data), 200, HIT_EDGE_TTL_S);
   }
-  function fromUpstream() {
-    return throttle()
-      .then(function () {
-        var headers = { "user-agent": UA };
-        for (var k in extraHeaders) headers[k] = extraHeaders[k];
-        return fetch(upstreamUrl, { headers: headers });
-      })
-      .then(function (up) {
-        if (!up.ok) return json({ error: "upstream " + up.status }, 502, 60);
-        return up.text().then(function (html) {
-          var data = parse(html);
-          var hit = data !== null && data !== undefined && data !== 0 &&
-            !(data instanceof Array && data.length === 0);
-          var value = JSON.stringify({ data: hit ? data : 0, hit: hit, ts: Date.now() });
-          var done = kv
-            ? kv.put(key, value, { expirationTtl: hit ? META_TTL_S : MISS_TTL_S }).catch(function () {})
-            : Promise.resolve();
-          return done.then(function () {
-            return respond({ data: data, hit: hit });
-          });
-        });
-      })
-      .catch(function () {
-        return json({ error: "bad gateway" }, 502, 60);
-      });
-  }
-  if (!kv) return fromUpstream();
-  return kv
-    .get(key)
-    .then(function (cached) {
-      if (cached) {
-        try {
-          var obj = JSON.parse(cached);
-          if (obj && typeof obj.hit === "boolean") return respond(obj);
-        } catch (e) {
-          // Fall through to upstream on corrupt entry.
-        }
-      }
-      return fromUpstream();
-    })
-    .catch(function () {
-      return fromUpstream();
+  function respondMiss() {
+    // Long s-maxage: the CDN absorbs repeat misses and the Worker never re-runs,
+    // so a miss costs nothing without needing a KV write.
+    return new Response(JSON.stringify({ error: "not found" }), {
+      status: 404,
+      headers: {
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "public, max-age=60, s-maxage=" + MISS_EDGE_TTL_S + ", stale-while-revalidate=3600",
+      },
     });
+  }
+
+  function readKv() {
+    if (!kv) return Promise.resolve(null);
+    return kv.get(config.key).then(function (cached) {
+      if (!cached) return null;
+      try {
+        var obj = JSON.parse(cached);
+        return obj && typeof obj.hit === "boolean" ? obj : null;
+      } catch (e) {
+        return null;
+      }
+    });
+  }
+
+  function fromUpstream() {
+    return singleFlight(config.key, function () {
+      // Re-check KV inside the flight: deduplicated callers must not each
+      // refetch after the first one already populated the key.
+      return readKv().then(function (fresh) {
+        if (fresh) return fresh.hit ? respondHit(fresh.data) : respondMiss();
+        return throttle()
+          .then(function () {
+            var headers = { "user-agent": UA };
+            for (var k in config.headers) headers[k] = config.headers[k];
+            return fetch(config.upstreamUrl, { headers: headers });
+          })
+          .then(function (up) {
+            if (!up.ok) return json({ error: "upstream " + up.status }, 502, 60);
+            return up.text().then(function (html) {
+              var data = config.parse(html);
+              var hit = data !== null && data !== undefined && data !== 0 &&
+                !(data instanceof Array && data.length === 0);
+              if (!hit || !kv) return hit ? respondHit(data) : respondMiss();
+              var value = JSON.stringify({ data: data, hit: true, ts: Date.now() });
+              // Write only when the key was empty, which readKv() just proved.
+              // An existing hit is up to META_TTL_S old, so rewriting it costs a
+              // write and buys nothing.
+              return kv.put(config.key, value, { expirationTtl: META_TTL_S })
+                .catch(function () {})
+                .then(function () {
+                  return respondHit(data);
+                });
+            });
+          })
+          .catch(function () {
+            return json({ error: "bad gateway" }, 502, 60);
+          });
+      });
+    });
+  }
+
+  return readKv().then(function (obj) {
+    if (obj) return obj.hit ? respondHit(obj.data) : respondMiss();
+    return fromUpstream();
+  }, function () {
+    return fromUpstream();
+  });
 }
 
 function handleMeta(route, env) {
   return handleLazyMeta(
-    "meta:" + route.cid,
-    productUrl(route.cid),
-    { cookie: ADULT_COOKIE },
-    function (html) { return parseSampleMax(route.cid, html); },
-    function (n) { return { n: n }; },
+    {
+      key: "meta:" + route.cid,
+      upstreamUrl: gcProductUrl(route.cid),
+      headers: { cookie: ADULT_COOKIE },
+      parse: function (html) { return parseSampleMax(route.cid, html); },
+      toResponse: function (n) { return { n: Math.min(n, GETCHU_SAMPLE_CAP) }; },
+    },
     env
   );
 }
 
 function handleDmmMeta(route, env) {
   return handleLazyMeta(
-    "meta:dmm:" + route.cid,
-    dmmDetailUrl(route.cid),
-    { cookie: "age_check_done=1" },
-    function (html) { return parseDmmMax(route.cid, html); },
-    function (n) { return { n: n }; },
+    {
+      key: "meta:dmm:" + route.cid,
+      upstreamUrl: dmmDetailUrl(route.cid),
+      headers: { cookie: DMM_COOKIE },
+      parse: function (html) { return parseDmmMax(route.cid, html); },
+      toResponse: function (n) { return { n: Math.min(n, DMM_SAMPLE_CAP) }; },
+    },
     env
   );
 }
 
 function handleDlMeta(route, domain, env) {
   return handleLazyMeta(
-    "meta:dlsite:" + route.rid,
-    dlProductUrl(route.rid, domain),
-    {},
-    function (html) { return parseDlStems(route.rid, html); },
-    function (samples) { return { samples: samples, n: samples.length }; },
+    {
+      key: "meta:dlsite:" + route.rid,
+      upstreamUrl: dlProductUrl(route.rid, domain),
+      headers: {},
+      parse: function (html) { return parseDlStems(route.rid, html); },
+      toResponse: function (samples) { return { samples: samples, n: samples.length }; },
+    },
     env
   );
 }
 
+function imageHeaders(up) {
+  var headers = new Headers(up.headers);
+  headers.set("cache-control", "public, max-age=86400");
+  // A cached Set-Cookie would poison the edge cache entry.
+  headers.delete("set-cookie");
+  return headers;
+}
+
 function handleImage(route, request, ctx) {
-  var upstreamUrl = route.kind === "cover" ? coverUrl(route.cid) : sampleUrl(route.cid, route.n);
+  var upstreamUrl = route.kind === "cover" ? gcCoverUrl(route.cid) : gcSampleUrl(route.cid, route.n);
   var cacheKey = new Request(request.url, { method: "GET" });
   var cache = caches.default;
   return cache.match(cacheKey).then(function (hit) {
@@ -257,7 +287,7 @@ function handleImage(route, request, ctx) {
           headers: {
             "user-agent": UA,
             cookie: ADULT_COOKIE,
-            referer: productUrl(route.cid),
+            referer: gcProductUrl(route.cid),
           },
         });
       })
@@ -266,14 +296,8 @@ function handleImage(route, request, ctx) {
           var code = up.status === 404 ? 404 : 502;
           return json({ error: code === 404 ? "not found" : "bad gateway" }, code, 60);
         }
-        var headers = new Headers(up.headers);
-        headers.set("cache-control", "public, max-age=86400");
-        // A cached Set-Cookie would poison the edge cache entry.
-        headers.delete("set-cookie");
-        var res = new Response(up.body, { status: 200, headers: headers });
-        ctx.waitUntil(
-          cache.put(cacheKey, res.clone()).catch(function () {})
-        );
+        var res = new Response(up.body, { status: 200, headers: imageHeaders(up) });
+        ctx.waitUntil(cache.put(cacheKey, res.clone()).catch(function () {}));
         return res;
       })
       .catch(function () {

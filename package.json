@@ -4,9 +4,18 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "python scripts/prep_data.py && python scripts/bundle.py",
+    "build:check": "python scripts/prep_data.py && python scripts/bundle.py --check",
+    "seed": "python scripts/make-kv-bulk.py",
     "dev": "bunx wrangler dev",
-    "deploy": "node scripts/setup-kv.cjs && bunx wrangler deploy",
-    "setup-kv": "node scripts/setup-kv.cjs",
-    "test": "bun test"
+    "deploy": "node scripts/setup-kv.cjs --no-seed && bun run build && bunx wrangler deploy",
+    "deploy:seed": "node scripts/setup-kv.cjs && bunx wrangler deploy",
+    "kv:force-seed": "node scripts/setup-kv.cjs --force-seed",
+    "setup-kv": "node scripts/setup-kv.cjs --no-seed",
+    "test": "bun test",
+    "check": "bun run build && bun test"
+  },
+  "devDependencies": {
+    "happy-dom": "^20.14.0"
   }
 }

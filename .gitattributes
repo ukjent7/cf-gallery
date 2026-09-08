@@ -1,0 +1,4 @@
+# Keep LF everywhere. public/index.html is a generated artifact whose exact
+# bytes are asserted by the build tests, so CRLF translation on checkout would
+# make a fresh clone differ from what was deployed.
+* text=auto eol=lf
