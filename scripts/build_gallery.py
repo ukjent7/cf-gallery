@@ -53,6 +53,10 @@ try:
     getchu_json = json.dumps(json.load(open("getchu_meta.json", encoding="utf-8")), ensure_ascii=False)
 except FileNotFoundError:
     getchu_json = "{}"
+try:
+    fullcg_json = json.dumps(json.load(open("fullcg_links.json", encoding="utf-8")), ensure_ascii=False)
+except FileNotFoundError:
+    fullcg_json = "{}"
 
 html_doc = """<!DOCTYPE html>
 <html lang="zh-CN">
@@ -129,6 +133,17 @@ const DATA = __DATA__;
 const CACHE = __CACHE__;
 const STORE = __STORE__;
 const GETCHU = __GETCHU__;
+const FULLCG = __FULLCG__;
+function fullcgOf(gid){ return FULLCG[String(gid)] || null; }
+function fullcgHtml(gid){
+  const e = fullcgOf(gid);
+  if (!e) return "";
+  const links = [];
+  if (e.hitomi) links.push(`<a href="${esc(e.hitomi)}" target="_blank" rel="noopener">hitomi全CG</a>`);
+  if (e.ehentai) links.push(`<a href="${esc(e.ehentai)}" target="_blank" rel="noopener">e-hentai全CG</a>`);
+  if (!links.length) return "";
+  return `<h3>全CG外链（站外跳转）</h3><p>${links.join(" | ")}</p><p class="hint">先用本页官方截图核对是否为同一作，确认再点进去，免得白跑一趟。外链站需要各自过年龄确认/登录，全CG图不在本画廊内展示。</p>`;
+}
 const GCN = Object.values(GETCHU).filter(x=>x&&x.ok).length;
 let TAB = "all";
 const API = "https://api.vndb.org/kana/vn";
@@ -573,6 +588,7 @@ function openStoreDetail(item, st, viewList, coverHtml, shotsHtml, linkUrl, link
   <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票</p>
   ${coverHtml}
   <div class="sgrid">${shotsHtml}</div>
+  ${fullcgHtml(item.gid)}
   <p><a href="${linkUrl}" target="_blank" rel="noopener">${linkText}</a> | <a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">在EGS打开</a>${glink}</p>`;
   document.getElementById("modal").classList.add("open");
   const mc = document.getElementById("mcover");
@@ -637,6 +653,7 @@ async function openDetail(gid){
     document.getElementById("mbody").innerHTML = `<h2>#${item.rank} ${esc(item.name)}</h2>
     <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票<br>Getchu经Worker代理直连（file://下走EGS转存）${cid?`（id=`+esc(cid)+`）`:""}</p>
     <div class="sgrid">${slots}</div>
+    ${fullcgHtml(item.gid)}
     <p>${cid?`<a href="${gcPage(cid)}" target="_blank" rel="noopener">在Getchu打开</a> | `:""}<a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">在EGS打开</a></p>`;
     document.getElementById("modal").classList.add("open");
     document.querySelectorAll("#mbody .sgrid img").forEach((im)=>{
@@ -700,6 +717,7 @@ async function openDetail(gid){
     <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票<br>VNDB: ${v?esc(v.title||"")+" / "+esc(v.alttitle||"")+" / "+esc(v.id):"未匹配（可切VNDB Tab手动查）"} </p>
     ${v&&v.image?`<h3>VNDB截图（${v.shots?v.shots.length:0}张）</h3><img class="big" data-vi="0" src="${esc(v.image.url||v.image.thumbnail)}"><div class="sgrid">${vShots}</div>`:"<p class='hint'>VNDB未匹配。</p>"}
     ${dlHtml}${dmHtml}${gcHtml}
+    ${fullcgHtml(item.gid)}
     <p><a href="${v?"https://vndb.org/"+v.id:vndbSearchUrl(item.name)}" target="_blank" rel="noopener">VNDB</a> | <a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">EGS</a>${glink} | <button data-act="refetch" data-gid="${esc(item.gid)}">重查VNDB</button></p>`;
     document.getElementById("modal").classList.add("open");
     document.querySelectorAll("#mbody img.big, #mbody .sgrid img").forEach(im=>{
@@ -725,6 +743,7 @@ async function openDetail(gid){
   <p class="hint">${esc(item.brand)} / ${esc(item.sellday)} / 中央值 ${item.median} / 评分 ${item.count2} / 标签 ${item.votes}票<br>VNDB: ${v?esc(v.title)+" / "+esc(v.alttitle||"")+" / "+esc(v.id):"未匹配"}${extraHtml}${v&&v.release?`<br>经发行版映射：${esc(v.release.title||"")} (${esc(v.release.id)})`:""}${v&&v.via?`<br>匹配方式：${esc(v.via)}`:""} </p>
   ${v&&v.image?`<img class="big" id="mcover" src="${esc(v.image.url||v.image.thumbnail)}" data-full="${esc(v.image.url)}">`:""}
   <div class="sgrid">${shotsHtml}</div>
+  ${fullcgHtml(item.gid)}
   <p><a href="${v?"https://vndb.org/"+v.id:vndbSearchUrl(item.name)}" target="_blank" rel="noopener">在VNDB打开</a> | <a href="${egsUrl(item.gid)}" target="_blank" rel="noopener">在EGS打开</a> | <button data-act="refetch" data-gid="${esc(item.gid)}">重查VNDB</button></p>`;
   document.getElementById("modal").classList.add("open");
   const mc = document.getElementById("mcover");
@@ -766,7 +785,7 @@ applyFilter();
 </html>
 """
 
-html_doc = html_doc.replace("__DATA__", data_json).replace("__CACHE__", cache_json).replace("__STORE__", store_json).replace("__GETCHU__", getchu_json)
+html_doc = html_doc.replace("__DATA__", data_json).replace("__CACHE__", cache_json).replace("__STORE__", store_json).replace("__GETCHU__", getchu_json).replace("__FULLCG__", fullcg_json)
 n_dl = sum(1 for e in store_cache.values() if e.get("dlsite"))
 n_dmmd = sum(1 for e in store_cache.values()
              if (e.get("dmm") and not re.match(r"^[0-9]+[a-z]+[0-9]+$",
