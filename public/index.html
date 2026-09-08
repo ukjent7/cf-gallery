@@ -495,9 +495,24 @@ var pending = new Map();
 var LIVE_KEY = "vndb_live_v4";
 var LIVE_BUDGET = 900000;
 
+// Drop live matches made by the old weak methods: "vn-core:" (contains-pick,
+// first partial hit, no date check) and "release:" (primary could likewise be
+// a contains-pick). They re-match under the fixed rules on next open; exact
+// "vn:" hits stay exact under the tightened normalization, so they are kept.
+function isWeakVia(e) {
+  var via = e && typeof e.via === "string" ? e.via : "";
+  return via.indexOf("vn-core:") === 0 || via.indexOf("release:") === 0;
+}
+
 try {
   var stored = JSON.parse(localStorage.getItem(LIVE_KEY) || "{}");
-  for (var sk in stored) if (!liveCache.has(sk) && stored[sk]) liveCache.set(sk, stored[sk]);
+  var droppedWeak = 0;
+  for (var sk in stored) {
+    if (liveCache.has(sk) || !stored[sk]) continue;
+    if (isWeakVia(stored[sk])) { droppedWeak++; continue; }
+    liveCache.set(sk, stored[sk]);
+  }
+  if (droppedWeak) saveLive();
 } catch (e) {
   // Corrupt or quota-truncated value: start clean rather than crash the page.
   try { localStorage.removeItem(LIVE_KEY); } catch (e2) {}
@@ -560,7 +575,25 @@ function pump() {
 }
 
 function normT(s) {
-  return String(s == null ? "" : s).replace(/[～〜]/g, "~").replace(/　/g, " ").trim();
+  // Whitespace-insensitive: EGS writes " ～ " spaced, VNDB often "～" glued.
+  // The 妻の母 case missed its exact hit on spaces alone, then fell through to
+  // a wrong contains-pick (v2076 妻の母さゆり instead of v32745).
+  return String(s == null ? "" : s).replace(/[～〜]/g, "~").replace(/　/g, " ").replace(/\s+/g, "");
+}
+
+function yearOf(s) {
+  var m = /^(\d{4})/.exec(String(s == null ? "" : s));
+  return m ? parseInt(m[1], 10) : 0;
+}
+
+// A missing year on either side means "no information", not disagreement.
+// Tolerance is ±1 for Dec/Jan boundary releases.
+function yearOk(cand, item) {
+  if (!item) return true;
+  var cy = yearOf(cand && cand.released);
+  var iy = yearOf(item.sellday);
+  if (!cy || !iy) return true;
+  return Math.abs(cy - iy) <= 1;
 }
 
 function normVariants(title) {
@@ -591,26 +624,38 @@ function normVariants(title) {
   return out;
 }
 
-function exactPick(list, queries) {
+function exactPick(list, queries, item) {
+  // Same normalized title can still be two entries (original + same-titled
+  // remake/port). Prefer the one whose release year agrees with the EGS
+  // sellday; fall back to the first exact hit rather than a contains-guess.
+  var fallback = null;
   for (var qi = 0; qi < queries.length; qi++) {
     var nq = normT(queries[qi]).toLowerCase();
     for (var ci = 0; ci < list.length; ci++) {
       var c = list[ci];
-      if (normT(c.alttitle || "").toLowerCase() === nq) return c;
-      if (normT(c.title || "").toLowerCase() === nq) return c;
+      if (normT(c.alttitle || "").toLowerCase() === nq ||
+          normT(c.title || "").toLowerCase() === nq) {
+        if (!fallback) fallback = c;
+        if (yearOk(c, item)) return c;
+      }
     }
   }
-  return null;
+  return fallback;
 }
 
 // Short variants only match by containment, to keep 街ヤリ-style noise out.
-function containsPick(list, core) {
+// Containment alone grabs same-prefix different games (妻の母さゆり for a 妻の母
+// query), so candidates whose release year contradicts the EGS sellday are
+// skipped instead of blindly taking the first hit.
+function containsPick(list, core, item) {
   var nc = normT(core).toLowerCase();
   if (nc.length < 3) return null;
   for (var ci = 0; ci < list.length; ci++) {
     var c = list[ci];
-    if (normT(c.alttitle || "").toLowerCase().indexOf(nc) >= 0) return c;
-    if (normT(c.title || "").toLowerCase().indexOf(nc) >= 0) return c;
+    if (normT(c.alttitle || "").toLowerCase().indexOf(nc) < 0 &&
+        normT(c.title || "").toLowerCase().indexOf(nc) < 0) continue;
+    if (!yearOk(c, item)) continue;
+    return c;
   }
   return null;
 }
@@ -670,10 +715,10 @@ function doFetch(item) {
       if (hit) return hit;
       return vnSearch(v).then(function (list) {
         if (!list.length) return null;
-        var pick = exactPick(list, [item.name, v]);
+        var pick = exactPick(list, [item.name, v], item);
         if (pick) return remember(item.gid, toSlim(pick, null, null, "vn:" + v));
         if (v !== item.name) {
-          pick = containsPick(list, v);
+          pick = containsPick(list, v, item);
           if (pick && ((pick.alttitle || pick.title || "").length < 30 || v.length >= 4)) {
             return remember(item.gid, toSlim(pick, null, null, "vn-core:" + v));
           }
@@ -702,7 +747,7 @@ function doFetch(item) {
             });
           }, Promise.resolve()).then(function () {
             if (!details.length) return null;
-            var primary = exactPick(details, [item.name, v]) || containsPick(details, v);
+            var primary = exactPick(details, [item.name, v], item) || containsPick(details, v, item);
             if (!primary) return null;
             var extra = details.filter(function (d) { return d.id !== primary.id; });
             return remember(item.gid, toSlim(primary, extra, { id: rel.id, title: rel.title }, "release:" + v + ":" + rel.id));
@@ -1866,6 +1911,7 @@ window.GALLERY = {
   getShown: function () { return shown; },
   dmmEntries: dmmEntries, dlEntry: dlEntry, gcEntry: gcEntry,
   relatedOf: relatedOf, seriesKey: seriesKey,
+  normT: normT, normVariants: normVariants, exactPick: exactPick, containsPick: containsPick,
 };
 </script>
 </body>

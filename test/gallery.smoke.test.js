@@ -182,6 +182,58 @@ describe("detail modal", () => {
   });
 });
 
+describe("vndb matching guards", () => {
+  // Regression fixtures for gid 31868 (妻の母 ～傲慢女社長と同居の日々～):
+  // the correct v32745 lost its exact hit on tilde spacing, then the core
+  // query matched the wrong same-prefix v2076 (妻の母さゆり, 2008).
+  const V2076 = { id: "v2076", title: "Tsuma no Haha Sayuri", alttitle: "妻の母さゆり", released: "2008-04-25" };
+  const V32745 = {
+    id: "v32745", title: "Tsuma no Haha ~Gouman Onna Shachou to Doukyo no Hibi~",
+    alttitle: "妻の母～傲慢女社長と同居の日々～", released: "2022-01-16",
+  };
+  const ITEM = { gid: "31868", name: "妻の母 ～傲慢女社長と同居の日々～", sellday: "2022-01-16" };
+
+  function fns() {
+    return loadGallery().window.GALLERY;
+  }
+
+  test("exact match ignores spacing around tildes", () => {
+    expect(fns().exactPick([V32745], [ITEM.name], ITEM).id).toBe("v32745");
+  });
+
+  test("contains skips a wrong-year first hit", () => {
+    expect(fns().containsPick([V2076, V32745], "妻の母", ITEM).id).toBe("v32745");
+  });
+
+  test("contains without dates keeps the old first-hit behavior", () => {
+    expect(fns().containsPick([V2076, V32745], "妻の母", { sellday: "" }).id).toBe("v2076");
+  });
+
+  test("exact prefers the year-matching duplicate title", () => {
+    const G = fns();
+    const remake = { id: "vR", title: "Remake", alttitle: "同名", released: "2017-03-16" };
+    const orig = { id: "vO", title: "Original", alttitle: "同名", released: "1996-12-26" };
+    expect(G.exactPick([remake, orig], ["同名"], { sellday: "1996-12-26" }).id).toBe("vO");
+  });
+
+  test("weak live matches are migrated away on load", () => {
+    const window = new Window({ url: "http://localhost/" });
+    window.localStorage.setItem("vndb_live_v4", JSON.stringify({
+      "31868": { id: "v2076", title: "x", via: "vn-core:妻の母" },
+      "999": { id: "v999", title: "y", via: "release:foo:r1" },
+      "7": { id: "v7", title: "z", via: "vn:exact title" },
+    }));
+    window.document.write(markupOnly);
+    window.fetch = () => Promise.resolve({ ok: false, status: 599, json: () => Promise.resolve(null) });
+    window.IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
+    window.eval(scriptBody);
+    const live = window.GALLERY.liveCache;
+    expect(live.get("31868"), "stale contains-pick survived migration").toBeUndefined();
+    expect(live.get("999"), "stale release-pick survived migration").toBeUndefined();
+    expect(live.get("7").id, "exact hit was wrongly migrated").toBe("v7");
+  });
+});
+
 describe("live meta discipline", () => {
   test("one modal open asks the Worker at most once per store product", () => {
     const { window, calls } = loadGallery();
