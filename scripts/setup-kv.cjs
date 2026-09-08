@@ -98,7 +98,8 @@ function createNamespace() {
     console.log(combined);
     process.exit(1);
   }
-  const idMatch = output.match(/id\s*=\s*"([^"]+)"/);
+  // Newer wrangler prints JSON ("id": "..."), older prints TOML (id = "...").
+  const idMatch = output.match(/"?\bid\b"?\s*[:=]\s*"([^"]+)"/);
   if (!idMatch) {
     console.error("Cannot extract KV namespace id from output:", output);
     process.exit(1);
