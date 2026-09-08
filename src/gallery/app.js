@@ -316,9 +316,17 @@ function dlMeta(rid, domain) {
   }).catch(function () { return null; });
 }
 
+// Definitive number on a definitive answer (0 = confirmed no samples via 404),
+// null when the probe itself failed. Callers must handle both: leaving the
+// section on "加载中…" forever is the bug this guards against.
 function gcMeta(cid) {
-  return jsonFetch(gcApiMeta(cid)).then(function (j) {
-    return j && Number.isInteger(j.n) && j.n > 0 ? Math.min(j.n, GETCHU_SAMPLE_CAP) : null;
+  return fetch(gcApiMeta(cid)).then(function (r) {
+    if (r.status === 404) return 0;
+    if (!r.ok) throw new Error("meta " + r.status);
+    return r.json();
+  }).then(function (j) {
+    if (j && Number.isInteger(j.n) && j.n > 0) return Math.min(j.n, GETCHU_SAMPLE_CAP);
+    return 0;
   }).catch(function () { return null; });
 }
 
@@ -640,29 +648,28 @@ function gcSection(item, st) {
       key: "gc:" + cid,
     };
   }
-  // Nothing baked: EGS mirror slots (each self-removes on 404, so a product
-  // with fewer than 8 EGS pictures shows fewer tiles instead of 裂图), plus one
-  // live probe only when the build never looked at this page.
-  var egs = [];
-  for (i = 1; i <= 8; i++) {
-    var u = egsImg(item.gid, i);
-    egs.push(imgSlot(u, u, [], "官方" + i));
-  }
-  var sec = {
-    title: "Getchu" + (USE_GC && cid ? (known ? "（Getchu无sample，走EGS转存）" : "（Worker代理，加载中…）") : "（EGS转存）"),
-    cover: null,
-    slots: egs,
-    link: cid ? { href: gcProductUrl(cid), text: "在Getchu打开" } : null,
-    key: "gc:" + cid,
-  };
+  // Only the Worker proxy is shown. There used to be 8 EGS-mirror placeholders
+  // here while the live probe ran, but those flashed a different picture set
+  // and then got swapped out, which read as flicker — so an unknown count now
+  // starts empty and the probe fills the grid in place.
+  var link = cid ? { href: gcProductUrl(cid), text: "在Getchu打开" } : null;
   if (USE_GC && cid && !known) {
+    var sec = {
+      title: "Getchu（Worker代理，加载中…）",
+      cover: null,
+      slots: [],
+      link: link,
+      key: "gc:" + cid,
+    };
     sec.grow = function () {
       return gcMeta(cid).then(function (m) {
-        if (!m) return null;
+        // Terminal titles for the non-image outcomes too: returning null here
+        // would leave the heading on "加载中…" forever (and askOnce blocks
+        // any retry this session), which is exactly the stuck-loading report.
+        if (m === null) return { slots: [], title: "Getchu（Worker代理，加载失败）" };
+        if (!m) return { slots: [], title: "Getchu（Worker代理，无sample）" };
         var out = [];
         for (var k = 1; k <= m; k++) out.push(gcSampleSlot(cid, k));
-        // Replace the EGS placeholders instead of appending: otherwise the modal
-        // shows 8 EGS tiles plus the real Getchu set (the reported "多了八张").
         return {
           slots: out, at: 0, replace: true,
           cover: gcCoverSlot(cid, item.gid),
@@ -670,8 +677,17 @@ function gcSection(item, st) {
         };
       });
     };
+    return sec;
   }
-  return sec;
+  return {
+    title: "Getchu（Worker代理）",
+    hint: !cid ? "EGS无Getchu ID。"
+      : (!USE_GC ? "本地文件模式：Getchu 图需经 Worker 代理查看，请部署后在线打开。"
+        : "Getchu无sample。"),
+    slots: [],
+    cover: null,
+    link: link,
+  };
 }
 
 // --- full-CG external links (code that lived inside the data block before) ----
@@ -958,11 +974,12 @@ function renderModal(item, sections) {
 
   sections.forEach(function (sec, si) {
     if (!sec) return;
+    if (sec.title) html += '<h3 id="sec-h-' + si + '">' + sec.title + "</h3>";
     if (sec.hint) {
       html += '<p class="hint">' + sec.hint + "</p>";
+      if (sec.link) html += "<p>" + extLink(sec.link.href, sec.link.text) + "</p>";
       return;
     }
-    if (sec.title) html += '<h3 id="sec-h-' + si + '">' + sec.title + "</h3>";
     if (sec.cover) {
       viewList.push(sec.cover);
       html += slotHtml(sec.cover).replace("<img ", '<img class="big" id="sec-cover-' + si + '" ');

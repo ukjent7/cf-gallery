@@ -250,6 +250,16 @@ function richGid(window) {
 function openableGid(window, doc, tab) {
   const G = window.GALLERY;
   const a = G.ADAPTERS[tab];
+  // The Getchu section only renders baked Worker images synchronously;
+  // products with an unknown count start as an empty grid until live meta
+  // arrives (which the stubbed fetch never provides), so pick a baked one.
+  if (tab === "getchu") {
+    const hit = G.DATA.find((d) => {
+      const st = G.storeOf(d.gid);
+      return st && st.g && typeof st.g.n === "number" && st.g.n > 0;
+    });
+    if (hit) return String(hit.gid);
+  }
   const cards = [...doc.querySelectorAll("#grid .card")];
   for (const c of cards) {
     const gid = c.dataset.gid;

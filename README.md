@@ -3,7 +3,7 @@
 POV559 寝取り・EROGE 限定排名画廊：按中央值排序，集中看各家封面与截图。
 
 线上是一个自包含单文件页面（`public/index.html`），图片和数据都能直接用；
-Getchu 的防盗链图由同项目的小代理转发，代理失败自动降级到 EGS 转存，不影响其它图。
+Getchu 的防盗链图由同项目的小代理转发（详情只走 Worker 代理，不再垫 EGS 转存图）。
 单文件是刻意的：双击本地文件也要能用，而 `file://` 下 fetch 同目录 JSON 会被浏览器拦掉。
 
 ## 目录
@@ -85,5 +85,5 @@ id 正确」，然后 `wrangler deploy`。`--force-seed` 才会覆盖写入全�
 bun run dev         # wrangler dev，带本地 KV
 ```
 
-直接双击 `public/index.html` 也行：此时没有同源 `/gc|/dm|/dl` 后端，Getchu 段自动
-走 EGS 转存，其余商店是官方直链。
+直接双击 `public/index.html` 也行：此时没有同源 `/gc|/dm|/dl` 后端，Getchu 段
+提示需部署后在线查看，其余商店是官方直链。
