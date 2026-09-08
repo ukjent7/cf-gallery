@@ -1,0 +1,15 @@
+{
+  "name": "pov559-gallery",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./public",
+    "run_worker_first": ["/gc/*"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "GC_META",
+      "id": "REPLACE_WITH_KV_ID"
+    }
+  ]
+}
