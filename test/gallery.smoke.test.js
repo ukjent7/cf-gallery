@@ -149,13 +149,14 @@ describe("detail modal", () => {
     window.GALLERY.setTab("all");
     window.GALLERY.openDetail(String(item.gid));
     expect(doc.getElementById("mbody").textContent).toContain("相关推荐");
-    const rows = [...doc.querySelectorAll("#mbody .relrow")];
-    expect(rows.length).toBeGreaterThan(0);
-    expect(rows.length).toBeLessThanOrEqual(6);
-    rows.forEach((r) => {
-      const b = r.querySelector("button[data-gid]");
-      expect(b, "recommendation row has no jump button").toBeTruthy();
-      expect(b.dataset.gid, "recommendation links to itself").not.toBe(String(item.gid));
+    const cards = [...doc.querySelectorAll("#mbody .relcard")];
+    expect(cards.length).toBeGreaterThan(0);
+    expect(cards.length).toBeLessThanOrEqual(6);
+    cards.forEach((c) => {
+      expect(c.dataset.gid, "recommendation card has no gid").toBeTruthy();
+      expect(c.dataset.gid, "recommendation links to itself").not.toBe(String(item.gid));
+      expect(c.querySelector("img") || c.querySelector(".relnocover"), "card has neither cover nor placeholder").toBeTruthy();
+      expect(c.textContent).toContain("中央值");
     });
   });
 

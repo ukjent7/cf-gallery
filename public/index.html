@@ -114,21 +114,23 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
 /* Tile loading shimmer: pure CSS, visible only while the tile image hasn't
    painted yet (a loaded opaque tile fully covers its own background). Failed
    tiles are removed by chainErr, taking the shimmer with them. */
-.cover img,#modal .sgrid img{background-color:#0d1015;background-image:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.07) 50%,transparent 65%);background-size:220% 100%;animation:tileShimmer 1.5s linear infinite}
+.cover img,#modal .sgrid img,#modal .relimg{background-color:#0d1015;background-image:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.07) 50%,transparent 65%);background-size:220% 100%;animation:tileShimmer 1.5s linear infinite}
 @keyframes tileShimmer{0%{background-position:180% 0}100%{background-position:-120% 0}}
 @media (prefers-reduced-motion: reduce){
   #vspin.on{animation:none;border-top-color:var(--line-strong)}
-  .cover img,#modal .sgrid img{animation:none}
+  .cover img,#modal .sgrid img,#modal .relimg{animation:none}
 }
 #viewer .bar{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13px;color:var(--muted);flex-wrap:wrap;justify-content:center}
 #viewer button{padding:9px 16px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text);cursor:pointer}
 #viewer button:hover{border-color:var(--accent)}
-/* Related-recommendation rows: text button jumps into that game's modal. */
-.relrow{display:flex;align-items:baseline;gap:8px;padding:6px 8px;border-radius:8px}
-.relrow:hover{background:var(--surface-2)}
-.relrow button{flex:1;min-width:0;text-align:left;background:none;border:0;color:var(--link);cursor:pointer;font:inherit;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0}
-.relrow button:hover{text-decoration:underline}
-.relrow .hint{flex:none}
+/* Related-recommendation cover grid: cell jumps into that game's modal. */
+.relgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.relcard{display:flex;flex-direction:column;gap:6px;min-width:0;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px;cursor:pointer;color:var(--text);font:inherit;text-align:left}
+.relcard:hover{border-color:var(--accent)}
+.relcard .relimg,.relcard .relnocover{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;background:#0b0d10}
+.relcard .relnocover{display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:12px}
+.relcard .relname{font-size:13px;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.relcard .hint{font-size:12px}
 
 @media (max-width:640px){
   header{padding:12px}
@@ -1277,13 +1279,21 @@ function relatedHtml(item, v) {
   var rel = relatedOf(item, v);
   var html = "<h3>相关推荐</h3>";
   if (!rel.length) return html + '<p class="hint">暂无同社/系列作收录。</p>';
-  return html + rel.map(function (r) {
+  // Cover grid (not text rows): each cell jumps into that game's modal.
+  // Covers reuse the all-tab quality order (FANZA > Getchu > EGS), so every
+  // cell has the best picture available without new data.
+  return html + '<div class="relgrid">' + rel.map(function (r) {
     var d = r.d;
+    var cov = ADAPTERS.all.cover(d, storeOf(d.gid), liveCache.get(d.gid) || null);
+    var thumb = cov
+      ? slotHtml(cov).replace("<img ", '<img class="relimg" ')
+      : '<span class="relnocover">暂无封面</span>';
     var tag = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? "·" : "") + (r.sameSeries ? "同系列" : "");
-    return '<div class="relrow"><button data-act="detail" data-gid="' + attr(d.gid) + '">' +
-      "#" + d.rank + " " + esc(d.name) + "</button>" +
-      '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></div>";
-  }).join("");
+    return '<button class="relcard" data-act="detail" data-gid="' + attr(d.gid) + '">' +
+      thumb +
+      '<span class="relname">#' + d.rank + " " + esc(d.name) + "</span>" +
+      '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></button>";
+  }).join("") + "</div>";
 }
 
 // --- state --------------------------------------------------------------------
@@ -1617,6 +1627,9 @@ function renderModal(item, sections) {
   document.getElementById("mbody").innerHTML = html;
   document.getElementById("modal").classList.add("open");
   document.querySelectorAll("#mbody img").forEach(function (im) {
+    // Recommendation covers navigate (delegated data-act), they must not also
+    // open the viewer: their urls are not in viewList and would land on index 0.
+    if (im.closest(".relgrid")) return;
     im.style.cursor = "zoom-in";
     im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
   });

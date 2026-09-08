@@ -824,13 +824,21 @@ function relatedHtml(item, v) {
   var rel = relatedOf(item, v);
   var html = "<h3>相关推荐</h3>";
   if (!rel.length) return html + '<p class="hint">暂无同社/系列作收录。</p>';
-  return html + rel.map(function (r) {
+  // Cover grid (not text rows): each cell jumps into that game's modal.
+  // Covers reuse the all-tab quality order (FANZA > Getchu > EGS), so every
+  // cell has the best picture available without new data.
+  return html + '<div class="relgrid">' + rel.map(function (r) {
     var d = r.d;
+    var cov = ADAPTERS.all.cover(d, storeOf(d.gid), liveCache.get(d.gid) || null);
+    var thumb = cov
+      ? slotHtml(cov).replace("<img ", '<img class="relimg" ')
+      : '<span class="relnocover">暂无封面</span>';
     var tag = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? "·" : "") + (r.sameSeries ? "同系列" : "");
-    return '<div class="relrow"><button data-act="detail" data-gid="' + attr(d.gid) + '">' +
-      "#" + d.rank + " " + esc(d.name) + "</button>" +
-      '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></div>";
-  }).join("");
+    return '<button class="relcard" data-act="detail" data-gid="' + attr(d.gid) + '">' +
+      thumb +
+      '<span class="relname">#' + d.rank + " " + esc(d.name) + "</span>" +
+      '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></button>";
+  }).join("") + "</div>";
 }
 
 // --- state --------------------------------------------------------------------
@@ -1164,6 +1172,9 @@ function renderModal(item, sections) {
   document.getElementById("mbody").innerHTML = html;
   document.getElementById("modal").classList.add("open");
   document.querySelectorAll("#mbody img").forEach(function (im) {
+    // Recommendation covers navigate (delegated data-act), they must not also
+    // open the viewer: their urls are not in viewList and would land on index 0.
+    if (im.closest(".relgrid")) return;
     im.style.cursor = "zoom-in";
     im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
   });
