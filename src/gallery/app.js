@@ -275,10 +275,12 @@ function imgSlot(thumb, full, fb, label) {
 }
 
 function slotHtml(s) {
+  // onerror is unconditional: with no fallback left chainErr removes the tile,
+  // so a 404 never stays on screen as a 裂图 (e.g. EGS products with <8 pics).
   return '<img loading="lazy" decoding="async" alt="" src="' + attr(s.thumb) + '"' +
     (s.fb.length ? ' data-fb="' + attr(s.fb.join("|")) + '"' : "") +
     ' data-full="' + attr(s.full) + '"' +
-    (s.fb.length ? ' onerror="chainErr(this)"' : "") + ">";
+    ' onerror="chainErr(this)"' + ">";
 }
 
 // Walk the fallback chain, then vanish if the image is genuinely gone.
@@ -601,6 +603,21 @@ function dmmSampleSlot(cid, i, fl) {
   return imgSlot(c.small, c.big, [c.big].concat(c.rest), (fl || "") + " sample" + i);
 }
 
+// Getchu sample tile. Deliberately no EGS fallback: EGS index n is a different
+// picture set, so swapping in the wrong picture is worse than hiding the tile.
+// A hole (Getchu numbering is not always contiguous, and max-index probing can
+// overshoot) then removes itself via chainErr instead of staying as a 裂图.
+function gcSampleSlot(cid, n) {
+  var src = gcApiSample(cid, n);
+  return imgSlot(src, src, [], "Getchu sample" + n);
+}
+
+// Cover only: EGS 1 is the same official cover, so it is a sane fallback.
+function gcCoverSlot(cid, gid) {
+  var src = gcApiCover(cid);
+  return imgSlot(src, src, [egsImg(gid, 1)], "Getchu封面");
+}
+
 function gcSection(item, st) {
   var g = gcEntry(st);
   var cid = g && g.id;
@@ -609,44 +626,48 @@ function gcSection(item, st) {
   // keeps the Getchu tab off KV entirely.
   var known = g && typeof g.n === "number";
   var baked = known ? Math.min(g.n, GETCHU_SAMPLE_CAP) : 0;
-  var slots = [];
   var i;
   if (USE_GC && cid && baked > 0) {
-    var coverSrc = gcApiCover(cid);
-    slots.push(imgSlot(coverSrc, coverSrc, [egsImg(item.gid, 1)], "Getchu封面"));
-    for (i = 1; i <= baked; i++) {
-      var src = gcApiSample(cid, i);
-      slots.push(imgSlot(src, src, [egsImg(item.gid, i)], "Getchu" + (i + 1)));
-    }
+    // Cover lives in `cover` (big 上方大图), samples in `slots`: the same shape
+    // dlSection/dmmSection/vnSection return, so the modal排版一致.
+    var slots = [];
+    for (i = 1; i <= baked; i++) slots.push(gcSampleSlot(cid, i));
     return {
       title: "Getchu（Worker代理，" + baked + "张）",
+      cover: gcCoverSlot(cid, item.gid),
       slots: slots,
       link: { href: gcProductUrl(cid), text: "在Getchu打开" },
       key: "gc:" + cid,
     };
   }
-  // Nothing to show from the build: EGS mirror slots, plus one live probe only
-  // when the build never looked at this page.
+  // Nothing baked: EGS mirror slots (each self-removes on 404, so a product
+  // with fewer than 8 EGS pictures shows fewer tiles instead of 裂图), plus one
+  // live probe only when the build never looked at this page.
+  var egs = [];
   for (i = 1; i <= 8; i++) {
     var u = egsImg(item.gid, i);
-    slots.push(imgSlot(u, u, [], "官方" + i));
+    egs.push(imgSlot(u, u, [], "官方" + i));
   }
   var sec = {
-    title: "Getchu" + (USE_GC && cid ? (known ? "（Getchu无sample，走EGS转存）" : "（Worker代理）") : "（EGS转存）"),
-    slots: slots,
+    title: "Getchu" + (USE_GC && cid ? (known ? "（Getchu无sample，走EGS转存）" : "（Worker代理，加载中…）") : "（EGS转存）"),
+    cover: null,
+    slots: egs,
     link: cid ? { href: gcProductUrl(cid), text: "在Getchu打开" } : null,
     key: "gc:" + cid,
   };
   if (USE_GC && cid && !known) {
     sec.grow = function () {
       return gcMeta(cid).then(function (m) {
-        if (!m) return [];
-        var out = [imgSlot(gcApiCover(cid), gcApiCover(cid), [egsImg(item.gid, 1)], "Getchu封面")];
-        for (var k = 1; k <= m; k++) {
-          var s = gcApiSample(cid, k);
-          out.push(imgSlot(s, s, [egsImg(item.gid, k)], "Getchu" + (k + 1)));
-        }
-        return out;
+        if (!m) return null;
+        var out = [];
+        for (var k = 1; k <= m; k++) out.push(gcSampleSlot(cid, k));
+        // Replace the EGS placeholders instead of appending: otherwise the modal
+        // shows 8 EGS tiles plus the real Getchu set (the reported "多了八张").
+        return {
+          slots: out, at: 0, replace: true,
+          cover: gcCoverSlot(cid, item.gid),
+          title: "Getchu（Worker代理，" + m + "张）",
+        };
       });
     };
   }
@@ -764,7 +785,7 @@ function cardHtml(item, v) {
     ? '<img loading="lazy" decoding="async" src="' + attr(cover.thumb) + '"' +
       (cover.fb.length ? ' data-fb="' + attr(cover.fb.join("|")) + '"' : "") +
       ' data-full="' + attr(cover.full) + '"' +
-      (cover.fb.length ? ' onerror="chainErr(this)"' : "") + ' alt="cover">'
+      ' onerror="chainErr(this)"' + ' alt="cover">'
     : '<div class="novndb">' + (TAB === "vndb" || TAB === "all"
       ? "暂无图片<br>进入视口后自动查VNDB，或点下方按钮"
       : "EGS无该商店ID") + "</div>";
@@ -944,7 +965,7 @@ function renderModal(item, sections) {
     if (sec.title) html += '<h3 id="sec-h-' + si + '">' + sec.title + "</h3>";
     if (sec.cover) {
       viewList.push(sec.cover);
-      html += slotHtml(sec.cover).replace("<img ", '<img class="big" ');
+      html += slotHtml(sec.cover).replace("<img ", '<img class="big" id="sec-cover-' + si + '" ');
     }
     var count = sec.slots.length;
     if (count) {
@@ -952,8 +973,15 @@ function renderModal(item, sections) {
       sec.slots.forEach(function (s) { viewList.push(s); });
       html += '<div class="sgrid" id="sec-' + si + '">' + sec.slots.map(slotHtml).join("") + "</div>";
       if (sec.grow) {
-        growTargets.push({ si: si, from: from, count: count, grow: sec.grow, key: sec.key || "sec" + si });
+        growTargets.push({ si: si, from: from, count: count, grow: sec.grow, key: sec.key || "sec" + si, cover: sec.cover || null, slots: sec.slots.slice() });
       }
+    } else if (sec.grow) {
+      // A section that starts empty still needs a grid anchor so async content
+      // has somewhere to land (e.g. a DLsite product whose stems were never
+      // harvested: without this the grow below would have no target and never run).
+      var fromEmpty = viewList.length;
+      html += '<div class="sgrid" id="sec-' + si + '"></div>';
+      growTargets.push({ si: si, from: fromEmpty, count: 0, grow: sec.grow, key: sec.key || "sec" + si, cover: sec.cover || null, slots: [] });
     }
     if (sec.link) html += "<p>" + extLink(sec.link.href, sec.link.text) + "</p>";
   });
@@ -997,15 +1025,49 @@ function growSections(viewList) {
     var heading = document.getElementById("sec-h-" + t.si);
     t.grow().then(function (res) {
       if (!res) return;
+      // A grow may carry the real cover/title for a section that started as
+      // placeholders (Getchu unknown -> baked shape). Apply those first so the
+      // modal ends up identical to the baked path: big cover on top, samples
+      // in the grid, no duplicated placeholder tiles.
+      if (res.title && heading) heading.textContent = res.title;
+      if (res.cover) {
+        var oldCover = document.getElementById("sec-cover-" + t.si);
+        var coverHtml = slotHtml(res.cover).replace("<img ", '<img class="big" id="sec-cover-' + t.si + '" ');
+        if (oldCover) {
+          var oldFull = t.cover ? t.cover.full : null;
+          var cidx = -1;
+          if (oldFull) {
+            for (var vi = 0; vi < viewList.length; vi++) {
+              if (viewList[vi].full === oldFull) { cidx = vi; break; }
+            }
+          }
+          if (cidx >= 0) viewList[cidx] = res.cover; else viewList.push(res.cover);
+          oldCover.outerHTML = coverHtml;
+        } else {
+          // No baked cover: viewer lookup is URL-based, so push order is cosmetic.
+          viewList.push(res.cover);
+          if (grid) grid.insertAdjacentHTML("beforebegin", coverHtml);
+        }
+        var nc = document.getElementById("sec-cover-" + t.si);
+        if (nc) {
+          nc.style.cursor = "zoom-in";
+          nc.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, nc)); });
+        }
+      }
       var extra = res.slots || res;
       if (!extra.length || !grid) return;
       if (res.replace) {
         // Swap out the guessed tail in the DOM and the viewer list together, so
-        // clicking any tile still lands on the right image.
-        var cutFrom = t.from + (res.at || 0);
-        viewList.splice(cutFrom, viewList.length - cutFrom);
+        // clicking any tile still lands on the right image. Removal is by URL:
+        // other sections may have appended to viewList since, so index splicing
+        // to the end would eat their entries.
+        var at = res.at || 0;
+        var oldUrls = (t.slots || []).slice(at).map(function (s) { return s.full; });
+        for (var vi2 = viewList.length - 1; vi2 >= 0; vi2--) {
+          if (oldUrls.indexOf(viewList[vi2].full) >= 0) viewList.splice(vi2, 1);
+        }
         var imgs = grid.querySelectorAll("img");
-        for (var r = imgs.length - 1; r >= (res.at || 0); r--) imgs[r].remove();
+        for (var r = imgs.length - 1; r >= at; r--) imgs[r].remove();
         extra.forEach(function (s) { viewList.push(s); });
         grid.insertAdjacentHTML("beforeend", extra.map(slotHtml).join(""));
       } else {
