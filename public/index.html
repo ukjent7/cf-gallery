@@ -84,14 +84,18 @@ header p{margin:6px 0 0;font-size:13px;color:var(--muted);max-width:110ch}
 #modal .box{flex:0 1 960px;min-width:0;margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 8px}
 /* Floating rails: OUTSIDE the modal box, over the backdrop — never boxed
    together with the content. Own scroll when taller than the viewport. */
-.mwrap{display:flex;gap:18px;align-items:flex-start;margin:auto;max-width:1500px}
-.relrail{flex:none;width:220px;max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:12px;min-width:0}
+.mwrap{display:flex;gap:18px;align-items:flex-start;justify-content:center;margin:auto}
+/* Viewport-fixed: rails ignore the modal's scroll and stay glued left/right.
+   Box is 960 wide and centered, so each rail sits 18px outside it. */
+.relrail{position:fixed;top:24px;width:220px;max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:12px;min-width:0}
+.relrail.left{left:calc(50% - 480px - 18px - 220px)}
+.relrail.right{right:calc(50% - 480px - 18px - 220px)}
 .relrail:empty{display:none}
 .relhead{margin:2px 0 0;font-size:13px;color:var(--muted);font-weight:700}
 @media(max-width:1500px){
   .mwrap{flex-direction:column;align-items:stretch;width:100%;max-width:960px}
   #modal .box{flex:none}
-  .relrail{width:auto;max-height:none;overflow:visible;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .relrail{position:static;width:auto;max-height:none;overflow:visible;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
   .relrail .relhead{grid-column:1/-1}
 }
 #modal h2{margin:0 0 4px;font-size:18px;line-height:1.4;color:var(--text);padding-right:72px}
