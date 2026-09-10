@@ -1,0 +1,9209 @@
+[
+ {
+  "brand": "FOSTER",
+  "count2": 14,
+  "id": "22",
+  "median": 60,
+  "n": 1,
+  "name": "憧れ",
+  "sellday": "1999-06-04"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1294,
+  "id": "26",
+  "median": 80,
+  "n": 1,
+  "name": "アトラク＝ナクア",
+  "sellday": "1997-12-19"
+ },
+ {
+  "brand": "エウシュリー",
+  "count2": 239,
+  "id": "42",
+  "median": 70,
+  "n": 1,
+  "name": "戦女神",
+  "sellday": "1999-01-29"
+ },
+ {
+  "brand": "Aaru",
+  "count2": 16,
+  "id": "113",
+  "median": 55,
+  "n": 1,
+  "name": "LOE ～Legend Of Enomoto～",
+  "sellday": "1999-09-24"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 8,
+  "id": "141",
+  "median": 56,
+  "n": 1,
+  "name": "想ひ出坂",
+  "sellday": "1998-09-04"
+ },
+ {
+  "brand": "風露",
+  "count2": 17,
+  "id": "158",
+  "median": 60,
+  "n": 1,
+  "name": "傀儡の辱めを君に",
+  "sellday": "1999-09-10"
+ },
+ {
+  "brand": "URAN",
+  "count2": 10,
+  "id": "191",
+  "median": 63,
+  "n": 1,
+  "name": "カレッジテラストーリー",
+  "sellday": "1998-08-28"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1559,
+  "id": "204",
+  "median": 90,
+  "n": 7,
+  "name": "鬼畜王ランス",
+  "sellday": "1996-12-19"
+ },
+ {
+  "brand": "CROWD",
+  "count2": 37,
+  "id": "224",
+  "median": 58,
+  "n": 1,
+  "name": "狂*師 ～ねらわれた制服～",
+  "sellday": "1998-06-26"
+ },
+ {
+  "brand": "Rateblack",
+  "count2": 157,
+  "id": "236",
+  "median": 62,
+  "n": 1,
+  "name": "Choir(クァイア)",
+  "sellday": "2001-02-09"
+ },
+ {
+  "brand": "LOVE-GUN",
+  "count2": 14,
+  "id": "270",
+  "median": 50,
+  "n": 1,
+  "name": "恋のスイートタルトはいかが?",
+  "sellday": "1999-07-09"
+ },
+ {
+  "brand": "Leaf",
+  "count2": 889,
+  "id": "323",
+  "median": 76,
+  "n": 1,
+  "name": "雫",
+  "sellday": "1996-01-26"
+ },
+ {
+  "brand": "elf",
+  "count2": 445,
+  "id": "334",
+  "median": 75,
+  "n": 3,
+  "name": "臭作",
+  "sellday": "1998-03-27"
+ },
+ {
+  "brand": "C’s ware",
+  "count2": 68,
+  "id": "337",
+  "median": 60,
+  "n": 1,
+  "name": "將姫",
+  "sellday": "2000-04-21"
+ },
+ {
+  "brand": "AIR PLANTS",
+  "count2": 25,
+  "id": "371",
+  "median": 71,
+  "n": 1,
+  "name": "Snow Memoria ～忘れえぬ想い～",
+  "sellday": "2000-04-14"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 477,
+  "id": "408",
+  "median": 75,
+  "n": 4,
+  "name": "DARCROWS ～ダークロウズ～",
+  "sellday": "1999-11-18"
+ },
+ {
+  "brand": "C’s ware",
+  "count2": 273,
+  "id": "452",
+  "median": 80,
+  "n": 1,
+  "name": "DESIRE 完全版",
+  "sellday": "1998-06-05"
+ },
+ {
+  "brand": "elf",
+  "count2": 420,
+  "id": "466",
+  "median": 82,
+  "n": 1,
+  "name": "同級生2(Win)",
+  "sellday": "1997-08-29"
+ },
+ {
+  "brand": "JANIS",
+  "count2": 465,
+  "id": "491",
+  "median": 80,
+  "n": 1,
+  "name": "とらいあんぐるハート2 ～さざなみ女子寮～",
+  "sellday": "1999-07-30"
+ },
+ {
+  "brand": "Active",
+  "count2": 260,
+  "id": "560",
+  "median": 77,
+  "n": 1,
+  "name": "Bible Black ～La noche de walpurgis～",
+  "sellday": "2000-07-14"
+ },
+ {
+  "brand": "ぴんく・ぽすと",
+  "count2": 19,
+  "id": "583",
+  "median": 60,
+  "n": 1,
+  "name": "花霞",
+  "sellday": "2000-04-28"
+ },
+ {
+  "brand": "トラヴュランス",
+  "count2": 21,
+  "id": "595",
+  "median": 50,
+  "n": 1,
+  "name": "はるあきふゆにないじかん",
+  "sellday": "1998-12-18"
+ },
+ {
+  "brand": "ILLUSION(Dreams)",
+  "count2": 23,
+  "id": "617",
+  "median": 55,
+  "n": 1,
+  "name": "尾行 ～夜の帰り道～",
+  "sellday": "1999-05-14"
+ },
+ {
+  "brand": "Guilty",
+  "count2": 14,
+  "id": "618",
+  "median": 55,
+  "n": 1,
+  "name": "美少女奴隷クラブ",
+  "sellday": "1998-11-27"
+ },
+ {
+  "brand": "TESLA",
+  "count2": 140,
+  "id": "686",
+  "median": 80,
+  "n": 1,
+  "name": "Portrait",
+  "sellday": "2000-07-28"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 28,
+  "id": "697",
+  "median": 60,
+  "n": 1,
+  "name": "微笑みをもういちど ～smile again～",
+  "sellday": "2000-08-04"
+ },
+ {
+  "brand": "Leaf",
+  "count2": 928,
+  "id": "701",
+  "median": 75,
+  "n": 1,
+  "name": "WHITE ALBUM",
+  "sellday": "1998-05-01"
+ },
+ {
+  "brand": "BLACK PACKAGE TRY",
+  "count2": 36,
+  "id": "716",
+  "median": 65,
+  "n": 1,
+  "name": "魔淫の宴",
+  "sellday": "1998-10-23"
+ },
+ {
+  "brand": "アイル",
+  "count2": 51,
+  "id": "721",
+  "median": 60,
+  "n": 1,
+  "name": "魔女狩りの夜に",
+  "sellday": "1995-10-13"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 534,
+  "id": "731",
+  "median": 79,
+  "n": 2,
+  "name": "ママトト ～a record of war～",
+  "sellday": "1999-07-01"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 158,
+  "id": "733",
+  "median": 65,
+  "n": 1,
+  "name": "守り神様",
+  "sellday": "1999-03-25"
+ },
+ {
+  "brand": "Angel Smile",
+  "count2": 36,
+  "id": "880",
+  "median": 70,
+  "n": 1,
+  "name": "浪漫珠 ～ろまんす～",
+  "sellday": "2000-10-13"
+ },
+ {
+  "brand": "JANIS",
+  "count2": 57,
+  "id": "888",
+  "median": 75,
+  "n": 1,
+  "name": "わたしのありか。",
+  "sellday": "2000-10-27"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 670,
+  "id": "900",
+  "median": 85,
+  "n": 2,
+  "name": "闘神都市II",
+  "sellday": "1994-12-10"
+ },
+ {
+  "brand": "戯画",
+  "count2": 83,
+  "id": "964",
+  "median": 70,
+  "n": 1,
+  "name": "ハーレムブレイド",
+  "sellday": "1996-04-26"
+ },
+ {
+  "brand": "AQUARIUM",
+  "count2": 11,
+  "id": "1137",
+  "median": 40,
+  "n": 1,
+  "name": "恥辱遊戯",
+  "sellday": "2000-01-28"
+ },
+ {
+  "brand": "elf",
+  "count2": 362,
+  "id": "1243",
+  "median": 75,
+  "n": 1,
+  "name": "鬼作",
+  "sellday": "2001-03-30"
+ },
+ {
+  "brand": "Pinpai",
+  "count2": 20,
+  "id": "1306",
+  "median": 46,
+  "n": 1,
+  "name": "無人島物語XX",
+  "sellday": "1999-02-26"
+ },
+ {
+  "brand": "エウシュリー",
+  "count2": 461,
+  "id": "1403",
+  "median": 75,
+  "n": 1,
+  "name": "幻燐の姫将軍",
+  "sellday": "2001-04-27"
+ },
+ {
+  "brand": "CureLight",
+  "count2": 9,
+  "id": "1420",
+  "median": 65,
+  "n": 1,
+  "name": "月の雫 ～ツキノシズク～",
+  "sellday": "2001-01-26"
+ },
+ {
+  "brand": "âge(age)",
+  "count2": 2433,
+  "id": "1530",
+  "median": 88,
+  "n": 2,
+  "name": "君が望む永遠",
+  "sellday": "2001-08-03"
+ },
+ {
+  "brand": "DISCOVERY",
+  "count2": 7,
+  "id": "1535",
+  "median": 70,
+  "n": 1,
+  "name": "人妻×人妻 ～ここは人妻パラダイス!～ 録りおろし!",
+  "sellday": "2001-06-29"
+ },
+ {
+  "brand": "VEGA",
+  "count2": 22,
+  "id": "1608",
+  "median": 40,
+  "n": 1,
+  "name": "沈マナイ月",
+  "sellday": "2001-09-14"
+ },
+ {
+  "brand": "公爵(デューク)",
+  "count2": 352,
+  "id": "1622",
+  "median": 75,
+  "n": 1,
+  "name": "ジサツのための101の方法",
+  "sellday": "2001-10-05"
+ },
+ {
+  "brand": "apricot",
+  "count2": 34,
+  "id": "1634",
+  "median": 75,
+  "n": 1,
+  "name": "夢幻夜想曲リニューアル",
+  "sellday": "1998-11-27"
+ },
+ {
+  "brand": "すたじおみりす",
+  "count2": 556,
+  "id": "1648",
+  "median": 78,
+  "n": 1,
+  "name": "月陽炎",
+  "sellday": "2001-10-19"
+ },
+ {
+  "brand": "CROSS NET",
+  "count2": 87,
+  "id": "1721",
+  "median": 75,
+  "n": 1,
+  "name": "DEEP VOICE",
+  "sellday": "2001-11-02"
+ },
+ {
+  "brand": "Riddle Soft",
+  "count2": 12,
+  "id": "1762",
+  "median": 60,
+  "n": 1,
+  "name": "Virgin Bride ～堕ちた花嫁～",
+  "sellday": "2001-11-22"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1750,
+  "id": "1773",
+  "median": 85,
+  "n": 6,
+  "name": "大悪司",
+  "sellday": "2001-11-30"
+ },
+ {
+  "brand": "Tail",
+  "count2": 30,
+  "id": "1791",
+  "median": 64,
+  "n": 1,
+  "name": "ファウスト",
+  "sellday": "2001-12-14"
+ },
+ {
+  "brand": "Sweetpain",
+  "count2": 30,
+  "id": "1892",
+  "median": 64,
+  "n": 1,
+  "name": "屈折",
+  "sellday": "2002-02-15"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 428,
+  "id": "1933",
+  "median": 70,
+  "n": 2,
+  "name": "妻みぐい",
+  "sellday": "2002-03-15"
+ },
+ {
+  "brand": "ainos",
+  "count2": 24,
+  "id": "1957",
+  "median": 63,
+  "n": 1,
+  "name": "ぽこぽこ軍将2 ～いっつ・あ・りある・わ～るど～",
+  "sellday": "2002-03-29"
+ },
+ {
+  "brand": "戯画",
+  "count2": 264,
+  "id": "1970",
+  "median": 66,
+  "n": 1,
+  "name": "Ripple ～ブルーシールへようこそっ～",
+  "sellday": "2002-04-05"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 345,
+  "id": "2006",
+  "median": 65,
+  "n": 1,
+  "name": "ランス4.1 ～お薬工場を救え!～",
+  "sellday": "1995-12-01"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 522,
+  "id": "2008",
+  "median": 73,
+  "n": 1,
+  "name": "Rance IV -教団の遺産-",
+  "sellday": "1993-12-11"
+ },
+ {
+  "brand": "Ripe",
+  "count2": 19,
+  "id": "2071",
+  "median": 60,
+  "n": 1,
+  "name": "とらぶる☆とらいあんぐる",
+  "sellday": "2002-05-31"
+ },
+ {
+  "brand": "ネオユーミ",
+  "count2": 2,
+  "id": "2082",
+  "median": 58,
+  "n": 1,
+  "name": "汝、その無垢なる魂で夜を彷徨うなかれ",
+  "sellday": "2002-04-19"
+ },
+ {
+  "brand": "elf",
+  "count2": 1222,
+  "id": "2093",
+  "median": 93,
+  "n": 1,
+  "name": "この世の果てで恋を唄う少女YU-NO",
+  "sellday": "1996-12-26"
+ },
+ {
+  "brand": "JANIS",
+  "count2": 404,
+  "id": "2100",
+  "median": 85,
+  "n": 1,
+  "name": "とらいあんぐるハート1・2・3 DVD EDITION",
+  "sellday": "2002-06-14"
+ },
+ {
+  "brand": "BLACK PACKAGE TRY",
+  "count2": 38,
+  "id": "2187",
+  "median": 75,
+  "n": 1,
+  "name": "凌辱の連鎖(縛艶の連鎖)",
+  "sellday": "2002-08-09"
+ },
+ {
+  "brand": "NOISE",
+  "count2": 2,
+  "id": "2199",
+  "median": 58,
+  "n": 1,
+  "name": "抜かせろ ナース・人妻・女子校生",
+  "sellday": "2002-08-09"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 916,
+  "id": "2331",
+  "median": 70,
+  "n": 2,
+  "name": "Rance5D -ひとりぼっちの女の子-",
+  "sellday": "2002-10-25"
+ },
+ {
+  "brand": "CRAFTWORK",
+  "count2": 168,
+  "id": "2414",
+  "median": 70,
+  "n": 1,
+  "name": "for elise ～エリーゼのために～",
+  "sellday": "1996-12-06"
+ },
+ {
+  "brand": "CIRCUS",
+  "count2": 498,
+  "id": "2445",
+  "median": 65,
+  "n": 1,
+  "name": "D.C.WhiteSeason ～ダ・カーポ ホワイトシーズン～",
+  "sellday": "2002-12-13"
+ },
+ {
+  "brand": "Sweetpain",
+  "count2": 5,
+  "id": "2452",
+  "median": 70,
+  "n": 1,
+  "name": "Peeping Web",
+  "sellday": "2002-11-22"
+ },
+ {
+  "brand": "Guilty",
+  "count2": 24,
+  "id": "2478",
+  "median": 73,
+  "n": 1,
+  "name": "隷嬢キャスター2",
+  "sellday": "2002-12-20"
+ },
+ {
+  "brand": "elf",
+  "count2": 184,
+  "id": "2501",
+  "median": 80,
+  "n": 1,
+  "name": "ドラゴンナイト4(DOS)",
+  "sellday": "1994-02-25"
+ },
+ {
+  "brand": "elf",
+  "count2": 42,
+  "id": "2502",
+  "median": 79,
+  "n": 1,
+  "name": "DE・JA2",
+  "sellday": "1992-06-25"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 25,
+  "id": "2535",
+  "median": 60,
+  "n": 1,
+  "name": "掟ノ島",
+  "sellday": "2003-01-24"
+ },
+ {
+  "brand": "NEXTON",
+  "count2": 430,
+  "id": "2541",
+  "median": 80,
+  "n": 1,
+  "name": "ONE ～輝く季節へ～ Full Voice Ver.",
+  "sellday": "2003-01-24"
+ },
+ {
+  "brand": "BLACK PACKAGE TRY",
+  "count2": 6,
+  "id": "2627",
+  "median": 70,
+  "n": 1,
+  "name": "魔淫の宴 ～ホワイトパッケージ～",
+  "sellday": "2000-09-29"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 388,
+  "id": "2640",
+  "median": 72,
+  "n": 1,
+  "name": "Rance III -リーザス陥落-",
+  "sellday": "1991-11-15"
+ },
+ {
+  "brand": "CODEPINK",
+  "count2": 325,
+  "id": "2643",
+  "median": 80,
+  "n": 1,
+  "name": "SEXFRIEND ～セックスフレンド～",
+  "sellday": "2003-03-20"
+ },
+ {
+  "brand": "デジアニメ・コーポレイション",
+  "count2": 118,
+  "id": "2662",
+  "median": 75,
+  "n": 1,
+  "name": "ふしぎ電車",
+  "sellday": "2003-03-28"
+ },
+ {
+  "brand": "せ・き・ら・ら",
+  "count2": 11,
+  "id": "2666",
+  "median": 68,
+  "n": 1,
+  "name": "みんなに今夜☆会いに来て 裏木戸のカギは一つ",
+  "sellday": "2003-04-04"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 179,
+  "id": "2779",
+  "median": 70,
+  "n": 1,
+  "name": "人妻コスプレ喫茶",
+  "sellday": "2003-05-30"
+ },
+ {
+  "brand": "JANIS",
+  "count2": 144,
+  "id": "2789",
+  "median": 75,
+  "n": 1,
+  "name": "CANDY TOYS",
+  "sellday": "2003-06-06"
+ },
+ {
+  "brand": "BLACKRAINBOW",
+  "count2": 252,
+  "id": "2790",
+  "median": 75,
+  "n": 3,
+  "name": "催眠学園",
+  "sellday": "2003-06-06"
+ },
+ {
+  "brand": "ベリーベル",
+  "count2": 31,
+  "id": "2797",
+  "median": 65,
+  "n": 1,
+  "name": "アイコン",
+  "sellday": "2003-06-06"
+ },
+ {
+  "brand": "Aaru",
+  "count2": 12,
+  "id": "2838",
+  "median": 60,
+  "n": 1,
+  "name": "Naked Edge",
+  "sellday": "2003-05-30"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 45,
+  "id": "2879",
+  "median": 70,
+  "n": 2,
+  "name": "人妻♪かすみさん ～母娘と共同性活～",
+  "sellday": "2003-07-18"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 187,
+  "id": "2886",
+  "median": 70,
+  "n": 1,
+  "name": "ドキドキお姉さん",
+  "sellday": "2003-07-25"
+ },
+ {
+  "brand": "âge(age)",
+  "count2": 993,
+  "id": "2894",
+  "median": 89,
+  "n": 1,
+  "name": "君が望む永遠 DVD specification",
+  "sellday": "2003-07-25"
+ },
+ {
+  "brand": "プラチナれーべる",
+  "count2": 5,
+  "id": "2912",
+  "median": 66,
+  "n": 1,
+  "name": "好きなものは好きだからしょうがない!! +White Flower+",
+  "sellday": "2003-07-31"
+ },
+ {
+  "brand": "Selen",
+  "count2": 154,
+  "id": "2922",
+  "median": 75,
+  "n": 1,
+  "name": "真・兄嫁",
+  "sellday": "2003-08-08"
+ },
+ {
+  "brand": "TEAM暗黒媒体",
+  "count2": 33,
+  "id": "2935",
+  "median": 64,
+  "n": 1,
+  "name": "奪還機構ラヴネイティア",
+  "sellday": "2003-08-22"
+ },
+ {
+  "brand": "ZyX",
+  "count2": 83,
+  "id": "2950",
+  "median": 68,
+  "n": 1,
+  "name": "相楽さん家の悦楽ライフ♪",
+  "sellday": "2003-08-28"
+ },
+ {
+  "brand": "light",
+  "count2": 299,
+  "id": "2960",
+  "median": 80,
+  "n": 1,
+  "name": "僕と、僕らの夏 完全版",
+  "sellday": "2003-08-08"
+ },
+ {
+  "brand": "Leaf",
+  "count2": 1719,
+  "id": "3017",
+  "median": 79,
+  "n": 11,
+  "name": "天使のいない12月",
+  "sellday": "2003-09-26"
+ },
+ {
+  "brand": "tumugi",
+  "count2": 56,
+  "id": "3060",
+  "median": 49,
+  "n": 1,
+  "name": "君の想い、その願い",
+  "sellday": "2003-10-24"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 469,
+  "id": "3184",
+  "median": 74,
+  "n": 1,
+  "name": "最終痴漢電車2",
+  "sellday": "2003-12-19"
+ },
+ {
+  "brand": "NitroPlus",
+  "count2": 4108,
+  "id": "3193",
+  "median": 82,
+  "n": 2,
+  "name": "沙耶の唄",
+  "sellday": "2003-12-26"
+ },
+ {
+  "brand": "TYPE-MOON",
+  "count2": 4863,
+  "id": "3254",
+  "median": 90,
+  "n": 1,
+  "name": "Fate/stay night",
+  "sellday": "2004-01-30"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 230,
+  "id": "3274",
+  "median": 70,
+  "n": 1,
+  "name": "闘神都市",
+  "sellday": "1990-12-15"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 99,
+  "id": "3378",
+  "median": 70,
+  "n": 2,
+  "name": "最終痴漢電車 DVD EDITION",
+  "sellday": "2004-03-26"
+ },
+ {
+  "brand": "すたじおみりす",
+  "count2": 283,
+  "id": "3404",
+  "median": 78,
+  "n": 1,
+  "name": "月陽炎 DVD Edition",
+  "sellday": "2003-04-25"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 21,
+  "id": "3452",
+  "median": 60,
+  "n": 1,
+  "name": "巨乳人妻教師 ～恥辱の校内調教～",
+  "sellday": "2004-04-23"
+ },
+ {
+  "brand": "Autobahn",
+  "count2": 87,
+  "id": "3477",
+  "median": 75,
+  "n": 1,
+  "name": "愛慾のエプロン",
+  "sellday": "2004-04-29"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 336,
+  "id": "3513",
+  "median": 65,
+  "n": 1,
+  "name": "Rance II -反逆の少女達-",
+  "sellday": "1990-05-15"
+ },
+ {
+  "brand": "elf",
+  "count2": 33,
+  "id": "3530",
+  "median": 70,
+  "n": 1,
+  "name": "DE・JAマルチパック",
+  "sellday": "2004-05-28"
+ },
+ {
+  "brand": "Pinpai",
+  "count2": 2,
+  "id": "3648",
+  "median": 58,
+  "n": 1,
+  "name": "痴漢研究室",
+  "sellday": "1999-06-25"
+ },
+ {
+  "brand": "Ciel",
+  "count2": 287,
+  "id": "3693",
+  "median": 60,
+  "n": 2,
+  "name": "そらのいろ、みずのいろ",
+  "sellday": "2004-06-25"
+ },
+ {
+  "brand": "TerraLunar",
+  "count2": 718,
+  "id": "3704",
+  "median": 84,
+  "n": 2,
+  "name": "らくえん ～あいかわらずなぼく。の場合～",
+  "sellday": "2004-06-25"
+ },
+ {
+  "brand": "STRIKES",
+  "count2": 16,
+  "id": "3706",
+  "median": 65,
+  "n": 1,
+  "name": "凌辱人妻温泉",
+  "sellday": "2004-06-25"
+ },
+ {
+  "brand": "elf",
+  "count2": 176,
+  "id": "3713",
+  "median": 80,
+  "n": 1,
+  "name": "同級生(DOS)",
+  "sellday": "1992-12-17"
+ },
+ {
+  "brand": "MAIKA",
+  "count2": 42,
+  "id": "3729",
+  "median": 75,
+  "n": 1,
+  "name": "超光戦隊ジャスティスブレイド ～秘密結社でGo!～",
+  "sellday": "2004-07-09"
+ },
+ {
+  "brand": "フェレット",
+  "count2": 3,
+  "id": "3741",
+  "median": 60,
+  "n": 1,
+  "name": "花蝕の罠",
+  "sellday": "2004-03-26"
+ },
+ {
+  "brand": "Selen",
+  "count2": 536,
+  "id": "3804",
+  "median": 75,
+  "n": 2,
+  "name": "燐月 -リンゲツ-",
+  "sellday": "2004-08-06"
+ },
+ {
+  "brand": "XUSE",
+  "count2": 232,
+  "id": "3805",
+  "median": 75,
+  "n": 1,
+  "name": "永遠のアセリア ～The Spirit of EternitySword～ EXPANSION",
+  "sellday": "2004-08-13"
+ },
+ {
+  "brand": "電脳CLUB",
+  "count2": 2,
+  "id": "3840",
+  "median": 41,
+  "n": 1,
+  "name": "蚊 -MOSQUITO- DVDPG",
+  "sellday": "2002-10-31"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1961,
+  "id": "3852",
+  "median": 85,
+  "n": 4,
+  "name": "RanceVI -ゼス崩壊-",
+  "sellday": "2004-08-27"
+ },
+ {
+  "brand": "A.W.P",
+  "count2": 6,
+  "id": "3898",
+  "median": 60,
+  "n": 1,
+  "name": "夏恋 ～The love story in summer～",
+  "sellday": "2004-04-29"
+ },
+ {
+  "brand": "Overflow",
+  "count2": 14,
+  "id": "3933",
+  "median": 60,
+  "n": 1,
+  "name": "LOST M",
+  "sellday": "2004-10-15"
+ },
+ {
+  "brand": "O-Din",
+  "count2": 12,
+  "id": "3948",
+  "median": 61,
+  "n": 1,
+  "name": "Tender Breeze",
+  "sellday": "2004-09-24"
+ },
+ {
+  "brand": "ACTRESS",
+  "count2": 213,
+  "id": "3999",
+  "median": 70,
+  "n": 1,
+  "name": "虹を見つけたら教えて。",
+  "sellday": "2004-10-29"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 45,
+  "id": "4126",
+  "median": 70,
+  "n": 1,
+  "name": "白衣のご奉仕",
+  "sellday": "2004-11-05"
+ },
+ {
+  "brand": "Stellamint",
+  "count2": 16,
+  "id": "4128",
+  "median": 53,
+  "n": 1,
+  "name": "妻いぢり",
+  "sellday": "2005-01-21"
+ },
+ {
+  "brand": "CROWD",
+  "count2": 122,
+  "id": "4138",
+  "median": 75,
+  "n": 2,
+  "name": "Yin-Yang! X Change Alternative",
+  "sellday": "2004-10-29"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 27,
+  "id": "4140",
+  "median": 70,
+  "n": 1,
+  "name": "人妻♪かすみさん2 奥様・未亡人オーナーと共同性活",
+  "sellday": "2004-10-15"
+ },
+ {
+  "brand": "Overflow",
+  "count2": 1031,
+  "id": "4248",
+  "median": 75,
+  "n": 2,
+  "name": "School Days",
+  "sellday": "2005-04-28"
+ },
+ {
+  "brand": "ハートブリガン",
+  "count2": 10,
+  "id": "4255",
+  "median": 68,
+  "n": 1,
+  "name": "すずり先生と26個のエッチなおっぱい",
+  "sellday": "2004-11-26"
+ },
+ {
+  "brand": "LiLiM生",
+  "count2": 10,
+  "id": "4280",
+  "median": 69,
+  "n": 1,
+  "name": "辱妻 ～ご利用は計画的に～",
+  "sellday": "2004-12-10"
+ },
+ {
+  "brand": "âge(age)",
+  "count2": 3675,
+  "id": "4286",
+  "median": 94,
+  "n": 1,
+  "name": "マブラヴ オルタネイティヴ",
+  "sellday": "2006-02-24"
+ },
+ {
+  "brand": "祭企画",
+  "count2": 39,
+  "id": "4410",
+  "median": 63,
+  "n": 1,
+  "name": "悪注入 -君に捧げる悪意の魂-",
+  "sellday": "2004-12-10"
+ },
+ {
+  "brand": "130cm",
+  "count2": 240,
+  "id": "4430",
+  "median": 78,
+  "n": 1,
+  "name": "僕は天使じゃないよ",
+  "sellday": "2005-04-28"
+ },
+ {
+  "brand": "BLACKRAINBOW",
+  "count2": 145,
+  "id": "4438",
+  "median": 75,
+  "n": 2,
+  "name": "ガジェット",
+  "sellday": "2005-03-11"
+ },
+ {
+  "brand": "May-Be Soft(有限会社リエーブル)",
+  "count2": 216,
+  "id": "4517",
+  "median": 70,
+  "n": 1,
+  "name": "へんし～ん!2",
+  "sellday": "2005-03-18"
+ },
+ {
+  "brand": "CLOCKUP/チームジオ",
+  "count2": 191,
+  "id": "4528",
+  "median": 65,
+  "n": 2,
+  "name": "ジオグラマトン -Dyogrammaton-",
+  "sellday": "2005-02-25"
+ },
+ {
+  "brand": "枕",
+  "count2": 2671,
+  "id": "4529",
+  "median": 90,
+  "n": 3,
+  "name": "サクラノ詩 -櫻の森の上を舞う-",
+  "sellday": "2015-10-23"
+ },
+ {
+  "brand": "Selen",
+  "count2": 126,
+  "id": "4540",
+  "median": 73,
+  "n": 1,
+  "name": "ふたりの兄嫁",
+  "sellday": "2005-07-29"
+ },
+ {
+  "brand": "戯画",
+  "count2": 1830,
+  "id": "4673",
+  "median": 88,
+  "n": 1,
+  "name": "パルフェ ～ショコラ second brew～",
+  "sellday": "2005-03-25"
+ },
+ {
+  "brand": "本気汁",
+  "count2": 20,
+  "id": "4813",
+  "median": 69,
+  "n": 1,
+  "name": "若奥さま 美咲 ～抱かれて悶えて流されて～",
+  "sellday": "2005-02-25"
+ },
+ {
+  "brand": "elf",
+  "count2": 184,
+  "id": "4857",
+  "median": 85,
+  "n": 1,
+  "name": "同級生2(DOS)",
+  "sellday": "1995-01-31"
+ },
+ {
+  "brand": "るチャ!(LUCHA!)",
+  "count2": 17,
+  "id": "4866",
+  "median": 68,
+  "n": 1,
+  "name": "代々木人妻専門学院 ～乳妻たちのアンニュイ～",
+  "sellday": "2006-06-30"
+ },
+ {
+  "brand": "BLACK PACKAGE",
+  "count2": 20,
+  "id": "4939",
+  "median": 65,
+  "n": 1,
+  "name": "学園処女狩り",
+  "sellday": "2005-06-10"
+ },
+ {
+  "brand": "シルキーズ",
+  "count2": 61,
+  "id": "4949",
+  "median": 68,
+  "n": 1,
+  "name": "愛姉妹 ～二人の果実～",
+  "sellday": "1994-09-30"
+ },
+ {
+  "brand": "CALIGULA",
+  "count2": 48,
+  "id": "5031",
+  "median": 68,
+  "n": 2,
+  "name": "隣り妻",
+  "sellday": "2005-04-28"
+ },
+ {
+  "brand": "GuiltyN",
+  "count2": 29,
+  "id": "5078",
+  "median": 60,
+  "n": 1,
+  "name": "青の獣愛",
+  "sellday": "2005-06-24"
+ },
+ {
+  "brand": "エウシュリー",
+  "count2": 330,
+  "id": "5133",
+  "median": 75,
+  "n": 1,
+  "name": "Princess of Darkness ～緩やかに廃滅する青珊瑚の森～(冥色の隷姫 ～緩やかに廃滅する青珊瑚の森～)",
+  "sellday": "2005-09-16"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 37,
+  "id": "5137",
+  "median": 70,
+  "n": 1,
+  "name": "くろふぁん2GHz",
+  "sellday": "2006-07-28"
+ },
+ {
+  "brand": "Navel",
+  "count2": 486,
+  "id": "5149",
+  "median": 70,
+  "n": 1,
+  "name": "Tick!Tack!",
+  "sellday": "2005-09-16"
+ },
+ {
+  "brand": "アンダームーン",
+  "count2": 40,
+  "id": "5167",
+  "median": 68,
+  "n": 2,
+  "name": "D-Spray 媚薬でモテモテ 課長代理補佐",
+  "sellday": "2005-06-24"
+ },
+ {
+  "brand": "Le.Chocolat",
+  "count2": 2239,
+  "id": "5924",
+  "median": 85,
+  "n": 1,
+  "name": "SWAN SONG",
+  "sellday": "2005-07-29"
+ },
+ {
+  "brand": "ルネ",
+  "count2": 51,
+  "id": "5982",
+  "median": 68,
+  "n": 4,
+  "name": "喪服妻 「許してアナタ…私、弱い未亡人です」",
+  "sellday": "2005-07-29"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 74,
+  "id": "6075",
+  "median": 67,
+  "n": 1,
+  "name": "黒の歌姫",
+  "sellday": "2005-10-28"
+ },
+ {
+  "brand": "RaSeN",
+  "count2": 85,
+  "id": "6079",
+  "median": 70,
+  "n": 2,
+  "name": "輪[妹]姦 ～傷モノの妹～",
+  "sellday": "2005-08-12"
+ },
+ {
+  "brand": "Leaf",
+  "count2": 702,
+  "id": "6083",
+  "median": 75,
+  "n": 1,
+  "name": "鎖 -クサリ-",
+  "sellday": "2005-09-22"
+ },
+ {
+  "brand": "AniSeed",
+  "count2": 37,
+  "id": "6092",
+  "median": 60,
+  "n": 1,
+  "name": "ヘブンストラーダ",
+  "sellday": "2005-10-21"
+ },
+ {
+  "brand": "Q-X",
+  "count2": 147,
+  "id": "6151",
+  "median": 71,
+  "n": 1,
+  "name": "姫さま凛々しく!",
+  "sellday": "2006-06-23"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 30,
+  "id": "6313",
+  "median": 65,
+  "n": 1,
+  "name": "全て奪ってやる!",
+  "sellday": "2005-10-14"
+ },
+ {
+  "brand": "CARMINE",
+  "count2": 79,
+  "id": "6354",
+  "median": 75,
+  "n": 1,
+  "name": "NOISE -ノイズ-",
+  "sellday": "2005-12-09"
+ },
+ {
+  "brand": "ぱれっと",
+  "count2": 2060,
+  "id": "6356",
+  "median": 80,
+  "n": 1,
+  "name": "もしも明日が晴れならば",
+  "sellday": "2006-02-24"
+ },
+ {
+  "brand": "UNiSONSHIFT:Blossom",
+  "count2": 1019,
+  "id": "6376",
+  "median": 78,
+  "n": 1,
+  "name": "ななついろ★ドロップス",
+  "sellday": "2006-04-21"
+ },
+ {
+  "brand": "inspire",
+  "count2": 62,
+  "id": "6401",
+  "median": 75,
+  "n": 2,
+  "name": "対ノ日 -in the latter half of the 90’s-",
+  "sellday": "2005-10-28"
+ },
+ {
+  "brand": "オーサリングヘヴン",
+  "count2": 31,
+  "id": "6412",
+  "median": 62,
+  "n": 1,
+  "name": "中出しティータイム・召しませクリームパイ",
+  "sellday": "2005-12-02"
+ },
+ {
+  "brand": "BLACK Cyc",
+  "count2": 1455,
+  "id": "6467",
+  "median": 80,
+  "n": 1,
+  "name": "ゴア・スクリーミング・ショウ",
+  "sellday": "2006-01-20"
+ },
+ {
+  "brand": "Autobahn",
+  "count2": 43,
+  "id": "6887",
+  "median": 70,
+  "n": 1,
+  "name": "demiparadoxia ∽ hookerstic 南下編",
+  "sellday": "2005-12-30"
+ },
+ {
+  "brand": "戯画",
+  "count2": 2527,
+  "id": "6940",
+  "median": 90,
+  "n": 1,
+  "name": "パルフェ ～chocolat second brew Re-order～",
+  "sellday": "2005-12-22"
+ },
+ {
+  "brand": "アンダーリップ",
+  "count2": 17,
+  "id": "7134",
+  "median": 66,
+  "n": 3,
+  "name": "背徳姉弟相姦 ～姉の淫らな柔肉～",
+  "sellday": "2005-11-25"
+ },
+ {
+  "brand": "G.J?",
+  "count2": 92,
+  "id": "7147",
+  "median": 70,
+  "n": 1,
+  "name": "妻とママとボイン",
+  "sellday": "2006-04-28"
+ },
+ {
+  "brand": "戯画",
+  "count2": 4344,
+  "id": "7169",
+  "median": 85,
+  "n": 1,
+  "name": "この青空に約束を―",
+  "sellday": "2006-03-31"
+ },
+ {
+  "brand": "catwalkNERO",
+  "count2": 160,
+  "id": "7216",
+  "median": 72,
+  "n": 1,
+  "name": "淫堕の姫騎士ジャンヌ ～オーガの仔種を注がれる気高き姫!～",
+  "sellday": "2006-07-28"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 54,
+  "id": "7293",
+  "median": 73,
+  "n": 1,
+  "name": "ドキドキ母娘レッスン ～教えて♪Hなお勉強～",
+  "sellday": "2006-04-14"
+ },
+ {
+  "brand": "BLACK PACKAGE",
+  "count2": 30,
+  "id": "7472",
+  "median": 70,
+  "n": 1,
+  "name": "洗濯屋しんちゃん",
+  "sellday": "2006-04-14"
+ },
+ {
+  "brand": "Jellyfish",
+  "count2": 580,
+  "id": "7475",
+  "median": 75,
+  "n": 1,
+  "name": "SISTERS ～夏の最後の日～",
+  "sellday": "2011-04-28"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 256,
+  "id": "7485",
+  "median": 75,
+  "n": 4,
+  "name": "人妻コスプレ喫茶2",
+  "sellday": "2006-04-28"
+ },
+ {
+  "brand": "Bonbee!",
+  "count2": 19,
+  "id": "7549",
+  "median": 65,
+  "n": 1,
+  "name": "サークルメイト Windows版",
+  "sellday": "1999-10-29"
+ },
+ {
+  "brand": "WINTERS",
+  "count2": 22,
+  "id": "7585",
+  "median": 61,
+  "n": 1,
+  "name": "アンバランス ～彼女の心は奪えない?～",
+  "sellday": "2007-04-27"
+ },
+ {
+  "brand": "Autobahn",
+  "count2": 42,
+  "id": "7619",
+  "median": 71,
+  "n": 1,
+  "name": "demiparadoxia ∽ hookerstic 北上編",
+  "sellday": "2006-03-15"
+ },
+ {
+  "brand": "マリン",
+  "count2": 36,
+  "id": "7686",
+  "median": 70,
+  "n": 3,
+  "name": "人妻搾乳飯店",
+  "sellday": "2006-06-30"
+ },
+ {
+  "brand": "BLACK Cyc",
+  "count2": 244,
+  "id": "7705",
+  "median": 80,
+  "n": 1,
+  "name": "MinDeaD BlooD ～支配者の為の狂死曲～ DVD Special Edition",
+  "sellday": "2006-07-21"
+ },
+ {
+  "brand": "Studio 邪恋",
+  "count2": 48,
+  "id": "7763",
+  "median": 69,
+  "n": 2,
+  "name": "操心術+",
+  "sellday": "2006-06-30"
+ },
+ {
+  "brand": "YELLOW PIG",
+  "count2": 54,
+  "id": "7798",
+  "median": 75,
+  "n": 1,
+  "name": "夫の前で犯されて… violated in front of the husband",
+  "sellday": "2006-07-28"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 482,
+  "id": "7805",
+  "median": 80,
+  "n": 7,
+  "name": "妻しぼり",
+  "sellday": "2006-08-04"
+ },
+ {
+  "brand": "BLACKRAINBOW",
+  "count2": 56,
+  "id": "7820",
+  "median": 70,
+  "n": 1,
+  "name": "催眠学園DVD with 催眠術",
+  "sellday": "2006-06-30"
+ },
+ {
+  "brand": "アイル",
+  "count2": 47,
+  "id": "7841",
+  "median": 67,
+  "n": 1,
+  "name": "凌母 -Maternity Insult-",
+  "sellday": "2007-04-13"
+ },
+ {
+  "brand": "FlyingShine黒",
+  "count2": 69,
+  "id": "7850",
+  "median": 65,
+  "n": 1,
+  "name": "クライミライ4",
+  "sellday": "2007-04-27"
+ },
+ {
+  "brand": "ラブチェリー",
+  "count2": 12,
+  "id": "7853",
+  "median": 59,
+  "n": 1,
+  "name": "孕姫 ～令嬢妊娠調教計画～",
+  "sellday": "2006-09-15"
+ },
+ {
+  "brand": "Parthenon",
+  "count2": 8,
+  "id": "7862",
+  "median": 63,
+  "n": 1,
+  "name": "Satisfaction -禁断の錬香-",
+  "sellday": "2006-06-25"
+ },
+ {
+  "brand": "フェアリーテール",
+  "count2": 8,
+  "id": "7897",
+  "median": 70,
+  "n": 1,
+  "name": "華麗なる人生2",
+  "sellday": "1994-11-22"
+ },
+ {
+  "brand": "Empress",
+  "count2": 174,
+  "id": "7941",
+  "median": 75,
+  "n": 1,
+  "name": "STARLESS",
+  "sellday": "2011-05-27"
+ },
+ {
+  "brand": "Escu:de",
+  "count2": 174,
+  "id": "7944",
+  "median": 78,
+  "n": 2,
+  "name": "彗聖天使プリマヴェールZwei",
+  "sellday": "2007-09-28"
+ },
+ {
+  "brand": "わるきゅ～れ",
+  "count2": 116,
+  "id": "7950",
+  "median": 70,
+  "n": 1,
+  "name": "プリンセスナイト☆カチュア ～堕ちた竜騎姫～",
+  "sellday": "2007-07-27"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 3175,
+  "id": "8134",
+  "median": 90,
+  "n": 15,
+  "name": "戦国ランス",
+  "sellday": "2006-12-15"
+ },
+ {
+  "brand": "SUNLITE",
+  "count2": 33,
+  "id": "8169",
+  "median": 70,
+  "n": 1,
+  "name": "とりかえっ娘しよッ! ～彼氏彼女の秘密の関係～",
+  "sellday": "2006-11-22"
+ },
+ {
+  "brand": "匠",
+  "count2": 133,
+  "id": "8173",
+  "median": 75,
+  "n": 4,
+  "name": "私は私のまま、誰にでも変われる",
+  "sellday": "2008-02-29"
+ },
+ {
+  "brand": "はいから喫茶(ハイカラ喫茶)",
+  "count2": 5,
+  "id": "8380",
+  "median": 65,
+  "n": 1,
+  "name": "秘蜜 ～秘めたるは月の蜜～",
+  "sellday": "2006-11-25"
+ },
+ {
+  "brand": "TEATIME",
+  "count2": 166,
+  "id": "8404",
+  "median": 70,
+  "n": 2,
+  "name": "らぶデス2 ～Realtime Lovers～",
+  "sellday": "2007-08-31"
+ },
+ {
+  "brand": "Leaf",
+  "count2": 965,
+  "id": "8433",
+  "median": 68,
+  "n": 1,
+  "name": "ToHeart2 AnotherDays",
+  "sellday": "2008-02-29"
+ },
+ {
+  "brand": "M no VIOLET",
+  "count2": 87,
+  "id": "8461",
+  "median": 75,
+  "n": 2,
+  "name": "Swindle",
+  "sellday": "2006-12-29"
+ },
+ {
+  "brand": "Guilty+",
+  "count2": 34,
+  "id": "8489",
+  "median": 70,
+  "n": 2,
+  "name": "熟母喰い ～元グラドルのお母さん～",
+  "sellday": "2006-12-29"
+ },
+ {
+  "brand": "Mink",
+  "count2": 68,
+  "id": "8492",
+  "median": 70,
+  "n": 1,
+  "name": "夜勤病棟 復刻版+",
+  "sellday": "2006-12-22"
+ },
+ {
+  "brand": "YELLOW PIG",
+  "count2": 71,
+  "id": "8559",
+  "median": 80,
+  "n": 2,
+  "name": "若妻万華鏡 完全版",
+  "sellday": "2007-04-13"
+ },
+ {
+  "brand": "シルキーズ",
+  "count2": 379,
+  "id": "8565",
+  "median": 77,
+  "n": 2,
+  "name": "姫騎士アンジェリカ ～あなたって、本当に最低の屑だわ!～",
+  "sellday": "2007-02-23"
+ },
+ {
+  "brand": "マリン",
+  "count2": 86,
+  "id": "8719",
+  "median": 70,
+  "n": 1,
+  "name": "しおふきマーメイド「だめ、コーチ! なにか出ちゃうぅ!」",
+  "sellday": "2007-03-30"
+ },
+ {
+  "brand": "Selen",
+  "count2": 224,
+  "id": "8725",
+  "median": 74,
+  "n": 1,
+  "name": "真・燐月",
+  "sellday": "2007-10-26"
+ },
+ {
+  "brand": "BLACK PACKAGE TRY",
+  "count2": 14,
+  "id": "8810",
+  "median": 71,
+  "n": 1,
+  "name": "胎辱の檻",
+  "sellday": "2007-04-13"
+ },
+ {
+  "brand": "ANIME LiLiTH",
+  "count2": 257,
+  "id": "8826",
+  "median": 75,
+  "n": 2,
+  "name": "監獄戦艦 ～非道の洗脳改造航海～",
+  "sellday": "2007-03-23"
+ },
+ {
+  "brand": "黒雛",
+  "count2": 6,
+  "id": "8921",
+  "median": 63,
+  "n": 1,
+  "name": "家庭訪悶",
+  "sellday": "2007-04-13"
+ },
+ {
+  "brand": "無限軌道",
+  "count2": 44,
+  "id": "9048",
+  "median": 60,
+  "n": 1,
+  "name": "密室 -Situation Elevator-",
+  "sellday": "2005-12-23"
+ },
+ {
+  "brand": "Frill",
+  "count2": 135,
+  "id": "9303",
+  "median": 70,
+  "n": 1,
+  "name": "痴漢専用車両 ～屈辱の痴漢電車～",
+  "sellday": "2007-09-28"
+ },
+ {
+  "brand": "âge(age)",
+  "count2": 719,
+  "id": "9308",
+  "median": 75,
+  "n": 1,
+  "name": "マブラヴ ALTERED FABLE",
+  "sellday": "2007-08-31"
+ },
+ {
+  "brand": "Erogos",
+  "count2": 15,
+  "id": "9310",
+  "median": 65,
+  "n": 1,
+  "name": "淫シリーズ 淫乱露出調教",
+  "sellday": "2007-09-28"
+ },
+ {
+  "brand": "祭企画",
+  "count2": 24,
+  "id": "9315",
+  "median": 60,
+  "n": 1,
+  "name": "ハラマセテ人妻",
+  "sellday": "2007-07-27"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 34,
+  "id": "9326",
+  "median": 65,
+  "n": 3,
+  "name": "奴隷志願サイト ～人妻・翔子の記録～",
+  "sellday": "2007-05-25"
+ },
+ {
+  "brand": "ぱれっと",
+  "count2": 1197,
+  "id": "9406",
+  "median": 76,
+  "n": 1,
+  "name": "さくらシュトラッセ",
+  "sellday": "2008-01-25"
+ },
+ {
+  "brand": "ルネTeamBitters",
+  "count2": 88,
+  "id": "9464",
+  "median": 70,
+  "n": 2,
+  "name": "俺は彼女を信じてる! ～遠距離恋愛のススメ～",
+  "sellday": "2007-07-27"
+ },
+ {
+  "brand": "BLACKRAINBOW",
+  "count2": 269,
+  "id": "9494",
+  "median": 77,
+  "n": 3,
+  "name": "催眠術2",
+  "sellday": "2007-09-28"
+ },
+ {
+  "brand": "EGIS",
+  "count2": 51,
+  "id": "9555",
+  "median": 70,
+  "n": 2,
+  "name": "Reversible",
+  "sellday": "2007-07-20"
+ },
+ {
+  "brand": "SkyFish",
+  "count2": 263,
+  "id": "9559",
+  "median": 70,
+  "n": 1,
+  "name": "はるかぜどりに、とまりぎを。",
+  "sellday": "2007-10-26"
+ },
+ {
+  "brand": "Cybele(黒姫)",
+  "count2": 12,
+  "id": "9594",
+  "median": 54,
+  "n": 1,
+  "name": "セレブ子持ち妻淫猥調教 ～凌辱管理人～",
+  "sellday": "2007-06-08"
+ },
+ {
+  "brand": "アンダーリップ",
+  "count2": 22,
+  "id": "9685",
+  "median": 60,
+  "n": 1,
+  "name": "母娘ねぶり ～誘う人妻・抱かれたい母娘～",
+  "sellday": "2007-10-26"
+ },
+ {
+  "brand": "HERMIT",
+  "count2": 2381,
+  "id": "9706",
+  "median": 85,
+  "n": 1,
+  "name": "世界でいちばんNG(ダメ)な恋",
+  "sellday": "2007-11-22"
+ },
+ {
+  "brand": "Sphere",
+  "count2": 1223,
+  "id": "9854",
+  "median": 73,
+  "n": 1,
+  "name": "ヨスガノソラ",
+  "sellday": "2008-12-05"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 30,
+  "id": "9856",
+  "median": 60,
+  "n": 1,
+  "name": "孕女 ～俺はこの学園で復讐を成し遂げる～",
+  "sellday": "2007-11-22"
+ },
+ {
+  "brand": "CATTLEYA",
+  "count2": 66,
+  "id": "9952",
+  "median": 70,
+  "n": 2,
+  "name": "妻の母さゆり",
+  "sellday": "2008-04-25"
+ },
+ {
+  "brand": "UNiSONSHIFT Accent.",
+  "count2": 130,
+  "id": "9956",
+  "median": 70,
+  "n": 1,
+  "name": "Chu×Chuぱらだいす ～Encore Live～",
+  "sellday": "2007-11-22"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1623,
+  "id": "9967",
+  "median": 80,
+  "n": 2,
+  "name": "超昂閃忍ハルカ",
+  "sellday": "2008-02-29"
+ },
+ {
+  "brand": "elf",
+  "count2": 1002,
+  "id": "10035",
+  "median": 82,
+  "n": 18,
+  "name": "媚肉の香り ～ネトリネトラレヤリヤラレ～",
+  "sellday": "2008-03-28"
+ },
+ {
+  "brand": "もえたまごソフト",
+  "count2": 4,
+  "id": "10080",
+  "median": 35,
+  "n": 1,
+  "name": "わんわん、もーもー、うさうさ、こーん!",
+  "sellday": "2007-11-30"
+ },
+ {
+  "brand": "マリン",
+  "count2": 24,
+  "id": "10087",
+  "median": 65,
+  "n": 1,
+  "name": "人妻搾乳百貨店",
+  "sellday": "2007-12-21"
+ },
+ {
+  "brand": "ローズティアラ",
+  "count2": 10,
+  "id": "10170",
+  "median": 58,
+  "n": 1,
+  "name": "嫁ぐるい ～義父との秘密の関係～",
+  "sellday": "2007-11-09"
+ },
+ {
+  "brand": "しゃんぐりら",
+  "count2": 2963,
+  "id": "10205",
+  "median": 80,
+  "n": 1,
+  "name": "暁の護衛",
+  "sellday": "2008-03-27"
+ },
+ {
+  "brand": "Guilty+",
+  "count2": 41,
+  "id": "10263",
+  "median": 70,
+  "n": 1,
+  "name": "学食のおばさん ～母さんの汁の味～",
+  "sellday": "2007-12-21"
+ },
+ {
+  "brand": "はりねずみ工房",
+  "count2": 10,
+  "id": "10286",
+  "median": 72,
+  "n": 1,
+  "name": "はじめての誘拐",
+  "sellday": "2007-08-03"
+ },
+ {
+  "brand": "あねせん",
+  "count2": 16,
+  "id": "10317",
+  "median": 63,
+  "n": 2,
+  "name": "おしえて巫女先生弐・外伝 ～ハーレム編～",
+  "sellday": "2007-12-14"
+ },
+ {
+  "brand": "Anim",
+  "count2": 47,
+  "id": "10324",
+  "median": 70,
+  "n": 1,
+  "name": "息子の友達に犯されて",
+  "sellday": "2008-02-01"
+ },
+ {
+  "brand": "ANIME LiLiTH",
+  "count2": 101,
+  "id": "10378",
+  "median": 70,
+  "n": 1,
+  "name": "輪姦倶楽部",
+  "sellday": "2008-03-21"
+ },
+ {
+  "brand": "DualTail(DualMage)",
+  "count2": 100,
+  "id": "10396",
+  "median": 75,
+  "n": 2,
+  "name": "VenusBlood -CHIMERA-",
+  "sellday": "2008-10-31"
+ },
+ {
+  "brand": "FrontWing",
+  "count2": 254,
+  "id": "10468",
+  "median": 70,
+  "n": 1,
+  "name": "魔界天使ジブリール -episode3-",
+  "sellday": "2008-06-27"
+ },
+ {
+  "brand": "NitroPlus",
+  "count2": 3015,
+  "id": "10469",
+  "median": 90,
+  "n": 2,
+  "name": "装甲悪鬼村正",
+  "sellday": "2009-10-30"
+ },
+ {
+  "brand": "BLACKRAINBOW",
+  "count2": 136,
+  "id": "10498",
+  "median": 71,
+  "n": 1,
+  "name": "裏・催眠術2",
+  "sellday": "2008-04-25"
+ },
+ {
+  "brand": "ぶらんくのーと",
+  "count2": 841,
+  "id": "10550",
+  "median": 85,
+  "n": 1,
+  "name": "ひまわり",
+  "sellday": "2007-12-31"
+ },
+ {
+  "brand": "しらたま",
+  "count2": 38,
+  "id": "10723",
+  "median": 70,
+  "n": 2,
+  "name": "妻ようじ2 ～ボクは人妻添乗員～",
+  "sellday": "2008-05-23"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 163,
+  "id": "10732",
+  "median": 75,
+  "n": 4,
+  "name": "新妻イカせてミルク! 団地妻、昼下がりの下半身事情",
+  "sellday": "2008-04-25"
+ },
+ {
+  "brand": "LiLiM",
+  "count2": 48,
+  "id": "10740",
+  "median": 65,
+  "n": 1,
+  "name": "昇龍戦姫 天夢",
+  "sellday": "2008-08-29"
+ },
+ {
+  "brand": "catwalkNERO",
+  "count2": 90,
+  "id": "10952",
+  "median": 70,
+  "n": 2,
+  "name": "娼姫レティシア ～今宵、王女は春を売る～",
+  "sellday": "2008-07-25"
+ },
+ {
+  "brand": "Anim",
+  "count2": 73,
+  "id": "10977",
+  "median": 75,
+  "n": 2,
+  "name": "人妻交姦日記",
+  "sellday": "2008-07-04"
+ },
+ {
+  "brand": "Guilty",
+  "count2": 28,
+  "id": "10983",
+  "median": 65,
+  "n": 2,
+  "name": "人妻喰い ～万引きGメン恥辱日誌～",
+  "sellday": "2008-12-26"
+ },
+ {
+  "brand": "EROTICA BLACK",
+  "count2": 4,
+  "id": "11018",
+  "median": 61,
+  "n": 1,
+  "name": "淫触の退魔巫女 楓",
+  "sellday": "2008-05-09"
+ },
+ {
+  "brand": "BLUE TOPAZ",
+  "count2": 18,
+  "id": "11122",
+  "median": 65,
+  "n": 1,
+  "name": "魔女侵犯 -淫辱のジャッジメント-",
+  "sellday": "2008-06-27"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 947,
+  "id": "11230",
+  "median": 74,
+  "n": 3,
+  "name": "闘神都市III",
+  "sellday": "2008-11-28"
+ },
+ {
+  "brand": "STRIKES",
+  "count2": 8,
+  "id": "11347",
+  "median": 65,
+  "n": 1,
+  "name": "凌辱人妻倶楽部",
+  "sellday": "2008-09-26"
+ },
+ {
+  "brand": "BLACKRAINBOW",
+  "count2": 39,
+  "id": "11357",
+  "median": 70,
+  "n": 1,
+  "name": "アルタードピンク ～特務戦隊デュエルレンジャー～",
+  "sellday": "2008-09-26"
+ },
+ {
+  "brand": "シルキーズ",
+  "count2": 264,
+  "id": "11482",
+  "median": 75,
+  "n": 4,
+  "name": "学園催眠隷奴 ～さっきまで、大嫌いだったはずなのに～",
+  "sellday": "2008-12-19"
+ },
+ {
+  "brand": "メドゥーサ",
+  "count2": 6,
+  "id": "11510",
+  "median": 70,
+  "n": 1,
+  "name": "Incest lover ～ママと母の秘蜜～",
+  "sellday": "2008-08-29"
+ },
+ {
+  "brand": "Software circle Mercure",
+  "count2": 10,
+  "id": "11681",
+  "median": 55,
+  "n": 1,
+  "name": "催眠牝奴隷騎士ソフィア  ～レズ騎士団長、催眠調教に堕ちる～",
+  "sellday": "2008-10-10"
+ },
+ {
+  "brand": "エウシュリー",
+  "count2": 806,
+  "id": "11748",
+  "median": 85,
+  "n": 1,
+  "name": "戦女神VERITA",
+  "sellday": "2010-04-23"
+ },
+ {
+  "brand": "Anim",
+  "count2": 24,
+  "id": "11950",
+  "median": 65,
+  "n": 2,
+  "name": "義母散華 ～ははさんげ～",
+  "sellday": "2009-03-20"
+ },
+ {
+  "brand": "ALL-TiME",
+  "count2": 38,
+  "id": "12011",
+  "median": 75,
+  "n": 2,
+  "name": "息子の嫁は親父の女 -女医とナースに仕込む胤-",
+  "sellday": "2009-04-10"
+ },
+ {
+  "brand": "祭企画",
+  "count2": 16,
+  "id": "12074",
+  "median": 60,
+  "n": 1,
+  "name": "イジクリ ～少女と淫行日記～",
+  "sellday": "2009-02-27"
+ },
+ {
+  "brand": "しゃんぐりら",
+  "count2": 2006,
+  "id": "12156",
+  "median": 79,
+  "n": 2,
+  "name": "暁の護衛 ～罪深き終末論～",
+  "sellday": "2010-04-22"
+ },
+ {
+  "brand": "M no VIOLET",
+  "count2": 62,
+  "id": "12216",
+  "median": 65,
+  "n": 1,
+  "name": "催眠学級",
+  "sellday": "2009-04-10"
+ },
+ {
+  "brand": "極フェロ",
+  "count2": 2,
+  "id": "12224",
+  "median": 48,
+  "n": 1,
+  "name": "人妻監禁日誌",
+  "sellday": "2009-02-06"
+ },
+ {
+  "brand": "おとこの娘倶楽部",
+  "count2": 5,
+  "id": "12246",
+  "median": 65,
+  "n": 1,
+  "name": "エルフの姉弟 ～寝取り孕ませ恋人交換～",
+  "sellday": "2009-03-06"
+ },
+ {
+  "brand": "Guilty+",
+  "count2": 27,
+  "id": "12251",
+  "median": 70,
+  "n": 2,
+  "name": "同僚の奥さん ～ネトリ妻、ネトラレ妻～",
+  "sellday": "2009-02-27"
+ },
+ {
+  "brand": "Noesis",
+  "count2": 348,
+  "id": "12367",
+  "median": 70,
+  "n": 1,
+  "name": "フリフレ",
+  "sellday": "2009-04-03"
+ },
+ {
+  "brand": "elf",
+  "count2": 402,
+  "id": "12480",
+  "median": 78,
+  "n": 3,
+  "name": "人間デブリ コンナジブンニダレガシタ?",
+  "sellday": "2010-11-26"
+ },
+ {
+  "brand": "叢神",
+  "count2": 7,
+  "id": "12559",
+  "median": 60,
+  "n": 1,
+  "name": "8年陵辱 ～悶絶調教肉玩具～",
+  "sellday": "2006-06-09"
+ },
+ {
+  "brand": "Autobahn",
+  "count2": 100,
+  "id": "12575",
+  "median": 79,
+  "n": 8,
+  "name": "LOVEMILF",
+  "sellday": "2009-04-26"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 132,
+  "id": "12730",
+  "median": 70,
+  "n": 3,
+  "name": "黄昏に煌く銀の繰眼",
+  "sellday": "2009-08-28"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 241,
+  "id": "12735",
+  "median": 75,
+  "n": 3,
+  "name": "僕だけの保健室",
+  "sellday": "2009-07-24"
+ },
+ {
+  "brand": "SherbetSoft",
+  "count2": 181,
+  "id": "12754",
+  "median": 76,
+  "n": 11,
+  "name": "リザイン RESIGN",
+  "sellday": "2010-07-23"
+ },
+ {
+  "brand": "Anim",
+  "count2": 32,
+  "id": "12794",
+  "median": 70,
+  "n": 1,
+  "name": "愛娘という名の玩具",
+  "sellday": "2009-12-11"
+ },
+ {
+  "brand": "Navel",
+  "count2": 1067,
+  "id": "12807",
+  "median": 80,
+  "n": 1,
+  "name": "俺たちに翼はない AfterStory",
+  "sellday": "2010-07-30"
+ },
+ {
+  "brand": "elf",
+  "count2": 147,
+  "id": "12869",
+  "median": 75,
+  "n": 10,
+  "name": "若妻万華鏡 アニメーション追加版+夫の前で●されて… アニメーション追加完全版",
+  "sellday": "2009-08-28"
+ },
+ {
+  "brand": "アイル",
+  "count2": 113,
+  "id": "12903",
+  "median": 70,
+  "n": 1,
+  "name": "桃華散る ～少女剣士の報復は慟哭に満ちて～",
+  "sellday": "2009-09-18"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 873,
+  "id": "12923",
+  "median": 80,
+  "n": 3,
+  "name": "巨乳ファンタジー",
+  "sellday": "2009-10-23"
+ },
+ {
+  "brand": "Leaf",
+  "count2": 2039,
+  "id": "12942",
+  "median": 84,
+  "n": 1,
+  "name": "WHITE ALBUM2 ～introductory chapter～",
+  "sellday": "2010-03-26"
+ },
+ {
+  "brand": "BLACKRAINBOW",
+  "count2": 116,
+  "id": "12954",
+  "median": 75,
+  "n": 3,
+  "name": "擬態催眠",
+  "sellday": "2010-01-29"
+ },
+ {
+  "brand": "LiLiM DARKNESS",
+  "count2": 301,
+  "id": "12981",
+  "median": 69,
+  "n": 1,
+  "name": "Dark Blue",
+  "sellday": "2009-11-27"
+ },
+ {
+  "brand": "Miel",
+  "count2": 16,
+  "id": "12990",
+  "median": 53,
+  "n": 1,
+  "name": "義母のミルクは蜜の味 ～いっぱい飲んで、甘えてね～",
+  "sellday": "2009-08-28"
+ },
+ {
+  "brand": "TOPCAT",
+  "count2": 277,
+  "id": "12992",
+  "median": 80,
+  "n": 1,
+  "name": "果てしなく青い、この空の下で…。完全版",
+  "sellday": "2009-10-30"
+ },
+ {
+  "brand": "クレージュA",
+  "count2": 55,
+  "id": "13058",
+  "median": 64,
+  "n": 1,
+  "name": "廻る娼館街のリィナ",
+  "sellday": "2009-10-30"
+ },
+ {
+  "brand": "DisAbel",
+  "count2": 7,
+  "id": "13070",
+  "median": 60,
+  "n": 1,
+  "name": "すくぅ～るらぶっ!3 ～未来へのアレグレット～",
+  "sellday": "2009-12-04"
+ },
+ {
+  "brand": "Leaf",
+  "count2": 2631,
+  "id": "13255",
+  "median": 94,
+  "n": 6,
+  "name": "WHITE ALBUM2 ～closing chapter～",
+  "sellday": "2011-12-22"
+ },
+ {
+  "brand": "ローズティアラ",
+  "count2": 6,
+  "id": "13267",
+  "median": 60,
+  "n": 1,
+  "name": "完熟姉妹淫辱痴漢電車 ～囚われた美人姉妹～",
+  "sellday": "2009-12-11"
+ },
+ {
+  "brand": "ローズティアラ",
+  "count2": 9,
+  "id": "13268",
+  "median": 65,
+  "n": 1,
+  "name": "姉妻 ～姉弟相姦遊戯～",
+  "sellday": "2009-11-27"
+ },
+ {
+  "brand": "Anim",
+  "count2": 35,
+  "id": "13273",
+  "median": 70,
+  "n": 1,
+  "name": "絶望師",
+  "sellday": "2010-02-12"
+ },
+ {
+  "brand": "汁・ザル",
+  "count2": 6,
+  "id": "13403",
+  "median": 68,
+  "n": 2,
+  "name": "美人妻の痴態 ～兄の妻は俺の嫁～",
+  "sellday": "2009-12-18"
+ },
+ {
+  "brand": "UNiSONSHIFT:Blossom",
+  "count2": 644,
+  "id": "13474",
+  "median": 80,
+  "n": 1,
+  "name": "君の名残は静かに揺れて",
+  "sellday": "2010-05-28"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1228,
+  "id": "13530",
+  "median": 72,
+  "n": 1,
+  "name": "大帝国",
+  "sellday": "2011-04-28"
+ },
+ {
+  "brand": "FrontWing",
+  "count2": 336,
+  "id": "13569",
+  "median": 73,
+  "n": 4,
+  "name": "魔界天使ジブリール4",
+  "sellday": "2010-04-23"
+ },
+ {
+  "brand": "MAIKA",
+  "count2": 8,
+  "id": "13588",
+  "median": 49,
+  "n": 1,
+  "name": "人妻 雪乃と… ～妻がオンナに変わるとき～",
+  "sellday": "2010-04-16"
+ },
+ {
+  "brand": "Liquid",
+  "count2": 125,
+  "id": "13594",
+  "median": 70,
+  "n": 1,
+  "name": "黒獣 ～気高き聖女は白濁に染まる～",
+  "sellday": "2010-04-23"
+ },
+ {
+  "brand": "ALcotハニカム",
+  "count2": 1733,
+  "id": "13641",
+  "median": 80,
+  "n": 1,
+  "name": "リアル妹がいる大泉くんのばあい",
+  "sellday": "2010-05-28"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 499,
+  "id": "13702",
+  "median": 77,
+  "n": 2,
+  "name": "霧谷伯爵家の六姉妹",
+  "sellday": "2010-05-28"
+ },
+ {
+  "brand": "極フェロ",
+  "count2": 25,
+  "id": "13717",
+  "median": 70,
+  "n": 1,
+  "name": "彼女の母親 ～ウチの娘だと思って…ね?～",
+  "sellday": "2010-03-19"
+ },
+ {
+  "brand": "アメノムラクモ",
+  "count2": 9,
+  "id": "13745",
+  "median": 48,
+  "n": 1,
+  "name": "兄嫁の淫穴 ～裏切りの代償",
+  "sellday": "2010-03-19"
+ },
+ {
+  "brand": "Guilty+",
+  "count2": 24,
+  "id": "13762",
+  "median": 71,
+  "n": 1,
+  "name": "団地ワイフ ～人妻ヌードモデルの献身～",
+  "sellday": "2010-04-23"
+ },
+ {
+  "brand": "KI-SofTWarE",
+  "count2": 7,
+  "id": "13779",
+  "median": 73,
+  "n": 1,
+  "name": "CROSSING KNIGHTMARE 穢れ逝く聖女達への賛歌",
+  "sellday": "2013-04-26"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 132,
+  "id": "13803",
+  "median": 75,
+  "n": 2,
+  "name": "学園3 ～華麗なる悦辱～",
+  "sellday": "2010-08-27"
+ },
+ {
+  "brand": "Miel",
+  "count2": 20,
+  "id": "13809",
+  "median": 58,
+  "n": 5,
+  "name": "悦楽マッサージ淫 人妻絶頂寝取り～先生に揉まれると子宮が疼くんです～",
+  "sellday": "2010-04-23"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 18,
+  "id": "13823",
+  "median": 77,
+  "n": 1,
+  "name": "隣人観察",
+  "sellday": "2010-05-01"
+ },
+ {
+  "brand": "ALL-TiME",
+  "count2": 33,
+  "id": "13907",
+  "median": 62,
+  "n": 2,
+  "name": "魔王の淫具",
+  "sellday": "2010-07-16"
+ },
+ {
+  "brand": "CATTLEYA",
+  "count2": 41,
+  "id": "13909",
+  "median": 70,
+  "n": 1,
+  "name": "未亡人沙苗「私が初めてでいいの……?」",
+  "sellday": "2010-07-23"
+ },
+ {
+  "brand": "Overflow",
+  "count2": 161,
+  "id": "13913",
+  "median": 76,
+  "n": 6,
+  "name": "SCHOOL DAYS HQ",
+  "sellday": "2010-10-08"
+ },
+ {
+  "brand": "KISS",
+  "count2": 325,
+  "id": "14003",
+  "median": 80,
+  "n": 1,
+  "name": "カスタムメイド3D",
+  "sellday": "2011-01-28"
+ },
+ {
+  "brand": "ゆずソフト",
+  "count2": 2125,
+  "id": "14006",
+  "median": 79,
+  "n": 1,
+  "name": "のーぶる☆わーくす",
+  "sellday": "2010-12-24"
+ },
+ {
+  "brand": "ANIME LiLiTH",
+  "count2": 171,
+  "id": "14022",
+  "median": 75,
+  "n": 3,
+  "name": "監獄戦艦2 ～要塞都市の洗脳改造～",
+  "sellday": "2010-07-23"
+ },
+ {
+  "brand": "BLACK Cyc",
+  "count2": 153,
+  "id": "14038",
+  "median": 80,
+  "n": 3,
+  "name": "MinDeaD BlooD Complete Edition",
+  "sellday": "2010-09-24"
+ },
+ {
+  "brand": "Guilty+",
+  "count2": 6,
+  "id": "14139",
+  "median": 67,
+  "n": 1,
+  "name": "熟母喰い The Motion ～元グラドルのお母さん～",
+  "sellday": "2010-08-27"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 8,
+  "id": "14165",
+  "median": 69,
+  "n": 1,
+  "name": "働く奥さんは好きですか? ～パートのオバチャンが女になるまで～",
+  "sellday": "2010-09-13"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 13,
+  "id": "14174",
+  "median": 60,
+  "n": 1,
+  "name": "淫交倶楽部",
+  "sellday": "2010-08-06"
+ },
+ {
+  "brand": "夢見奏",
+  "count2": 20,
+  "id": "14178",
+  "median": 60,
+  "n": 1,
+  "name": "りりかる!",
+  "sellday": "2010-08-14"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 82,
+  "id": "14201",
+  "median": 69,
+  "n": 1,
+  "name": "他の男の精液で孕んでもいいですか…?3 僕の知らない所でイキ狂っていた最愛彼女 ―生真面目な学園副会長―",
+  "sellday": "2010-10-29"
+ },
+ {
+  "brand": "ensemble",
+  "count2": 270,
+  "id": "14203",
+  "median": 60,
+  "n": 1,
+  "name": "黙って私のムコになれ!",
+  "sellday": "2011-01-28"
+ },
+ {
+  "brand": "softhouse-seal",
+  "count2": 38,
+  "id": "14321",
+  "median": 65,
+  "n": 1,
+  "name": "中出しスパイの挿入捜査 -子宮の平和は俺が守る!-",
+  "sellday": "2010-10-22"
+ },
+ {
+  "brand": "パンプキン",
+  "count2": 5,
+  "id": "14367",
+  "median": 60,
+  "n": 1,
+  "name": "ブル魔教淫 ～女生徒達の恥辱の放課後～",
+  "sellday": "2010-03-29"
+ },
+ {
+  "brand": "ルネTeamBitters",
+  "count2": 112,
+  "id": "14434",
+  "median": 80,
+  "n": 2,
+  "name": "それでも妻を愛してる",
+  "sellday": "2011-03-25"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 19,
+  "id": "14480",
+  "median": 65,
+  "n": 1,
+  "name": "妻みぐい ボイス追加ダウンロード版",
+  "sellday": "2010-10-01"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 689,
+  "id": "14514",
+  "median": 80,
+  "n": 4,
+  "name": "最終痴漢電車3",
+  "sellday": "2010-12-17"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 31,
+  "id": "14520",
+  "median": 70,
+  "n": 2,
+  "name": "ナンパ生ハメ 中出し万歳3",
+  "sellday": "2010-11-05"
+ },
+ {
+  "brand": "桃フェロ",
+  "count2": 4,
+  "id": "14524",
+  "median": 60,
+  "n": 1,
+  "name": "魔女っ娘ママ",
+  "sellday": "2010-11-19"
+ },
+ {
+  "brand": "アメノムラクモ",
+  "count2": 7,
+  "id": "14562",
+  "median": 60,
+  "n": 1,
+  "name": "親友の巨乳ママと中出し性活 ～こんなに射精してちゃ孕んじゃったね",
+  "sellday": "2010-12-24"
+ },
+ {
+  "brand": "A cherry-blossom front",
+  "count2": 8,
+  "id": "14607",
+  "median": 53,
+  "n": 2,
+  "name": "悪戯睡眠孕ませレイプ",
+  "sellday": "2010-06-09"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 112,
+  "id": "14609",
+  "median": 73,
+  "n": 1,
+  "name": "三射面談 ～連鎖する恥辱・調教の学園～",
+  "sellday": "2011-02-25"
+ },
+ {
+  "brand": "Studio 邪恋",
+  "count2": 147,
+  "id": "14626",
+  "median": 72,
+  "n": 1,
+  "name": "操心術0",
+  "sellday": "2011-01-28"
+ },
+ {
+  "brand": "モニスタラッシュ(モーニングスター)",
+  "count2": 4,
+  "id": "14628",
+  "median": 45,
+  "n": 1,
+  "name": "寝っ取り爆乳ママ・唯華 ～息子の独占性欲にされるがママ～",
+  "sellday": "2010-11-05"
+ },
+ {
+  "brand": "Miel",
+  "count2": 44,
+  "id": "14630",
+  "median": 65,
+  "n": 3,
+  "name": "僕の彼女がこんなキモ男の嫁に! ～ごめんね、私の子宮はダーリン専用にされちゃった♪～",
+  "sellday": "2010-11-12"
+ },
+ {
+  "brand": "スタジオカメ",
+  "count2": 13,
+  "id": "14730",
+  "median": 52,
+  "n": 1,
+  "name": "いじくりママ",
+  "sellday": "2010-12-24"
+ },
+ {
+  "brand": "FAVORITE",
+  "count2": 1682,
+  "id": "14834",
+  "median": 80,
+  "n": 1,
+  "name": "いろとりどりのセカイ",
+  "sellday": "2011-07-29"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 241,
+  "id": "14862",
+  "median": 79,
+  "n": 6,
+  "name": "母娘乱館",
+  "sellday": "2012-09-14"
+ },
+ {
+  "brand": "ALL-TiME",
+  "count2": 119,
+  "id": "14899",
+  "median": 70,
+  "n": 2,
+  "name": "規制不可 ～俺は実在しないので、ナニをヤッても許される～",
+  "sellday": "2011-04-08"
+ },
+ {
+  "brand": "極フェロ",
+  "count2": 7,
+  "id": "14969",
+  "median": 55,
+  "n": 1,
+  "name": "双子母",
+  "sellday": "2011-02-18"
+ },
+ {
+  "brand": "POISON",
+  "count2": 19,
+  "id": "14990",
+  "median": 60,
+  "n": 1,
+  "name": "母娘催眠 ～オヤコサイミン～",
+  "sellday": "2011-04-28"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 1322,
+  "id": "15010",
+  "median": 80,
+  "n": 1,
+  "name": "euphoria",
+  "sellday": "2011-06-24"
+ },
+ {
+  "brand": "MAIKA",
+  "count2": 14,
+  "id": "15048",
+  "median": 70,
+  "n": 1,
+  "name": "真・NOZOKI魔 ～下宿屋姦視24時～",
+  "sellday": "2011-07-29"
+ },
+ {
+  "brand": "KISS",
+  "count2": 42,
+  "id": "15068",
+  "median": 73,
+  "n": 1,
+  "name": "カスタムレイドV",
+  "sellday": "2011-06-24"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 66,
+  "id": "15079",
+  "median": 70,
+  "n": 1,
+  "name": "愛する妻、玲奈の浮気告白 『お、俺より気持ち良かったのか…?』→『…うん。凄かった』",
+  "sellday": "2011-04-22"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 6,
+  "id": "15084",
+  "median": 68,
+  "n": 3,
+  "name": "高慢な奥さんは好きですか? ～傲慢人妻教師の堕とし方～",
+  "sellday": "2011-06-13"
+ },
+ {
+  "brand": "ILLUSION(Dreams)",
+  "count2": 156,
+  "id": "15121",
+  "median": 73,
+  "n": 2,
+  "name": "ジンコウガクエン",
+  "sellday": "2011-06-10"
+ },
+ {
+  "brand": "Red Label",
+  "count2": 29,
+  "id": "15130",
+  "median": 65,
+  "n": 1,
+  "name": "JK交姦 ～そこのアナタ、娘の処女を貰ってください～",
+  "sellday": "2011-03-31"
+ },
+ {
+  "brand": "キャラメルBOX ミルク味",
+  "count2": 359,
+  "id": "15199",
+  "median": 75,
+  "n": 1,
+  "name": "雨芳恋歌 センセイ。わたし、もうオトナだよ",
+  "sellday": "2011-06-24"
+ },
+ {
+  "brand": "FrontWing",
+  "count2": 188,
+  "id": "15203",
+  "median": 70,
+  "n": 1,
+  "name": "戦国天使ジブリール",
+  "sellday": "2011-07-29"
+ },
+ {
+  "brand": "Purple software",
+  "count2": 1189,
+  "id": "15231",
+  "median": 80,
+  "n": 3,
+  "name": "未来ノスタルジア",
+  "sellday": "2011-09-02"
+ },
+ {
+  "brand": "だいふく船団(May)",
+  "count2": 17,
+  "id": "15250",
+  "median": 80,
+  "n": 1,
+  "name": "雷神7",
+  "sellday": "2011-03-26"
+ },
+ {
+  "brand": "ソフトさ～くるクレージュ",
+  "count2": 22,
+  "id": "15303",
+  "median": 60,
+  "n": 2,
+  "name": "寝取主義者の花嫁弄り! ～婚約者があんな声で喘ぐのを兄貴は知らない～",
+  "sellday": "2011-04-29"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 79,
+  "id": "15319",
+  "median": 70,
+  "n": 1,
+  "name": "裏教師 ～背徳の淫悦授業～",
+  "sellday": "2011-08-05"
+ },
+ {
+  "brand": "雨の露音",
+  "count2": 6,
+  "id": "15332",
+  "median": 38,
+  "n": 1,
+  "name": "仮想家族",
+  "sellday": "2010-07-20"
+ },
+ {
+  "brand": "elf",
+  "count2": 83,
+  "id": "15351",
+  "median": 76,
+  "n": 1,
+  "name": "鬼作 アニメーション追加完全版",
+  "sellday": "2011-04-28"
+ },
+ {
+  "brand": "softhouse-seal",
+  "count2": 50,
+  "id": "15404",
+  "median": 63,
+  "n": 1,
+  "name": "お姉ちゃんエロエロ注意報 ～愛液の大洪水～",
+  "sellday": "2011-06-24"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 140,
+  "id": "15406",
+  "median": 70,
+  "n": 1,
+  "name": "禁断の病棟 特殊精神科医 遊佐惣介の診察記録",
+  "sellday": "2011-07-29"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 83,
+  "id": "15415",
+  "median": 75,
+  "n": 1,
+  "name": "他の男の精液で孕むとき ～襖の向こうで弟に精液を注ぎ込まれている妻～",
+  "sellday": "2011-07-29"
+ },
+ {
+  "brand": "Cabbit",
+  "count2": 661,
+  "id": "15432",
+  "median": 76,
+  "n": 1,
+  "name": "翠の海 -midori no umi-",
+  "sellday": "2011-10-28"
+ },
+ {
+  "brand": "シルキーズ",
+  "count2": 94,
+  "id": "15438",
+  "median": 68,
+  "n": 3,
+  "name": "姫騎士オリヴィア ～へ、変態、この変態男!少しは恥を知りなさい!～",
+  "sellday": "2011-08-26"
+ },
+ {
+  "brand": "ALL-TiME",
+  "count2": 35,
+  "id": "15443",
+  "median": 66,
+  "n": 4,
+  "name": "ぜっちょースパイラル!! ～下宿人はわがままエッチな女の子ばかり～",
+  "sellday": "2011-08-05"
+ },
+ {
+  "brand": "黒雛",
+  "count2": 37,
+  "id": "15455",
+  "median": 60,
+  "n": 1,
+  "name": "姉辱",
+  "sellday": "2011-07-08"
+ },
+ {
+  "brand": "Miel",
+  "count2": 21,
+  "id": "15488",
+  "median": 60,
+  "n": 1,
+  "name": "とある彼女の寝取られ記録 ～年上幼馴染が変態教師のビッチ妻になるまで～",
+  "sellday": "2011-06-24"
+ },
+ {
+  "brand": "モニスタラッシュ(モーニングスター)",
+  "count2": 2,
+  "id": "15519",
+  "median": 48,
+  "n": 1,
+  "name": "兄嫁食い 低学歴DQN義弟に喰われたインテリ兄嫁～浅井優子",
+  "sellday": "2011-06-16"
+ },
+ {
+  "brand": "モニスタラッシュ(モーニングスター)",
+  "count2": 3,
+  "id": "15523",
+  "median": 60,
+  "n": 1,
+  "name": "淫辱汚臭ラボ ～キモくて臭う同僚に容赦なくハメそそがれた新妻研究員・深雪",
+  "sellday": "2011-01-21"
+ },
+ {
+  "brand": "スタジオカメ",
+  "count2": 4,
+  "id": "15586",
+  "median": 58,
+  "n": 1,
+  "name": "でくママ",
+  "sellday": "2011-07-29"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 14,
+  "id": "15587",
+  "median": 57,
+  "n": 2,
+  "name": "あやまちの密愛 ～夫に言えない義父との淫交",
+  "sellday": "2011-08-19"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 25,
+  "id": "15590",
+  "median": 70,
+  "n": 3,
+  "name": "ナンパ生ハメ 中出し万歳4",
+  "sellday": "2011-08-05"
+ },
+ {
+  "brand": "JAST",
+  "count2": 13,
+  "id": "15607",
+  "median": 60,
+  "n": 1,
+  "name": "天使たちの午後",
+  "sellday": "1985-07-01"
+ },
+ {
+  "brand": "Miel",
+  "count2": 23,
+  "id": "15711",
+  "median": 62,
+  "n": 3,
+  "name": "孤高の格闘美少女霧香がキモオタに種付けされまくる ～無駄だ! 幾ら子宮を汚されても屈するものか!～",
+  "sellday": "2011-08-05"
+ },
+ {
+  "brand": "玉藻スタジオ",
+  "count2": 46,
+  "id": "15738",
+  "median": 70,
+  "n": 1,
+  "name": "冒険者の町を作ろう!",
+  "sellday": "2011-08-13"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 344,
+  "id": "15881",
+  "median": 75,
+  "n": 1,
+  "name": "対魔忍ユキカゼ",
+  "sellday": "2011-09-16"
+ },
+ {
+  "brand": "スマイル戦機",
+  "count2": 95,
+  "id": "15896",
+  "median": 70,
+  "n": 2,
+  "name": "誰が殺したコマドリを",
+  "sellday": "2011-08-13"
+ },
+ {
+  "brand": "黒鳥",
+  "count2": 15,
+  "id": "15901",
+  "median": 61,
+  "n": 1,
+  "name": "肉欲接待プロデュース ～穴がブッ壊れるまで使ってやる～",
+  "sellday": "2011-09-30"
+ },
+ {
+  "brand": "Autobahn",
+  "count2": 35,
+  "id": "15913",
+  "median": 75,
+  "n": 1,
+  "name": "目眩く侮愛の宴",
+  "sellday": "2011-08-14"
+ },
+ {
+  "brand": "NANACAN",
+  "count2": 152,
+  "id": "15925",
+  "median": 70,
+  "n": 1,
+  "name": "妹調教日記 ～こんなツンデレが俺の妹なわけない!～",
+  "sellday": "2011-08-14"
+ },
+ {
+  "brand": "NitroPlus",
+  "count2": 1116,
+  "id": "15929",
+  "median": 80,
+  "n": 14,
+  "name": "君と彼女と彼女の恋。",
+  "sellday": "2013-06-28"
+ },
+ {
+  "brand": "elf",
+  "count2": 568,
+  "id": "15937",
+  "median": 83,
+  "n": 15,
+  "name": "ボクの彼女はガテン系/彼女がした事、僕がされた事/巨乳妻完全捕獲計画/ボクの妻がアイツに寝取られました。",
+  "sellday": "2011-12-08"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 8,
+  "id": "15961",
+  "median": 73,
+  "n": 2,
+  "name": "平凡な奥さんは好きですか? ～真面目な主婦をエッチ漬けにしちゃおう!～",
+  "sellday": "2011-10-06"
+ },
+ {
+  "brand": "a Matures",
+  "count2": 4,
+  "id": "15984",
+  "median": 50,
+  "n": 1,
+  "name": "爆乳妻色倶楽部 ～淫乳女社長妻 麗華!",
+  "sellday": "2011-08-25"
+ },
+ {
+  "brand": "てぃ～ぐる",
+  "count2": 1258,
+  "id": "15986",
+  "median": 79,
+  "n": 11,
+  "name": "レミニセンス",
+  "sellday": "2013-05-31"
+ },
+ {
+  "brand": "カニスキー",
+  "count2": 2,
+  "id": "16028",
+  "median": 53,
+  "n": 1,
+  "name": "家族交感 ～コンプリートコレクション～",
+  "sellday": "2011-03-14"
+ },
+ {
+  "brand": "パンプキン",
+  "count2": 5,
+  "id": "16068",
+  "median": 70,
+  "n": 1,
+  "name": "アネトリ ～オクテな姉は、エロスな俺の性奴隷～",
+  "sellday": "2011-09-29"
+ },
+ {
+  "brand": "Guilty eX",
+  "count2": 57,
+  "id": "16075",
+  "median": 69,
+  "n": 2,
+  "name": "Wanna. ～SpartanSex Spermax!!!～",
+  "sellday": "2012-01-27"
+ },
+ {
+  "brand": "AHAAN",
+  "count2": 4,
+  "id": "16077",
+  "median": 67,
+  "n": 1,
+  "name": "憧れのお姉さんを、婚約者から寝取る方法",
+  "sellday": "2011-09-30"
+ },
+ {
+  "brand": "13cc",
+  "count2": 18,
+  "id": "16109",
+  "median": 57,
+  "n": 1,
+  "name": "今日、僕の彼女が最低の下衆野郎に汚されます。",
+  "sellday": "2011-12-16"
+ },
+ {
+  "brand": "ラスターカプセル",
+  "count2": 3,
+  "id": "16123",
+  "median": 60,
+  "n": 1,
+  "name": "薄幸の少女",
+  "sellday": "2009-08-15"
+ },
+ {
+  "brand": "AUGUST",
+  "count2": 1741,
+  "id": "16124",
+  "median": 80,
+  "n": 1,
+  "name": "大図書館の羊飼い a good librarian like a good shepherd",
+  "sellday": "2013-01-25"
+ },
+ {
+  "brand": "トルピード",
+  "count2": 11,
+  "id": "16133",
+  "median": 45,
+  "n": 2,
+  "name": "インモラル・情母・ハザード",
+  "sellday": "2011-10-28"
+ },
+ {
+  "brand": "すたじおちゃれん",
+  "count2": 15,
+  "id": "16136",
+  "median": 72,
+  "n": 1,
+  "name": "放課後催眠倶樂部",
+  "sellday": "2011-10-07"
+ },
+ {
+  "brand": "濡汁",
+  "count2": 37,
+  "id": "16147",
+  "median": 72,
+  "n": 1,
+  "name": "学園淫辱輪舞曲 ～純潔の乙女が淫らな牝へと堕ちるまで～",
+  "sellday": "2012-01-27"
+ },
+ {
+  "brand": "サークルさくらぷりん",
+  "count2": 56,
+  "id": "16150",
+  "median": 80,
+  "n": 2,
+  "name": "腐界に眠る王女のアバドーン",
+  "sellday": "2014-05-03"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 9,
+  "id": "16159",
+  "median": 68,
+  "n": 1,
+  "name": "男痴妻 ～オトコト、シマクル、オンナタチ～",
+  "sellday": "2011-11-04"
+ },
+ {
+  "brand": "トルピード",
+  "count2": 26,
+  "id": "16173",
+  "median": 62,
+  "n": 1,
+  "name": "ヴァージン・ワイフ、密やかな開通 ～あなた、お父さんに躾けられてしまったの…～",
+  "sellday": "2011-11-18"
+ },
+ {
+  "brand": "ルネTeamBitters",
+  "count2": 41,
+  "id": "16206",
+  "median": 72,
+  "n": 1,
+  "name": "マリッジブルー『婚約者がいるのに、どうしてこんな男に……』",
+  "sellday": "2012-02-24"
+ },
+ {
+  "brand": "エレクトリップ",
+  "count2": 139,
+  "id": "16224",
+  "median": 65,
+  "n": 1,
+  "name": "りとる†びっち ～Little Bitch Girls in Hog Farm～",
+  "sellday": "2011-12-09"
+ },
+ {
+  "brand": "Miel",
+  "count2": 11,
+  "id": "16247",
+  "median": 45,
+  "n": 2,
+  "name": "巨乳人妻がキモ義弟のオナホ嫁に! ～飲まないで! 母乳は赤ちゃんのものよ…こんな形で次の子が出来ちゃうなんて…～",
+  "sellday": "2011-12-30"
+ },
+ {
+  "brand": "Anim",
+  "count2": 19,
+  "id": "16263",
+  "median": 69,
+  "n": 1,
+  "name": "虐襲4 EXTRA SCENARIO",
+  "sellday": "2012-01-20"
+ },
+ {
+  "brand": "ういんどみるOasis",
+  "count2": 739,
+  "id": "16281",
+  "median": 78,
+  "n": 1,
+  "name": "ウィッチズガーデン",
+  "sellday": "2012-11-30"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 83,
+  "id": "16285",
+  "median": 71,
+  "n": 4,
+  "name": "団地妻となう。",
+  "sellday": "2012-02-24"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 74,
+  "id": "16322",
+  "median": 71,
+  "n": 10,
+  "name": "堕ちる人妻",
+  "sellday": "2011-12-23"
+ },
+ {
+  "brand": "Devil-seal",
+  "count2": 12,
+  "id": "16411",
+  "median": 50,
+  "n": 2,
+  "name": "獣ノ躾 ～本能と理性の狭間で悶えるケモノ～",
+  "sellday": "2012-02-10"
+ },
+ {
+  "brand": "M no VIOLET",
+  "count2": 5,
+  "id": "16450",
+  "median": 72,
+  "n": 1,
+  "name": "SwindleHD",
+  "sellday": "2011-12-27"
+ },
+ {
+  "brand": "DualTail(DualMage)",
+  "count2": 387,
+  "id": "16518",
+  "median": 83,
+  "n": 3,
+  "name": "VenusBlood -FRONTIER-",
+  "sellday": "2012-04-27"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1201,
+  "id": "16569",
+  "median": 85,
+  "n": 2,
+  "name": "ランス・クエスト マグナム",
+  "sellday": "2012-02-24"
+ },
+ {
+  "brand": "アストロノーツ・シリウス",
+  "count2": 471,
+  "id": "16604",
+  "median": 78,
+  "n": 5,
+  "name": "デモニオン ～魔王の地下要塞～",
+  "sellday": "2012-04-27"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 34,
+  "id": "16657",
+  "median": 70,
+  "n": 2,
+  "name": "或ル家族ノ姦系図",
+  "sellday": "2012-04-20"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 61,
+  "id": "16717",
+  "median": 62,
+  "n": 7,
+  "name": "兄妹秘哀 ～イヤなのに、カンじちゃう～",
+  "sellday": "2012-02-24"
+ },
+ {
+  "brand": "コットンソフト",
+  "count2": 1302,
+  "id": "16752",
+  "median": 82,
+  "n": 1,
+  "name": "終わる世界とバースデイ",
+  "sellday": "2012-07-27"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 96,
+  "id": "16782",
+  "median": 74,
+  "n": 1,
+  "name": "愛する妻、真理子が隣室で抱かれるまで ～あなたが知らない事、彼がたくさん教えてくれました～",
+  "sellday": "2012-04-27"
+ },
+ {
+  "brand": "Atelier G/H",
+  "count2": 25,
+  "id": "16798",
+  "median": 68,
+  "n": 1,
+  "name": "魔法少女ピュア・セインツ ～負けちゃうたびに、どんどんエッチな正義のヒロインになっていっちゃうの～",
+  "sellday": "2012-06-01"
+ },
+ {
+  "brand": "ACTRESS",
+  "count2": 4,
+  "id": "16869",
+  "median": 48,
+  "n": 1,
+  "name": "き・ず・な DL版",
+  "sellday": "2010-12-17"
+ },
+ {
+  "brand": "Sky Walk",
+  "count2": 1,
+  "id": "16878",
+  "median": 45,
+  "n": 1,
+  "name": "Rane Crisis ～マリオネットと洗脳奴隷～",
+  "sellday": "2011-12-09"
+ },
+ {
+  "brand": "ALL-TiME",
+  "count2": 56,
+  "id": "16882",
+  "median": 72,
+  "n": 1,
+  "name": "真・蟻地獄",
+  "sellday": "2012-06-22"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 406,
+  "id": "16883",
+  "median": 80,
+  "n": 2,
+  "name": "巨乳ファンタジー2",
+  "sellday": "2012-05-25"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 4,
+  "id": "16900",
+  "median": 74,
+  "n": 1,
+  "name": "奪母姦",
+  "sellday": "2012-04-13"
+ },
+ {
+  "brand": "めくじら",
+  "count2": 66,
+  "id": "16905",
+  "median": 77,
+  "n": 2,
+  "name": "鬼監督と俺の彼女 ～女優の卵が鬼監督と肉体関係を結んだ理由～",
+  "sellday": "2012-07-31"
+ },
+ {
+  "brand": "TEATIME",
+  "count2": 26,
+  "id": "16964",
+  "median": 65,
+  "n": 1,
+  "name": "ネトワクネトラル カレマチカノジョ",
+  "sellday": "2012-06-15"
+ },
+ {
+  "brand": "夜のひつじ",
+  "count2": 63,
+  "id": "16984",
+  "median": 71,
+  "n": 1,
+  "name": "恋妻くずし",
+  "sellday": "2012-04-12"
+ },
+ {
+  "brand": "BLACK PACKAGE TRY",
+  "count2": 12,
+  "id": "16992",
+  "median": 70,
+  "n": 2,
+  "name": "魔館の淫嬢",
+  "sellday": "2012-06-15"
+ },
+ {
+  "brand": "Miel",
+  "count2": 23,
+  "id": "17002",
+  "median": 55,
+  "n": 2,
+  "name": "爆乳令嬢×キモ男 変態嫁化計画 ～潔癖クール会長が最下層の臭キモ精子中毒に!～",
+  "sellday": "2012-04-27"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 102,
+  "id": "17003",
+  "median": 74,
+  "n": 1,
+  "name": "エロティ課 誘惑研修はじまるよ～♥ ～シゴいちゃうから覚悟なさい!～",
+  "sellday": "2012-06-29"
+ },
+ {
+  "brand": "material",
+  "count2": 45,
+  "id": "17017",
+  "median": 76,
+  "n": 1,
+  "name": "イントルーダー ～侵入者～",
+  "sellday": "2012-06-22"
+ },
+ {
+  "brand": "へいせん堂",
+  "count2": 2,
+  "id": "17043",
+  "median": 70,
+  "n": 1,
+  "name": "教育ママの鳴かせかた",
+  "sellday": "2012-04-05"
+ },
+ {
+  "brand": "ピンパイジューシィ",
+  "count2": 4,
+  "id": "17072",
+  "median": 43,
+  "n": 1,
+  "name": "キャリア便女 ～僕を公私ともにシゴいてくれる女課長は、特別接待専用のドM奉仕便器だった～",
+  "sellday": "2012-04-27"
+ },
+ {
+  "brand": "すたじおちゃれん",
+  "count2": 12,
+  "id": "17075",
+  "median": 68,
+  "n": 1,
+  "name": "接触洗脳倶樂部",
+  "sellday": "2012-04-15"
+ },
+ {
+  "brand": "ルネ",
+  "count2": 76,
+  "id": "17079",
+  "median": 70,
+  "n": 2,
+  "name": "受胎島 「どうしてアンタみたいなブサ男に種付けされなきゃいけないのよ?!」",
+  "sellday": "2012-07-27"
+ },
+ {
+  "brand": "スタジオポーク",
+  "count2": 18,
+  "id": "17097",
+  "median": 79,
+  "n": 1,
+  "name": "爆乳! デカ尻! 海女叔母さん",
+  "sellday": "2012-03-02"
+ },
+ {
+  "brand": "アルパカ",
+  "count2": 20,
+  "id": "17113",
+  "median": 75,
+  "n": 1,
+  "name": "種づけ孕ませ☆魔法少女 ～The_RPG～",
+  "sellday": "2012-04-24"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 28,
+  "id": "17116",
+  "median": 70,
+  "n": 2,
+  "name": "兄貴の妻は俺の肉妻 ～夫には見せない淫らな貌を義弟に晒す巨乳若妻～",
+  "sellday": "2012-08-24"
+ },
+ {
+  "brand": "SYRUP -many milk-",
+  "count2": 182,
+  "id": "17144",
+  "median": 80,
+  "n": 1,
+  "name": "狙われた女神天使エンゼルティアー ～守った人間達に裏切られて～",
+  "sellday": "2014-01-31"
+ },
+ {
+  "brand": "ディーゼルマイン",
+  "count2": 9,
+  "id": "17145",
+  "median": 60,
+  "n": 1,
+  "name": "人妻の穴 ～あの子はここから生まれてきたのよ～",
+  "sellday": "2012-03-09"
+ },
+ {
+  "brand": "クレージュA",
+  "count2": 111,
+  "id": "17176",
+  "median": 70,
+  "n": 5,
+  "name": "JC拉致監禁レイプ ～気になる○学生は僕専用の生オナホール～",
+  "sellday": "2012-06-01"
+ },
+ {
+  "brand": "アイル",
+  "count2": 38,
+  "id": "17179",
+  "median": 68,
+  "n": 2,
+  "name": "僕の目の前で××される彼女",
+  "sellday": "2012-09-28"
+ },
+ {
+  "brand": "STUDIO TRIUMPH",
+  "count2": 8,
+  "id": "17194",
+  "median": 68,
+  "n": 4,
+  "name": "妻堕 ～清楚な人妻の隠された露出性癖～",
+  "sellday": "2012-06-29"
+ },
+ {
+  "brand": "ふにふにソフト",
+  "count2": 7,
+  "id": "17238",
+  "median": 50,
+  "n": 1,
+  "name": "初でーと初えっち ～遊園地編",
+  "sellday": "2012-05-01"
+ },
+ {
+  "brand": "minori",
+  "count2": 849,
+  "id": "17239",
+  "median": 75,
+  "n": 1,
+  "name": "夏空のペルセウス",
+  "sellday": "2012-12-21"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 64,
+  "id": "17251",
+  "median": 70,
+  "n": 1,
+  "name": "特別授業3SLG",
+  "sellday": "2012-09-28"
+ },
+ {
+  "brand": "ORCSOFT",
+  "count2": 80,
+  "id": "17310",
+  "median": 74,
+  "n": 5,
+  "name": "かがち様お慰め奉ります- Dark night at NTR village -",
+  "sellday": "2012-08-10"
+ },
+ {
+  "brand": "N.R.D.WORKS",
+  "count2": 14,
+  "id": "17361",
+  "median": 79,
+  "n": 1,
+  "name": "ヤブヌマ2",
+  "sellday": "2012-07-15"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 66,
+  "id": "17388",
+  "median": 70,
+  "n": 4,
+  "name": "おれつま! ～オレがマンション管理人になったら人妻達とちょっとイイコトできちゃうかも!?～",
+  "sellday": "2012-09-28"
+ },
+ {
+  "brand": "Black Rabbit",
+  "count2": 9,
+  "id": "17438",
+  "median": 65,
+  "n": 1,
+  "name": "堕天の記憶 ～序章～ 淑乃編",
+  "sellday": "2012-08-03"
+ },
+ {
+  "brand": "Liar-soft(ビジネスパートナー)",
+  "count2": 594,
+  "id": "17527",
+  "median": 81,
+  "n": 2,
+  "name": "黄雷のガクトゥーン ～What a shining braves～",
+  "sellday": "2012-12-21"
+ },
+ {
+  "brand": "シルキーズ",
+  "count2": 152,
+  "id": "17589",
+  "median": 75,
+  "n": 6,
+  "name": "女系家族III ～秘密HIMITSU卑蜜～",
+  "sellday": "2012-11-22"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 69,
+  "id": "17592",
+  "median": 70,
+  "n": 12,
+  "name": "姉母娘でイクッ! ～大好きな姉を奪ったくせに浮気を続けるクズ旦那から姉の娘と共にネトリ返す～",
+  "sellday": "2012-10-26"
+ },
+ {
+  "brand": "ようかい玉の輿",
+  "count2": 13,
+  "id": "17601",
+  "median": 64,
+  "n": 1,
+  "name": "ボクの催眠世界",
+  "sellday": "2012-08-11"
+ },
+ {
+  "brand": "BLACK PACKAGE TRY",
+  "count2": 4,
+  "id": "17659",
+  "median": 63,
+  "n": 1,
+  "name": "くノ一菖蒲 ～艶熟精堕淫舞～",
+  "sellday": "2012-12-14"
+ },
+ {
+  "brand": "U・Me SOFT",
+  "count2": 5,
+  "id": "17736",
+  "median": 60,
+  "n": 1,
+  "name": "メス妻調狂クリニック",
+  "sellday": "2012-11-02"
+ },
+ {
+  "brand": "Anim",
+  "count2": 31,
+  "id": "17744",
+  "median": 78,
+  "n": 1,
+  "name": "沈黙の女学園 ～阿鼻叫喚の肉欲の宴は終わりを見せるのか～",
+  "sellday": "2012-12-28"
+ },
+ {
+  "brand": "Miel",
+  "count2": 5,
+  "id": "17782",
+  "median": 45,
+  "n": 1,
+  "name": "奥さん、金が無いなら身体で払ってもらいましょうか? ～人の妻たちのケツを並べて食べ比べ! 寝取り喫茶接待!～",
+  "sellday": "2012-10-26"
+ },
+ {
+  "brand": "Mink EGO",
+  "count2": 178,
+  "id": "17789",
+  "median": 74,
+  "n": 5,
+  "name": "お兄ちゃんにはぜったい言えないたいせつなこと。",
+  "sellday": "2013-01-11"
+ },
+ {
+  "brand": "material",
+  "count2": 35,
+  "id": "17791",
+  "median": 71,
+  "n": 9,
+  "name": "お前のオンナを寝取ってやる ～昔ヤったオンナは今は白衣の天使。旦那の前で心も身体も弄んで寝取る～",
+  "sellday": "2012-12-21"
+ },
+ {
+  "brand": "Jellyfish",
+  "count2": 329,
+  "id": "17792",
+  "median": 78,
+  "n": 1,
+  "name": "SISTERS ～夏の最後の日～ ULTRA EDITION",
+  "sellday": "2013-02-22"
+ },
+ {
+  "brand": "ディーゼルマイン",
+  "count2": 5,
+  "id": "17802",
+  "median": 57,
+  "n": 1,
+  "name": "聖隷の姫君ステア ～ストゥーム・コアの伝説～",
+  "sellday": "2012-10-19"
+ },
+ {
+  "brand": "ASa Project",
+  "count2": 921,
+  "id": "17806",
+  "median": 76,
+  "n": 1,
+  "name": "ひとつ飛ばし恋愛",
+  "sellday": "2013-04-26"
+ },
+ {
+  "brand": "インレ",
+  "count2": 1758,
+  "id": "17811",
+  "median": 88,
+  "n": 1,
+  "name": "ChuSingura46+1 -忠臣蔵46+1-",
+  "sellday": "2013-05-31"
+ },
+ {
+  "brand": "雨傘日傘事務所",
+  "count2": 32,
+  "id": "17827",
+  "median": 70,
+  "n": 3,
+  "name": "ヴァージン・ロード",
+  "sellday": "2012-11-10"
+ },
+ {
+  "brand": "TECH GIAN",
+  "count2": 60,
+  "id": "17831",
+  "median": 80,
+  "n": 1,
+  "name": "THE BEAUTIFUL WORLD",
+  "sellday": "2011-10-21"
+ },
+ {
+  "brand": "Moon Bunny",
+  "count2": 1,
+  "id": "17862",
+  "median": 51,
+  "n": 1,
+  "name": "排卵日の同級生にムリヤリ種付けしてみた ～昇天させられて性奴隷になった処女～",
+  "sellday": "2012-11-01"
+ },
+ {
+  "brand": "ORCSOFT",
+  "count2": 53,
+  "id": "17876",
+  "median": 70,
+  "n": 2,
+  "name": "奥様は元ヤリマン -Besluted-",
+  "sellday": "2012-12-07"
+ },
+ {
+  "brand": "スタジオポーク",
+  "count2": 65,
+  "id": "17884",
+  "median": 75,
+  "n": 10,
+  "name": "昼下がりの団地妻たち ～熟れた匂いとムレた肌～",
+  "sellday": "2013-02-11"
+ },
+ {
+  "brand": "プラリネ",
+  "count2": 62,
+  "id": "17885",
+  "median": 62,
+  "n": 1,
+  "name": "モテすぎて修羅場なオレ",
+  "sellday": "2013-02-22"
+ },
+ {
+  "brand": "Liquid",
+  "count2": 71,
+  "id": "17890",
+  "median": 66,
+  "n": 2,
+  "name": "大催眠",
+  "sellday": "2013-01-25"
+ },
+ {
+  "brand": "エウシュリー",
+  "count2": 590,
+  "id": "17905",
+  "median": 79,
+  "n": 4,
+  "name": "魔導巧殻 ～闇の月女神は導国で詠う～",
+  "sellday": "2013-04-26"
+ },
+ {
+  "brand": "softhouse-seal GRANDEE",
+  "count2": 226,
+  "id": "17909",
+  "median": 73,
+  "n": 2,
+  "name": "ぜったい遵守☆子作り許可証ぱらだいす!! ～嗚呼、素晴らしき孕ま世界～",
+  "sellday": "2013-03-29"
+ },
+ {
+  "brand": "Frill",
+  "count2": 357,
+  "id": "17911",
+  "median": 79,
+  "n": 10,
+  "name": "聖娼女 ～性奴育成学園～",
+  "sellday": "2013-07-26"
+ },
+ {
+  "brand": "Es.Lab.(Es_Lab)",
+  "count2": 3,
+  "id": "17921",
+  "median": 60,
+  "n": 1,
+  "name": "淫欲の調狂学園～幼馴染が寝取られて淫乱メイドに堕ちるまで～",
+  "sellday": "2012-06-20"
+ },
+ {
+  "brand": "スワンアイ",
+  "count2": 16,
+  "id": "17924",
+  "median": 49,
+  "n": 1,
+  "name": "リア充爆発しろ! ～変身能力手に入れたんだけど質問ある?～",
+  "sellday": "2013-01-25"
+ },
+ {
+  "brand": "Miel",
+  "count2": 11,
+  "id": "17931",
+  "median": 60,
+  "n": 1,
+  "name": "種付けて! 人妻島 ～男が全員不能! 村の子孫を絶やさぬために人妻たちに何時でも何処でも子作り三昧!～",
+  "sellday": "2012-12-14"
+ },
+ {
+  "brand": "Miel",
+  "count2": 15,
+  "id": "17986",
+  "median": 68,
+  "n": 1,
+  "name": "聖夜戦姫アルテミス・陥落 ～聖なる戦士の誇りと日常がキモヲタ精子で蹂躙される!～",
+  "sellday": "2012-12-31"
+ },
+ {
+  "brand": "アストロノーツ・シリウス",
+  "count2": 267,
+  "id": "18021",
+  "median": 75,
+  "n": 1,
+  "name": "聖エステラ学院の七人の魔女",
+  "sellday": "2013-03-29"
+ },
+ {
+  "brand": "elf",
+  "count2": 225,
+  "id": "18037",
+  "median": 75,
+  "n": 20,
+  "name": "麻呂の患者はガテン系",
+  "sellday": "2013-04-25"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 80,
+  "id": "18049",
+  "median": 74,
+  "n": 1,
+  "name": "牝教師3 ～淫悦の学舎～",
+  "sellday": "2013-04-26"
+ },
+ {
+  "brand": "筆柿そふと",
+  "count2": 61,
+  "id": "18084",
+  "median": 71,
+  "n": 5,
+  "name": "催眠術3",
+  "sellday": "2013-09-27"
+ },
+ {
+  "brand": "STUDIO TRIUMPH",
+  "count2": 12,
+  "id": "18089",
+  "median": 68,
+  "n": 1,
+  "name": "淫猥催眠整体院",
+  "sellday": "2012-12-31"
+ },
+ {
+  "brand": "Monogram",
+  "count2": 10,
+  "id": "18100",
+  "median": 50,
+  "n": 3,
+  "name": "いいなり生徒会長 ～肉欲に堕ちる学園アイドル～",
+  "sellday": "2013-01-18"
+ },
+ {
+  "brand": "SPLUSH WAVE",
+  "count2": 45,
+  "id": "18135",
+  "median": 70,
+  "n": 1,
+  "name": "ドラゴンアカデミー",
+  "sellday": "2012-12-31"
+ },
+ {
+  "brand": "POISON",
+  "count2": 26,
+  "id": "18156",
+  "median": 67,
+  "n": 1,
+  "name": "とある家族の寝取られ模様 －家族哀－",
+  "sellday": "2013-03-29"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 20,
+  "id": "18165",
+  "median": 70,
+  "n": 1,
+  "name": "催眠カウンセラー ～元上司のJK娘を堕とす報復の肉穴催眠～",
+  "sellday": "2013-03-29"
+ },
+ {
+  "brand": "エロトランス",
+  "count2": 7,
+  "id": "18172",
+  "median": 65,
+  "n": 1,
+  "name": "白黒催眠",
+  "sellday": "2013-02-15"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 29,
+  "id": "18179",
+  "median": 65,
+  "n": 1,
+  "name": "妻ネトリ ～女教師の調教日誌～",
+  "sellday": "2013-02-22"
+ },
+ {
+  "brand": "Anim",
+  "count2": 15,
+  "id": "18257",
+  "median": 72,
+  "n": 2,
+  "name": "息子の友達に堕とされて ～あぁ…私、一人の女に戻ります～",
+  "sellday": "2013-04-26"
+ },
+ {
+  "brand": "Miel",
+  "count2": 26,
+  "id": "18465",
+  "median": 67,
+  "n": 2,
+  "name": "性活指導員 ～キモ男が不妊に悩むピュアな若妻に手取り足取りアクメレッスン! ラブラブ寝取り種付けで理想の嫁に!～",
+  "sellday": "2013-03-29"
+ },
+ {
+  "brand": "スナック・ファクトリー",
+  "count2": 9,
+  "id": "18469",
+  "median": 60,
+  "n": 2,
+  "name": "兄貴のお嫁さんとちゅっちゅしたんだけど何か質問ある?",
+  "sellday": "2013-03-15"
+ },
+ {
+  "brand": "Mink EGO",
+  "count2": 148,
+  "id": "18470",
+  "median": 73,
+  "n": 2,
+  "name": "義妹だからできること、妹じゃないとダメなこと。",
+  "sellday": "2013-06-28"
+ },
+ {
+  "brand": "ディーゼルマイン",
+  "count2": 9,
+  "id": "18485",
+  "median": 57,
+  "n": 1,
+  "name": "セレブ妻の穴 ～高級マ●コは俺のザーメン中出し便器～",
+  "sellday": "2013-03-14"
+ },
+ {
+  "brand": "ソーラレイ",
+  "count2": 33,
+  "id": "18486",
+  "median": 68,
+  "n": 4,
+  "name": "欲求不満な発情おばさんに誘惑された僕は……。 ～秘密と背徳に満ちた冬休みの思い出～",
+  "sellday": "2013-04-04"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 53,
+  "id": "18640",
+  "median": 72,
+  "n": 1,
+  "name": "電車内でなう。",
+  "sellday": "2013-06-28"
+ },
+ {
+  "brand": "スタッフィング",
+  "count2": 114,
+  "id": "18791",
+  "median": 70,
+  "n": 2,
+  "name": "催眠演舞",
+  "sellday": "2013-09-27"
+ },
+ {
+  "brand": "Overflow",
+  "count2": 50,
+  "id": "18834",
+  "median": 50,
+  "n": 1,
+  "name": "ストリップバトルデイズ",
+  "sellday": "2014-10-31"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 23,
+  "id": "18840",
+  "median": 63,
+  "n": 1,
+  "name": "ミニパイくれ～ま～ 文句を言いたいのにおっぱいが感じちゃう",
+  "sellday": "2013-05-31"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 25,
+  "id": "18898",
+  "median": 75,
+  "n": 3,
+  "name": "P☆A会長は好きですか? ～傲慢セレブ妻へのセックス指導～",
+  "sellday": "2013-04-11"
+ },
+ {
+  "brand": "catwalkNERO",
+  "count2": 49,
+  "id": "18903",
+  "median": 74,
+  "n": 4,
+  "name": "淫堕の姫騎士ジャンヌ2 ～美姫転生～ 2つの世界でオーガの仔種を注がれ続ける物語～",
+  "sellday": "2013-08-30"
+ },
+ {
+  "brand": "MAIKA",
+  "count2": 7,
+  "id": "18905",
+  "median": 50,
+  "n": 1,
+  "name": "新妻特捜パトレイザー ～略奪天獄篇～",
+  "sellday": "2013-09-20"
+ },
+ {
+  "brand": "KISS",
+  "count2": 33,
+  "id": "18933",
+  "median": 70,
+  "n": 2,
+  "name": "メイクMeラバー",
+  "sellday": "2014-07-25"
+ },
+ {
+  "brand": "D:drive.",
+  "count2": 35,
+  "id": "18934",
+  "median": 65,
+  "n": 2,
+  "name": "ツゴウノイイ家族",
+  "sellday": "2013-10-25"
+ },
+ {
+  "brand": "Miel",
+  "count2": 32,
+  "id": "18957",
+  "median": 63,
+  "n": 1,
+  "name": "キモメン底辺職でも巨根ならハーレムギルドの主になれる!? ～伝説の騎士や聖女、魔王を種付け攻略! 美少女だらけ夢の冒険性活!～",
+  "sellday": "2013-05-31"
+ },
+ {
+  "brand": "4H",
+  "count2": 12,
+  "id": "18969",
+  "median": 63,
+  "n": 1,
+  "name": "保健委員の力を利用して、後輩の女の子の身体測定でイタズラ放題やっちゃいました!",
+  "sellday": "2010-07-15"
+ },
+ {
+  "brand": "4H",
+  "count2": 11,
+  "id": "18970",
+  "median": 69,
+  "n": 1,
+  "name": "続・保健委員の力を利用して、生意気なお嬢様の身体測定でイタズラ放題やっちゃいました!",
+  "sellday": "2011-02-03"
+ },
+ {
+  "brand": "PULLTOP",
+  "count2": 546,
+  "id": "19029",
+  "median": 74,
+  "n": 1,
+  "name": "ココロ@ファンクション!",
+  "sellday": "2013-10-25"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 61,
+  "id": "19046",
+  "median": 68,
+  "n": 1,
+  "name": "つるぺた×NTR ～幼なじみ彼女の3年間の調教記録～",
+  "sellday": "2013-07-26"
+ },
+ {
+  "brand": "旅人屋",
+  "count2": 1,
+  "id": "19097",
+  "median": 60,
+  "n": 1,
+  "name": "女将妻～旅館バイトでの秘密～",
+  "sellday": "2013-01-31"
+ },
+ {
+  "brand": "だいふく船団(May)",
+  "count2": 9,
+  "id": "19099",
+  "median": 85,
+  "n": 1,
+  "name": "雷神7パワーアップキット",
+  "sellday": "2012-12-29"
+ },
+ {
+  "brand": "極フェロ",
+  "count2": 2,
+  "id": "19104",
+  "median": 69,
+  "n": 1,
+  "name": "牝鏡調教 ～メガネ少女は如何にしてキモオタ教師のものになったか～",
+  "sellday": "2013-05-24"
+ },
+ {
+  "brand": "ディーゼルマイン",
+  "count2": 4,
+  "id": "19111",
+  "median": 62,
+  "n": 1,
+  "name": "たぷたぷの完熟おっぱいに包まれて、夢見るように射精し続ける俺の4泊5日",
+  "sellday": "2013-05-31"
+ },
+ {
+  "brand": "ルネ",
+  "count2": 49,
+  "id": "19189",
+  "median": 70,
+  "n": 2,
+  "name": "巨乳家族催眠「家族なんだから、セックスするのは当たり前よね……」",
+  "sellday": "2013-08-30"
+ },
+ {
+  "brand": "LiLiTH",
+  "count2": 25,
+  "id": "19205",
+  "median": 65,
+  "n": 2,
+  "name": "受精してよ千鶴さん! ～人妻と恋するひと夏～",
+  "sellday": "2013-07-20"
+ },
+ {
+  "brand": "サボテン",
+  "count2": 9,
+  "id": "19227",
+  "median": 75,
+  "n": 1,
+  "name": "セックスアイドル48! ～淫乱娘アイドル化計画～",
+  "sellday": "2013-10-24"
+ },
+ {
+  "brand": "らすこう(くちなわ)",
+  "count2": 13,
+  "id": "19230",
+  "median": 75,
+  "n": 1,
+  "name": "とある人妻のネトラレ事情",
+  "sellday": "2013-06-26"
+ },
+ {
+  "brand": "Miel",
+  "count2": 10,
+  "id": "19250",
+  "median": 42,
+  "n": 1,
+  "name": "マザコン天国 ～同級生の母親たちを巨根で僕だけの孕ママに!～",
+  "sellday": "2013-07-26"
+ },
+ {
+  "brand": "elf",
+  "count2": 179,
+  "id": "19268",
+  "median": 78,
+  "n": 13,
+  "name": "麻呂の患者はガテン系2",
+  "sellday": "2013-08-08"
+ },
+ {
+  "brand": "elf",
+  "count2": 22,
+  "id": "19272",
+  "median": 75,
+  "n": 3,
+  "name": "若妻万華鏡 アニメーション追加完全版",
+  "sellday": "2009-08-28"
+ },
+ {
+  "brand": "elf",
+  "count2": 18,
+  "id": "19273",
+  "median": 70,
+  "n": 1,
+  "name": "夫の前で●されて… アニメーション追加完全版",
+  "sellday": "2009-08-28"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 72,
+  "id": "19280",
+  "median": 74,
+  "n": 3,
+  "name": "壁の向こうの妻の嬌声 ～愛する妻の肢体はもう、隣の旦那を忘れられない～",
+  "sellday": "2013-10-25"
+ },
+ {
+  "brand": "ORCSOFT",
+  "count2": 52,
+  "id": "19281",
+  "median": 67,
+  "n": 7,
+  "name": "兄貴の嫁さんなら、俺にハメられてヒイヒイ言ってるところだよ -sister-in-law is my fuck buddy-",
+  "sellday": "2013-08-09"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 50,
+  "id": "19335",
+  "median": 70,
+  "n": 1,
+  "name": "館 ～官能奇譚～",
+  "sellday": "2013-10-25"
+ },
+ {
+  "brand": "FAVORITE",
+  "count2": 158,
+  "id": "19346",
+  "median": 85,
+  "n": 1,
+  "name": "いろとりどりのセカイ WORLD'S END COMPLETE",
+  "sellday": "2013-07-26"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 10,
+  "id": "19386",
+  "median": 58,
+  "n": 1,
+  "name": "D.P.S. SG",
+  "sellday": "1990-08-15"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 9,
+  "id": "19387",
+  "median": 50,
+  "n": 1,
+  "name": "D.P.S. SG set2",
+  "sellday": "1991-04-15"
+ },
+ {
+  "brand": "玉藻スタジオ",
+  "count2": 22,
+  "id": "19415",
+  "median": 70,
+  "n": 2,
+  "name": "冒険者の町を作ろう! II",
+  "sellday": "2013-08-10"
+ },
+ {
+  "brand": "汁ダク系 乳組",
+  "count2": 5,
+  "id": "19425",
+  "median": 65,
+  "n": 1,
+  "name": "巨乳な兄嫁は好きですか? ～貞淑な妻が牝へと変わる刻～",
+  "sellday": "2013-09-27"
+ },
+ {
+  "brand": "スピンドル",
+  "count2": 5,
+  "id": "19437",
+  "median": 55,
+  "n": 1,
+  "name": "悦楽剤 ～人妻は媚薬で母乳を垂れ流す～",
+  "sellday": "2013-09-20"
+ },
+ {
+  "brand": "Miel",
+  "count2": 14,
+  "id": "19443",
+  "median": 65,
+  "n": 3,
+  "name": "夏のイイ旅、ハメ気分♪ ～出会った人妻みんな巨根に一目惚れ! いつでもどこでも即ズボ旅行!～",
+  "sellday": "2013-08-30"
+ },
+ {
+  "brand": "INTERHEART",
+  "count2": 68,
+  "id": "19474",
+  "median": 70,
+  "n": 4,
+  "name": "ねえちゃん、もう出ちゃうよ! ～淫姉は俺の愛玩具～",
+  "sellday": "2013-11-29"
+ },
+ {
+  "brand": "黒鳥",
+  "count2": 14,
+  "id": "19475",
+  "median": 61,
+  "n": 1,
+  "name": "シオリノコトハ ～密室図書館の生贄～",
+  "sellday": "2013-11-29"
+ },
+ {
+  "brand": "Miel",
+  "count2": 10,
+  "id": "19602",
+  "median": 55,
+  "n": 2,
+  "name": "勃起するのはあなただけ! 女教師たちに日常的に種付け授業を受ける学園生活",
+  "sellday": "2013-09-20"
+ },
+ {
+  "brand": "逆流そふと",
+  "count2": 12,
+  "id": "19609",
+  "median": 73,
+  "n": 2,
+  "name": "夜這いゲーム",
+  "sellday": "2013-07-25"
+ },
+ {
+  "brand": "Miel",
+  "count2": 22,
+  "id": "19619",
+  "median": 62,
+  "n": 1,
+  "name": "キモメンでも巨根なら名門校のお嬢様を専用孕まセレブビッチにできる!",
+  "sellday": "2013-09-27"
+ },
+ {
+  "brand": "スピンドル",
+  "count2": 3,
+  "id": "19620",
+  "median": 35,
+  "n": 1,
+  "name": "牝贄プロジェクト ～新人OL、社畜の刻印～ 彼女はカエレナイ",
+  "sellday": "2013-10-18"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 26,
+  "id": "19623",
+  "median": 60,
+  "n": 1,
+  "name": "他の男の精液で孕むとき2 ～障子に映る、快感に悶え狂った妻の影～",
+  "sellday": "2013-11-29"
+ },
+ {
+  "brand": "VENUS",
+  "count2": 15,
+  "id": "19661",
+  "median": 75,
+  "n": 1,
+  "name": "絆されて… ～空手娘・千鶴の情事～",
+  "sellday": "2012-10-03"
+ },
+ {
+  "brand": "イノヘッドスタジオ",
+  "count2": 3,
+  "id": "19664",
+  "median": 53,
+  "n": 1,
+  "name": "ママネトリ",
+  "sellday": "2013-09-27"
+ },
+ {
+  "brand": "アトリエさくら DARKNESS",
+  "count2": 26,
+  "id": "19713",
+  "median": 64,
+  "n": 3,
+  "name": "私立 寝取り学院 -10人の彼氏持ち女子校生を“寝取って激イキ”させろ!-",
+  "sellday": "2013-12-27"
+ },
+ {
+  "brand": "ANIME LiLiTH",
+  "count2": 41,
+  "id": "19714",
+  "median": 75,
+  "n": 2,
+  "name": "監獄戦艦2 ～要塞都市の洗脳改造～ 完全版",
+  "sellday": "2013-10-25"
+ },
+ {
+  "brand": "オドントティラヌス",
+  "count2": 9,
+  "id": "19721",
+  "median": 72,
+  "n": 1,
+  "name": "娼婦さん御一行!",
+  "sellday": "2013-10-12"
+ },
+ {
+  "brand": "ANIME LiLiTH",
+  "count2": 15,
+  "id": "19746",
+  "median": 80,
+  "n": 1,
+  "name": "監獄戦艦 PREMIUM BOX",
+  "sellday": "2013-10-25"
+ },
+ {
+  "brand": "Nostalgic Chord",
+  "count2": 136,
+  "id": "19791",
+  "median": 63,
+  "n": 2,
+  "name": "放課後の不適格者",
+  "sellday": "2014-05-30"
+ },
+ {
+  "brand": "ANIME LiLiTH",
+  "count2": 106,
+  "id": "19807",
+  "median": 75,
+  "n": 4,
+  "name": "監獄戦艦3 ～熱砂の洗脳航路～",
+  "sellday": "2013-12-25"
+ },
+ {
+  "brand": "Miel",
+  "count2": 4,
+  "id": "19856",
+  "median": 53,
+  "n": 1,
+  "name": "孕ませて♪人妻商店街 ～ヤリ放題ハメ放題中出し感謝祭開催Chu♪～",
+  "sellday": "2013-11-29"
+ },
+ {
+  "brand": "アストロノーツ・シリウス",
+  "count2": 181,
+  "id": "19867",
+  "median": 71,
+  "n": 2,
+  "name": "デモニオンII ～魔王と三人の女王～",
+  "sellday": "2014-04-25"
+ },
+ {
+  "brand": "KISS",
+  "count2": 14,
+  "id": "19873",
+  "median": 51,
+  "n": 1,
+  "name": "カスタムメイドオンライン ブルジョアパック",
+  "sellday": "2014-03-28"
+ },
+ {
+  "brand": "PLASTIC LABEL",
+  "count2": 33,
+  "id": "19912",
+  "median": 75,
+  "n": 1,
+  "name": "俺は君の生理用ナプキンを舐めたい",
+  "sellday": "2014-08-17"
+ },
+ {
+  "brand": "てぃ～ぐる",
+  "count2": 803,
+  "id": "19919",
+  "median": 78,
+  "n": 1,
+  "name": "レミニセンス Re:Collect",
+  "sellday": "2014-06-27"
+ },
+ {
+  "brand": "ファントムソフト",
+  "count2": 14,
+  "id": "19927",
+  "median": 65,
+  "n": 1,
+  "name": "膣内射精JK援助交際 ～いくらでもいいからあたしを買って!～",
+  "sellday": "2014-01-31"
+ },
+ {
+  "brand": "Escu:de",
+  "count2": 100,
+  "id": "19936",
+  "median": 64,
+  "n": 1,
+  "name": "花嫁と魔王 ～王室のハーレムは下克上～",
+  "sellday": "2014-08-29"
+ },
+ {
+  "brand": "アトリエさくら DARKNESS",
+  "count2": 12,
+  "id": "19949",
+  "median": 48,
+  "n": 2,
+  "name": "密閉やりまくりエレベーター ～小生意気な娘に御仕置きを～",
+  "sellday": "2014-02-28"
+ },
+ {
+  "brand": "Miel",
+  "count2": 36,
+  "id": "19951",
+  "median": 65,
+  "n": 1,
+  "name": "巨根で生ハメ王になれる学園 ～女子学生みんな孕ませ肉オナホれすッ! いつでもどこでも精子様を排泄して卵子屈服させてくらしゃいっ♪～",
+  "sellday": "2013-12-31"
+ },
+ {
+  "brand": "VENUS",
+  "count2": 51,
+  "id": "19952",
+  "median": 82,
+  "n": 1,
+  "name": "うたかたの蕾",
+  "sellday": "2013-10-29"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 35,
+  "id": "19956",
+  "median": 70,
+  "n": 1,
+  "name": "元ヤンの奥さんは好きですか? ～強気な人妻とエッチで勝負! セクシー妻もいるよ～",
+  "sellday": "2013-12-31"
+ },
+ {
+  "brand": "Rosebleu",
+  "count2": 68,
+  "id": "19984",
+  "median": 75,
+  "n": 1,
+  "name": "Endless Dungeon",
+  "sellday": "2014-03-28"
+ },
+ {
+  "brand": "Autobahn",
+  "count2": 15,
+  "id": "20068",
+  "median": 68,
+  "n": 2,
+  "name": "やりもくナンパビーチ ～見たくなかった母の姿～",
+  "sellday": "2013-12-31"
+ },
+ {
+  "brand": "ふらっぺすたじお",
+  "count2": 6,
+  "id": "20078",
+  "median": 58,
+  "n": 1,
+  "name": "お兄ちゃんは私だけのものなんだからっ!!",
+  "sellday": "2013-08-15"
+ },
+ {
+  "brand": "筆柿そふと",
+  "count2": 58,
+  "id": "20122",
+  "median": 75,
+  "n": 2,
+  "name": "催眠術Re",
+  "sellday": "2014-05-30"
+ },
+ {
+  "brand": "人生通行止め",
+  "count2": 26,
+  "id": "20167",
+  "median": 75,
+  "n": 1,
+  "name": "ヒダマリノキオク",
+  "sellday": "2014-01-06"
+ },
+ {
+  "brand": "エロイット",
+  "count2": 16,
+  "id": "20174",
+  "median": 60,
+  "n": 2,
+  "name": "いけない子作り ～親友のお母さんに種付けしまくる1週間～",
+  "sellday": "2014-03-28"
+ },
+ {
+  "brand": "魔法使いソフト",
+  "count2": 45,
+  "id": "20183",
+  "median": 75,
+  "n": 10,
+  "name": "人妻は元魔法少女 ～下級戦闘員だった俺が痴漢を繰り返し寝取り落とす～",
+  "sellday": "2014-02-07"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 33,
+  "id": "20185",
+  "median": 75,
+  "n": 3,
+  "name": "淑母の疼き ～人妻、未亡人の熟れた身体と甘い吐息～",
+  "sellday": "2014-05-23"
+ },
+ {
+  "brand": "STUDIO TRIUMPH",
+  "count2": 12,
+  "id": "20189",
+  "median": 65,
+  "n": 1,
+  "name": "淫猥催眠整体院 ～淫らな不妊治療 人妻孕ませマッサージ～",
+  "sellday": "2013-12-31"
+ },
+ {
+  "brand": "CATTLEYA",
+  "count2": 9,
+  "id": "20236",
+  "median": 63,
+  "n": 1,
+  "name": "清楚な兄嫁は俺だけの淫乱肉オナホ",
+  "sellday": "2014-03-28"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 72,
+  "id": "20254",
+  "median": 70,
+  "n": 5,
+  "name": "新・他の男の精液で孕んでもいいですか…? 浮気Hがあまりに気持ちよくて、挿入されただけですぐにイっちゃうカタブツ女子校生",
+  "sellday": "2014-06-27"
+ },
+ {
+  "brand": "Parthenon",
+  "count2": 23,
+  "id": "20284",
+  "median": 60,
+  "n": 2,
+  "name": "弱みを握って人妻とその娘をパコってみた。",
+  "sellday": "2014-03-28"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 23,
+  "id": "20294",
+  "median": 60,
+  "n": 2,
+  "name": "上司の妻は、元カノでした ～嫌がりながらも、枕営業に溺れていくアフター5～",
+  "sellday": "2014-05-23"
+ },
+ {
+  "brand": "Miel",
+  "count2": 12,
+  "id": "20302",
+  "median": 65,
+  "n": 1,
+  "name": "寝取られ姉妹日誌 ～大好きな彼の友人キモ男に寝取られ妊娠～",
+  "sellday": "2014-03-21"
+ },
+ {
+  "brand": "シルキーズ",
+  "count2": 302,
+  "id": "20312",
+  "median": 80,
+  "n": 8,
+  "name": "愛姉妹IV 悔しくて気持ち良かったなんて言えない",
+  "sellday": "2014-05-30"
+ },
+ {
+  "brand": "ま～まれぇど",
+  "count2": 1090,
+  "id": "20314",
+  "median": 79,
+  "n": 1,
+  "name": "PRIMAL×HEARTS",
+  "sellday": "2014-08-29"
+ },
+ {
+  "brand": "ORCSOFT",
+  "count2": 53,
+  "id": "20320",
+  "median": 70,
+  "n": 7,
+  "name": "お隣の黒人夫に抱かれて啼き悶える最愛の妻。その引き換えに味わう黒人妻の肌。-Big Black Cock＆Big Black Butt＆My Sweet Wife-",
+  "sellday": "2014-04-25"
+ },
+ {
+  "brand": "Miel",
+  "count2": 17,
+  "id": "20328",
+  "median": 60,
+  "n": 4,
+  "name": "キモメンでも巨根なら人の妻を自分のモノにできる! ～美人妻達を受精アクメさせまくれ! 目指せ! ハーレムマンション♪～",
+  "sellday": "2014-03-28"
+ },
+ {
+  "brand": "INTERHEART",
+  "count2": 39,
+  "id": "20349",
+  "median": 70,
+  "n": 3,
+  "name": "寝トリ学園 ～彼氏持ちでもお構いなし! ヤりたい放題ADV～",
+  "sellday": "2014-05-30"
+ },
+ {
+  "brand": "Insync",
+  "count2": 83,
+  "id": "20359",
+  "median": 52,
+  "n": 2,
+  "name": "妄想コンプリート!",
+  "sellday": "2015-05-29"
+ },
+ {
+  "brand": "pin-point",
+  "count2": 91,
+  "id": "20370",
+  "median": 74,
+  "n": 2,
+  "name": "ケダモノ（家族）たちの住む家で ～大嫌いな最低家族と彼女との寝取られ同居生活～",
+  "sellday": "2014-05-02"
+ },
+ {
+  "brand": "ILLUSION(Dreams)",
+  "count2": 188,
+  "id": "20371",
+  "median": 80,
+  "n": 8,
+  "name": "ジンコウガクエン2",
+  "sellday": "2014-06-13"
+ },
+ {
+  "brand": "MORE",
+  "count2": 353,
+  "id": "20396",
+  "median": 78,
+  "n": 1,
+  "name": "ヒマワリと恋の記憶",
+  "sellday": "2014-12-26"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 262,
+  "id": "20459",
+  "median": 75,
+  "n": 1,
+  "name": "超昂天使エスカレイヤー・リブート",
+  "sellday": "2014-07-25"
+ },
+ {
+  "brand": "Chuablesoft",
+  "count2": 1177,
+  "id": "20460",
+  "median": 85,
+  "n": 1,
+  "name": "あの晴れわたる空より高く",
+  "sellday": "2014-09-26"
+ },
+ {
+  "brand": "BLACK PACKAGE TRY",
+  "count2": 7,
+  "id": "20463",
+  "median": 71,
+  "n": 2,
+  "name": "導かれしモノ達の楽園 ～BEDLAM～",
+  "sellday": "2014-06-27"
+ },
+ {
+  "brand": "LaBit Soft",
+  "count2": 18,
+  "id": "20497",
+  "median": 70,
+  "n": 1,
+  "name": "ぴゅあよめ",
+  "sellday": "2014-05-23"
+ },
+ {
+  "brand": "クレージュA",
+  "count2": 130,
+  "id": "20515",
+  "median": 70,
+  "n": 6,
+  "name": "妹寝取り ～身も心もお兄ちゃんのもの～",
+  "sellday": "2014-05-30"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 25,
+  "id": "20541",
+  "median": 70,
+  "n": 2,
+  "name": "熟バレー ～シゴキ扱かれる熟れた人妻達～",
+  "sellday": "2014-07-25"
+ },
+ {
+  "brand": "Crooked Navel",
+  "count2": 31,
+  "id": "20551",
+  "median": 68,
+  "n": 1,
+  "name": "TS魔法少女なお!",
+  "sellday": "2014-05-03"
+ },
+ {
+  "brand": "Devil-seal",
+  "count2": 23,
+  "id": "20579",
+  "median": 60,
+  "n": 2,
+  "name": "オナフォ ～矯正操作で雌に変えてしまうアプリ～",
+  "sellday": "2014-06-13"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 15,
+  "id": "20580",
+  "median": 70,
+  "n": 3,
+  "name": "牝教師 ～淫辱の教室～ インモラルエディション",
+  "sellday": "2014-06-27"
+ },
+ {
+  "brand": "Navel",
+  "count2": 1207,
+  "id": "20602",
+  "median": 81,
+  "n": 1,
+  "name": "月に寄りそう乙女の作法2",
+  "sellday": "2014-12-19"
+ },
+ {
+  "brand": "TRYSET MAD",
+  "count2": 10,
+  "id": "20635",
+  "median": 65,
+  "n": 1,
+  "name": "妹欲DEAD催眠",
+  "sellday": "2014-09-26"
+ },
+ {
+  "brand": "魔法使いソフト",
+  "count2": 23,
+  "id": "20636",
+  "median": 70,
+  "n": 5,
+  "name": "人妻教師は元魔法少女 ～教え子の僕がオトナの女を寝取り堕とす～",
+  "sellday": "2014-06-20"
+ },
+ {
+  "brand": "Miel",
+  "count2": 7,
+  "id": "20666",
+  "median": 40,
+  "n": 1,
+  "name": "人妻操作スマホ ～熟れムチボディを指先一つで自由自在! ヤリたい放題種付け～",
+  "sellday": "2014-06-20"
+ },
+ {
+  "brand": "DOUJIN3ARIES",
+  "count2": 9,
+  "id": "20711",
+  "median": 70,
+  "n": 2,
+  "name": "アナタごめんなさい、ワタシもう…。",
+  "sellday": "2014-06-16"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 75,
+  "id": "20723",
+  "median": 75,
+  "n": 1,
+  "name": "淫妖蟲 凶 ～凌触病棟退魔録～",
+  "sellday": "2014-09-26"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 77,
+  "id": "20727",
+  "median": 72,
+  "n": 1,
+  "name": "貸し出し妻、満里奈の“ネトラセ”報告2 CASE.元AV男優&敏感妻",
+  "sellday": "2014-08-29"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 38,
+  "id": "20730",
+  "median": 79,
+  "n": 2,
+  "name": "カノジョのお母さんは好きですか? ～クールな人妻社長を籠絡せよ!～",
+  "sellday": "2014-08-17"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1153,
+  "id": "20764",
+  "median": 99,
+  "n": 7,
+  "name": "ランス10",
+  "sellday": "2018-02-23"
+ },
+ {
+  "brand": "クリメニア",
+  "count2": 4,
+  "id": "20780",
+  "median": 73,
+  "n": 1,
+  "name": "聖騎士オリアーヌ ～敗北の先に待ち受けるもの～",
+  "sellday": "2013-11-06"
+ },
+ {
+  "brand": "スタジオ奪",
+  "count2": 43,
+  "id": "20792",
+  "median": 72,
+  "n": 5,
+  "name": "奪 ～人の妻、売ります～",
+  "sellday": "2014-08-22"
+ },
+ {
+  "brand": "Miel",
+  "count2": 49,
+  "id": "20801",
+  "median": 65,
+  "n": 4,
+  "name": "巨根で種付け牧場になる町 ～名門母娘たちを片っ端から孕ま征服! 街中の牝穴が俺の家畜になりたがる!～",
+  "sellday": "2014-07-25"
+ },
+ {
+  "brand": "DualTail(DualMage)",
+  "count2": 279,
+  "id": "20852",
+  "median": 85,
+  "n": 1,
+  "name": "VenusBlood -HYPNO-",
+  "sellday": "2014-11-28"
+ },
+ {
+  "brand": "アストロノーツ・コメット",
+  "count2": 142,
+  "id": "20856",
+  "median": 70,
+  "n": 1,
+  "name": "憑夜ノ村",
+  "sellday": "2014-11-28"
+ },
+ {
+  "brand": "りぷる",
+  "count2": 25,
+  "id": "20875",
+  "median": 62,
+  "n": 1,
+  "name": "カミツレ ～7の二乗不思議～",
+  "sellday": "2015-02-27"
+ },
+ {
+  "brand": "Nomad",
+  "count2": 20,
+  "id": "20882",
+  "median": 65,
+  "n": 2,
+  "name": "淫烙の巫女NTR 第一話「義父の魔の手」",
+  "sellday": "2014-08-01"
+ },
+ {
+  "brand": "Nomad",
+  "count2": 17,
+  "id": "20883",
+  "median": 65,
+  "n": 2,
+  "name": "淫烙の巫女NTR 第二話「泥濘の新婚生活」",
+  "sellday": "2014-08-08"
+ },
+ {
+  "brand": "Nomad",
+  "count2": 16,
+  "id": "20885",
+  "median": 65,
+  "n": 1,
+  "name": "淫烙の巫女NTR 第四話「淫烙の二日間」",
+  "sellday": "2014-08-22"
+ },
+ {
+  "brand": "Devil-seal",
+  "count2": 15,
+  "id": "20947",
+  "median": 60,
+  "n": 1,
+  "name": "寝取王 -ネトリキング-",
+  "sellday": "2014-09-26"
+ },
+ {
+  "brand": "Autobahn",
+  "count2": 38,
+  "id": "20959",
+  "median": 79,
+  "n": 6,
+  "name": "LOVEMILF2",
+  "sellday": "2014-08-17"
+ },
+ {
+  "brand": "筆柿そふと",
+  "count2": 36,
+  "id": "20987",
+  "median": 67,
+  "n": 1,
+  "name": "催眠母",
+  "sellday": "2014-11-28"
+ },
+ {
+  "brand": "逆流そふと",
+  "count2": 12,
+  "id": "20989",
+  "median": 76,
+  "n": 1,
+  "name": "姫様と警備兵",
+  "sellday": "2014-08-20"
+ },
+ {
+  "brand": "ぱちぱちそふと黒",
+  "count2": 62,
+  "id": "21008",
+  "median": 65,
+  "n": 1,
+  "name": "父に恋した淫乱娘「彩子」 ～お父さんは誰にも渡さない～",
+  "sellday": "2014-10-31"
+ },
+ {
+  "brand": "スピンドル",
+  "count2": 3,
+  "id": "21009",
+  "median": 60,
+  "n": 1,
+  "name": "ママは同級生 ～あなたの父親だけじゃ満足できないの～",
+  "sellday": "2014-10-31"
+ },
+ {
+  "brand": "Guilty",
+  "count2": 35,
+  "id": "21033",
+  "median": 69,
+  "n": 1,
+  "name": "手籠めにされる九人の堕女",
+  "sellday": "2014-12-19"
+ },
+ {
+  "brand": "アンモライト",
+  "count2": 6,
+  "id": "21064",
+  "median": 57,
+  "n": 2,
+  "name": "催淫巨乳団恥妻 ～イケないのに…疼いちゃう… ～",
+  "sellday": "2014-10-31"
+ },
+ {
+  "brand": "Miel",
+  "count2": 13,
+  "id": "21073",
+  "median": 55,
+  "n": 1,
+  "name": "催眠ライブ ～知らないうちに変態アイドル活動で専用孕ドルにされちゃった～",
+  "sellday": "2014-09-26"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 57,
+  "id": "21074",
+  "median": 71,
+  "n": 1,
+  "name": "流され妻、綾乃の“ネトラレ”報告 －おっとり妻&一晩ぶっ通し超肉食不倫セックス－",
+  "sellday": "2014-11-28"
+ },
+ {
+  "brand": "ゆずソフト",
+  "count2": 2314,
+  "id": "21076",
+  "median": 80,
+  "n": 2,
+  "name": "サノバウィッチ",
+  "sellday": "2015-02-27"
+ },
+ {
+  "brand": "SAGA PLANETS",
+  "count2": 998,
+  "id": "21080",
+  "median": 75,
+  "n": 1,
+  "name": "花咲ワークスプリング!",
+  "sellday": "2015-03-27"
+ },
+ {
+  "brand": "Nomad",
+  "count2": 38,
+  "id": "21095",
+  "median": 73,
+  "n": 2,
+  "name": "今夜、お義父様に抱かれます…",
+  "sellday": "2014-11-28"
+ },
+ {
+  "brand": "MBS Truth",
+  "count2": 48,
+  "id": "21104",
+  "median": 75,
+  "n": 2,
+  "name": "OH!! マイクロマン ～小さくなって女の子の色んなトコロに入っちゃお!～",
+  "sellday": "2014-12-26"
+ },
+ {
+  "brand": "Blue Devil",
+  "count2": 41,
+  "id": "21109",
+  "median": 75,
+  "n": 6,
+  "name": "姪のビッチ化が許せない!",
+  "sellday": "2014-09-26"
+ },
+ {
+  "brand": "TRYSET MAD",
+  "count2": 7,
+  "id": "21226",
+  "median": 55,
+  "n": 2,
+  "name": "Final season「バッドENDを救え!」",
+  "sellday": "2014-12-19"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 167,
+  "id": "21248",
+  "median": 70,
+  "n": 1,
+  "name": "対魔忍ユキカゼ2",
+  "sellday": "2015-05-29"
+ },
+ {
+  "brand": "pin-point",
+  "count2": 49,
+  "id": "21267",
+  "median": 70,
+  "n": 1,
+  "name": "墜落人生 ～清楚お嬢様のヤクキメタコ部屋売春ライフ～",
+  "sellday": "2014-11-28"
+ },
+ {
+  "brand": "Lust Bit",
+  "count2": 9,
+  "id": "21298",
+  "median": 50,
+  "n": 1,
+  "name": "催眠術を試したら同じマンションの爆乳人妻が俺のモノになった",
+  "sellday": "2014-11-14"
+ },
+ {
+  "brand": "アトリエさくら eXtra",
+  "count2": 8,
+  "id": "21300",
+  "median": 59,
+  "n": 1,
+  "name": "人妻競売市場 ～エロい人妻お売りします～",
+  "sellday": "2015-01-30"
+ },
+ {
+  "brand": "Lamia",
+  "count2": 158,
+  "id": "21326",
+  "median": 75,
+  "n": 3,
+  "name": "エロ本を捨ててから兄の様子がおかしい",
+  "sellday": "2015-02-27"
+ },
+ {
+  "brand": "α-MODEL",
+  "count2": 28,
+  "id": "21355",
+  "median": 70,
+  "n": 3,
+  "name": "美佐子37歳 ～童貞大学生×普通の主婦～",
+  "sellday": "2014-12-05"
+ },
+ {
+  "brand": "RED-ZONE",
+  "count2": 11,
+  "id": "21364",
+  "median": 70,
+  "n": 1,
+  "name": "万引娘桃色性裁 万引きした幼な妻に生ハメ中出し!!",
+  "sellday": "2015-01-30"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 68,
+  "id": "21366",
+  "median": 78,
+  "n": 1,
+  "name": "妻の媚肉を弄る父の太い指 ～知らぬ間に父のモノになっていた愛妻は、悦びの喘ぎとともに腰をうねらせていた～",
+  "sellday": "2015-02-27"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 17,
+  "id": "21368",
+  "median": 65,
+  "n": 2,
+  "name": "ユリキラー 淫欲に堕ちる百合たち",
+  "sellday": "2015-02-27"
+ },
+ {
+  "brand": "PULLTOP LATTE",
+  "count2": 66,
+  "id": "21372",
+  "median": 65,
+  "n": 1,
+  "name": "ミライカノジョ",
+  "sellday": "2015-03-27"
+ },
+ {
+  "brand": "Parthenon",
+  "count2": 17,
+  "id": "21387",
+  "median": 55,
+  "n": 1,
+  "name": "Temptation Revenger",
+  "sellday": "2014-12-26"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 63,
+  "id": "21401",
+  "median": 70,
+  "n": 3,
+  "name": "エンジェルゲーム",
+  "sellday": "2015-02-27"
+ },
+ {
+  "brand": "アストロノーツ・シリウス",
+  "count2": 282,
+  "id": "21414",
+  "median": 78,
+  "n": 17,
+  "name": "ウルスラグナ ～征戦のデュエリスト～",
+  "sellday": "2015-04-24"
+ },
+ {
+  "brand": "シルキーズSAKURA",
+  "count2": 55,
+  "id": "21426",
+  "median": 69,
+  "n": 1,
+  "name": "堕ちていく新妻 ～ごめんなさいアナタ…私もう……でも、愛してる～",
+  "sellday": "2015-02-27"
+ },
+ {
+  "brand": "Liquid",
+  "count2": 9,
+  "id": "21434",
+  "median": 74,
+  "n": 1,
+  "name": "大催眠ERE",
+  "sellday": "2015-01-30"
+ },
+ {
+  "brand": "人生通行止め",
+  "count2": 96,
+  "id": "21436",
+  "median": 80,
+  "n": 1,
+  "name": "ホントノキモチ",
+  "sellday": "2015-02-20"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 12,
+  "id": "21451",
+  "median": 72,
+  "n": 1,
+  "name": "ナースの奥さんは好きですか? －世話焼きオバちゃん陥落－",
+  "sellday": "2015-01-23"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 26,
+  "id": "21523",
+  "median": 58,
+  "n": 1,
+  "name": "繋がらない携帯電話 ～ただいま他の男とめちゃめちゃセックス中～",
+  "sellday": "2015-03-27"
+ },
+ {
+  "brand": "t japan",
+  "count2": 12,
+  "id": "21525",
+  "median": 71,
+  "n": 1,
+  "name": "SF",
+  "sellday": "2013-05-29"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1053,
+  "id": "21531",
+  "median": 83,
+  "n": 2,
+  "name": "イブニクル",
+  "sellday": "2015-04-24"
+ },
+ {
+  "brand": "Lamia",
+  "count2": 58,
+  "id": "21535",
+  "median": 70,
+  "n": 2,
+  "name": "Trippers. -彼女との学園生活を破壊する、1通の手紙-",
+  "sellday": "2015-04-24"
+ },
+ {
+  "brand": "ピーキー",
+  "count2": 45,
+  "id": "21541",
+  "median": 65,
+  "n": 6,
+  "name": "幼すぎる幼妻",
+  "sellday": "2015-02-20"
+ },
+ {
+  "brand": "INTERHEART",
+  "count2": 91,
+  "id": "21576",
+  "median": 75,
+  "n": 2,
+  "name": "ねえちゃん、ごめん出しちゃった! ～おねえちゃんは僕専用～",
+  "sellday": "2015-04-30"
+ },
+ {
+  "brand": "ディーゼルマインMf",
+  "count2": 17,
+  "id": "21627",
+  "median": 65,
+  "n": 1,
+  "name": "もう許してッ! 射精管理お姉さん",
+  "sellday": "2015-02-20"
+ },
+ {
+  "brand": "スタジオ奪",
+  "count2": 25,
+  "id": "21645",
+  "median": 70,
+  "n": 2,
+  "name": "奪again ～人の妻、また売ります～",
+  "sellday": "2015-04-03"
+ },
+ {
+  "brand": "セイバーフィッシュ",
+  "count2": 1,
+  "id": "21693",
+  "median": 70,
+  "n": 1,
+  "name": "劣情喚起 ～肉棒と中出しを求めるオンナ達～",
+  "sellday": "2015-03-06"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 83,
+  "id": "21717",
+  "median": 75,
+  "n": 8,
+  "name": "恥辱の制服",
+  "sellday": "2015-07-24"
+ },
+ {
+  "brand": "Liar-soft(ビジネスパートナー)",
+  "count2": 332,
+  "id": "21746",
+  "median": 83,
+  "n": 2,
+  "name": "フェアリーテイル・レクイエム",
+  "sellday": "2015-07-24"
+ },
+ {
+  "brand": "ばるきり屋",
+  "count2": 6,
+  "id": "21757",
+  "median": 70,
+  "n": 1,
+  "name": "ぷれい! ぷち! 妊",
+  "sellday": "2015-04-10"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 111,
+  "id": "21820",
+  "median": 74,
+  "n": 1,
+  "name": "対魔忍ユキカゼ Animation",
+  "sellday": "2015-04-24"
+ },
+ {
+  "brand": "牛乳ソフト",
+  "count2": 7,
+  "id": "21878",
+  "median": 60,
+  "n": 1,
+  "name": "姉弟不倫 ～人妻サド姉と近親子作り～",
+  "sellday": "2015-04-28"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 17,
+  "id": "21902",
+  "median": 70,
+  "n": 1,
+  "name": "淑母の疼き2 ～熟れた人妻から漂う“女”の色香～",
+  "sellday": "2015-09-18"
+ },
+ {
+  "brand": "SEACOXX",
+  "count2": 45,
+  "id": "21909",
+  "median": 75,
+  "n": 4,
+  "name": "美少女を上手に肉便器にする方法 Vol.1",
+  "sellday": "2015-04-24"
+ },
+ {
+  "brand": "玉藻スタジオ",
+  "count2": 7,
+  "id": "21917",
+  "median": 60,
+  "n": 1,
+  "name": "閃光の騎士 ‐カリスティアナイト‐",
+  "sellday": "2015-08-16"
+ },
+ {
+  "brand": "KISS",
+  "count2": 314,
+  "id": "21930",
+  "median": 82,
+  "n": 1,
+  "name": "カスタムメイド3D2",
+  "sellday": "2015-07-24"
+ },
+ {
+  "brand": "Miel",
+  "count2": 7,
+  "id": "21962",
+  "median": 50,
+  "n": 1,
+  "name": "清楚ビッチな人妻遥香さんとのむさぼり交尾日誌",
+  "sellday": "2015-05-08"
+ },
+ {
+  "brand": "ようかい玉の輿",
+  "count2": 21,
+  "id": "22002",
+  "median": 71,
+  "n": 1,
+  "name": "ノゾキベヤ",
+  "sellday": "2015-05-01"
+ },
+ {
+  "brand": "ソーラレイ",
+  "count2": 11,
+  "id": "22023",
+  "median": 60,
+  "n": 1,
+  "name": "泥酔させれば楽勝セックス ～叔母と従姉編～",
+  "sellday": "2015-05-22"
+ },
+ {
+  "brand": "男爵領",
+  "count2": 22,
+  "id": "22037",
+  "median": 80,
+  "n": 1,
+  "name": "Evening Starter",
+  "sellday": "2015-04-16"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 1002,
+  "id": "22060",
+  "median": 85,
+  "n": 3,
+  "name": "ランス03 リーザス陥落",
+  "sellday": "2015-08-28"
+ },
+ {
+  "brand": "Liquid",
+  "count2": 15,
+  "id": "22068",
+  "median": 75,
+  "n": 1,
+  "name": "黒獣 ～気高き聖女は白濁に染まる～ ERE",
+  "sellday": "2015-06-26"
+ },
+ {
+  "brand": "Anim",
+  "count2": 5,
+  "id": "22195",
+  "median": 72,
+  "n": 1,
+  "name": "先輩と上司と後輩の奥さんを身も心も寝取る話 ～アフターストーリー＆ハーレムシナリオ～",
+  "sellday": "2015-06-05"
+ },
+ {
+  "brand": "VENUS",
+  "count2": 31,
+  "id": "22200",
+  "median": 75,
+  "n": 3,
+  "name": "色欲の小毬荘 ～人妻・明菜編～",
+  "sellday": "2015-06-23"
+ },
+ {
+  "brand": "Miel",
+  "count2": 6,
+  "id": "22253",
+  "median": 58,
+  "n": 1,
+  "name": "人妻公然恥辱電車 ～携帯一つでお触り即ハメし放題他人の妻を粘着種付け寝取り～",
+  "sellday": "2015-07-24"
+ },
+ {
+  "brand": "娘娘",
+  "count2": 107,
+  "id": "22269",
+  "median": 72,
+  "n": 4,
+  "name": "エロ漫画家さんと貧乏姉妹",
+  "sellday": "2015-10-30"
+ },
+ {
+  "brand": "セイバーフィッシュ",
+  "count2": 4,
+  "id": "22289",
+  "median": 71,
+  "n": 1,
+  "name": "W悪魔のHなおもてなし ～あなたのミルク私達にちょうだい～",
+  "sellday": "2015-07-17"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 37,
+  "id": "22301",
+  "median": 70,
+  "n": 5,
+  "name": "新・他の男の精液で孕んでもいいですか…？2 全身汗だく浮気セックスで妊娠したウェディングプランナーの婚約者",
+  "sellday": "2015-09-25"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 54,
+  "id": "22302",
+  "median": 70,
+  "n": 1,
+  "name": "彼女の肢体に付いたアイツの唇痕 ～幼馴染みの巨乳彼女は先輩の大きな腕に包まれ淫蕩けた笑みを浮かべる～",
+  "sellday": "2015-10-23"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 431,
+  "id": "22341",
+  "median": 80,
+  "n": 2,
+  "name": "Maggot baits",
+  "sellday": "2015-11-27"
+ },
+ {
+  "brand": "INTERHEART glossy",
+  "count2": 21,
+  "id": "22386",
+  "median": 70,
+  "n": 1,
+  "name": "人妻スイミング倶楽部",
+  "sellday": "2015-11-27"
+ },
+ {
+  "brand": "はとのす式製作所",
+  "count2": 78,
+  "id": "22458",
+  "median": 77,
+  "n": 1,
+  "name": "ボクはともだち。I am not sweetheart.",
+  "sellday": "2015-08-16"
+ },
+ {
+  "brand": "SPLUSH WAVE",
+  "count2": 19,
+  "id": "22464",
+  "median": 73,
+  "n": 1,
+  "name": "ドラゴンアカデミー2",
+  "sellday": "2015-08-16"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 14,
+  "id": "22471",
+  "median": 57,
+  "n": 3,
+  "name": "部下の妻と妹を寝取る上司",
+  "sellday": "2015-09-25"
+ },
+ {
+  "brand": "Lass Lunatic",
+  "count2": 75,
+  "id": "22488",
+  "median": 66,
+  "n": 3,
+  "name": "乱れ雪月華 ～儚く散る細雪～",
+  "sellday": "2015-11-27"
+ },
+ {
+  "brand": "スタジオ奪",
+  "count2": 13,
+  "id": "22531",
+  "median": 75,
+  "n": 1,
+  "name": "営業部第4課 牝豚調教飼育係",
+  "sellday": "2015-10-09"
+ },
+ {
+  "brand": "elf",
+  "count2": 117,
+  "id": "22628",
+  "median": 75,
+  "n": 5,
+  "name": "麻呂の患者はガテン系3 完結編",
+  "sellday": "2015-10-15"
+ },
+ {
+  "brand": "クリメニア",
+  "count2": 20,
+  "id": "22668",
+  "median": 70,
+  "n": 1,
+  "name": "催眠貴族",
+  "sellday": "2015-10-29"
+ },
+ {
+  "brand": "DWARFSOFT",
+  "count2": 56,
+  "id": "22677",
+  "median": 71,
+  "n": 1,
+  "name": "貞操観念ZERO ～ヤリマン家族とハメ狂い夏休み～",
+  "sellday": "2015-11-13"
+ },
+ {
+  "brand": "Lust Bit",
+  "count2": 1,
+  "id": "22679",
+  "median": 60,
+  "n": 1,
+  "name": "人妻欲情サイミン",
+  "sellday": "2015-12-11"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 186,
+  "id": "22698",
+  "median": 77,
+  "n": 13,
+  "name": "妻みぐい3",
+  "sellday": "2016-01-29"
+ },
+ {
+  "brand": "Blue Devil",
+  "count2": 37,
+  "id": "22705",
+  "median": 70,
+  "n": 2,
+  "name": "俺のセフレは処女ビッチ!?",
+  "sellday": "2015-10-31"
+ },
+ {
+  "brand": "Miel",
+  "count2": 3,
+  "id": "22811",
+  "median": 65,
+  "n": 2,
+  "name": "巨乳人妻姉妹は中出し肉便器 ～甥の若い巨根に即堕ちメス悦びで寝取り孕ませおねだり～",
+  "sellday": "2015-11-20"
+ },
+ {
+  "brand": "Miel",
+  "count2": 10,
+  "id": "22834",
+  "median": 70,
+  "n": 1,
+  "name": "魔将姫ティルアーナ孕ませ催眠 ～人間を虐げる魔族の姫が暗示一つで肉玩具になる～",
+  "sellday": "2015-12-04"
+ },
+ {
+  "brand": "アストロノーツ・シリウス",
+  "count2": 140,
+  "id": "22873",
+  "median": 75,
+  "n": 1,
+  "name": "ダンジョン オブ レガリアス 背徳の都イシュガリア",
+  "sellday": "2016-03-25"
+ },
+ {
+  "brand": "エロイット",
+  "count2": 26,
+  "id": "22886",
+  "median": 70,
+  "n": 2,
+  "name": "イケナイ子作り3 ～息子の恋人が魅力的で困ってます～",
+  "sellday": "2016-01-29"
+ },
+ {
+  "brand": "Anim",
+  "count2": 55,
+  "id": "22923",
+  "median": 80,
+  "n": 7,
+  "name": "牝堕ち巨乳妻は俺のモノ ～負け組の俺が勝ち組の友人から美人妻を寝取る話～",
+  "sellday": "2016-02-26"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 50,
+  "id": "22978",
+  "median": 73,
+  "n": 2,
+  "name": "貸し出し妻、満里奈の”ネトラセ”報告3 CASE.元彼氏&敏感妻",
+  "sellday": "2016-02-26"
+ },
+ {
+  "brand": "XUSE",
+  "count2": 396,
+  "id": "23010",
+  "median": 84,
+  "n": 8,
+  "name": "神様のゲーム －監禁された6人の男女－",
+  "sellday": "2017-01-27"
+ },
+ {
+  "brand": "ディレッタント",
+  "count2": 5,
+  "id": "23043",
+  "median": 65,
+  "n": 1,
+  "name": "社淫狂育 ～これまでの恨み、すべて晴らしてやる!～",
+  "sellday": "2016-01-22"
+ },
+ {
+  "brand": "スミレ",
+  "count2": 270,
+  "id": "23046",
+  "median": 75,
+  "n": 1,
+  "name": "僕と恋するポンコツアクマ。すっごいえっち!",
+  "sellday": "2016-05-27"
+ },
+ {
+  "brand": "スタジオポーク",
+  "count2": 33,
+  "id": "23066",
+  "median": 75,
+  "n": 3,
+  "name": "叔母寝取り ～夫の知らない淫らな関係～",
+  "sellday": "2016-04-01"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 19,
+  "id": "23111",
+  "median": 60,
+  "n": 1,
+  "name": "溜まってるの、ママが出してやるし♪ ～黒ギャルママのドーテー調教レッスン",
+  "sellday": "2016-02-12"
+ },
+ {
+  "brand": "N蔵司ヶ谷",
+  "count2": 8,
+  "id": "23148",
+  "median": 71,
+  "n": 1,
+  "name": "白の従士と闇の従者",
+  "sellday": "2015-02-28"
+ },
+ {
+  "brand": "include",
+  "count2": 35,
+  "id": "23162",
+  "median": 74,
+  "n": 1,
+  "name": "催眠委員長",
+  "sellday": "2016-08-26"
+ },
+ {
+  "brand": "REAL",
+  "count2": 9,
+  "id": "23165",
+  "median": 55,
+  "n": 1,
+  "name": "いたずら家庭教師 ～密室の猥褻指導～",
+  "sellday": "2016-05-27"
+ },
+ {
+  "brand": "INTERHEART glossy",
+  "count2": 25,
+  "id": "23213",
+  "median": 71,
+  "n": 1,
+  "name": "はらかつ! ～気になるあの子と子作りエッチ～",
+  "sellday": "2016-04-28"
+ },
+ {
+  "brand": "スタジオ奪",
+  "count2": 16,
+  "id": "23223",
+  "median": 73,
+  "n": 2,
+  "name": "奪 ENDING ～人の妻、最後まで売ります～",
+  "sellday": "2016-03-11"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 18,
+  "id": "23326",
+  "median": 75,
+  "n": 2,
+  "name": "兄嫁京香さんとその母千佳子さん ～美人妻と美熟母といっしょ❤︎～ 兄嫁京香編",
+  "sellday": "2016-03-24"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 20,
+  "id": "23327",
+  "median": 80,
+  "n": 1,
+  "name": "兄嫁京香さんとその母千佳子さん ～美人妻と美熟母といっしょ❤︎～ 兄嫁の母千佳子編",
+  "sellday": "2016-09-13"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 63,
+  "id": "23345",
+  "median": 75,
+  "n": 3,
+  "name": "交姦の虜たち…",
+  "sellday": "2016-06-24"
+ },
+ {
+  "brand": "Frill",
+  "count2": 116,
+  "id": "23426",
+  "median": 67,
+  "n": 1,
+  "name": "清楚で真面目な彼女が、最凶ヤリサーに勧誘されたら…?",
+  "sellday": "2016-05-27"
+ },
+ {
+  "brand": "pure more",
+  "count2": 287,
+  "id": "23454",
+  "median": 75,
+  "n": 2,
+  "name": "少女マイノリティ -慰めの愛-",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "Mink",
+  "count2": 23,
+  "id": "23499",
+  "median": 65,
+  "n": 1,
+  "name": "龍堂寺士門の淫謀",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "エロイット",
+  "count2": 16,
+  "id": "23515",
+  "median": 70,
+  "n": 3,
+  "name": "僕の大好きな叔母さん",
+  "sellday": "2016-05-27"
+ },
+ {
+  "brand": "RASK",
+  "count2": 920,
+  "id": "23563",
+  "median": 80,
+  "n": 1,
+  "name": "Re:LieF ～親愛なるあなたへ～",
+  "sellday": "2016-10-28"
+ },
+ {
+  "brand": "ディーゼルマイン",
+  "count2": 5,
+  "id": "23574",
+  "median": 69,
+  "n": 1,
+  "name": "誘惑の団地妻たち ～快楽に溺れる熟れた肉～",
+  "sellday": "2016-04-15"
+ },
+ {
+  "brand": "SLAVEnir",
+  "count2": 67,
+  "id": "23607",
+  "median": 75,
+  "n": 1,
+  "name": "強制AVデビュー 上木愛莉1X歳 ～自慰盗撮から始まった、恥辱と背信の日々～",
+  "sellday": "2016-06-24"
+ },
+ {
+  "brand": "メス男子",
+  "count2": 32,
+  "id": "23617",
+  "median": 65,
+  "n": 3,
+  "name": "彼女を寝取ったヤリチン男を雌堕ちさせるまで",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "Miel",
+  "count2": 6,
+  "id": "23618",
+  "median": 58,
+  "n": 1,
+  "name": "友母ガチ孕ませ! ～デカパイ母性ママを若いセックス漬けで俺の牝にしてやった!～",
+  "sellday": "2016-04-29"
+ },
+ {
+  "brand": "Studio 邪恋",
+  "count2": 5,
+  "id": "23627",
+  "median": 75,
+  "n": 1,
+  "name": "巨乳人妻3P催眠 ～催眠で寝取らせていただきます!～",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "SQUEEZ",
+  "count2": 177,
+  "id": "23664",
+  "median": 75,
+  "n": 1,
+  "name": "炎の孕ませおっぱい★エロアプリ学園",
+  "sellday": "2016-11-25"
+ },
+ {
+  "brand": "エレクトリップ",
+  "count2": 9,
+  "id": "23670",
+  "median": 65,
+  "n": 1,
+  "name": "爆乳人妻メード ～癒され乳母孕ませの館～",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 42,
+  "id": "23696",
+  "median": 80,
+  "n": 4,
+  "name": "壁の向こうの妻の嬌声2 ～隣で激しく腰を振る汗だくの妻は、絶頂の果てに白濁汁を注がれ淫らなイキ顔を上司に魅せる～",
+  "sellday": "2016-08-26"
+ },
+ {
+  "brand": "ORCSOFT",
+  "count2": 132,
+  "id": "23710",
+  "median": 75,
+  "n": 2,
+  "name": "バカだけどチンチンしゃぶるのだけはじょうずなちーちゃん",
+  "sellday": "2016-08-12"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 16,
+  "id": "23723",
+  "median": 60,
+  "n": 2,
+  "name": "私立 寝取り学院3 －続々・10人の彼氏持ち女子校生を“寝取って激イキ”させろ!－",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "シルキーズSAKURA",
+  "count2": 17,
+  "id": "23742",
+  "median": 65,
+  "n": 3,
+  "name": "借り妻 －今夜、兄嫁と寝ます－",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "POISON",
+  "count2": 20,
+  "id": "23743",
+  "median": 70,
+  "n": 2,
+  "name": "姉姉W催眠 ～催眠装置で巨乳姉どもに強制中出し、鬼畜寝取りで孕ませてやる!～",
+  "sellday": "2016-08-26"
+ },
+ {
+  "brand": "魔法使いソフト",
+  "count2": 14,
+  "id": "23787",
+  "median": 63,
+  "n": 1,
+  "name": "人妻刑事は元魔法少女 ～2重スパイの俺が洗脳催眠を繰り返し寝取り堕とす～",
+  "sellday": "2016-06-24"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 27,
+  "id": "23791",
+  "median": 78,
+  "n": 3,
+  "name": "堕ちる人妻 Animation",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "boot UP!",
+  "count2": 54,
+  "id": "23805",
+  "median": 80,
+  "n": 1,
+  "name": "ままはは",
+  "sellday": "2016-09-23"
+ },
+ {
+  "brand": "アパダッシュ",
+  "count2": 12,
+  "id": "23812",
+  "median": 62,
+  "n": 2,
+  "name": "お前の旦那だって俺の妻を奪ったんだから、いいだろう? ～復讐のネトリ～",
+  "sellday": "2016-07-01"
+ },
+ {
+  "brand": "クレージュA",
+  "count2": 67,
+  "id": "23827",
+  "median": 70,
+  "n": 8,
+  "name": "彼には言えない恥辱の関係 ～ごめんね、わたし先生のものにされちゃった……～",
+  "sellday": "2016-07-29"
+ },
+ {
+  "brand": "Blue Devil",
+  "count2": 18,
+  "id": "23922",
+  "median": 70,
+  "n": 1,
+  "name": "お義父さんの子種で孕ませて!",
+  "sellday": "2016-08-14"
+ },
+ {
+  "brand": "HERENCIA",
+  "count2": 15,
+  "id": "23954",
+  "median": 74,
+  "n": 1,
+  "name": "［黒獣外伝］エルフ村の姦落 ～恥辱と快楽の宴～",
+  "sellday": "2016-10-28"
+ },
+ {
+  "brand": "Anim",
+  "count2": 29,
+  "id": "23980",
+  "median": 74,
+  "n": 1,
+  "name": "メス堕ち! 魅惑の人妻ライフ ～年上妻たちとのいちゃらぶ汁だく性活～",
+  "sellday": "2016-10-28"
+ },
+ {
+  "brand": "DualTail(DualMage)",
+  "count2": 117,
+  "id": "24008",
+  "median": 77,
+  "n": 1,
+  "name": "VenusBlood -RAGNAROK-",
+  "sellday": "2016-12-22"
+ },
+ {
+  "brand": "ノアールソフト(NOIR)",
+  "count2": 15,
+  "id": "24024",
+  "median": 67,
+  "n": 1,
+  "name": "女体淫換 ～移り変わる恥辱的好奇心～",
+  "sellday": "2016-09-30"
+ },
+ {
+  "brand": "HARUKAZE",
+  "count2": 1132,
+  "id": "24085",
+  "median": 82,
+  "n": 1,
+  "name": "ノラと皇女と野良猫ハート2",
+  "sellday": "2017-10-27"
+ },
+ {
+  "brand": "わるきゅ～れ",
+  "count2": 45,
+  "id": "24134",
+  "median": 68,
+  "n": 1,
+  "name": "ネトラレンアイ ～愛する彼女が結んだ淫らな契約～",
+  "sellday": "2016-11-25"
+ },
+ {
+  "brand": "ANIME LiLiTH",
+  "count2": 67,
+  "id": "24138",
+  "median": 75,
+  "n": 2,
+  "name": "監獄アカデミア",
+  "sellday": "2017-09-01"
+ },
+ {
+  "brand": "ぱこぱこそふと",
+  "count2": 18,
+  "id": "24156",
+  "median": 65,
+  "n": 1,
+  "name": "エッチなメニューはじめました! ～ヤリマンJKのファミレスご奉仕アルバイト～",
+  "sellday": "2016-08-26"
+ },
+ {
+  "brand": "つるみく",
+  "count2": 17,
+  "id": "24198",
+  "median": 75,
+  "n": 1,
+  "name": "HOTOTOGISU ～ULTRA PATRIOT～",
+  "sellday": "2016-11-25"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 59,
+  "id": "24210",
+  "median": 75,
+  "n": 3,
+  "name": "新妻ふわトロ癒やらしエステ ～毎日がHなラッキー×トラブル×ハプニング～",
+  "sellday": "2016-11-25"
+ },
+ {
+  "brand": "ルネ",
+  "count2": 21,
+  "id": "24229",
+  "median": 70,
+  "n": 1,
+  "name": "巨乳大家族催眠「家族みんなでイキまくるセックスがやめられないのぉ」",
+  "sellday": "2016-12-22"
+ },
+ {
+  "brand": "セイバーフィッシュ",
+  "count2": 8,
+  "id": "24231",
+  "median": 78,
+  "n": 1,
+  "name": "W悪魔のHなおもてなしR ～もっとあなたのミルク私達にちょうだい～",
+  "sellday": "2016-09-21"
+ },
+ {
+  "brand": "Anim M&W(Anim Mother&Wife)",
+  "count2": 43,
+  "id": "24249",
+  "median": 70,
+  "n": 2,
+  "name": "いつまでも僕だけのママのままでいて! ～ああ、良いよママ! もっともっとしゃぶらせて!! デリバリーママがストライクゾーン過ぎてボクの股間はもう限界!!!～",
+  "sellday": "2017-02-24"
+ },
+ {
+  "brand": "SkyFish poco",
+  "count2": 21,
+  "id": "24292",
+  "median": 66,
+  "n": 1,
+  "name": "星空TeaParty えくすとら ～「恋愛」はじまりました!～",
+  "sellday": "2017-03-24"
+ },
+ {
+  "brand": "Fanta",
+  "count2": 2,
+  "id": "24315",
+  "median": 63,
+  "n": 1,
+  "name": "HIJK!",
+  "sellday": "2010-12-31"
+ },
+ {
+  "brand": "スタジオ奪",
+  "count2": 5,
+  "id": "24345",
+  "median": 65,
+  "n": 1,
+  "name": "奪学園 ～一途で可愛い姉妹が知らぬ間に堕ちていく～",
+  "sellday": "2016-10-14"
+ },
+ {
+  "brand": "あかべぇそふとすりぃ",
+  "count2": 120,
+  "id": "24346",
+  "median": 70,
+  "n": 1,
+  "name": "略奪者の淫宴",
+  "sellday": "2016-11-25"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 48,
+  "id": "24350",
+  "median": 75,
+  "n": 6,
+  "name": "俺のセフレはカレシ持ち学生会長 ～生真面目JKがイキ狂って妊娠するまでの浮気SEX記録～",
+  "sellday": "2016-12-30"
+ },
+ {
+  "brand": "Digital Cute",
+  "count2": 96,
+  "id": "24362",
+  "median": 60,
+  "n": 1,
+  "name": "タンテイセブン",
+  "sellday": "2017-06-30"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 135,
+  "id": "24364",
+  "median": 75,
+  "n": 3,
+  "name": "は～とふるママン",
+  "sellday": "2017-01-27"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 11,
+  "id": "24393",
+  "median": 50,
+  "n": 1,
+  "name": "ショタチンにアヘる黒ギャル ～マセガキかと思っていたのに…～",
+  "sellday": "2016-12-02"
+ },
+ {
+  "brand": "相討ちネガティブギャング",
+  "count2": 13,
+  "id": "24397",
+  "median": 75,
+  "n": 2,
+  "name": "放課後エスカレイション ～思い出をください～",
+  "sellday": "2016-11-08"
+ },
+ {
+  "brand": "Miel",
+  "count2": 9,
+  "id": "24411",
+  "median": 68,
+  "n": 2,
+  "name": "隣の新婚人妻をハメ撮り寝取り孕ま性活",
+  "sellday": "2016-11-11"
+ },
+ {
+  "brand": "NIKO",
+  "count2": 493,
+  "id": "24449",
+  "median": 80,
+  "n": 8,
+  "name": "ゴールデンアワー",
+  "sellday": "2017-07-28"
+ },
+ {
+  "brand": "WendyBell",
+  "count2": 28,
+  "id": "24464",
+  "median": 72,
+  "n": 1,
+  "name": "フィットしちゃお! ～年上女性と汗だくレッスン初体験～",
+  "sellday": "2017-03-24"
+ },
+ {
+  "brand": "サークル冥魅亭",
+  "count2": 25,
+  "id": "24509",
+  "median": 80,
+  "n": 1,
+  "name": "ダンジョンタウン ～遺跡の森と夢魔の薬～",
+  "sellday": "2016-10-29"
+ },
+ {
+  "brand": "狼星屋",
+  "count2": 11,
+  "id": "24519",
+  "median": 74,
+  "n": 1,
+  "name": "リンカノ -白濁の輪舞曲-",
+  "sellday": "2016-08-14"
+ },
+ {
+  "brand": "アパダッシュ",
+  "count2": 6,
+  "id": "24530",
+  "median": 55,
+  "n": 1,
+  "name": "お前の妻は、オレの淫乱肉嫁 ～お隣さんは欲求不満でした～",
+  "sellday": "2017-02-03"
+ },
+ {
+  "brand": "逆流そふと",
+  "count2": 48,
+  "id": "24556",
+  "median": 80,
+  "n": 1,
+  "name": "ネノトリ",
+  "sellday": "2016-09-17"
+ },
+ {
+  "brand": "人生通行止め",
+  "count2": 68,
+  "id": "24634",
+  "median": 78,
+  "n": 1,
+  "name": "エガオノリユウ",
+  "sellday": "2020-03-13"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 19,
+  "id": "24642",
+  "median": 60,
+  "n": 2,
+  "name": "ほら、そんなに声を漏らすと彼氏にバレちまうぜ? ～エロゲ世界でモブの少女を寝取ってみた～",
+  "sellday": "2017-02-03"
+ },
+ {
+  "brand": "シルキーズSAKURA",
+  "count2": 38,
+  "id": "24765",
+  "median": 70,
+  "n": 2,
+  "name": "堕とされた美姉妹 ～どうかその娘だけは助けて下さい～",
+  "sellday": "2017-04-28"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 12,
+  "id": "24831",
+  "median": 65,
+  "n": 1,
+  "name": "祖母と僕 ～おばあちゃん、なにかでちゃうよぉ～",
+  "sellday": "2017-03-10"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 58,
+  "id": "24915",
+  "median": 80,
+  "n": 1,
+  "name": "妻の肉穴にホームステイするマッチョ留学生 ～出張中のその裏で、妻は黒光り棒から溢れるほどの白濁を注がれ、悦びに満ちたアクメ顔を晒していた～",
+  "sellday": "2017-05-26"
+ },
+ {
+  "brand": "DOLCE",
+  "count2": 293,
+  "id": "24936",
+  "median": 78,
+  "n": 2,
+  "name": "カサブランカの蕾",
+  "sellday": "2017-05-26"
+ },
+ {
+  "brand": "Guilty",
+  "count2": 17,
+  "id": "24954",
+  "median": 70,
+  "n": 1,
+  "name": "手籠めにされる九人の堕女 The Motion",
+  "sellday": "2017-04-28"
+ },
+ {
+  "brand": "include",
+  "count2": 30,
+  "id": "24958",
+  "median": 65,
+  "n": 3,
+  "name": "モブ催眠",
+  "sellday": "2017-08-25"
+ },
+ {
+  "brand": "アオクマシー",
+  "count2": 3,
+  "id": "24975",
+  "median": 70,
+  "n": 2,
+  "name": "秘密の野球拳!",
+  "sellday": "2013-05-22"
+ },
+ {
+  "brand": "POISON",
+  "count2": 13,
+  "id": "24981",
+  "median": 60,
+  "n": 1,
+  "name": "JK寝取鬼調教 ～学園400人の性処理係、寝取られ孕まされた性奴委員～",
+  "sellday": "2017-05-26"
+ },
+ {
+  "brand": "桃源郷",
+  "count2": 7,
+  "id": "24992",
+  "median": 70,
+  "n": 1,
+  "name": "俺が愛した人妻 ～恵美子～",
+  "sellday": "2017-04-14"
+ },
+ {
+  "brand": "めくじら",
+  "count2": 56,
+  "id": "25034",
+  "median": 79,
+  "n": 2,
+  "name": "遊郭に売られた俺の彼女",
+  "sellday": "2017-02-28"
+ },
+ {
+  "brand": "Potage",
+  "count2": 4,
+  "id": "25103",
+  "median": 60,
+  "n": 1,
+  "name": "変態!! 穴マニア",
+  "sellday": "2017-06-23"
+ },
+ {
+  "brand": "デジタルGパワー",
+  "count2": 6,
+  "id": "25117",
+  "median": 60,
+  "n": 1,
+  "name": "寝取られた!",
+  "sellday": "2017-04-14"
+ },
+ {
+  "brand": "PAPER HEARTS",
+  "count2": 2,
+  "id": "25139",
+  "median": 70,
+  "n": 1,
+  "name": "催眠銃でヤリたい放題(気になるあの娘が堕ちた記録)",
+  "sellday": "2016-03-27"
+ },
+ {
+  "brand": "PAPER HEARTS",
+  "count2": 1,
+  "id": "25140",
+  "median": 69,
+  "n": 1,
+  "name": "催眠同居性活 ～幸せ家族の人生崩壊～",
+  "sellday": "2016-07-23"
+ },
+ {
+  "brand": "PAPER HEARTS",
+  "count2": 1,
+  "id": "25141",
+  "median": 69,
+  "n": 1,
+  "name": "気になるあの娘たちのその後+",
+  "sellday": "2016-12-24"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 25,
+  "id": "25162",
+  "median": 62,
+  "n": 2,
+  "name": "Oh,Yes! 褐色ビッチ人妻の性欲解消 ～エロエロできるママさんバレー会～",
+  "sellday": "2017-05-12"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 193,
+  "id": "25180",
+  "median": 75,
+  "n": 1,
+  "name": "超昂神騎エクシール",
+  "sellday": "2017-07-28"
+ },
+ {
+  "brand": "KAI",
+  "count2": 20,
+  "id": "25183",
+  "median": 80,
+  "n": 1,
+  "name": "魔女と剣と千の月 Crimson Apocalypse",
+  "sellday": "2017-09-01"
+ },
+ {
+  "brand": "TinkerBell",
+  "count2": 21,
+  "id": "25212",
+  "median": 70,
+  "n": 1,
+  "name": "義母の滴 ～湿った肌から香り立つ甘い色香～",
+  "sellday": "2017-09-29"
+ },
+ {
+  "brand": "アストロノーツ・シリウス",
+  "count2": 143,
+  "id": "25229",
+  "median": 75,
+  "n": 1,
+  "name": "百奇繚乱の館",
+  "sellday": "2017-07-28"
+ },
+ {
+  "brand": "NitroPlus",
+  "count2": 320,
+  "id": "25283",
+  "median": 75,
+  "n": 3,
+  "name": "みにくいモジカの子",
+  "sellday": "2018-07-27"
+ },
+ {
+  "brand": "Miel",
+  "count2": 23,
+  "id": "25375",
+  "median": 70,
+  "n": 3,
+  "name": "爆乳人妻戦士ピュア・メイデン ～現役復帰した美少女戦士の熟れムチボディをチン負けさせて寝取り孕ませオナホハーレム化!～",
+  "sellday": "2017-05-26"
+ },
+ {
+  "brand": "Mink",
+  "count2": 9,
+  "id": "25406",
+  "median": 70,
+  "n": 1,
+  "name": "龍堂寺士門の淫謀 アニメ追加版",
+  "sellday": "2017-05-26"
+ },
+ {
+  "brand": "pin-point",
+  "count2": 59,
+  "id": "25436",
+  "median": 71,
+  "n": 1,
+  "name": "神装聖姫エレメンティア ～屈辱の洗脳催眠～",
+  "sellday": "2017-08-25"
+ },
+ {
+  "brand": "boot UP!",
+  "count2": 23,
+  "id": "25439",
+  "median": 70,
+  "n": 2,
+  "name": "あまいえ",
+  "sellday": "2017-09-29"
+ },
+ {
+  "brand": "人生通行止め",
+  "count2": 49,
+  "id": "25460",
+  "median": 80,
+  "n": 10,
+  "name": "コトネイロ",
+  "sellday": "2026-03-13"
+ },
+ {
+  "brand": "セイバーフィッシュ",
+  "count2": 5,
+  "id": "25496",
+  "median": 80,
+  "n": 1,
+  "name": "禁忌劣情 ～淫らな欲望に魅せられて～",
+  "sellday": "2017-06-19"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 26,
+  "id": "25600",
+  "median": 70,
+  "n": 1,
+  "name": "新・他の男の精液で孕んでもいいですか…? 3 浮気手記に綴られた快楽の爪痕",
+  "sellday": "2017-09-29"
+ },
+ {
+  "brand": "シルキーズSAKURA",
+  "count2": 20,
+  "id": "25610",
+  "median": 73,
+  "n": 1,
+  "name": "夫の居ぬ間に… ～わたし脅されて、あなたに言えないコトしました～",
+  "sellday": "2017-10-27"
+ },
+ {
+  "brand": "α-MODEL",
+  "count2": 26,
+  "id": "25627",
+  "median": 80,
+  "n": 1,
+  "name": "親友の母 久美子  ～穴の位置から孕ませ方まで全て彼女が教えてくれた～",
+  "sellday": "2017-11-25"
+ },
+ {
+  "brand": "ILLUSION(Dreams)",
+  "count2": 37,
+  "id": "25650",
+  "median": 75,
+  "n": 2,
+  "name": "プレイホーム 家族崩壊",
+  "sellday": "2017-10-13"
+ },
+ {
+  "brand": "DWARFSOFT",
+  "count2": 71,
+  "id": "25690",
+  "median": 75,
+  "n": 3,
+  "name": "色情教団",
+  "sellday": "2017-12-01"
+ },
+ {
+  "brand": "catwalkNERO",
+  "count2": 54,
+  "id": "25697",
+  "median": 71,
+  "n": 3,
+  "name": "アナスタシアと7人の姫女神 ～淫紋の烙印～",
+  "sellday": "2018-04-27"
+ },
+ {
+  "brand": "ピオニー",
+  "count2": 3,
+  "id": "25720",
+  "median": 60,
+  "n": 1,
+  "name": "俺は熟女狂愛主義 ～欲求不満な人妻ほど堕ちやすい～",
+  "sellday": "2017-10-27"
+ },
+ {
+  "brand": "わるきゅ～れ",
+  "count2": 62,
+  "id": "25722",
+  "median": 71,
+  "n": 1,
+  "name": "娘くずし ～父と娘の狂縁～",
+  "sellday": "2017-11-24"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 16,
+  "id": "25723",
+  "median": 61,
+  "n": 2,
+  "name": "催眠アプリで寝取りハメ ～これまでの恨み、ヤり返してやる!～",
+  "sellday": "2017-10-13"
+ },
+ {
+  "brand": "INTERHEART glossy",
+  "count2": 16,
+  "id": "25745",
+  "median": 71,
+  "n": 3,
+  "name": "人妻寝取り屋",
+  "sellday": "2018-01-26"
+ },
+ {
+  "brand": "インカローズ",
+  "count2": 10,
+  "id": "25792",
+  "median": 62,
+  "n": 1,
+  "name": "筆下ろしママ ～溢れる白濁&ミルク～",
+  "sellday": "2017-11-24"
+ },
+ {
+  "brand": "スタジオポーク",
+  "count2": 29,
+  "id": "25820",
+  "median": 80,
+  "n": 1,
+  "name": "湯けむり人妻慕情旅 ～ゆきずりの関係を結ぶ女たち～",
+  "sellday": "2017-09-09"
+ },
+ {
+  "brand": "pin-point",
+  "count2": 32,
+  "id": "25830",
+  "median": 70,
+  "n": 1,
+  "name": "彼女が野球部の性処理マネージャーに… ～体育会系セックスで寝取られて～",
+  "sellday": "2018-01-26"
+ },
+ {
+  "brand": "Anim",
+  "count2": 20,
+  "id": "25863",
+  "median": 74,
+  "n": 2,
+  "name": "メス堕ち! 巨乳妻との癒され愛温泉 ～巨乳妻たちと身も心もふれあうラブエロ性活～",
+  "sellday": "2017-12-22"
+ },
+ {
+  "brand": "シルキーズプラスDOLCE",
+  "count2": 406,
+  "id": "25868",
+  "median": 76,
+  "n": 3,
+  "name": "景の海のアペイリア ～カサブランカの騎士～",
+  "sellday": "2017-12-22"
+ },
+ {
+  "brand": "KISS",
+  "count2": 132,
+  "id": "25891",
+  "median": 80,
+  "n": 1,
+  "name": "カスタムオーダーメイド3D2",
+  "sellday": "2018-02-23"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 11,
+  "id": "25939",
+  "median": 55,
+  "n": 1,
+  "name": "褐色クールビッチ人妻の性欲解消 ～今度は海でセックスレッスン!?～",
+  "sellday": "2017-11-02"
+ },
+ {
+  "brand": "エロイット",
+  "count2": 16,
+  "id": "25972",
+  "median": 70,
+  "n": 1,
+  "name": "母感 ～義母さんの子宮は誰のモノ?～",
+  "sellday": "2017-12-22"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 27,
+  "id": "25978",
+  "median": 70,
+  "n": 1,
+  "name": "饗宴の赤 ～読心調教録～",
+  "sellday": "2017-11-24"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 22,
+  "id": "26015",
+  "median": 67,
+  "n": 1,
+  "name": "妻が身体を開く理由 ～知らぬ間に甥からセックス開発されていた愛する妻～",
+  "sellday": "2017-12-22"
+ },
+ {
+  "brand": "桃源郷",
+  "count2": 4,
+  "id": "26090",
+  "median": 50,
+  "n": 1,
+  "name": "人妻催眠計画 ～催眠誤認で家庭円マン!～",
+  "sellday": "2017-12-22"
+ },
+ {
+  "brand": "ピオニー",
+  "count2": 2,
+  "id": "26114",
+  "median": 50,
+  "n": 1,
+  "name": "イケない人妻たち ～どうしても我慢できなくて～",
+  "sellday": "2018-01-26"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 12,
+  "id": "26117",
+  "median": 60,
+  "n": 2,
+  "name": "兄嫁 -未亡人-",
+  "sellday": "2018-01-26"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 24,
+  "id": "26142",
+  "median": 71,
+  "n": 2,
+  "name": "俺を欲しがる二人の母",
+  "sellday": "2018-03-23"
+ },
+ {
+  "brand": "Leaf",
+  "count2": 911,
+  "id": "26206",
+  "median": 96,
+  "n": 2,
+  "name": "WHITE ALBUM2 EXTENDED EDITION",
+  "sellday": "2018-02-14"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 59,
+  "id": "26219",
+  "median": 79,
+  "n": 2,
+  "name": "僕に抱かれ喘ぐ妻は、他の男に抱かれた話を紡ぐ ～妻の綺麗な肉ビラが他の男のイキリ棒に押し広げられているのを見て、ガチガチにカンカン棒を膨張させる～",
+  "sellday": "2018-02-23"
+ },
+ {
+  "brand": "INTERHEART glossy",
+  "count2": 11,
+  "id": "26222",
+  "median": 70,
+  "n": 1,
+  "name": "ヒトヅマサイミンカウンセリング",
+  "sellday": "2018-03-30"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 10,
+  "id": "26242",
+  "median": 55,
+  "n": 1,
+  "name": "欲求不満なボクのママのSEXレッスン ～パパには言えない家庭内情事～",
+  "sellday": "2018-03-02"
+ },
+ {
+  "brand": "アパダッシュ",
+  "count2": 23,
+  "id": "26244",
+  "median": 69,
+  "n": 1,
+  "name": "たわわ奥さん×ハプニングジム ～むっちりボディとすけべなエクササイズ～",
+  "sellday": "2018-03-09"
+ },
+ {
+  "brand": "桃源郷",
+  "count2": 4,
+  "id": "26255",
+  "median": 63,
+  "n": 1,
+  "name": "両隣の人妻 ～そうなった理由はアパートの壁が薄かったから～",
+  "sellday": "2018-01-26"
+ },
+ {
+  "brand": "ILLUSION(Dreams)",
+  "count2": 165,
+  "id": "26529",
+  "median": 82,
+  "n": 1,
+  "name": "コイカツ!",
+  "sellday": "2018-04-27"
+ },
+ {
+  "brand": "ぺぺろんちーの",
+  "count2": 5,
+  "id": "26541",
+  "median": 70,
+  "n": 1,
+  "name": "バージン・ロード",
+  "sellday": "2017-07-11"
+ },
+ {
+  "brand": "茶色いうさぎの",
+  "count2": 3,
+  "id": "26543",
+  "median": 89,
+  "n": 1,
+  "name": "おねショタなつやすみ",
+  "sellday": "2017-09-25"
+ },
+ {
+  "brand": "DOLCE",
+  "count2": 109,
+  "id": "26557",
+  "median": 73,
+  "n": 1,
+  "name": "シャムロックの花言葉",
+  "sellday": "2018-06-29"
+ },
+ {
+  "brand": "わるきゅ～れ",
+  "count2": 45,
+  "id": "26562",
+  "median": 70,
+  "n": 1,
+  "name": "プレイ! プレイ! プレイ! GO!",
+  "sellday": "2018-05-25"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 388,
+  "id": "26604",
+  "median": 80,
+  "n": 1,
+  "name": "Erewhon",
+  "sellday": "2018-07-27"
+ },
+ {
+  "brand": "DWARFSOFT",
+  "count2": 35,
+  "id": "26607",
+  "median": 70,
+  "n": 1,
+  "name": "ヤリチン家庭教師ネトリ報告 ～ドスケベ巨乳母娘丼～",
+  "sellday": "2018-04-13"
+ },
+ {
+  "brand": "インカローズ",
+  "count2": 8,
+  "id": "26612",
+  "median": 60,
+  "n": 1,
+  "name": "人妻ざかりの性指導",
+  "sellday": "2018-05-25"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 70,
+  "id": "26614",
+  "median": 79,
+  "n": 14,
+  "name": "親友が気づかぬ内に彼女を寝取るボク",
+  "sellday": "2018-06-29"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 148,
+  "id": "26624",
+  "median": 80,
+  "n": 4,
+  "name": "Love×Holic ～魅惑の乙女と白濁カンケイ～",
+  "sellday": "2018-05-25"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 49,
+  "id": "26660",
+  "median": 75,
+  "n": 1,
+  "name": "貸し出し妻、真由美の“ネトラセ”報告 敏感妻と不倫出張",
+  "sellday": "2018-05-25"
+ },
+ {
+  "brand": "SEACOXX",
+  "count2": 305,
+  "id": "26667",
+  "median": 80,
+  "n": 1,
+  "name": "ゾンビのあふれた世界で俺だけが襲われない Vol.3",
+  "sellday": "2018-04-13"
+ },
+ {
+  "brand": "POISON",
+  "count2": 16,
+  "id": "26672",
+  "median": 69,
+  "n": 1,
+  "name": "姉妹X催眠 ～絶対服従、俺がずっと王様～",
+  "sellday": "2018-05-25"
+ },
+ {
+  "brand": "HERENCIA",
+  "count2": 25,
+  "id": "26678",
+  "median": 70,
+  "n": 1,
+  "name": "リラクゼーション優美 ～貴方だけの秘密の癒し～",
+  "sellday": "2018-06-29"
+ },
+ {
+  "brand": "4H",
+  "count2": 44,
+  "id": "26691",
+  "median": 80,
+  "n": 1,
+  "name": "ぜんがく! 紗奈アペンド",
+  "sellday": "2018-05-18"
+ },
+ {
+  "brand": "シルキーズSAKURA",
+  "count2": 24,
+  "id": "26694",
+  "median": 65,
+  "n": 1,
+  "name": "痴漢狂 ～ガチ使えるアプリでムチムチ巨乳尻を揉んで触って! アクメ顔でイカせたい!!～",
+  "sellday": "2018-04-06"
+ },
+ {
+  "brand": "Qruppo",
+  "count2": 1915,
+  "id": "26724",
+  "median": 85,
+  "n": 1,
+  "name": "抜きゲーみたいな島に住んでる貧乳はどうすりゃいいですか?",
+  "sellday": "2018-07-27"
+ },
+ {
+  "brand": "人生通行止め",
+  "count2": 31,
+  "id": "26804",
+  "median": 75,
+  "n": 3,
+  "name": "カノビッチ ～彼女がビッチになった理由～",
+  "sellday": "2018-08-17"
+ },
+ {
+  "brand": "INTERHEART",
+  "count2": 19,
+  "id": "26817",
+  "median": 55,
+  "n": 1,
+  "name": "イイナリ姉色 ～お姉ちゃんさえいればいい!～",
+  "sellday": "2018-08-31"
+ },
+ {
+  "brand": "アパダッシュ",
+  "count2": 18,
+  "id": "26849",
+  "median": 60,
+  "n": 1,
+  "name": "桃尻インストラクター寝取りレッスン ～競泳水着でえろざんまい～",
+  "sellday": "2018-07-13"
+ },
+ {
+  "brand": "アンモライト",
+  "count2": 22,
+  "id": "26850",
+  "median": 70,
+  "n": 3,
+  "name": "俺の妹は清純ビッチ ～親には秘密のハメハメ性活～",
+  "sellday": "2018-08-31"
+ },
+ {
+  "brand": "アトリエさくら eXtra",
+  "count2": 24,
+  "id": "26932",
+  "median": 70,
+  "n": 1,
+  "name": "新人20歳のお姉ちゃんAVデビュー!! 悠木倫2 俺のねーちゃんは激イキ巨乳のAV女優",
+  "sellday": "2018-08-31"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 21,
+  "id": "26964",
+  "median": 65,
+  "n": 3,
+  "name": "黒ギャル娘との淫欲相姦 ～翻弄される父親の性欲～",
+  "sellday": "2018-08-03"
+ },
+ {
+  "brand": "ディーゼルマイン",
+  "count2": 6,
+  "id": "27022",
+  "median": 68,
+  "n": 1,
+  "name": "巡りくる夏の日は…",
+  "sellday": "2018-07-27"
+ },
+ {
+  "brand": "ORCSOFT",
+  "count2": 39,
+  "id": "27041",
+  "median": 72,
+  "n": 1,
+  "name": "お前の母ちゃん、良い女だよな。",
+  "sellday": "2018-09-21"
+ },
+ {
+  "brand": "boot UP!",
+  "count2": 13,
+  "id": "27062",
+  "median": 70,
+  "n": 1,
+  "name": "ままはは2",
+  "sellday": "2018-09-28"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 12,
+  "id": "27063",
+  "median": 72,
+  "n": 1,
+  "name": "元ヤン奥さんとギャル娘ちゃん ～菜緒さんは硬派な元ヤン妻～",
+  "sellday": "2018-09-02"
+ },
+ {
+  "brand": "Azurite",
+  "count2": 350,
+  "id": "27073",
+  "median": 78,
+  "n": 1,
+  "name": "タマユラミライ",
+  "sellday": "2019-05-31"
+ },
+ {
+  "brand": "Liquid",
+  "count2": 41,
+  "id": "27080",
+  "median": 75,
+  "n": 2,
+  "name": "黒獣・改 ～気高き聖女は白濁に染まる～",
+  "sellday": "2018-10-26"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 34,
+  "id": "27145",
+  "median": 69,
+  "n": 4,
+  "name": "僕ママ×友ママ交姦ハメップ性活 ～母性あふれる僕らの巨乳ママたちは背徳に身悶えながら甘えん棒を貪り喘ぐ～",
+  "sellday": "2018-11-30"
+ },
+ {
+  "brand": "シルキーズSAKURA",
+  "count2": 32,
+  "id": "27152",
+  "median": 70,
+  "n": 1,
+  "name": "背徳と欲望の間で ～罪悪に濡れるオンナ～",
+  "sellday": "2018-12-14"
+ },
+ {
+  "brand": "あせろら",
+  "count2": 14,
+  "id": "27163",
+  "median": 74,
+  "n": 2,
+  "name": "寝取られ幼妻リアナ ～流されやすい最愛の幼妻のHな日常～",
+  "sellday": "2018-09-22"
+ },
+ {
+  "brand": "SUKARADOG",
+  "count2": 14,
+  "id": "27188",
+  "median": 69,
+  "n": 1,
+  "name": "ネブギャル ～JKギャルを舐り尽くして彼氏バレ「おじさん以外もういらねーから」～",
+  "sellday": "2018-11-30"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 13,
+  "id": "27201",
+  "median": 50,
+  "n": 1,
+  "name": "パート主婦との倒錯不倫 ～売れない同人作家の一大転機～",
+  "sellday": "2018-10-12"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 17,
+  "id": "27207",
+  "median": 65,
+  "n": 2,
+  "name": "母三人とアナあそび",
+  "sellday": "2018-12-21"
+ },
+ {
+  "brand": "Mink",
+  "count2": 9,
+  "id": "27223",
+  "median": 55,
+  "n": 1,
+  "name": "熟した果実たち ～ママ隷奴・完全版～",
+  "sellday": "2018-11-30"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 61,
+  "id": "27225",
+  "median": 71,
+  "n": 1,
+  "name": "正義の変身ヒロインを支える俺と悪の女幹部",
+  "sellday": "2018-10-19"
+ },
+ {
+  "brand": "クレージュA",
+  "count2": 96,
+  "id": "27239",
+  "median": 66,
+  "n": 2,
+  "name": "妹快楽堕ち ～お兄ちゃんに無理やりハメられてから～",
+  "sellday": "2018-10-04"
+ },
+ {
+  "brand": "pin-point",
+  "count2": 37,
+  "id": "27254",
+  "median": 75,
+  "n": 3,
+  "name": "妻が隠していたビデオ… ～元カレ寝取らせ観察記～",
+  "sellday": "2018-11-02"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 41,
+  "id": "27257",
+  "median": 70,
+  "n": 1,
+  "name": "愛する妻、真理子の不倫報告 ～夫公認のガチ不倫SEX～",
+  "sellday": "2018-11-30"
+ },
+ {
+  "brand": "POISON",
+  "count2": 14,
+  "id": "27299",
+  "median": 60,
+  "n": 1,
+  "name": "姉姉W催眠DX ～催眠で6人の巨乳姉達を貪り孕ます欲望の宴!～",
+  "sellday": "2019-02-22"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 217,
+  "id": "27398",
+  "median": 82,
+  "n": 2,
+  "name": "初めての彼女",
+  "sellday": "2019-04-26"
+ },
+ {
+  "brand": "ファントムソフト",
+  "count2": 8,
+  "id": "27409",
+  "median": 74,
+  "n": 1,
+  "name": "膣内射精AV撮影 托卵男に子宮を明け渡す人妻弁護士 ～あなたの子供は堕ろしました～",
+  "sellday": "2018-12-21"
+ },
+ {
+  "brand": "GOKU-RAKU",
+  "count2": 3,
+  "id": "27509",
+  "median": 75,
+  "n": 1,
+  "name": "ひとづま ～愛した女性は人妻でした～",
+  "sellday": "2019-02-28"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 104,
+  "id": "27542",
+  "median": 78,
+  "n": 1,
+  "name": "姉ちゃんのススメ ～お姉ちゃんのイタズラ性生活～",
+  "sellday": "2019-02-28"
+ },
+ {
+  "brand": "ルネ",
+  "count2": 20,
+  "id": "27551",
+  "median": 70,
+  "n": 1,
+  "name": "巨乳ギャルMC交際「こんなオジサンチ○ポに逆らえないなんて……マジありえないっ!」",
+  "sellday": "2019-03-29"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 32,
+  "id": "27559",
+  "median": 65,
+  "n": 2,
+  "name": "トモダチ♂♀セックス 彼氏に内緒で同棲生活!",
+  "sellday": "2019-02-28"
+ },
+ {
+  "brand": "猫尺",
+  "count2": 2,
+  "id": "27640",
+  "median": 58,
+  "n": 1,
+  "name": "タイムイズマイン ～時間停止をして友人の彼女を徹底的に犯したら、とんでもないことになった～",
+  "sellday": "2019-01-12"
+ },
+ {
+  "brand": "アオクマシー",
+  "count2": 2,
+  "id": "27644",
+  "median": 77,
+  "n": 1,
+  "name": "一緒にヤろうよ!!",
+  "sellday": "2018-11-29"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 109,
+  "id": "27663",
+  "median": 79,
+  "n": 3,
+  "name": "母爛漫",
+  "sellday": "2019-04-26"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 14,
+  "id": "27675",
+  "median": 70,
+  "n": 1,
+  "name": "兄嫁セックス ～俺に抱かれるエロい義姉とのエッチ生活～",
+  "sellday": "2019-03-29"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 52,
+  "id": "27716",
+  "median": 63,
+  "n": 3,
+  "name": "ママは対魔忍",
+  "sellday": "2019-04-19"
+ },
+ {
+  "brand": "Qruppo",
+  "count2": 1421,
+  "id": "27720",
+  "median": 89,
+  "n": 1,
+  "name": "抜きゲーみたいな島に住んでる貧乳はどうすりゃいいですか? 2",
+  "sellday": "2019-07-26"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 17,
+  "id": "27757",
+  "median": 60,
+  "n": 1,
+  "name": "スマホを忘れただけなのに… ～脅され快楽に堕とされていくギャル～",
+  "sellday": "2019-05-10"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 28,
+  "id": "27815",
+  "median": 75,
+  "n": 1,
+  "name": "貸し出し妻、真由美の“ネトラセ”報告2 敏感妻とひとつの“嘘”",
+  "sellday": "2019-05-31"
+ },
+ {
+  "brand": "POISON",
+  "count2": 22,
+  "id": "27824",
+  "median": 74,
+  "n": 4,
+  "name": "家庭教師X催眠 ～絶対従順、ワガママJKとハイソ妻を催眠操作～",
+  "sellday": "2019-08-30"
+ },
+ {
+  "brand": "Anim",
+  "count2": 21,
+  "id": "27829",
+  "median": 75,
+  "n": 4,
+  "name": "メス堕ち!巨乳水着妻たちとのラブエロスイミング! ～プールで監視員のバイトを始めたら水着の人妻達に囲まれて童貞喪失した!?～",
+  "sellday": "2019-06-28"
+ },
+ {
+  "brand": "サークル冥魅亭",
+  "count2": 16,
+  "id": "27947",
+  "median": 70,
+  "n": 1,
+  "name": "死神娼館 ～ 宿屋の主人に転生して女冒険者にいろいろするRPG",
+  "sellday": "2020-02-21"
+ },
+ {
+  "brand": "VENUS",
+  "count2": 25,
+  "id": "27960",
+  "median": 80,
+  "n": 2,
+  "name": "さまぁ☆ソルト",
+  "sellday": "2019-05-16"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 62,
+  "id": "27976",
+  "median": 73,
+  "n": 1,
+  "name": "えろまんが! Hもマンガもステップアップ♪ HDリマスター",
+  "sellday": "2019-07-26"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 10,
+  "id": "27995",
+  "median": 38,
+  "n": 1,
+  "name": "寝取られ妻・絵理奈 ～愛する妻は他の男の上で腰を振る～",
+  "sellday": "2019-07-26"
+ },
+ {
+  "brand": "BISHOP",
+  "count2": 56,
+  "id": "28037",
+  "median": 79,
+  "n": 2,
+  "name": "家属 ～母と姉妹の嬌声～",
+  "sellday": "2019-09-27"
+ },
+ {
+  "brand": "みるくふぁくとりー",
+  "count2": 165,
+  "id": "28072",
+  "median": 80,
+  "n": 1,
+  "name": "もっと!孕ませ!炎のおっぱい超エロ♡アプリ学園!",
+  "sellday": "2019-11-29"
+ },
+ {
+  "brand": "KI-SofTWarE",
+  "count2": 1,
+  "id": "28136",
+  "median": 85,
+  "n": 1,
+  "name": "ポーチャメイダー 潰せオークエンパイア! 世界豚人間計画!!",
+  "sellday": "2019-08-11"
+ },
+ {
+  "brand": "猿兵団",
+  "count2": 6,
+  "id": "28137",
+  "median": 85,
+  "n": 1,
+  "name": "クロスブリードジョーカー",
+  "sellday": "2019-06-29"
+ },
+ {
+  "brand": "Black Lilith",
+  "count2": 42,
+  "id": "28210",
+  "median": 75,
+  "n": 1,
+  "name": "対魔忍ユキカゼ2 Animation",
+  "sellday": "2019-07-26"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 26,
+  "id": "28224",
+  "median": 67,
+  "n": 1,
+  "name": "いかにして俺の妻は孕んだか……",
+  "sellday": "2019-11-29"
+ },
+ {
+  "brand": "バグシステム",
+  "count2": 232,
+  "id": "28260",
+  "median": 77,
+  "n": 1,
+  "name": "真愛の百合は赤く染まる",
+  "sellday": "2019-11-29"
+ },
+ {
+  "brand": "Immoral Sneaking制作委員会",
+  "count2": 1,
+  "id": "28261",
+  "median": 70,
+  "n": 1,
+  "name": "Immoral Sneaking -罠にはまった乙女たち-",
+  "sellday": "2011-12-31"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 24,
+  "id": "28341",
+  "median": 65,
+  "n": 2,
+  "name": "僕と彼女の淫らな宴",
+  "sellday": "2019-10-25"
+ },
+ {
+  "brand": "Chatte Noire",
+  "count2": 194,
+  "id": "28407",
+  "median": 81,
+  "n": 1,
+  "name": "贄の匣庭",
+  "sellday": "2024-02-16"
+ },
+ {
+  "brand": "ドージンオトメ",
+  "count2": 83,
+  "id": "28444",
+  "median": 78,
+  "n": 4,
+  "name": "あまえんぼ 〜性を抑え切れない僕と無償の親子〜",
+  "sellday": "2019-09-10"
+ },
+ {
+  "brand": "include",
+  "count2": 25,
+  "id": "28509",
+  "median": 70,
+  "n": 3,
+  "name": "求婚催眠 ～私、絶対に浮気なんてしません～",
+  "sellday": "2020-06-26"
+ },
+ {
+  "brand": "ルネ",
+  "count2": 24,
+  "id": "28633",
+  "median": 70,
+  "n": 1,
+  "name": "巨乳女戦士・土下座催眠「ちくしょうっ……アタシはお前の思い通りになんか、ならないからな……!」",
+  "sellday": "2019-12-27"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 95,
+  "id": "28635",
+  "median": 75,
+  "n": 3,
+  "name": "ままごと ～ママとないしょのエッチしましょ～",
+  "sellday": "2019-11-29"
+ },
+ {
+  "brand": "自由いんぽん党",
+  "count2": 5,
+  "id": "28757",
+  "median": 65,
+  "n": 1,
+  "name": "母さん愛してる ～人生をかけた母親陥落大作戦～",
+  "sellday": "2019-10-06"
+ },
+ {
+  "brand": "きゃべつそふと",
+  "count2": 1567,
+  "id": "28762",
+  "median": 87,
+  "n": 1,
+  "name": "さくらの雲＊スカアレットの恋",
+  "sellday": "2020-09-25"
+ },
+ {
+  "brand": "DualTail(DualMage)",
+  "count2": 41,
+  "id": "28766",
+  "median": 80,
+  "n": 1,
+  "name": "VenusBlood FRONTIER International",
+  "sellday": "2019-12-20"
+ },
+ {
+  "brand": "SUKARADOG",
+  "count2": 26,
+  "id": "28789",
+  "median": 60,
+  "n": 1,
+  "name": "スケベな処女のつくりかた",
+  "sellday": "2020-01-31"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 10,
+  "id": "28806",
+  "median": 63,
+  "n": 1,
+  "name": "兄嫁は俺のモノを離さない ～未亡人若女将の誘惑～",
+  "sellday": "2020-01-10"
+ },
+ {
+  "brand": "スタジオ偽恋",
+  "count2": 11,
+  "id": "28843",
+  "median": 60,
+  "n": 1,
+  "name": "巨乳人妻寝取られ催眠 ～シェアハウスで管理人と妻が…… ～",
+  "sellday": "2020-02-28"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 9,
+  "id": "28928",
+  "median": 66,
+  "n": 1,
+  "name": "とある王妃の閨事 ～貞淑な妻はいかにして孕んだか～",
+  "sellday": "2020-01-19"
+ },
+ {
+  "brand": "ましゅまろそふと",
+  "count2": 16,
+  "id": "28933",
+  "median": 60,
+  "n": 1,
+  "name": "あまママほりっく",
+  "sellday": "2020-03-27"
+ },
+ {
+  "brand": "Laplacian",
+  "count2": 1459,
+  "id": "28941",
+  "median": 90,
+  "n": 2,
+  "name": "白昼夢の青写真",
+  "sellday": "2020-09-25"
+ },
+ {
+  "brand": "Innocent Grey",
+  "count2": 393,
+  "id": "28984",
+  "median": 88,
+  "n": 1,
+  "name": "虚ノ少女《NEW CAST REMASTER EDITION》",
+  "sellday": "2020-08-28"
+ },
+ {
+  "brand": "Lusterise",
+  "count2": 52,
+  "id": "29006",
+  "median": 80,
+  "n": 1,
+  "name": "光翼戦姫エクスティア3",
+  "sellday": "2020-03-27"
+ },
+ {
+  "brand": "ファーサイド",
+  "count2": 10,
+  "id": "29018",
+  "median": 66,
+  "n": 1,
+  "name": "貴女が居るのに寝取られちゃう ～女の子同士の間に割ってはいる女学園男性教員～",
+  "sellday": "2020-03-27"
+ },
+ {
+  "brand": "ANIMovie",
+  "count2": 4,
+  "id": "29028",
+  "median": 63,
+  "n": 1,
+  "name": "清楚な同級生人妻はオレの××で愛慾に目覚める。 新感覚アニメーションノベル妻缶 Chapter1",
+  "sellday": "2019-12-20"
+ },
+ {
+  "brand": "pin-point",
+  "count2": 25,
+  "id": "29036",
+  "median": 70,
+  "n": 1,
+  "name": "世話焼き奥さんで人の頼みを断れない亜衣さんにお願いして中出しハメ放題のドスケベ妻になってもらった",
+  "sellday": "2020-02-28"
+ },
+ {
+  "brand": "Anim",
+  "count2": 22,
+  "id": "29059",
+  "median": 69,
+  "n": 1,
+  "name": "メス堕ち!オレのネトリ棒で淫らに喘ぐ先輩&後輩妻2 ～ムッチリ肉厚の巨乳妻たちとのいちゃラブハメ性活～",
+  "sellday": "2020-03-27"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 881,
+  "id": "29109",
+  "median": 85,
+  "n": 2,
+  "name": "ドーナドーナ いっしょにわるいことをしよう",
+  "sellday": "2020-11-27"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 5,
+  "id": "29183",
+  "median": 55,
+  "n": 1,
+  "name": "息子の嫁の誘惑エッチ ～お義父さん、私もう我慢できません!～",
+  "sellday": "2020-03-13"
+ },
+ {
+  "brand": "ORCSOFT",
+  "count2": 23,
+  "id": "29197",
+  "median": 65,
+  "n": 1,
+  "name": "母ちゃんの友達にシコってるところ見られた。",
+  "sellday": "2020-03-07"
+ },
+ {
+  "brand": "スタジオポーク",
+  "count2": 33,
+  "id": "29217",
+  "median": 76,
+  "n": 5,
+  "name": "高慢妻陥落!! ～イイ女だけどヤな女～",
+  "sellday": "2020-02-06"
+ },
+ {
+  "brand": "ようかい玉の輿",
+  "count2": 3,
+  "id": "29228",
+  "median": 73,
+  "n": 1,
+  "name": "ネトッテヤ",
+  "sellday": "2019-03-15"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 29,
+  "id": "29247",
+  "median": 60,
+  "n": 1,
+  "name": "人妻セックス ～知らぬ間に堕とされていた愛する妻～",
+  "sellday": "2020-04-24"
+ },
+ {
+  "brand": "やさぐれ喫煙所",
+  "count2": 30,
+  "id": "29315",
+  "median": 75,
+  "n": 1,
+  "name": "クベルの首枷病",
+  "sellday": "2019-06-15"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 68,
+  "id": "29387",
+  "median": 75,
+  "n": 1,
+  "name": "俺の彼女は他人棒が気になるようです。 ～からかい上手な変態彼女との青春スワッピングは、俺の隠れ性癖を開花し肥大化させました～",
+  "sellday": "2020-07-31"
+ },
+ {
+  "brand": "BABEL",
+  "count2": 8,
+  "id": "29477",
+  "median": 67,
+  "n": 1,
+  "name": "催眠術使ってトイレでいたずら",
+  "sellday": "2020-05-02"
+ },
+ {
+  "brand": "ぱちぱちそふと",
+  "count2": 67,
+  "id": "29485",
+  "median": 70,
+  "n": 1,
+  "name": "嫁の妹とえっちな関係になってヤバい!?",
+  "sellday": "2020-06-26"
+ },
+ {
+  "brand": "アトリエさくら Team.NTR",
+  "count2": 35,
+  "id": "29585",
+  "median": 65,
+  "n": 2,
+  "name": "恋人スワッピング ～親友の恋人を俺は抱き、俺の恋人は親友に抱かれる〜",
+  "sellday": "2020-07-22"
+ },
+ {
+  "brand": "calcite",
+  "count2": 10,
+  "id": "29597",
+  "median": 65,
+  "n": 1,
+  "name": "異世界変態生活! ～転生した俺は触手や魔物や女の子のパンツに…なる!?～",
+  "sellday": "2020-08-28"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 5,
+  "id": "29598",
+  "median": 50,
+  "n": 1,
+  "name": "夫より逞しいモノで突かれたら… ～娘が連れてきた外国彼氏は母の私も女にさせた～",
+  "sellday": "2020-07-03"
+ },
+ {
+  "brand": "ミルクフォース",
+  "count2": 5,
+  "id": "29628",
+  "median": 73,
+  "n": 1,
+  "name": "PRINCESS GO ROUND",
+  "sellday": "2018-06-26"
+ },
+ {
+  "brand": "ASa Project",
+  "count2": 565,
+  "id": "29724",
+  "median": 78,
+  "n": 2,
+  "name": "恋愛×ロワイアル",
+  "sellday": "2020-11-27"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 98,
+  "id": "29791",
+  "median": 75,
+  "n": 2,
+  "name": "Mama×Holic ～魅惑のママと甘々カンケイ～",
+  "sellday": "2020-09-25"
+ },
+ {
+  "brand": "シルキーズSAKURA",
+  "count2": 25,
+  "id": "29843",
+  "median": 60,
+  "n": 3,
+  "name": "催眠奪女 ～全てが僕の自由になる世界へようこそ～ 朝霧架純編",
+  "sellday": "2020-09-25"
+ },
+ {
+  "brand": "Anim",
+  "count2": 23,
+  "id": "30000",
+  "median": 70,
+  "n": 1,
+  "name": "メスつまみ ～世話焼き年上妻と真面目なツンツン妻との愛欲性活～",
+  "sellday": "2021-01-29"
+ },
+ {
+  "brand": "POISON",
+  "count2": 18,
+  "id": "30002",
+  "median": 67,
+  "n": 1,
+  "name": "完堕ちX元ヤン妻 ～ごめんなさい。私、ムカつく後輩に肉オナホにされちゃったの～",
+  "sellday": "2020-11-27"
+ },
+ {
+  "brand": "Miel",
+  "count2": 8,
+  "id": "30068",
+  "median": 66,
+  "n": 1,
+  "name": "結婚生活を守るために代理子作りで寝取り穴嫁にされる新妻",
+  "sellday": "2020-10-16"
+ },
+ {
+  "brand": "シストレイド",
+  "count2": 7,
+  "id": "30109",
+  "median": 63,
+  "n": 1,
+  "name": "サキュって! アテンプテーション ～クソザコ淫魔の愛され奮闘記～",
+  "sellday": "2021-03-17"
+ },
+ {
+  "brand": "Miel",
+  "count2": 14,
+  "id": "30153",
+  "median": 70,
+  "n": 2,
+  "name": "夫を愛する爆乳人妻たちが年下のサル性欲に蹂躙されて都合のいい孕み玩具に堕ちるまで",
+  "sellday": "2020-11-27"
+ },
+ {
+  "brand": "FANZA GAMES",
+  "count2": 76,
+  "id": "30157",
+  "median": 70,
+  "n": 1,
+  "name": "同級生 リメイク",
+  "sellday": "2021-02-26"
+ },
+ {
+  "brand": "だーくワン!",
+  "count2": 59,
+  "id": "30195",
+  "median": 70,
+  "n": 2,
+  "name": "催眠学習 Secret Desire",
+  "sellday": "2021-03-26"
+ },
+ {
+  "brand": "アストロノーツ・シリウス",
+  "count2": 118,
+  "id": "30257",
+  "median": 80,
+  "n": 1,
+  "name": "極限痴漢特異点2 痴漢の証明",
+  "sellday": "2021-02-26"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 13,
+  "id": "30275",
+  "median": 65,
+  "n": 1,
+  "name": "そして、彼女は寝取られる。 〜結ばれたはずの幼馴染は、別の男の上で腰を振っていた〜",
+  "sellday": "2021-01-29"
+ },
+ {
+  "brand": "サークル冥魅亭",
+  "count2": 11,
+  "id": "30336",
+  "median": 72,
+  "n": 1,
+  "name": "死神教団 〜淫森に呑まれた村セグルメット〜",
+  "sellday": "2021-04-29"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 14,
+  "id": "30358",
+  "median": 74,
+  "n": 3,
+  "name": "部下俺×女上司/貸し出しプレイ=??? 〜部下の俺に貸し出された人妻女上司、由佳菜〜",
+  "sellday": "2021-02-26"
+ },
+ {
+  "brand": "あぶらそば日和",
+  "count2": 5,
+  "id": "30380",
+  "median": 75,
+  "n": 1,
+  "name": "QrinSway03 催眠編",
+  "sellday": "2020-06-12"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 11,
+  "id": "30501",
+  "median": 60,
+  "n": 1,
+  "name": "奪われた幼馴染み ～好きだった幼馴染みは他の男の婚約者〜",
+  "sellday": "2021-03-26"
+ },
+ {
+  "brand": "スタジオポーク",
+  "count2": 20,
+  "id": "30594",
+  "median": 71,
+  "n": 3,
+  "name": "元ヤンキー妻 雛子 〜心身ともに完全寝取り!〜",
+  "sellday": "2021-02-15"
+ },
+ {
+  "brand": "Miel",
+  "count2": 6,
+  "id": "30743",
+  "median": 53,
+  "n": 1,
+  "name": "催眠種付け授業",
+  "sellday": "2021-03-26"
+ },
+ {
+  "brand": "stick",
+  "count2": 35,
+  "id": "30844",
+  "median": 80,
+  "n": 9,
+  "name": "人妻LovelyMoment",
+  "sellday": "2021-03-31"
+ },
+ {
+  "brand": "エロイット",
+  "count2": 12,
+  "id": "30951",
+  "median": 65,
+  "n": 1,
+  "name": "哀妻 ～妻と親父だけの時間～",
+  "sellday": "2021-06-25"
+ },
+ {
+  "brand": "八角家",
+  "count2": 7,
+  "id": "30962",
+  "median": 87,
+  "n": 1,
+  "name": "ミッションマーメイデン -ハスミと深海の姉妹-",
+  "sellday": "2020-07-27"
+ },
+ {
+  "brand": "ダイジョビ研究所",
+  "count2": 38,
+  "id": "31008",
+  "median": 79,
+  "n": 1,
+  "name": "神具姫ヒーローアンチドミー",
+  "sellday": "2021-04-03"
+ },
+ {
+  "brand": "ナイトエンペラー",
+  "count2": 1,
+  "id": "31121",
+  "median": 70,
+  "n": 1,
+  "name": "モブ姦クエスト ～VR世界でNPCとヤリまくり～",
+  "sellday": "2021-04-29"
+ },
+ {
+  "brand": "AVANTGARDE",
+  "count2": 19,
+  "id": "31391",
+  "median": 75,
+  "n": 1,
+  "name": "Immoral Quartet ～4人の性欲が絡み合う、愛と寝取られの物語～",
+  "sellday": "2021-04-28"
+ },
+ {
+  "brand": "こたつおでん",
+  "count2": 5,
+  "id": "31454",
+  "median": 66,
+  "n": 2,
+  "name": "性欲! 尿意! CTRLアプリ!! ～クラスの女子全員にエッチなイタズラやりたい放題!!!～",
+  "sellday": "2021-09-28"
+ },
+ {
+  "brand": "やさにき",
+  "count2": 5,
+  "id": "31475",
+  "median": 85,
+  "n": 1,
+  "name": "おとなりの奥様は今日も独り",
+  "sellday": "2020-12-06"
+ },
+ {
+  "brand": "Qruppo",
+  "count2": 1028,
+  "id": "31550",
+  "median": 90,
+  "n": 1,
+  "name": "ヘンタイ・プリズン",
+  "sellday": "2022-01-28"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 15,
+  "id": "31614",
+  "median": 70,
+  "n": 2,
+  "name": "催淫サロン ～夫の知らぬ間に孕ませリベンジされる妻～",
+  "sellday": "2021-11-26"
+ },
+ {
+  "brand": "CRYSTALiA",
+  "count2": 305,
+  "id": "31629",
+  "median": 76,
+  "n": 1,
+  "name": "RE:D Cherish!",
+  "sellday": "2022-02-25"
+ },
+ {
+  "brand": "Guilty'Dash",
+  "count2": 18,
+  "id": "31742",
+  "median": 63,
+  "n": 1,
+  "name": "横恋慕 -人妻のヒメゴト‐",
+  "sellday": "2021-12-24"
+ },
+ {
+  "brand": "Guilty Nightmare Project",
+  "count2": 27,
+  "id": "31744",
+  "median": 71,
+  "n": 1,
+  "name": "Nightmare×Deathscythe ～叛逆のレゾナンス～",
+  "sellday": "2021-12-24"
+ },
+ {
+  "brand": "シルキーズSAKURA",
+  "count2": 13,
+  "id": "31779",
+  "median": 55,
+  "n": 1,
+  "name": "催眠奪女3 ～全てが僕の自由になる世界へようこそ～ 栗原静琉編",
+  "sellday": "2022-01-28"
+ },
+ {
+  "brand": "VENUS",
+  "count2": 20,
+  "id": "31798",
+  "median": 76,
+  "n": 1,
+  "name": "夏神家に起きたこと",
+  "sellday": "2021-11-07"
+ },
+ {
+  "brand": "Guilty'Dash",
+  "count2": 14,
+  "id": "31861",
+  "median": 65,
+  "n": 1,
+  "name": "単身不倫 -寝取られたら寝取り返すバイ返し‐",
+  "sellday": "2022-01-28"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 18,
+  "id": "31868",
+  "median": 77,
+  "n": 5,
+  "name": "妻の母 ～傲慢女社長と同居の日々～",
+  "sellday": "2022-01-16"
+ },
+ {
+  "brand": "いなずまそふと",
+  "count2": 21,
+  "id": "31963",
+  "median": 77,
+  "n": 1,
+  "name": "トラトリトル! ～メイドさんにいたずらする探索系RPG～",
+  "sellday": "2021-11-03"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 21,
+  "id": "31977",
+  "median": 70,
+  "n": 1,
+  "name": "ギャル妻・アンリの寝取らせプレイ ～他の男の物を咥え、楽しそうに報告をする俺の妻～",
+  "sellday": "2022-02-25"
+ },
+ {
+  "brand": "CHAOS-R feat. Freak Strike",
+  "count2": 11,
+  "id": "31997",
+  "median": 52,
+  "n": 1,
+  "name": "進軍ゴブリン軍団 〜人類総苗床化作戦〜",
+  "sellday": "2022-01-28"
+ },
+ {
+  "brand": "Citrus",
+  "count2": 101,
+  "id": "32017",
+  "median": 75,
+  "n": 1,
+  "name": "保健室のセンセーとゴスロリの校医",
+  "sellday": "2022-03-25"
+ },
+ {
+  "brand": "つるみく -Another-",
+  "count2": 9,
+  "id": "32044",
+  "median": 60,
+  "n": 2,
+  "name": "母姉催眠 ～ご近所の欲求不満セレブと快楽堕ちお嬢様～",
+  "sellday": "2022-03-25"
+ },
+ {
+  "brand": "やさぐれ喫煙所",
+  "count2": 14,
+  "id": "32087",
+  "median": 73,
+  "n": 1,
+  "name": "クベルの首枷病+",
+  "sellday": "2022-01-01"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 8,
+  "id": "32365",
+  "median": 65,
+  "n": 1,
+  "name": "恋人・亜依香と元カレ ～再びあの男に抱かれ快楽にイキ狂う愛する彼女〜",
+  "sellday": "2022-04-28"
+ },
+ {
+  "brand": "POISON",
+  "count2": 18,
+  "id": "32476",
+  "median": 64,
+  "n": 1,
+  "name": "家庭教師X催眠2 ～絶対従順、高飛車姉妹をドスケベ淫乱に催眠操作～",
+  "sellday": "2022-07-29"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 8,
+  "id": "32575",
+  "median": 65,
+  "n": 1,
+  "name": "あなたと子作りしたいな♪ ～数十年振りの再会! 幼馴染はエロく欲求不満になっていました～",
+  "sellday": "2022-06-10"
+ },
+ {
+  "brand": "DWARFSOFT",
+  "count2": 18,
+  "id": "32576",
+  "median": 66,
+  "n": 1,
+  "name": "ピュアピュア❤︎ぺろぺろ❤︎プリンセス ～純心魔法王女のドスケベ快楽レッスン～",
+  "sellday": "2022-05-27"
+ },
+ {
+  "brand": "AMUSE CRAFT EROTICA",
+  "count2": 22,
+  "id": "32585",
+  "median": 65,
+  "n": 1,
+  "name": "つまもみ ～欲求不満の奥さんとなし崩しオイルマッサージ～",
+  "sellday": "2022-06-24"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 34,
+  "id": "32621",
+  "median": 65,
+  "n": 1,
+  "name": "奥さまの回復術 純愛編",
+  "sellday": "2022-05-27"
+ },
+ {
+  "brand": "ALICESOFT",
+  "count2": 31,
+  "id": "32622",
+  "median": 65,
+  "n": 1,
+  "name": "奥さまの回復術 寝取られ編",
+  "sellday": "2022-05-27"
+ },
+ {
+  "brand": "唐揚げトマト",
+  "count2": 1,
+  "id": "32625",
+  "median": 74,
+  "n": 1,
+  "name": "DIRTYING 愛しいからこそ寝取って穢す",
+  "sellday": "2022-04-29"
+ },
+ {
+  "brand": "唐揚げトマト",
+  "count2": 1,
+  "id": "32627",
+  "median": 74,
+  "n": 1,
+  "name": "Fulfilling Days ～彼女にとっての充実した日々～",
+  "sellday": "2021-09-17"
+ },
+ {
+  "brand": "スタジオ奪",
+  "count2": 15,
+  "id": "32773",
+  "median": 60,
+  "n": 1,
+  "name": "奪通 NTR配達サービス営業中",
+  "sellday": "2022-08-26"
+ },
+ {
+  "brand": "だーくワン!",
+  "count2": 59,
+  "id": "32809",
+  "median": 75,
+  "n": 1,
+  "name": "搾精病棟 ～凶悪なる看護師長が支配する病院の深淵へ潜入捜査～",
+  "sellday": "2022-10-28"
+ },
+ {
+  "brand": "スタジオポーク",
+  "count2": 12,
+  "id": "32862",
+  "median": 77,
+  "n": 2,
+  "name": "昼下がり、欲求不満な人妻たちは… ～牝堕ち・危険日種付け・交尾狂い～",
+  "sellday": "2022-07-11"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 10,
+  "id": "32969",
+  "median": 57,
+  "n": 1,
+  "name": "寝取られの教壇 〜教え子に奪われた愛する恋人〜",
+  "sellday": "2022-09-30"
+ },
+ {
+  "brand": "CLOCKUP",
+  "count2": 41,
+  "id": "32999",
+  "median": 70,
+  "n": 1,
+  "name": "SACRIFICE VILLAINS",
+  "sellday": "2023-02-24"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 17,
+  "id": "33026",
+  "median": 68,
+  "n": 1,
+  "name": "ネトラセ妻、美衣奈 ～他の男の手で知らなかった快感を味わい乱れる若妻～",
+  "sellday": "2022-10-28"
+ },
+ {
+  "brand": "さーくるくらすけ倉庫",
+  "count2": 23,
+  "id": "33089",
+  "median": 74,
+  "n": 1,
+  "name": "アリサグリモア",
+  "sellday": "2022-08-10"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 4,
+  "id": "33130",
+  "median": 55,
+  "n": 1,
+  "name": "ナマイキ実習生は欲求不満? ～カレシ持ちの処女を寝取る話～",
+  "sellday": "2022-10-14"
+ },
+ {
+  "brand": "CUBE",
+  "count2": 319,
+  "id": "33134",
+  "median": 81,
+  "n": 1,
+  "name": "サメと生きる七日間",
+  "sellday": "2022-11-25"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 25,
+  "id": "33259",
+  "median": 73,
+  "n": 3,
+  "name": "愛妻×交姦 妊活スワッピング ～孕み頃の妻たちは子種を求め肉欲の華を咲かせる～",
+  "sellday": "2022-12-23"
+ },
+ {
+  "brand": "Waffle",
+  "count2": 16,
+  "id": "33298",
+  "median": 70,
+  "n": 1,
+  "name": "ナイショの姦淫 ～真夏の汗だく交尾～",
+  "sellday": "2022-11-25"
+ },
+ {
+  "brand": "ミスティ",
+  "count2": 3,
+  "id": "33304",
+  "median": 50,
+  "n": 1,
+  "name": "あっとホーム",
+  "sellday": "1997-04-25"
+ },
+ {
+  "brand": "こたつおでん",
+  "count2": 3,
+  "id": "33332",
+  "median": 68,
+  "n": 1,
+  "name": "女子に使えるエロチケ! ～クラスの女子全員とあんなコトこんなコト!!～",
+  "sellday": "2023-10-25"
+ },
+ {
+  "brand": "TRYSET Break",
+  "count2": 4,
+  "id": "33603",
+  "median": 67,
+  "n": 1,
+  "name": "ママ僕だけを愛して… ～キモデブ息子を溺愛する母の歪んだ愛情～",
+  "sellday": "2023-02-24"
+ },
+ {
+  "brand": "あざらしそふと",
+  "count2": 312,
+  "id": "33621",
+  "median": 87,
+  "n": 1,
+  "name": "アマカノ2+",
+  "sellday": "2023-04-28"
+ },
+ {
+  "brand": "やさにき",
+  "count2": 10,
+  "id": "33715",
+  "median": 89,
+  "n": 2,
+  "name": "おとなりの奥様は今日も独り2 遅咲きの青い春",
+  "sellday": "2022-12-08"
+ },
+ {
+  "brand": "視萌妻喜",
+  "count2": 2,
+  "id": "33724",
+  "median": 52,
+  "n": 1,
+  "name": "近所の人妻全部妊娠させます!",
+  "sellday": "2022-12-24"
+ },
+ {
+  "brand": "POISON",
+  "count2": 16,
+  "id": "33739",
+  "median": 69,
+  "n": 2,
+  "name": "完堕ちX寝取られ家族 〜アナタ、許して。私たち、浮気セックスに本気でハマっちゃったの〜",
+  "sellday": "2023-03-31"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 53,
+  "id": "33836",
+  "median": 75,
+  "n": 2,
+  "name": "Bunny's ママ代行サービス",
+  "sellday": "2023-03-31"
+ },
+ {
+  "brand": "dorgel(トリニティセイバー)",
+  "count2": 2,
+  "id": "33905",
+  "median": 50,
+  "n": 1,
+  "name": "ロリリッピー殺人事件 ～レイプ船に乗り込んで貴族令嬢に中でも外でも人前でもアヘレイプ大捜査線～",
+  "sellday": "2013-10-11"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 7,
+  "id": "33961",
+  "median": 60,
+  "n": 1,
+  "name": "人妻幼なじみと禁愛NTR ～再会。そして、子作りへ～",
+  "sellday": "2023-04-14"
+ },
+ {
+  "brand": "ドージンオトメ",
+  "count2": 29,
+  "id": "34132",
+  "median": 78,
+  "n": 1,
+  "name": "あまえんぼ冬 〜性を抑え切れない僕と無償の母娘達〜",
+  "sellday": "2023-07-14"
+ },
+ {
+  "brand": "だーくワン!",
+  "count2": 11,
+  "id": "34226",
+  "median": 65,
+  "n": 4,
+  "name": "僕色に染まる叔母",
+  "sellday": "2023-07-28"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 13,
+  "id": "34346",
+  "median": 60,
+  "n": 1,
+  "name": "生真面目風紀委員長の裏アカウント ～芽生えてしまった淫らな承認欲求～",
+  "sellday": "2023-07-07"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 10,
+  "id": "34454",
+  "median": 63,
+  "n": 1,
+  "name": "恋人・亜依理を抱いた他の男達 ～愛する恋人が俺の元から去った理由～",
+  "sellday": "2023-08-25"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 26,
+  "id": "34601",
+  "median": 70,
+  "n": 3,
+  "name": "僕がいない間に変貌えられた妻の秘肉 ～ラブラブ新婚妻は他の男に抱かれ淫らに喘ぐ夢を見るか～",
+  "sellday": "2023-09-29"
+ },
+ {
+  "brand": "VENUS",
+  "count2": 1,
+  "id": "34636",
+  "median": 50,
+  "n": 1,
+  "name": "LOVE BOIN",
+  "sellday": "2005-05-08"
+ },
+ {
+  "brand": "VENUS",
+  "count2": 1,
+  "id": "34637",
+  "median": 50,
+  "n": 1,
+  "name": "LOVE SEXLIFE",
+  "sellday": "2005-09-27"
+ },
+ {
+  "brand": "FANZA GAMES",
+  "count2": 1,
+  "id": "34806",
+  "median": 50,
+  "n": 1,
+  "name": "卑作",
+  "sellday": "2019-07-17"
+ },
+ {
+  "brand": "にゅう工房",
+  "count2": 120,
+  "id": "35000",
+  "median": 80,
+  "n": 1,
+  "name": "ヤリステメスブター ボクだけの謎ルール!女トレーナーに勝つとエッチあたりまえ",
+  "sellday": "2023-09-01"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 5,
+  "id": "35043",
+  "median": 60,
+  "n": 1,
+  "name": "略奪された婚約者（フィアンセ）～恋人・真澄（ますみ）と弟の秘密",
+  "sellday": "2023-11-24"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 6,
+  "id": "35325",
+  "median": 58,
+  "n": 2,
+  "name": "隣の美人妻は欲求不満でした ～あぁ、あの人のより断然大きくて硬いっ…!～",
+  "sellday": "2023-12-08"
+ },
+ {
+  "brand": "FG REMAKE",
+  "count2": 64,
+  "id": "35332",
+  "median": 74,
+  "n": 1,
+  "name": "夜勤病棟リメイク",
+  "sellday": "2024-02-22"
+ },
+ {
+  "brand": "SUKARADOG",
+  "count2": 10,
+  "id": "35333",
+  "median": 57,
+  "n": 1,
+  "name": "姦裏人 偽りのメイドは裏切りに染まる",
+  "sellday": "2024-01-26"
+ },
+ {
+  "brand": "Miel",
+  "count2": 12,
+  "id": "35390",
+  "median": 64,
+  "n": 1,
+  "name": "爆乳レイヤーは俺の孕ませ肉オナホ! ～友達の彼女を寝取り交尾でチン媚びレイヤーに!～",
+  "sellday": "2023-11-24"
+ },
+ {
+  "brand": "たぬきハウス",
+  "count2": 5,
+  "id": "35394",
+  "median": 60,
+  "n": 1,
+  "name": "ドピュッとゴルフ伝説",
+  "sellday": "2024-01-27"
+ },
+ {
+  "brand": "HornyDoge",
+  "count2": 5,
+  "id": "35624",
+  "median": 65,
+  "n": 1,
+  "name": "管理人の覗き見",
+  "sellday": "2023-12-16"
+ },
+ {
+  "brand": "だーくワン!",
+  "count2": 43,
+  "id": "35655",
+  "median": 80,
+  "n": 3,
+  "name": "催眠性指導 -Secret Lesson-",
+  "sellday": "2024-12-20"
+ },
+ {
+  "brand": "ensemble",
+  "count2": 338,
+  "id": "36003",
+  "median": 82,
+  "n": 1,
+  "name": "旭光のマリアージュ",
+  "sellday": "2024-08-30"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 11,
+  "id": "36009",
+  "median": 69,
+  "n": 1,
+  "name": "性調教済だった愛する彼女 ～他の男から仕込まれていた淫乱性癖～",
+  "sellday": "2024-04-26"
+ },
+ {
+  "brand": "Triangle",
+  "count2": 14,
+  "id": "36010",
+  "median": 70,
+  "n": 1,
+  "name": "魔法閃士フェアリーバレット",
+  "sellday": "2024-05-31"
+ },
+ {
+  "brand": "ANIM.teamMM",
+  "count2": 16,
+  "id": "36162",
+  "median": 70,
+  "n": 2,
+  "name": "友達ん棒で淫らな汁を溢れさせる母の熟れた蜜穴 ～巨乳を揺らし身悶える母さんの喘ぎ声は、隣の僕の部屋まで響き渡る～",
+  "sellday": "2024-06-28"
+ },
+ {
+  "brand": "梅麻呂3D",
+  "count2": 5,
+  "id": "36193",
+  "median": 80,
+  "n": 1,
+  "name": "FRIENDS",
+  "sellday": "2024-02-25"
+ },
+ {
+  "brand": "Ntraholic",
+  "count2": 5,
+  "id": "36402",
+  "median": 80,
+  "n": 1,
+  "name": "Ntraholic",
+  "sellday": "2023-01-17"
+ },
+ {
+  "brand": "樹懶叫工作室/sloth gamer",
+  "count2": 1,
+  "id": "36416",
+  "median": 55,
+  "n": 1,
+  "name": "神様の悪戯部屋 ～人妻先輩と禁断SEX～",
+  "sellday": "2024-03-14"
+ },
+ {
+  "brand": "ファカルティ",
+  "count2": 2,
+  "id": "36426",
+  "median": 58,
+  "n": 1,
+  "name": "カレッジライフ ～陰キャ童貞と陽キャ女子大生～",
+  "sellday": "2023-12-21"
+ },
+ {
+  "brand": "AMUSE CRAFT EROTICA",
+  "count2": 47,
+  "id": "36544",
+  "median": 70,
+  "n": 2,
+  "name": "カノジョの親友にカラダで誘惑されるヒミツの関係",
+  "sellday": "2024-08-30"
+ },
+ {
+  "brand": "アトリエさくら",
+  "count2": 3,
+  "id": "36758",
+  "median": 70,
+  "n": 1,
+  "name": "家出少女・高邑緋雪の秘蜜 〜恥辱にまみれ快楽墜ちさせられていく彼女の純愛〜",
+  "sellday": "2024-09-27"
+ },
+ {
+  "brand": "SYRUP -many milk-",
+  "count2": 34,
+  "id": "36806",
+  "median": 74,
+  "n": 1,
+  "name": "狙われた優等生 身代わりの代償",
+  "sellday": "2024-10-25"
+ },
+ {
+  "brand": "Hizure",
+  "count2": 3,
+  "id": "37113",
+  "median": 65,
+  "n": 1,
+  "name": "NTRレッスン",
+  "sellday": "2024-08-31"
+ },
+ {
+  "brand": "WAKUWAKU",
+  "count2": 8,
+  "id": "37114",
+  "median": 70,
+  "n": 3,
+  "name": "護身術道場 秘密のNTRレッスン",
+  "sellday": "2023-06-22"
+ },
+ {
+  "brand": "WILD FLOWER",
+  "count2": 1,
+  "id": "37347",
+  "median": 62,
+  "n": 1,
+  "name": "寝取り勇者 ～親友の母ちゃん妊娠させれば即クリア～",
+  "sellday": "2024-10-25"
+ },
+ {
+  "brand": "パスチャーソフト",
+  "count2": 4,
+  "id": "37496",
+  "median": 60,
+  "n": 1,
+  "name": "大人の童話劇場 ～借金取り子爵～",
+  "sellday": "2024-10-25"
+ },
+ {
+  "brand": "Guilty Nightmare Project",
+  "count2": 18,
+  "id": "37613",
+  "median": 79,
+  "n": 1,
+  "name": "Nightmare×sistersΩ ～終末のレクイエム～",
+  "sellday": "2025-03-28"
+ },
+ {
+  "brand": "U-ROOM",
+  "count2": 16,
+  "id": "37773",
+  "median": 79,
+  "n": 1,
+  "name": "洗脳学園 ～呪人の壺～",
+  "sellday": "2025-02-17"
+ },
+ {
+  "brand": "みこにそみ",
+  "count2": 36,
+  "id": "37845",
+  "median": 80,
+  "n": 1,
+  "name": "夏のサカり",
+  "sellday": "2025-01-31"
+ },
+ {
+  "brand": "DWARFSOFT",
+  "count2": 5,
+  "id": "38111",
+  "median": 70,
+  "n": 1,
+  "name": "性母懐胎 ～淫乱ドM巨乳ママが息子の孕み妻になるまで～",
+  "sellday": "2025-03-21"
+ },
+ {
+  "brand": "Miel",
+  "count2": 5,
+  "id": "38128",
+  "median": 65,
+  "n": 1,
+  "name": "巨乳な母騎士寝取り孕ませ ～背徳交尾漬けでふしだらなメス穴騎士に成り下がるまで～",
+  "sellday": "2025-03-21"
+ },
+ {
+  "brand": "アトリエかぐや",
+  "count2": 21,
+  "id": "38235",
+  "median": 75,
+  "n": 1,
+  "name": "イチャ姉!",
+  "sellday": "2025-05-30"
+ },
+ {
+  "brand": "Miel",
+  "count2": 9,
+  "id": "38388",
+  "median": 61,
+  "n": 1,
+  "name": "巨乳な友達の母を若い巨チンで寝取って孕ませハーレムを作る話",
+  "sellday": "2025-04-25"
+ },
+ {
+  "brand": "LiLiM DARKNESS",
+  "count2": 68,
+  "id": "38543",
+  "median": 69,
+  "n": 1,
+  "name": "スターライトBLUE ～幼なじみで推しの娘が知らないうちに開発されていた～",
+  "sellday": "2025-08-29"
+ },
+ {
+  "brand": "Lusterise",
+  "count2": 21,
+  "id": "38751",
+  "median": 71,
+  "n": 1,
+  "name": "魔法騎士リーンフォリア",
+  "sellday": "2025-08-29"
+ },
+ {
+  "brand": "カナリー",
+  "count2": 1,
+  "id": "39199",
+  "median": 71,
+  "n": 1,
+  "name": "会社の女性社員を全員孕ませた話",
+  "sellday": "2025-08-08"
+ },
+ {
+  "brand": "鈴屋",
+  "count2": 3,
+  "id": "39430",
+  "median": 70,
+  "n": 1,
+  "name": "200年前子作りは愛し合う者同士でする行為だった",
+  "sellday": "2024-09-22"
+ },
+ {
+  "brand": "やさにき",
+  "count2": 15,
+  "id": "39687",
+  "median": 76,
+  "n": 1,
+  "name": "無人島社員旅行記 女たちの生存戦略",
+  "sellday": "2025-10-28"
+ },
+ {
+  "brand": "Overflow",
+  "count2": 11,
+  "id": "39690",
+  "median": 80,
+  "n": 1,
+  "name": "School Days REMASTERED",
+  "sellday": "2025-12-19"
+ },
+ {
+  "brand": "Liar-soft(ビジネスパートナー)",
+  "count2": 100,
+  "id": "39947",
+  "median": 80,
+  "n": 1,
+  "name": "誰ソ彼のシェイプシフター",
+  "sellday": "2026-03-27"
+ },
+ {
+  "brand": "御木納原商店",
+  "count2": 3,
+  "id": "40106",
+  "median": 84,
+  "n": 1,
+  "name": "誘惑の温泉旅行 ～理性と背徳の一泊二日～",
+  "sellday": "2026-01-07"
+ },
+ {
+  "brand": "アパタイト",
+  "count2": 9,
+  "id": "40140",
+  "median": 65,
+  "n": 1,
+  "name": "クソ生意気なギャル後輩のあざとかわいい誘惑 ～先輩ってぇ、こんなので勃っちゃうんですかぁ♪～",
+  "sellday": "2026-03-06"
+ },
+ {
+  "brand": "ギャラクシーゲームズ",
+  "count2": 4,
+  "id": "40309",
+  "median": 70,
+  "n": 1,
+  "name": "人間操作アプリで巨乳従姉を好き放題する話",
+  "sellday": "2026-02-10"
+ },
+ {
+  "brand": "平安亭",
+  "count2": 4,
+  "id": "40424",
+  "median": 61,
+  "n": 1,
+  "name": "人妻上司の分からせ方",
+  "sellday": "2026-03-20"
+ },
+ {
+  "brand": "ギャラクシーゲームズ",
+  "count2": 1,
+  "id": "40470",
+  "median": 78,
+  "n": 1,
+  "name": "人間操作アプリで友達のギャル姉を好き放題する話",
+  "sellday": "2026-04-06"
+ },
+ {
+  "brand": "みじいし",
+  "count2": 1,
+  "id": "40717",
+  "median": 73,
+  "n": 1,
+  "name": "淫催都市ヒュプノズム",
+  "sellday": "2026-04-28"
+ },
+ {
+  "brand": "みるくふぁくとりー",
+  "count2": 25,
+  "id": "40723",
+  "median": 75,
+  "n": 1,
+  "name": "もっと!孕ませ!炎のおっぱい異世界 おっぱいスパイ学園",
+  "sellday": "2026-07-31"
+ },
+ {
+  "brand": "SecondSight",
+  "count2": 2,
+  "id": "40813",
+  "median": 93,
+  "n": 2,
+  "name": "街ヤリ 〜東京編リニューアル〜",
+  "sellday": "2025-12-27"
+ },
+ {
+  "brand": "SecondSight",
+  "count2": 2,
+  "id": "40815",
+  "median": 89,
+  "n": 1,
+  "name": "街ヤリ 〜東京編外伝〜",
+  "sellday": "2026-05-07"
+ }
+]

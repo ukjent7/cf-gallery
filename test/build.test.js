@@ -192,6 +192,84 @@ describe("the lean payload loses nothing", () => {
   });
 });
 
+describe("tag payload", () => {
+  test("TAGS is the union of the tag and POV crawls intersected with DATA", () => {
+    // egs_tags.json (user tags) and egs_povs.json (POV 属性) both hold every
+    // game carrying the name (rows with id/name/sellday/n); a same-named key
+    // merges as the union. The payload keeps only the ids the 寝取 gallery
+    // renders, numerically sorted. Anything else would make chips filter on
+    // games that can never be shown.
+    const rawTags = source("egs_tags.json");
+    if (!rawTags) return;
+    const rawPovs = source("egs_povs.json");
+    if (!rawPovs) return;
+    const gids = new Set(built.DATA.map((d) => String(d.gid)));
+    for (const [tag, payload] of Object.entries(built.TAGS)) {
+      const rawIds = new Set();
+      for (const raw of [rawTags, rawPovs]) {
+        for (const e of raw[tag] || []) {
+          const id = String(e.id);
+          if (gids.has(id)) rawIds.add(id);
+        }
+      }
+      const merged = [...rawIds].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      expect(payload, `TAGS["${tag}"] diverged from the raw crawls`).toEqual(merged);
+      for (const gid of payload) {
+        expect(gids.has(gid), `tag "${tag}": gid ${gid} is not in DATA`).toBe(true);
+      }
+    }
+    for (const tag of Object.keys(built.TAGS)) {
+      expect(tag in rawTags || tag in rawPovs, `tag "${tag}" is not in either raw crawl`).toBe(true);
+    }
+  });
+
+  test("親子丼 is shipped with a useful count", () => {
+    const list = built.TAGS["親子丼"];
+    expect(list, "親子丼 missing from TAGS").toBeTruthy();
+    expect(list.length, "親子丼 count collapsed").toBeGreaterThan(10);
+  });
+
+  test("堕ちる過程 POV is shipped with a useful count", () => {
+    const list = built.TAGS["堕ちる過程"];
+    expect(list, "堕ちる過程 missing from TAGS").toBeTruthy();
+    expect(list.length, "堕ちる過程 count collapsed").toBeGreaterThan(100);
+  });
+
+  test("the base POV itself never becomes a chip", () => {
+    // 寝取り IS the dataset (POV559 unions the whole 寝取 universe into DATA),
+    // so its intersection covers every listed game and a chip for it could
+    // never filter anything.
+    expect("寝取り" in built.TAGS, "寝取り must stay excluded from TAGS").toBe(false);
+  });
+});
+
+describe("DATA covers the 寝取 universe", () => {
+  test("every universe row and CSV game lands in DATA, ranked 1..N", () => {
+    // prep_data.py unions pov559_universe.json (POV559 straight from the DB)
+    // into the 寝取 CSV and renumbers the ranks, so DATA is exactly the
+    // distinct union of both sources.
+    const universe = source("pov559_universe.json");
+    if (!universe) return;
+    // game_id is the second column; quoted commas only occur later (names),
+    // so the plain split reads it safely.
+    const csvIds = fs.readFileSync(
+      path.join(REPO, "data", "pov559_netori_eroge_only_by_median.csv"), "utf8")
+      .split(/\r?\n/).slice(1)
+      .map((line) => (line.split(",")[1] || "").trim())
+      .filter(Boolean);
+    const universeIds = universe.map((r) => String(r.id));
+    const gidSet = new Set(built.DATA.map((d) => String(d.gid)));
+    const notInData = (ids) => ids.filter((id) => !gidSet.has(id));
+    expect(notInData(universeIds), "universe rows missing from DATA").toEqual([]);
+    expect(notInData(csvIds), "CSV games missing from DATA").toEqual([]);
+    expect(built.DATA.length, "DATA must be exactly the distinct union of CSV + universe")
+      .toBe(new Set([...csvIds, ...universeIds]).size);
+    const ranks = built.DATA.map((d) => d.rank).sort((a, b) => a - b);
+    expect(ranks, "ranks must be exactly 1..N, contiguous and unique")
+      .toEqual(Array.from({ length: built.DATA.length }, (_, i) => i + 1));
+  });
+});
+
 describe("build outputs", () => {
   test("generated artifacts use LF, so a clone matches the deployed bytes", () => {
     // .gitattributes pins eol=lf, but the writers must agree or git reports the
@@ -217,21 +295,27 @@ describe("build outputs", () => {
     expect(doc).not.toMatch(/\/\*__(STYLE|PAYLOAD|URLS|APP)__\*\//);
   });
 
-  test("no Python triple-quoted HTML left in the repo", () => {
-    // The old generator kept the whole front end inside one Python string, which
-    // is why nothing about it was lintable or testable.
+  test("scripts are ported to TypeScript: no .py left, none embeds HTML", () => {
+    // The old Python generator kept the whole front end inside one string, which
+    // is why nothing about it was lintable or testable. The Bun port replaced
+    // it, so a leftover .py would build the site from stale logic.
     const scripts = fs.readdirSync(path.join(REPO, "scripts"));
-    for (const s of scripts.filter((f) => f.endsWith(".py"))) {
+    expect(scripts.filter((f) => f.endsWith(".py")), "Python scripts still present in scripts/").toEqual([]);
+    for (const s of scripts.filter((f) => f.endsWith(".ts"))) {
       const src = fs.readFileSync(path.join(REPO, "scripts", s), "utf8");
-      expect(src.length, `${s} is suspiciously large`).toBeLessThan(60000);
+      // fetch_tags.ts legitimately carries the generated 2231-entry HTML5
+      // entity table (/*@HTML5@*/, ~45KB) for html.unescape parity, so the
+      // cap sits above it; anything approaching this size is still a smell.
+      expect(src.length, `${s} is suspiciously large`).toBeLessThan(80000);
       expect(src, `${s} still embeds a full HTML document`).not.toMatch(/<!DOCTYPE html>[\s\S]{2000,}/);
     }
   });
 
   test("the retired single-file generator is no longer the build path", () => {
     const pkg = readJson(path.join(REPO, "package.json"));
-    expect(pkg.scripts.build).toContain("prep_data.py");
-    expect(pkg.scripts.build).toContain("bundle.py");
+    // The build runs the Bun port of the data scripts, not the Python originals.
+    expect(pkg.scripts.build).toContain("prep_data.ts");
+    expect(pkg.scripts.build).toContain("bundle.ts");
     expect(pkg.scripts.deploy).toContain("wrangler deploy");
     // setup-kv must not run unconditionally on deploy any more: it used to
     // rewrite every seed key per deploy.

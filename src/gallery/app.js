@@ -1,16 +1,20 @@
-// Gallery app. Authored as a real file; scripts/bundle.py inlines src/urls.js
-// above this and the data payloads at the PAYLOAD anchor, producing the single
-// self-contained public/index.html (which must stay file://-double-clickable,
-// hence inlining instead of fetching JSON).
+// Gallery app v2 — full rewrite of the presentation layer on top of the same
+// battle-tested engine: live VNDB matching queue, once-per-session meta
+// probes, the store adapter table, and the section grow contract. The document
+// stays one self-contained file (scripts/bundle.py inlines payloads, urls and
+// this file), still double-clickable from file://.
 //
 // Layout of this file:
-//   1. cache + VNDB matching queue      (how a card learns its VNDB entry)
-//   2. store adapters                   (what differs between the 5 tabs)
-//   3. detail sections + renderer       (the modal)
-//   4. cards, filtering, wiring
-//
-// Everything URL-shaped comes from urls.js. Nothing here re-derives a store
-// path, floor, or stem pattern.
+//   1. payload state + persisted ui prefs
+//   2. live VNDB cache + matching queue      (engine, ported)
+//   3. image slots + live meta probes        (engine, ported)
+//   4. store accessors + adapter table       (logic ported, presentation new)
+//   5. section builders (strip renderer + grow contract)
+//   6. full-CG links + related strip
+//   7. cards, filtering, rendering
+//   8. detail drawer + grow patching
+//   9. lightbox with thumbstrip
+//  10. wiring
 
 var liveCache = new Map(Object.entries(CACHE));
 var pending = new Map();
@@ -45,9 +49,8 @@ try {
 }
 
 // Serialize, and if that no longer fits, drop the oldest live entries until it
-// does. The previous code did JSON.stringify(o).slice(0, 900000), which cut the
-// JSON mid-token; the next load then failed to parse and threw the *entire*
-// cache away — penalising exactly the users who had the most data.
+// does. Eviction keeps the newest work; a truncated JSON would destroy the
+// entire cache on next load, so size is checked, never sliced.
 function saveLive() {
   var kept = [];
   liveCache.forEach(function (v, k) {
@@ -62,24 +65,45 @@ function saveLive() {
       return;
     }
     if (!kept.length) return;
-    // Drop a proportional slice so this converges in a couple of passes.
     var drop = Math.max(1, Math.ceil(kept.length * (1 - LIVE_BUDGET / s.length)));
     kept = kept.slice(drop);
   }
 }
 
-// Meta lookups that already ran this session. Repeated modal opens are the main
-// source of redundant /dm/meta and /gc/meta traffic, and each cold Worker lookup
-// costs an upstream fetch plus a KV write. Bounded per session rather than
-// persisted, so a new session still picks up store-side changes.
+// Meta lookups that already ran this session. Repeated drawer opens are the
+// main source of redundant /dm/meta and /gc/meta traffic, and each cold Worker
+// lookup costs an upstream fetch plus a KV write.
 var asked = new Set();
 try { asked = new Set(JSON.parse(sessionStorage.getItem("meta_asked_v1") || "[]")); } catch (e) {}
-// True the first time a key is seen, false afterwards.
 function askOnce(key) {
   if (!key || asked.has(key)) return false;
   asked.add(key);
   try { sessionStorage.setItem("meta_asked_v1", JSON.stringify(Array.from(asked).slice(-4000))); } catch (e) {}
   return true;
+}
+
+// --- persisted ui prefs (one blob; legacy tag selection migrates in) ----------
+var PREFS_KEY = "ui_v1";
+var prefs = { sort: "rank", median: 0, tags: [] };
+try {
+  var savedPrefs = JSON.parse(localStorage.getItem(PREFS_KEY) || "{}");
+  if (typeof savedPrefs.sort === "string") prefs.sort = savedPrefs.sort;
+  if (typeof savedPrefs.median === "number") prefs.median = savedPrefs.median;
+  if (typeof savedPrefs.view === "string") prefs.view = savedPrefs.view;
+  if (Array.isArray(savedPrefs.tags)) {
+    // Unknown names are dropped, not kept: an unknown selected tag would turn
+    // into an empty tagSet and reject every game, blanking the grid.
+    prefs.tags = savedPrefs.tags.filter(function (t) { return t && TAGS[t]; });
+  }
+  if (prefs.tags.length === 0) {
+    // One-time migration from the v1 tag key so nobody's filters vanish.
+    var legacyTags = JSON.parse(localStorage.getItem("tagfilter_v1") || "[]");
+    if (Array.isArray(legacyTags)) prefs.tags = legacyTags.filter(function (t) { return t && TAGS[t]; });
+  }
+} catch (e) { /* corrupt prefs: defaults */ }
+
+function savePrefs() {
+  try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) { /* private mode */ }
 }
 
 // --- VNDB queue: 2 concurrent, >=800ms apart, so the public API stays happy ---
@@ -102,8 +126,6 @@ function pump() {
 
 function normT(s) {
   // Whitespace-insensitive: EGS writes " ～ " spaced, VNDB often "～" glued.
-  // The 妻の母 case missed its exact hit on spaces alone, then fell through to
-  // a wrong contains-pick (v2076 妻の母さゆり instead of v32745).
   return String(s == null ? "" : s).replace(/[～〜]/g, "~").replace(/　/g, " ").replace(/\s+/g, "");
 }
 
@@ -128,7 +150,7 @@ function normVariants(title) {
     x = String(x == null ? "" : x).trim();
     if (x && out.indexOf(x) < 0 && out.length < 6) out.push(x);
   }
-  push(String(title).replace(/[((][^))]{0,30}[))]\s*$/, "").trim());
+  push(String(title).replace(/[（(][^（）()]{0,30}[）)]\s*$/, "").trim());
   var tails = [/\s+DVD EDITION\s*$/i, /\s+EXTENDED EDITION\s*$/i, /\s+WORLD'S END COMPLETE\s*$/i,
     /\s+COMPLETE\s*$/i, /パワーアップキット\s*$/, /限定再装版\s*$/, /\s+Re-order~?\s*$/i,
     /~chocolat second brew Re-order~\s*$/i];
@@ -170,9 +192,8 @@ function exactPick(list, queries, item) {
 }
 
 // Short variants only match by containment, to keep 街ヤリ-style noise out.
-// Containment alone grabs same-prefix different games (妻の母さゆり for a 妻の母
-// query), so candidates whose release year contradicts the EGS sellday are
-// skipped instead of blindly taking the first hit.
+// Containment alone grabs same-prefix different games, so candidates whose
+// release year contradicts the EGS sellday are skipped.
 function containsPick(list, core, item) {
   var nc = normT(core).toLowerCase();
   if (nc.length < 3) return null;
@@ -303,6 +324,7 @@ function ensureVndb(item) {
   return p;
 }
 
+// --- escaping + image slots ----------------------------------------------------
 function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
     return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
@@ -321,7 +343,7 @@ function imgSlot(thumb, full, fb, label) {
 
 function slotHtml(s) {
   // onerror is unconditional: with no fallback left chainErr removes the tile,
-  // so a 404 never stays on screen as a 裂图 (e.g. EGS products with <8 pics).
+  // so a 404 never stays on screen as a 裂图.
   return '<img loading="lazy" decoding="async" alt="" src="' + attr(s.thumb) + '"' +
     (s.fb.length ? ' data-fb="' + attr(s.fb.join("|")) + '"' : "") +
     ' data-full="' + attr(s.full) + '"' +
@@ -388,13 +410,13 @@ function gcEntry(st) { return st ? st.g : null; }
 function storeOf(gid) { return STORE[String(gid)] || null; }
 
 // --- store adapters -----------------------------------------------------------
-// Each adapter answers the same five questions for its tab. Adding a store means
-// adding an entry here, not editing cardHtml + tabLink + applyFilter + openDetail.
+// Each adapter answers the same five questions for its view. Adding a store
+// means adding an entry here, not touching the card or drawer renderers.
 var ADAPTERS = {
   dlsite: {
     tab: "dlsite",
     navLabel: "DLsite",
-    matchedLabel: " 只看有DLsite",
+    matchedLabel: "只看有DLsite",
     has: function (item, st) { return !!dlEntry(st); },
     cover: function (item, st) {
       var d = dlEntry(st);
@@ -404,18 +426,10 @@ var ADAPTERS = {
       var d = dlEntry(st);
       return d ? esc(d.id) : "无DLsite";
     },
-    badge: function (item, st) {
-      var d = dlEntry(st);
-      // n is the crawled count and is known even when stem names were not, so
-      // the badge must not depend on how many sample URLs we can build.
-      return d && d.n ? countBadge(d.n, "张sample") : "";
-    },
     link: function (item, st) {
       var d = dlEntry(st);
       return d ? { href: dlProductUrl(d.id, d.d), text: "DLsite" } : { href: vnSearchUrl(item.name), text: "DLsite" };
     },
-    // DLsite sections need a stable grid id so a late-arriving stem list can
-    // append without re-rendering the modal.
     sections: function (item, st) {
       var d = dlEntry(st);
       if (!d) return [hintSection("EGS无DLsite ID。")];
@@ -426,22 +440,17 @@ var ADAPTERS = {
   dmm: {
     tab: "dmm",
     navLabel: "FANZA",
-    matchedLabel: " 只看有FANZA",
+    matchedLabel: "只看有FANZA",
     has: function (item, st) { return dmmEntries(st).length > 0; },
     cover: function (item, st) {
       var es = dmmEntries(st);
       if (!es.length) return null;
       var fb = es.map(function (e) { return dmmPkgUrl(e.id); });
-      return imgSlot(fb[0], fb[0], fb.slice(1), "FANZA");
+      return imgSlot(dmmPkgThumb(es[0].id), fb[0], fb.slice(1), "FANZA");
     },
     sub: function (item, st) {
       var es = dmmEntries(st);
       return es.length ? esc(es.map(function (e) { return e.id + "(" + dmmFloorLabel(e.id) + ")"; }).join(" / ")) : "无FANZA";
-    },
-    badge: function (item, st) {
-      var es = dmmEntries(st);
-      if (!es.length) return "";
-      return countBadge(es.reduce(function (a, e) { return a + (e.n || 0); }, 0), "张sample");
     },
     link: function (item, st) {
       return { href: dmmSearchUrl(item.name), text: "FANZA" };
@@ -456,7 +465,7 @@ var ADAPTERS = {
   getchu: {
     tab: "getchu",
     navLabel: "官方图",
-    matchedLabel: " 只看Getchu收录",
+    matchedLabel: "只看Getchu收录",
     has: function (item, st) { return !!gcEntry(st); },
     cover: function (item, st) {
       var g = gcEntry(st);
@@ -468,7 +477,6 @@ var ADAPTERS = {
       var g = gcEntry(st);
       return g ? "Getchu id=" + esc(g.id) : "EGS官方转存";
     },
-    badge: function () { return '<span class="shotcount">官方/Getchu</span>'; },
     link: function (item, st) {
       var g = gcEntry(st);
       return { href: g ? gcProductUrl(g.id) : vnSearchUrl(item.name), text: "Getchu" };
@@ -479,18 +487,15 @@ var ADAPTERS = {
   vndb: {
     tab: "vndb",
     navLabel: "VNDB",
-    matchedLabel: " 只看已匹配VNDB",
+    matchedLabel: "只看已匹配VNDB",
     has: function (item, st, v) { return !!v; },
     cover: function (item, st, v) {
       if (!v || !v.img) return null;
-      return imgSlot(v.img, v.img, [vnThumb(v.img)], "cover");
+      return imgSlot(vnThumb(v.img), v.img, [vnThumb(v.img)], "cover");
     },
     sub: function (item, st, v) {
       if (!v) return "未匹配";
       return esc(v.title || "") + (v.alttitle ? " / " + esc(v.alttitle) : "");
-    },
-    badge: function (item, st, v) {
-      return v && v.shots ? countBadge(v.shots.length, "张截图") : "";
     },
     link: function (item, st, v) {
       return v ? { href: vnUrl(v.id), text: "VNDB" } : { href: vnSearchUrl(item.name), text: "VNDB搜索" };
@@ -501,14 +506,12 @@ var ADAPTERS = {
   all: {
     tab: "all",
     navLabel: "综合",
-    matchedLabel: " 只看有图",
+    matchedLabel: "只看有图",
     has: function (item, st, v) {
-      // Same rule as before, with one fix: an item that only has the second
-      // FANZA entry also counts, which the old st.dmm-only check missed.
       return !!v || !!dlEntry(st) || dmmEntries(st).length > 0;
     },
     cover: function (item, st, v) {
-      // Quality order: FANZA package > EGS official mirror > VNDB > DLsite.
+      // Quality order: FANZA package > Getchu official > EGS mirror > VNDB > DLsite.
       var es = dmmEntries(st);
       var d = dlEntry(st);
       var g = gcEntry(st);
@@ -516,7 +519,7 @@ var ADAPTERS = {
       var vn = v && v.img ? v.img : null;
       if (es.length) {
         var src = dmmPkgUrl(es[0].id);
-        return imgSlot(src, src, [egs, vn, d ? dlMainUrl(d) : null], "cover");
+        return imgSlot(dmmPkgThumb(es[0].id), src, [egs, vn, d ? dlMainUrl(d) : null], "cover");
       }
       if (USE_GC && g) return imgSlot(gcApiCover(g.id), gcApiCover(g.id), [egs, vn], "cover");
       return imgSlot(egs, egs, [vn, d ? dlMainUrl(d) : null], "cover");
@@ -527,14 +530,6 @@ var ADAPTERS = {
       if (dlEntry(st)) parts.push(esc(dlEntry(st).id));
       dmmEntries(st).forEach(function (e) { parts.push(esc(e.id)); });
       return parts.join(" / ") || "未匹配";
-    },
-    badge: function (item, st, v) {
-      var n = 0;
-      if (v && v.shots) n += v.shots.length;
-      if (dlEntry(st)) n += dlStems(dlEntry(st)).length;
-      dmmEntries(st).forEach(function (e) { n += e.n || 0; });
-      if (gcEntry(st)) n += gcEntry(st).n || 0;
-      return countBadge(n, "张");
     },
     link: function (item, st, v) {
       var d = dlEntry(st);
@@ -561,7 +556,7 @@ function hintSection(text) {
 }
 
 // --- section builders: one per store, all returning the same shape ------------
-// { title, note, cover, slots, link, count, grow }
+// { title, hint?, cover, slots, link?, key?, grow? }
 // grow is an async function returning extra imgSlots beyond what is baked.
 
 function vnSection(item, v, title) {
@@ -631,7 +626,7 @@ function dmmSection(e) {
   var fb = dmmPkgFallbacks(e.id);
   var sec = {
     title: "FANZA " + esc(fl) + "（" + esc(e.id) + "，<span data-livecount>" + n + "</span>张sample）",
-    cover: imgSlot(dmmPkgUrl(e.id), dmmPkgUrl(e.id), fb, "包图 " + fl + " " + e.id),
+    cover: imgSlot(dmmPkgThumb(e.id), dmmPkgUrl(e.id), fb, "包图 " + fl + " " + e.id),
     slots: slots,
     link: { href: dmmDetailUrl(e.id), text: "商品页（" + fl + "）" },
     key: "dm:" + e.id,
@@ -658,8 +653,6 @@ function dmmSampleSlot(cid, i, fl) {
 
 // Getchu sample tile. Deliberately no EGS fallback: EGS index n is a different
 // picture set, so swapping in the wrong picture is worse than hiding the tile.
-// A hole (Getchu numbering is not always contiguous, and max-index probing can
-// overshoot) then removes itself via chainErr instead of staying as a 裂图.
 function gcSampleSlot(cid, n) {
   var src = gcApiSample(cid, n);
   return imgSlot(src, src, [], "Getchu sample" + n);
@@ -675,14 +668,11 @@ function gcSection(item, st) {
   var g = gcEntry(st);
   var cid = g && g.id;
   // g.n is present only when the build crawled this page: >0 = images exist,
-  // 0 = confirmed "no samples". Both cases need no live probe, which is what
-  // keeps the Getchu tab off KV entirely.
+  // 0 = confirmed "no samples". Both cases need no live probe.
   var known = g && typeof g.n === "number";
   var baked = known ? Math.min(g.n, GETCHU_SAMPLE_CAP) : 0;
   var i;
   if (USE_GC && cid && baked > 0) {
-    // Cover lives in `cover` (big 上方大图), samples in `slots`: the same shape
-    // dlSection/dmmSection/vnSection return, so the modal排版一致.
     var slots = [];
     for (i = 1; i <= baked; i++) slots.push(gcSampleSlot(cid, i));
     return {
@@ -693,10 +683,7 @@ function gcSection(item, st) {
       key: "gc:" + cid,
     };
   }
-  // Only the Worker proxy is shown. There used to be 8 EGS-mirror placeholders
-  // here while the live probe ran, but those flashed a different picture set
-  // and then got swapped out, which read as flicker — so an unknown count now
-  // starts empty and the probe fills the grid in place.
+  // Unknown count starts empty and the probe fills the grid in place.
   var link = cid ? { href: gcProductUrl(cid), text: "在Getchu打开" } : null;
   if (USE_GC && cid && !known) {
     var sec = {
@@ -708,9 +695,6 @@ function gcSection(item, st) {
     };
     sec.grow = function () {
       return gcMeta(cid).then(function (m) {
-        // Terminal titles for the non-image outcomes too: returning null here
-        // would leave the heading on "加载中…" forever (and askOnce blocks
-        // any retry this session), which is exactly the stuck-loading report.
         if (m === null) return { slots: [], title: "Getchu（Worker代理，加载失败）" };
         if (!m) return { slots: [], title: "Getchu（Worker代理，无sample）" };
         var out = [];
@@ -735,7 +719,7 @@ function gcSection(item, st) {
   };
 }
 
-// --- full-CG external links (code that lived inside the data block before) ----
+// --- full-CG external links ----------------------------------------------------
 function fullcgOf(gid) { return FULLCG[String(gid)] || null; }
 
 function fullcgGoogle(site, name, alt) {
@@ -745,8 +729,8 @@ function fullcgGoogle(site, name, alt) {
   return "https://www.google.com/search?q=" + encodeURIComponent(q);
 }
 
-// Brand -> group tag slug. Curated brand_group.json (JP brands via VNDB
-// producer names) wins; ASCII brands fall back to a naive slug.
+// Curated brand_group.json (JP brands via VNDB producer names) wins; ASCII
+// brands fall back to a naive slug.
 function slugify(s) {
   return String(s == null ? "" : s).toLowerCase()
     .replace(/-/g, "_").replace(/[^a-z0-9 _]+/g, "")
@@ -787,7 +771,7 @@ function ehSiteUrl(item, alt) {
 }
 
 function extLink(href, text) {
-  return '<a href="' + attr(href) + '" target="_blank" rel="noopener">' + text + "</a>";
+  return '<a class="gbtn" href="' + attr(href) + '" target="_blank" rel="noopener">' + text + "</a>";
 }
 
 function fullcgHtml(item, alt) {
@@ -798,8 +782,8 @@ function fullcgHtml(item, alt) {
   var g = groupFor(item.brand);
   var keys = alt && alt !== item.name ? esc(item.name) + " / " + esc(alt) : esc(item.name);
   return "<h3>全CG（站外）</h3>" +
-    (direct.length ? "<p>已核实：" + direct.join(" | ") + "</p>" : "") +
-    "<p>" + [
+    (direct.length ? '<p class="links">已核实：' + direct.join(" | ") + "</p>" : "") +
+    '<p class="links">' + [
       extLink(hitomiSiteUrl(item, alt), "hitomi站内搜" + (g ? "(group:" + esc(g) + ")" : "(标题)")),
       extLink(ehSiteUrl(item, alt), "e-hentai站内搜" + (g ? "(group:" + esc(g) + "$)" : "(标题)")),
       extLink(fullcgGoogle("hitomi.la", item.name, alt), "Google搜hitomi全CG"),
@@ -810,11 +794,11 @@ function fullcgHtml(item, alt) {
     "。先用本页官方截图核对是否为同一作，全CG图不在本画廊内展示，对方站内需各自过年龄确认/登录。</p>";
 }
 
-// --- related recommendations --------------------------------------------------
+// --- related recommendations ----------------------------------------------------
 // Deterministic, data-local, no new payload: same brand (+100) and same series
 // (+60, title-core match including VNDB alt titles), tie-broken by median
-// closeness then rank. Rendered as compact rows that jump straight into that
-// game's detail modal via the existing delegated data-act handler.
+// closeness then rank. Rendered as a horizontal strip that jumps straight into
+// that game's drawer.
 var SERIES_TAILS = [
   /\s+DVD EDITION\s*$/i, /\s+EXTENDED EDITION\s*$/i, /\s+WORLD'S END COMPLETE\s*$/i,
   /\s+COMPLETE\s*$/i, /パワーアップキット\s*$/, /限定再装版\s*$/,
@@ -862,13 +846,10 @@ function relatedOf(item, v) {
     });
   }
   out.sort(function (a, b) { return b.s - a.s || a.md - b.md || a.d.rank - b.d.rank; });
-  return out.slice(0, 6);
+  return out.slice(0, 8);
 }
 
 function relCardHtml(r) {
-  // One recommendation cell: cover + name, jumps into that game's modal.
-  // Covers reuse the all-tab quality order (FANZA > Getchu > EGS), so every
-  // cell has the best picture available without new data.
   var d = r.d;
   var cov = ADAPTERS.all.cover(d, storeOf(d.gid), liveCache.get(d.gid) || null);
   var thumb = cov
@@ -878,14 +859,10 @@ function relCardHtml(r) {
   return '<button class="relcard" data-act="detail" data-gid="' + attr(d.gid) + '">' +
     thumb +
     '<span class="relname">#' + d.rank + " " + esc(d.name) + "</span>" +
-    '<span class="hint">' + esc(tag + " " + d.brand) + " · 中央值 " + d.median + "</span></button>";
+    '<span class="relmeta">' + esc(tag + " " + d.brand) + " · 中值" + d.median + "</span></button>";
 }
 
-// Side rails live OUTSIDE the modal box (see index.src.html #relL/#relR): they
-// float over the backdrop instead of being boxed together with the content.
-// Split half/half; the single heading lives on the left.
-
-// --- state --------------------------------------------------------------------
+// --- state ----------------------------------------------------------------------
 var TAB = "all";
 // file:// has no same-origin /gc|/dm|/dl backend, so fall back to direct EGS.
 var USE_GC = location.protocol === "http:" || location.protocol === "https:";
@@ -894,9 +871,16 @@ var PAGE = 36;
 var filtered = DATA.slice();
 var shown = 0;
 
-// Coverage numbers for the stats line, counted from the payloads themselves
-// rather than baked in by the build (the old document hardcoded 60/53 and
-// substituted a couple of counts at build time, which drifted as data changed).
+var SORTS = {
+  rank: null, // keep the EGS ranking order the payload ships in
+  median: function (a, b) { return (b.median || 0) - (a.median || 0) || a.rank - b.rank; },
+  count2: function (a, b) { return (b.count2 || 0) - (a.count2 || 0) || a.rank - b.rank; },
+  sellday: function (a, b) {
+    return String(b.sellday || "").localeCompare(String(a.sellday || "")) || a.rank - b.rank;
+  },
+};
+
+// Coverage numbers for the stats line, counted from the payloads themselves.
 var STATS = (function () {
   var hit = 0;
   Object.keys(CACHE).forEach(function (k) { if (CACHE[k]) hit++; });
@@ -912,54 +896,111 @@ var STATS = (function () {
 
 function adapter() { return ADAPTERS[TAB]; }
 
-// --- cards --------------------------------------------------------------------
+// --- cards -----------------------------------------------------------------------
+function storeDotsHtml(st, v) {
+  var dots = [
+    ["D", !!dlEntry(st), "DLsite"],
+    ["F", dmmEntries(st).length > 0, "FANZA"],
+    ["G", !!gcEntry(st), "Getchu"],
+    ["V", !!v, "VNDB"],
+  ];
+  return '<span class="storedots">' + dots.map(function (dot) {
+    return '<span class="sdot' + (dot[1] ? " on" : "") + '" title="' + dot[2] + '">' + dot[0] + "</span>";
+  }).join("") + "</span>";
+}
+
 function cardHtml(item, v) {
   var a = adapter();
   var st = storeOf(item.gid);
   var cover = a.cover(item, st, v);
+  var isGalleryView = TAB === "vndb" || TAB === "all";
   var coverHtml = cover
     ? '<img loading="lazy" decoding="async" src="' + attr(cover.thumb) + '"' +
       (cover.fb.length ? ' data-fb="' + attr(cover.fb.join("|")) + '"' : "") +
       ' data-full="' + attr(cover.full) + '"' +
       ' onerror="chainErr(this)"' + ' alt="cover">'
-    : '<div class="novndb">' + (TAB === "vndb" || TAB === "all"
-      ? "暂无图片<br>进入视口后自动查VNDB，或点下方按钮"
+    : '<div class="novndb">' + (isGalleryView
+      ? "暂无图片<br>滚进视口自动匹配 VNDB"
       : "EGS无该商店ID") + "</div>";
-  var manual = ((TAB === "vndb" || TAB === "all") && !v && !liveCache.has(item.gid))
-    ? '<button class="loadbtn" data-act="fetch" data-gid="' + attr(item.gid) + '">查VNDB封面</button>'
+  var manual = (isGalleryView && !v && !liveCache.has(item.gid))
+    ? '<button class="loadbtn" data-act="fetch" data-gid="' + attr(item.gid) + '">匹配VNDB</button>'
+    : "";
+  var itemTags = tagsOf(item.gid);
+  var tagsHtml = itemTags.length
+    ? ' <span class="cardtag" title="EGS注册标签">' + itemTags.map(esc).join("・") + "</span>"
     : "";
   var link = a.link(item, st, v);
-  var g = gcEntry(st);
-  var glink = g ? " / " + extLink(gcProductUrl(g.id), "Getchu") : "";
-  var extra = ((TAB === "vndb" || TAB === "all") && v && v.extra && v.extra.length)
-    ? '<br><span class="hint">合集另含：' + v.extra.map(function (e) {
-        return extLink(vnUrl(e.id), esc(e.alttitle || e.title));
-      }).join(" / ") + (v.release ? "（发行 " + esc(v.release.id) + "）" : "") + "</span>"
-    : "";
-  return '<div class="cover" data-gid="' + attr(item.gid) + '">' + coverHtml +
+  return '<div class="cover">' + coverHtml + '<div class="scrim"></div>' +
       '<span class="rank">#' + item.rank + "</span>" +
-      '<span class="median">' + item.median + "</span>" +
-      a.badge(item, st, v) + manual + "</div>" +
-    '<div class="meta"><h3>' + esc(item.name) + "</h3>" +
-      '<div class="sub">' + esc(item.brand) + " / " + esc(item.sellday) + "<br>" +
-      "中央值 " + item.median + " / 评分 " + item.count2 + "人 / 标签 " + item.votes + "票" +
-      '<br><span class="hint">' + a.sub(item, st, v) + "</span>" + extra + "</div></div>" +
-    '<div class="actions">' +
-      '<button data-act="detail" data-gid="' + attr(item.gid) + '">详情/截图</button>' +
-      extLink(link.href, link.text) +
-      extLink(egsUrl(item.gid), "EGS") + glink +
+      (item.median ? '<span class="medpill" title="中央值">' + item.median + "</span>" : "") +
+      storeDotsHtml(st, v) + manual + "</div>" +
+    '<div class="cmeta"><h3 class="ctitle">' + esc(item.name) + "</h3>" +
+      '<p class="csub">' + esc(item.brand) + " · " + esc(item.sellday) + "</p>" +
+      '<p class="cline"><span>中央值 ' + (item.median || "–") + "</span><span>评分 " + item.count2 + "</span><span>POV " + item.votes + "票</span>" + tagsHtml + "</p>" +
+      '<div class="cacts">' + extLink(link.href, link.text) + extLink(egsUrl(item.gid), "EGS") + "</div>" +
     "</div>";
+}
+
+// Full card element. cardInner (above) is what refreshCard swaps in place, so
+// the observed wrapper and its listeners survive the swap.
+function cardEl(item, v) {
+  return '<article class="card" data-gid="' + attr(item.gid) + '">' + cardHtml(item, v) + "</article>";
+}
+
+// --- filtering --------------------------------------------------------------------
+var TAGSEL = prefs.tags;
+
+function tagSet(t) {
+  tagSetCache[t] = tagSetCache[t] || new Set(TAGS[t] || []);
+  return tagSetCache[t];
+}
+var tagSetCache = {};
+
+var tagsOfCache = {};
+function tagsOf(gid) {
+  var k = String(gid);
+  if (tagsOfCache[k] === undefined) {
+    tagsOfCache[k] = Object.keys(TAGS).filter(function (t) { return tagSet(t).has(k); });
+  }
+  return tagsOfCache[k];
+}
+
+function toggleTag(t) {
+  if (!TAGS[t]) return;
+  var i = TAGSEL.indexOf(t);
+  if (i >= 0) TAGSEL.splice(i, 1); else TAGSEL.push(t);
+  prefs.tags = TAGSEL;
+  savePrefs();
+  renderTagbar();
+  applyFilter();
+}
+
+function renderTagbar() {
+  var row = document.getElementById("tagrow");
+  var box = document.getElementById("tagchips");
+  if (!row || !box) return;
+  var keys = Object.keys(TAGS);
+  if (!keys.length) { row.hidden = true; box.innerHTML = ""; return; }
+  row.hidden = false;
+  box.innerHTML = keys.map(function (t) {
+    return '<button class="tagchip' + (TAGSEL.indexOf(t) >= 0 ? " on" : "") +
+      '" data-tag="' + attr(t) + '" title="与其它选中标签及搜索条件同时满足（AND）">' +
+      esc(t) + '<span class="tagcount">' + tagSet(t).size + "</span></button>";
+  }).join("");
 }
 
 function applyFilter() {
   var q = document.getElementById("q").value.trim().toLowerCase();
-  var mm = +document.getElementById("minMedian").value;
   var om = document.getElementById("onlyMatched").checked;
   var a = adapter();
+  var sortFn = SORTS[prefs.sort] || SORTS.rank;
   filtered = DATA.filter(function (d) {
-    if ((d.median || 0) < mm) return false;
+    if ((d.median || 0) < prefs.median) return false;
     var v = liveCache.get(d.gid) || null;
     if (om && !a.has(d, storeOf(d.gid), v)) return false;
+    for (var ti = 0; ti < TAGSEL.length; ti++) {
+      if (!tagSet(TAGSEL[ti]).has(d.gid)) return false;
+    }
     if (!q) return true;
     var st = storeOf(d.gid);
     var dl = dlEntry(st);
@@ -970,6 +1011,7 @@ function applyFilter() {
     ].concat(dmmEntries(st).map(function (e) { return e.id; })).join(" ").toLowerCase();
     return hay.indexOf(q) >= 0;
   });
+  if (sortFn) filtered = filtered.slice().sort(sortFn);
   shown = 0;
   document.getElementById("grid").innerHTML = "";
   renderMore();
@@ -980,43 +1022,50 @@ function renderMore() {
   var slice = filtered.slice(shown, shown + PAGE);
   slice.forEach(function (item) {
     var div = document.createElement("div");
-    div.className = "card";
+    div.className = "cardwrap";
     div.dataset.gid = String(item.gid);
-    div.innerHTML = cardHtml(item, liveCache.get(item.gid) || null);
+    div.innerHTML = cardEl(item, liveCache.get(item.gid) || null);
     grid.appendChild(div);
-    bindCard(div, item);
+    bindCard(div.firstElementChild, item);
+    // The wrapper is the observed element: swapping the card's innerHTML on a
+    // late VNDB match keeps the observer attached (an outerHTML swap would
+    // detach it and silently stop auto-matching for that card).
     getObserver().observe(div);
   });
   shown += slice.length;
-  document.getElementById("stats").textContent =
-    "共 " + filtered.length + " / " + DATA.length + " 个（EROGE限定）。" +
-    "VNDB预取" + STATS.vn_prefetch + "/匹配" + STATS.vn_hit + "，其余可视自动查（2并发/800ms）；" +
-    "DLsite覆盖" + STATS.dl + "，FANZA覆盖" + STATS.dm + "，Getchu覆盖" + STATS.gc + "。" +
-    "当前Tab：" + TAB + "。已显示 " + shown + " 个。";
-  document.getElementById("more").style.display = shown >= filtered.length ? "none" : "block";
+  document.getElementById("stats").innerHTML =
+    "共 <b>" + filtered.length + "</b> / " + DATA.length + " 个（EROGE限定）" +
+    " · VNDB预取" + STATS.vn_prefetch + "/匹配" + STATS.vn_hit +
+    " · DLsite覆盖" + STATS.dl + " · FANZA覆盖" + STATS.dm + " · Getchu覆盖" + STATS.gc +
+    (TAGSEL.length ? " · 标签AND：" + TAGSEL.map(esc).join("+") : "") +
+    " · 视图：" + ADAPTERS[TAB].navLabel +
+    " · 已显示 <b>" + shown + "</b> 个";
+  document.getElementById("more").style.display = shown >= filtered.length ? "none" : "inline-block";
 }
 
-function bindCard(div, item) {
-  div.querySelector(".cover").addEventListener("click", function (e) {
+function refreshCard(gid, v) {
+  var wrap = document.querySelector('.cardwrap[data-gid="' + CSS.escape(String(gid)) + '"]');
+  if (!wrap) return;
+  var item = DATA.find(function (d) { return String(d.gid) === String(gid); });
+  if (!item) return;
+  var card = wrap.firstElementChild;
+  card.innerHTML = cardHtml(item, v || null);
+  bindCard(card, item);
+}
+
+function bindCard(card, item) {
+  card.addEventListener("click", function (e) {
     if (e.target.closest('[data-act="fetch"]')) return;
+    if (e.target.closest("a")) return;
     openDetail(item.gid);
   });
-  var fb = div.querySelector('[data-act="fetch"]');
+  var fb = card.querySelector('[data-act="fetch"]');
   if (fb) {
     fb.addEventListener("click", function (e) {
       e.stopPropagation();
       ensureVndb(item).then(function (v) { refreshCard(item.gid, v); });
     });
   }
-}
-
-function refreshCard(gid, v) {
-  var div = document.querySelector('.card[data-gid="' + CSS.escape(String(gid)) + '"]');
-  if (!div) return;
-  var item = DATA.find(function (d) { return String(d.gid) === String(gid); });
-  if (!item) return;
-  div.innerHTML = cardHtml(item, v || null);
-  bindCard(div, item);
 }
 
 // Lazy VNDB lookup as cards scroll into view.
@@ -1040,9 +1089,7 @@ function getObserver() {
 }
 
 // Infinite scroll: the 加载更多 button doubles as the sentinel, so environments
-// without IntersectionObserver keep working via click. Fires progressively as
-// the user nears the bottom; renderMore is slice-based, so a double trigger
-// just advances two pages, never duplicates.
+// without IntersectionObserver keep working via click.
 var moreObserver = null;
 function getMoreObserver() {
   if (moreObserver) return moreObserver;
@@ -1059,19 +1106,182 @@ function getMoreObserver() {
   return moreObserver;
 }
 
-// --- viewer -------------------------------------------------------------------
+// --- detail drawer ---------------------------------------------------------------
+var growTargets = [];
+
+function renderDetail(item, sections) {
+  var viewList = [];
+  var v = liveCache.get(item.gid) || null;
+  var st = storeOf(item.gid);
+  var itemTags = tagsOf(item.gid);
+  growTargets = [];
+
+  document.getElementById("dhead").innerHTML =
+    "<h2>#" + item.rank + " " + esc(item.name) + "</h2>" +
+    '<p class="hint">' + esc(item.brand) + " / " + esc(item.sellday) +
+    " / 中央值 " + (item.median || "–") + " / 评分 " + item.count2 + " / POV " + item.votes + "票" +
+    (itemTags.length ? " · 注册标签 " + itemTags.map(esc).join("、") : "") +
+    (v ? "<br>VNDB: " + esc(v.title || "") + (v.alttitle ? " / " + esc(v.alttitle) : "") +
+      " / " + esc(v.id || "") + (v.via ? " · " + esc(v.via) : "") : "") + "</p>";
+
+  var html = "";
+  sections.forEach(function (sec, si) {
+    if (!sec) return;
+    if (sec.title) html += '<h3 id="dsec-h-' + si + '">' + sec.title + "</h3>";
+    if (sec.hint) {
+      html += '<p class="hint">' + sec.hint + "</p>";
+      if (sec.link) html += '<p class="links">' + extLink(sec.link.href, sec.link.text) + "</p>";
+      return;
+    }
+    var from = viewList.length;
+    var tiles = [];
+    if (sec.cover) {
+      viewList.push(sec.cover);
+      tiles.push(slotHtml(sec.cover).replace("<img ", '<img class="big" '));
+    }
+    sec.slots.forEach(function (s) { viewList.push(s); tiles.push(slotHtml(s)); });
+    html += '<div class="strip" id="dsec-' + si + '">' + tiles.join("") + "</div>";
+    if (sec.grow) {
+      growTargets.push({ si: si, from: from, count: sec.slots.length, grow: sec.grow, key: sec.key || "dsec" + si, cover: sec.cover || null, slots: sec.slots.slice() });
+    }
+    if (sec.link) html += '<p class="links">' + extLink(sec.link.href, sec.link.text) + "</p>";
+  });
+
+  var rel = relatedOf(item, v);
+  html += "<h3>相关推荐（同社 / 同系列）</h3>";
+  html += rel.length
+    ? '<div class="relstrip">' + rel.map(relCardHtml).join("") + "</div>"
+    : '<p class="hint">暂无同社/系列作收录。</p>';
+  html += fullcgHtml(item, v && v.alttitle);
+
+  var links = [];
+  sections.forEach(function (sec) {
+    if (sec && sec.link && !links.some(function (l) { return l.href === sec.link.href; })) {
+      links.push(sec.link);
+    }
+  });
+  var g = gcEntry(st);
+  if (g) links.push({ href: gcProductUrl(g.id), text: "Getchu(id=" + esc(g.id) + ")" });
+  links.push({ href: egsUrl(item.gid), text: "在EGS打开" });
+  if (TAB === "vndb" || TAB === "all") {
+    links.push({ href: vnSearchUrl(item.name), text: "VNDB搜索" });
+  }
+  html += '<p class="links">' + links.map(function (l) { return extLink(l.href, l.text); }).join(" | ");
+  if (TAB === "vndb" || TAB === "all") {
+    html += ' | <button class="gbtn" data-act="refetch" data-gid="' + attr(item.gid) + '">重查VNDB</button>';
+  }
+  html += "</p>";
+
+  document.getElementById("dbody").innerHTML = html;
+  document.getElementById("drawer").classList.add("open");
+  document.getElementById("drawer").setAttribute("aria-hidden", "false");
+  document.body.classList.add("locked");
+  document.querySelectorAll("#dbody img").forEach(function (im) {
+    im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
+  });
+  return viewList;
+}
+
+// Append (or, for a wrong guess, swap in) whatever a store reports beyond the
+// baked data, at most once per session per product. This is the only path that
+// can reach KV.
+function growSections(viewList) {
+  growTargets.forEach(function (t) {
+    if (askOnce(t.key) !== true) return;
+    var grid = document.getElementById("dsec-" + t.si);
+    var heading = document.getElementById("dsec-h-" + t.si);
+    t.grow().then(function (res) {
+      if (!res) return;
+      if (res.title && heading) heading.textContent = res.title;
+      if (res.cover) {
+        var oldCover = grid ? grid.querySelector("img.big") : null;
+        var coverHtml = slotHtml(res.cover).replace("<img ", '<img class="big" ');
+        var cidx = -1;
+        if (t.cover && t.cover.full) {
+          for (var vi = 0; vi < viewList.length; vi++) {
+            if (viewList[vi].full === t.cover.full) { cidx = vi; break; }
+          }
+        }
+        if (cidx >= 0) viewList[cidx] = res.cover; else viewList.push(res.cover);
+        if (oldCover) oldCover.outerHTML = coverHtml;
+        else if (grid) grid.insertAdjacentHTML("afterbegin", coverHtml);
+      }
+      var extra = res.slots || res;
+      if (!extra.length || !grid) return;
+      if (res.replace) {
+        // Swap out the guessed tail in the DOM and the viewer list together, so
+        // clicking any tile still lands on the right image. Removal is by URL:
+        // other sections may have appended to viewList since.
+        var at = res.at || 0;
+        var oldUrls = (t.slots || []).slice(at).map(function (s) { return s.full; });
+        for (var vi2 = viewList.length - 1; vi2 >= 0; vi2--) {
+          if (oldUrls.indexOf(viewList[vi2].full) >= 0) viewList.splice(vi2, 1);
+        }
+        var imgs = grid.querySelectorAll("img:not(.big)");
+        for (var r = imgs.length - 1; r >= at; r--) imgs[r].remove();
+        extra.forEach(function (s) { viewList.push(s); });
+        grid.insertAdjacentHTML("beforeend", extra.map(slotHtml).join(""));
+      } else {
+        extra.forEach(function (s) {
+          if (viewList.some(function (y) { return y.full === s.full; })) return;
+          viewList.push(s);
+          grid.insertAdjacentHTML("beforeend", slotHtml(s));
+        });
+      }
+      grid.querySelectorAll("img").forEach(function (im) {
+        im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
+      });
+      var heading2 = document.getElementById("dsec-h-" + t.si);
+      if (heading2) {
+        heading2.innerHTML = heading2.innerHTML.replace(/<span data-livecount>\d+<\/span>/,
+          '<span data-livecount>' + grid.querySelectorAll("img:not(.big)").length + "</span>");
+      }
+    });
+  });
+}
+
+function openDetail(gid) {
+  var item = DATA.find(function (d) { return String(d.gid) === String(gid); });
+  if (!item) return;
+  if ((TAB === "vndb" || TAB === "all") && liveCache.get(gid) === undefined) {
+    ensureVndb(item).then(function () { openDetail(gid); });
+    return;
+  }
+  var sections = adapter().sections(item, storeOf(gid), liveCache.get(gid) || null);
+  growSections(renderDetail(item, sections));
+}
+
+function closeDrawer() {
+  document.getElementById("drawer").classList.remove("open");
+  document.getElementById("drawer").setAttribute("aria-hidden", "true");
+  document.body.classList.remove("locked");
+}
+
+// --- lightbox -----------------------------------------------------------------------
 var vList = [];
 var vIdx = 0;
 // Monotonic token: rapid prev/next clicks each start a load, and only the
-// latest one's callbacks may touch the UI — otherwise a slow earlier image
-// landing late would clear the spinner while the newest is still loading.
+// latest one's callbacks may touch the UI.
 var vToken = 0;
 
 function openViewer(list, idx) {
   vList = list;
   vIdx = idx || 0;
+  buildThumbs();
   updateViewer();
-  document.getElementById("viewer").classList.add("open");
+  var lb = document.getElementById("lightbox");
+  lb.classList.add("open");
+  lb.setAttribute("aria-hidden", "false");
+  document.body.classList.add("locked");
+}
+
+function buildThumbs() {
+  var strip = document.getElementById("vthumbs");
+  if (!strip) return;
+  strip.innerHTML = vList.map(function (it, i) {
+    return '<button data-vi="' + i + '" title="' + attr(it.label || "") + '">' +
+      '<img loading="lazy" decoding="async" src="' + attr(it.thumb) + '" alt=""></button>';
+  }).join("");
 }
 
 function updateViewer() {
@@ -1080,12 +1290,17 @@ function updateViewer() {
   var img = document.getElementById("vimg");
   var spin = document.getElementById("vspin");
   var my = ++vToken;
-  // Caption first: the counter reacts instantly so a fast click never feels lost.
   document.getElementById("vcap").textContent =
     (vIdx + 1) + " / " + vList.length + " " + (cur.label || "");
-  // Dim the outgoing picture at once: without this the old image sits unchanged
-  // behind the new caption and reads as "stuck / duplicate".
   img.classList.add("loading");
+  var strip = document.getElementById("vthumbs");
+  if (strip) {
+    strip.querySelectorAll("button").forEach(function (b) {
+      var curBtn = +b.dataset.vi === vIdx;
+      b.classList.toggle("cur", curBtn);
+      if (curBtn && b.scrollIntoView) try { b.scrollIntoView({ block: "nearest", inline: "center" }); } catch (e) {}
+    });
+  }
   // Delayed spinner: cached pictures resolve in ms and must not flash one.
   setTimeout(function () {
     if (my === vToken && !img.complete && spin) spin.classList.add("on");
@@ -1108,9 +1323,7 @@ function updateViewer() {
   preloadAround();
 }
 
-// Warm the neighbours' full-size files so rapid prev/next usually hits cache
-// instead of network. Adjacent only (±1): warming the whole list would hammer
-// bandwidth on 30-picture sections.
+// Warm the neighbours' full-size files so rapid prev/next usually hits cache.
 function preloadAround() {
   if (typeof Image === "undefined" || vList.length < 2) return;
   for (var d = -1; d <= 1; d += 2) {
@@ -1124,12 +1337,17 @@ function preloadAround() {
 
 function closeViewer() {
   vToken++; // invalidate any in-flight load callbacks
-  document.getElementById("viewer").classList.remove("open");
+  var lb = document.getElementById("lightbox");
+  lb.classList.remove("open");
+  lb.setAttribute("aria-hidden", "true");
   var img = document.getElementById("vimg");
   img.classList.remove("loading");
   var spin = document.getElementById("vspin");
   if (spin) spin.classList.remove("on");
   img.removeAttribute("src");
+  if (!document.getElementById("drawer").classList.contains("open")) {
+    document.body.classList.remove("locked");
+  }
 }
 
 function viewIdx(list, im) {
@@ -1142,240 +1360,87 @@ function viewIdx(list, im) {
   return 0;
 }
 
-// --- modal --------------------------------------------------------------------
-// One renderer for all five tabs: header, a section per store, the external
-// full-CG block, then the link row. What differs between tabs stays inside the
-// adapters' `sections`, so openDetail has no branches at all.
-var growTargets = [];
-
-function renderModal(item, sections) {
-  var viewList = [];
-  var v = liveCache.get(item.gid) || null;
-  var st = storeOf(item.gid);
-  growTargets = [];
-
-  var html = "<h2>#" + item.rank + " " + esc(item.name) + "</h2>" +
-    '<p class="hint">' + esc(item.brand) + " / " + esc(item.sellday) +
-    " / 中央值 " + item.median + " / 评分 " + item.count2 + " / 标签 " + item.votes + "票" +
-    (v ? "<br>VNDB: " + esc(v.title || "") + (v.alttitle ? " / " + esc(v.alttitle) : "") +
-      " / " + esc(v.id || "") + (v.via ? "<br>匹配方式：" + esc(v.via) : "") : "") +
-    "</p>";
-
-  sections.forEach(function (sec, si) {
-    if (!sec) return;
-    if (sec.title) html += '<h3 id="sec-h-' + si + '">' + sec.title + "</h3>";
-    if (sec.hint) {
-      html += '<p class="hint">' + sec.hint + "</p>";
-      if (sec.link) html += "<p>" + extLink(sec.link.href, sec.link.text) + "</p>";
-      return;
-    }
-    if (sec.cover) {
-      viewList.push(sec.cover);
-      html += slotHtml(sec.cover).replace("<img ", '<img class="big" id="sec-cover-' + si + '" ');
-    }
-    var count = sec.slots.length;
-    if (count) {
-      var from = viewList.length;
-      sec.slots.forEach(function (s) { viewList.push(s); });
-      html += '<div class="sgrid" id="sec-' + si + '">' + sec.slots.map(slotHtml).join("") + "</div>";
-      if (sec.grow) {
-        growTargets.push({ si: si, from: from, count: count, grow: sec.grow, key: sec.key || "sec" + si, cover: sec.cover || null, slots: sec.slots.slice() });
-      }
-    } else if (sec.grow) {
-      // A section that starts empty still needs a grid anchor so async content
-      // has somewhere to land (e.g. a DLsite product whose stems were never
-      // harvested: without this the grow below would have no target and never run).
-      var fromEmpty = viewList.length;
-      html += '<div class="sgrid" id="sec-' + si + '"></div>';
-      growTargets.push({ si: si, from: fromEmpty, count: 0, grow: sec.grow, key: sec.key || "sec" + si, cover: sec.cover || null, slots: [] });
-    }
-    if (sec.link) html += "<p>" + extLink(sec.link.href, sec.link.text) + "</p>";
-  });
-
-  // Recommendations flank the content as side rails (see wrap below); only the
-  // empty state renders inline in the main flow.
-  var rel = relatedOf(item, v);
-  if (!rel.length) html += "<h3>相关推荐</h3>" + '<p class="hint">暂无同社/系列作收录。</p>';
-  html += fullcgHtml(item, v && v.alttitle);
-
-  var links = [];
-  sections.forEach(function (sec) {
-    if (sec && sec.link && !links.some(function (l) { return l.href === sec.link.href; })) {
-      links.push(sec.link);
-    }
-  });
-  var g = gcEntry(st);
-  if (g) links.push({ href: gcProductUrl(g.id), text: "Getchu(id=" + esc(g.id) + ")" });
-  links.push({ href: egsUrl(item.gid), text: "在EGS打开" });
-  if (TAB === "vndb" || TAB === "all") {
-    links.push({ href: vnSearchUrl(item.name), text: "VNDB搜索" });
-  }
-  html += "<p>" + links.map(function (l) { return extLink(l.href, l.text); }).join(" | ");
-  if (TAB === "vndb" || TAB === "all") {
-    html += ' | <button data-act="refetch" data-gid="' + attr(item.gid) + '">重查VNDB</button>';
-  }
-  html += "</p>";
-
-  document.getElementById("mbody").innerHTML = html;
-  // Rails float outside the box, so rail covers are never under #mbody and can
-  // never pick up the viewer handler below — navigation only, by construction.
-  var relL = document.getElementById("relL");
-  var relR = document.getElementById("relR");
-  if (relL && relR) {
-    var mid = Math.ceil(rel.length / 2);
-    relL.innerHTML = rel.length
-      ? '<h4 class="relhead">相关推荐</h4>' + rel.slice(0, mid).map(relCardHtml).join("") : "";
-    relR.innerHTML = rel.length ? rel.slice(mid).map(relCardHtml).join("") : "";
-  }
-  document.getElementById("modal").classList.add("open");
-  document.querySelectorAll("#mbody img").forEach(function (im) {
-    im.style.cursor = "zoom-in";
-    im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
-  });
-  return viewList;
-}
-
-// Append (or, for a wrong guess, swap in) whatever a store reports beyond the
-// baked data, at most once per session per product. This is the only path that
-// can reach KV.
-function growSections(viewList) {
-  growTargets.forEach(function (t) {
-    if (askOnce(t.key) !== true) return;
-    var grid = document.getElementById("sec-" + t.si);
-    var heading = document.getElementById("sec-h-" + t.si);
-    t.grow().then(function (res) {
-      if (!res) return;
-      // A grow may carry the real cover/title for a section that started as
-      // placeholders (Getchu unknown -> baked shape). Apply those first so the
-      // modal ends up identical to the baked path: big cover on top, samples
-      // in the grid, no duplicated placeholder tiles.
-      if (res.title && heading) heading.textContent = res.title;
-      if (res.cover) {
-        var oldCover = document.getElementById("sec-cover-" + t.si);
-        var coverHtml = slotHtml(res.cover).replace("<img ", '<img class="big" id="sec-cover-' + t.si + '" ');
-        if (oldCover) {
-          var oldFull = t.cover ? t.cover.full : null;
-          var cidx = -1;
-          if (oldFull) {
-            for (var vi = 0; vi < viewList.length; vi++) {
-              if (viewList[vi].full === oldFull) { cidx = vi; break; }
-            }
-          }
-          if (cidx >= 0) viewList[cidx] = res.cover; else viewList.push(res.cover);
-          oldCover.outerHTML = coverHtml;
-        } else {
-          // No baked cover: viewer lookup is URL-based, so push order is cosmetic.
-          viewList.push(res.cover);
-          if (grid) grid.insertAdjacentHTML("beforebegin", coverHtml);
-        }
-        var nc = document.getElementById("sec-cover-" + t.si);
-        if (nc) {
-          nc.style.cursor = "zoom-in";
-          nc.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, nc)); });
-        }
-      }
-      var extra = res.slots || res;
-      if (!extra.length || !grid) return;
-      if (res.replace) {
-        // Swap out the guessed tail in the DOM and the viewer list together, so
-        // clicking any tile still lands on the right image. Removal is by URL:
-        // other sections may have appended to viewList since, so index splicing
-        // to the end would eat their entries.
-        var at = res.at || 0;
-        var oldUrls = (t.slots || []).slice(at).map(function (s) { return s.full; });
-        for (var vi2 = viewList.length - 1; vi2 >= 0; vi2--) {
-          if (oldUrls.indexOf(viewList[vi2].full) >= 0) viewList.splice(vi2, 1);
-        }
-        var imgs = grid.querySelectorAll("img");
-        for (var r = imgs.length - 1; r >= at; r--) imgs[r].remove();
-        extra.forEach(function (s) { viewList.push(s); });
-        grid.insertAdjacentHTML("beforeend", extra.map(slotHtml).join(""));
-      } else {
-        extra.forEach(function (s) {
-          if (viewList.some(function (y) { return y.full === s.full; })) return;
-          viewList.push(s);
-          grid.insertAdjacentHTML("beforeend", slotHtml(s));
-        });
-      }
-      grid.querySelectorAll("img").forEach(function (im) {
-        im.style.cursor = "zoom-in";
-        im.addEventListener("click", function () { openViewer(viewList, viewIdx(viewList, im)); });
-      });
-      if (heading) {
-        heading.innerHTML = heading.innerHTML.replace(/<span data-livecount>\d+<\/span>/,
-          '<span data-livecount>' + grid.querySelectorAll("img").length + "</span>");
-      }
-    });
-  });
-}
-
-function openDetail(gid) {
-  var item = DATA.find(function (d) { return String(d.gid) === String(gid); });
-  if (!item) return;
-  if ((TAB === "vndb" || TAB === "all") && liveCache.get(gid) === undefined) {
-    ensureVndb(item).then(function () { openDetail(gid); });
-    return;
-  }
-  var sections = adapter().sections(item, storeOf(gid), liveCache.get(gid) || null);
-  growSections(renderModal(item, sections));
-}
-
-// --- wiring -------------------------------------------------------------------
-var TABS = [["tabAll", "all"], ["tabVndb", "vndb"], ["tabDlsite", "dlsite"],
-  ["tabDmm", "dmm"], ["tabGc", "getchu"]];
-
+// --- wiring --------------------------------------------------------------------------
 function setTab(t) {
   TAB = t;
-  TABS.forEach(function (pair) {
-    document.getElementById(pair[0]).classList.toggle("on", pair[1] === t);
+  document.querySelectorAll("#views .vtab").forEach(function (b) {
+    b.classList.toggle("on", b.dataset.view === t);
   });
+  document.getElementById("grid").dataset.view = t;
   var label = document.getElementById("onlyMatchedLabel");
   if (label) label.textContent = ADAPTERS[t].matchedLabel;
+  prefs.view = t;
+  savePrefs();
   applyFilter();
 }
 
-function clearLive(gid) {
-  liveCache.delete(gid);
-  pending.delete(gid);
-  saveLive();
+var DENSITIES = [["auto", "密度：自动"], ["density-compact", "密度：紧凑"], ["density-large", "密度：大图"]];
+
+function setDensity(i) {
+  var grid = document.getElementById("grid");
+  grid.classList.remove("density-compact", "density-large");
+  if (DENSITIES[i % DENSITIES.length][0] !== "auto") grid.classList.add(DENSITIES[i % DENSITIES.length][0]);
+  document.getElementById("density").textContent = DENSITIES[i % DENSITIES.length][1];
+  try { localStorage.setItem("density", DENSITIES[i % DENSITIES.length][0]); } catch (e) {}
 }
 
 function wire() {
-  TABS.forEach(function (pair) {
-    document.getElementById(pair[0]).onclick = function () { setTab(pair[1]); };
+  document.querySelectorAll("#views .vtab").forEach(function (b) {
+    b.onclick = function () { setTab(b.dataset.view); };
   });
-  var DENSITIES = [["auto", "密度：自动"], ["density-compact", "密度：紧凑"], ["density-large", "密度：大图"]];
+  document.getElementById("brand").onclick = function (e) {
+    e.preventDefault();
+    try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e2) { window.scrollTo(0, 0); }
+  };
   var dBtn = document.getElementById("density");
   var dIdx = 0;
   try { dIdx = Math.max(0, DENSITIES.findIndex(function (x) { return x[0] === localStorage.getItem("density"); })); } catch (e) {}
-  function setDensity(i) {
-    dIdx = i % DENSITIES.length;
-    var grid = document.getElementById("grid");
-    grid.classList.remove("density-compact", "density-large");
-    if (DENSITIES[dIdx][0] !== "auto") grid.classList.add(DENSITIES[dIdx][0]);
-    dBtn.textContent = DENSITIES[dIdx][1];
-    try { localStorage.setItem("density", DENSITIES[dIdx][0]); } catch (e) {}
-  }
-  if (dBtn) {
-    dBtn.onclick = function () { setDensity(dIdx + 1); };
-    setDensity(dIdx);
-  }
+  setDensity(dIdx);
+  dBtn.onclick = function () { dIdx = (dIdx + 1) % DENSITIES.length; setDensity(dIdx); };
+
+  var sortSel = document.getElementById("sort");
+  sortSel.value = prefs.sort;
+  sortSel.onchange = function () {
+    prefs.sort = sortSel.value;
+    savePrefs();
+    applyFilter();
+  };
+  document.getElementById("medchips").addEventListener("click", function (e) {
+    var chip = e.target.closest(".fchip");
+    if (!chip) return;
+    prefs.median = +chip.dataset.med || 0;
+    savePrefs();
+    document.querySelectorAll("#medchips .fchip").forEach(function (c) {
+      c.classList.toggle("on", c === chip);
+    });
+    applyFilter();
+  });
+  document.getElementById("tagrow").addEventListener("click", function (e) {
+    var chip = e.target.closest(".tagchip");
+    if (chip) toggleTag(chip.getAttribute("data-tag"));
+  });
   document.getElementById("q").oninput = applyFilter;
-  document.getElementById("minMedian").onchange = applyFilter;
   document.getElementById("onlyMatched").onchange = applyFilter;
   document.getElementById("reset").onclick = function () {
     document.getElementById("q").value = "";
-    document.getElementById("minMedian").value = "0";
+    prefs.median = 0;
+    prefs.sort = "rank";
+    sortSel.value = "rank";
+    TAGSEL.length = 0;
+    prefs.tags = TAGSEL;
     document.getElementById("onlyMatched").checked = false;
+    document.querySelectorAll("#medchips .fchip").forEach(function (c) {
+      c.classList.toggle("on", c.dataset.med === "0");
+    });
+    savePrefs();
+    renderTagbar();
     applyFilter();
   };
   document.getElementById("more").onclick = renderMore;
   getMoreObserver();
-  document.getElementById("close").onclick = function () {
-    document.getElementById("modal").classList.remove("open");
-  };
-  document.getElementById("modal").addEventListener("click", function (e) {
-    if (e.target.id === "modal") e.target.classList.remove("open");
+  document.getElementById("dclose").onclick = closeDrawer;
+  document.getElementById("drawer").addEventListener("click", function (e) {
+    if (e.target.dataset && e.target.dataset.act === "drawer-close") closeDrawer();
   });
   document.getElementById("vprev").onclick = function () {
     if (vList.length) { vIdx = (vIdx - 1 + vList.length) % vList.length; updateViewer(); }
@@ -1388,17 +1453,26 @@ function wire() {
     var cur = vList[vIdx];
     if (cur) window.open(cur.full, "_blank", "noopener");
   };
-  document.getElementById("viewer").addEventListener("click", function (e) {
-    if (e.target.id === "viewer") closeViewer();
+  document.getElementById("vthumbs").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-vi]");
+    if (b) { vIdx = +b.dataset.vi; updateViewer(); }
   });
   document.addEventListener("keydown", function (e) {
-    if (document.getElementById("viewer").classList.contains("open")) {
+    if (document.getElementById("lightbox").classList.contains("open")) {
       if (e.key === "Escape") closeViewer();
       if (e.key === "ArrowLeft") document.getElementById("vprev").click();
       if (e.key === "ArrowRight") document.getElementById("vnext").click();
       return;
     }
-    if (e.key === "Escape") document.getElementById("modal").classList.remove("open");
+    if (e.key === "Escape" && document.getElementById("drawer").classList.contains("open")) {
+      closeDrawer();
+      return;
+    }
+    if (e.key === "/" && document.activeElement &&
+        !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
+      e.preventDefault();
+      document.getElementById("q").focus();
+    }
   });
   // One delegated handler for card and modal buttons: re-rendering a card no
   // longer needs its listeners re-attached.
@@ -1421,8 +1495,22 @@ function wire() {
   });
 }
 
-wire();
-applyFilter();
+function clearLive(gid) {
+  liveCache.delete(gid);
+  pending.delete(gid);
+  saveLive();
+}
+
+function boot() {
+  if (!SORTS[prefs.sort]) prefs.sort = "rank";
+  if (!ADAPTERS[prefs.view]) prefs.view = "all";
+  var sortSel = document.getElementById("sort");
+  sortSel.value = prefs.sort;
+  document.getElementById("q").value = "";
+  wire();
+  renderTagbar();
+  setTab(prefs.view);
+}
 
 // Exposed for the build-time smoke test (test/gallery.smoke.test.js). The
 // payloads use const, so they are not reachable as window properties; this is
@@ -1430,12 +1518,16 @@ applyFilter();
 window.GALLERY = {
   DATA: DATA, STORE: STORE, CACHE: CACHE,
   STATS: STATS, LIVE_KEY: LIVE_KEY, LIVE_BUDGET: LIVE_BUDGET,
-  setTab: setTab, applyFilter: applyFilter, cardHtml: cardHtml, openDetail: openDetail,
+  setTab: setTab, applyFilter: applyFilter, cardHtml: cardHtml, cardEl: cardEl, openDetail: openDetail,
   ADAPTERS: ADAPTERS, saveLive: saveLive, storeOf: storeOf,
   liveCache: liveCache, asked: asked,
+  TAGS: TAGS, tagSet: tagSet, tagsOf: tagsOf, toggleTag: toggleTag, renderTagbar: renderTagbar,
+  getTagSel: function () { return TAGSEL.slice(); },
   getTab: function () { return TAB; },
   getShown: function () { return shown; },
   dmmEntries: dmmEntries, dlEntry: dlEntry, gcEntry: gcEntry,
   relatedOf: relatedOf, seriesKey: seriesKey,
   normT: normT, normVariants: normVariants, exactPick: exactPick, containsPick: containsPick,
 };
+
+boot();

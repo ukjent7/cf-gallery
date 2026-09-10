@@ -32,9 +32,9 @@ const SEED_TTL_S = 2592000;
 
 function runWranglerCommand(command) {
   try {
-    return execSync(`npx wrangler ${command}`, { encoding: "utf8", stdio: "pipe" });
+    return execSync(`bunx wrangler ${command}`, { encoding: "utf8", stdio: "pipe" });
   } catch (error) {
-    console.error(`Command failed: npx wrangler ${command}`);
+    console.error(`Command failed: bunx wrangler ${command}`);
     if (error.stdout) console.log("stdout:", error.stdout.toString());
     if (error.stderr) console.error("stderr:", error.stderr.toString());
     process.exit(1);
@@ -92,7 +92,7 @@ function createNamespace() {
   console.log(`Creating KV namespace "${KV_BINDING}"...`);
   let output;
   try {
-    output = execSync(`npx wrangler kv namespace create "${KV_BINDING}"`, {
+    output = execSync(`bunx wrangler kv namespace create "${KV_BINDING}"`, {
       encoding: "utf8",
       stdio: "pipe",
     });
@@ -179,7 +179,7 @@ function listRemoteKeys(id) {
     let output;
     try {
       output = execSync(
-        `npx wrangler kv key list --namespace-id "${id}" --remote --json${flag}`,
+        `bunx wrangler kv key list --namespace-id "${id}" --remote --json${flag}`,
         { encoding: "utf8", stdio: "pipe" }
       );
     } catch (error) {
@@ -218,7 +218,7 @@ function seedNamespace(id, force) {
       const probe = seed[Math.floor(seed.length / 2)];
       try {
         execSync(
-          `npx wrangler kv key get "${probe.key}" --namespace-id "${id}" --remote --text`,
+          `bunx wrangler kv key get "${probe.key}" --namespace-id "${id}" --remote --text`,
           { encoding: "utf8", stdio: "pipe" }
         );
         console.log("Namespace already contains seed data, skipping upload. Use --force-seed to overwrite.");
@@ -239,7 +239,7 @@ function seedNamespace(id, force) {
   console.log(`Uploading ${missing.length} seed entries (${force ? "overwrite" : "missing only"})...`);
   try {
     execSync(
-      `npx wrangler kv bulk put "${tmp}" --namespace-id "${id}" --remote --ttl ${SEED_TTL_S}`,
+      `bunx wrangler kv bulk put "${tmp}" --namespace-id "${id}" --remote --ttl ${SEED_TTL_S}`,
       { encoding: "utf8", stdio: "inherit" }
     );
     console.log(`Seeded ${missing.length} entries.`);

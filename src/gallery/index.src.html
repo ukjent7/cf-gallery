@@ -3,35 +3,107 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>POV559 寝取り EROGE排名画廊 - 封面+Screenshots</title>
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0a0c10">
+<meta name="description" content="POV559 寝取り EROGE 中央值排名画廊：封面 + 截图一站浏览，支持商店图源切换与 EGS 标签/属性多重筛选。">
+<title>寝取画廊 · POV559 EROGE 中央值排名</title>
 <style>
 /*__STYLE__*/
 </style>
 </head>
 <body>
-<header>
-<h1>POV559 寝取り / EROGE限定 / 中央值排名画廊</h1>
-<p>数据：ErogameScape 中央值 + 票数。图片：VNDB开放接口 + DLsite/FANZA官方直链（EGS自带ID拼接）+ EGS官方转存直连 + Getchu经Worker代理（线上版；本地双击走EGS转存降级）。点封面看截图，点截图页内放大。</p>
-<div class="controls">
-<button id="tabAll" class="tab on">综合</button>
-<button id="tabVndb" class="tab">VNDB</button>
-<button id="tabDlsite" class="tab">DLsite</button>
-<button id="tabDmm" class="tab">FANZA</button>
-<button id="tabGc" class="tab">官方图</button>
-<input id="q" type="text" placeholder="搜索 游戏名 / 品牌 / VNDB标题">
-<select id="minMedian"><option value="0">中央值 ≥ 0</option><option value="70">中央值 ≥ 70</option><option value="80">中央值 ≥ 80</option><option value="85">中央值 ≥ 85</option><option value="90">中央值 ≥ 90</option></select>
-<label><input id="onlyMatched" type="checkbox"><span id="onlyMatchedLabel"> 只看有图</span></label>
-<label><input id="autoFetch" type="checkbox" checked> 滚动自动查VNDB</label>
-<label><input id="autoMore" type="checkbox" checked> 滚动自动加载</label>
-<button id="density" title="切换每行列数">密度：自动</button>
-<button id="reset">重置</button>
+<div id="app">
+
+  <header id="topbar">
+    <a class="brand" href="#" id="brand" title="回到顶部 / 重置筛选">
+      <span class="brand-mark">寝</span>
+      <span class="brand-text">寝取画廊<small>POV559 · 中央值排名</small></span>
+    </a>
+    <label class="search" for="q">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="q" type="text" placeholder="搜游戏 / 品牌 / VNDB 标题" autocomplete="off" spellcheck="false">
+      <kbd>/</kbd>
+    </label>
+    <nav class="views" id="views" aria-label="图源">
+      <button class="vtab on" data-view="all">综合</button>
+      <button class="vtab" data-view="vndb">VNDB</button>
+      <button class="vtab" data-view="dlsite">DLsite</button>
+      <button class="vtab" data-view="dmm">FANZA</button>
+      <button class="vtab" data-view="getchu">官方图</button>
+    </nav>
+  </header>
+
+  <div id="filterbar">
+    <div class="frow" id="frowMain">
+      <select id="sort" title="排序">
+        <option value="rank">排名</option>
+        <option value="median">中央值 ↓</option>
+        <option value="count2">评分人数 ↓</option>
+        <option value="sellday">发售日 ↓</option>
+      </select>
+      <div class="medchips" id="medchips" role="group" aria-label="中央值下限">
+        <button class="fchip on" data-med="0">全部</button>
+        <button class="fchip" data-med="70">≥70</button>
+        <button class="fchip" data-med="80">≥80</button>
+        <button class="fchip" data-med="85">≥85</button>
+        <button class="fchip" data-med="90">≥90</button>
+      </div>
+      <label class="ftoggle" id="onlyMatchedWrap" title="只在当前图源有图的游戏">
+        <input id="onlyMatched" type="checkbox"><span id="onlyMatchedLabel">只看有图</span>
+      </label>
+      <label class="ftoggle" title="卡片滚进视口时自动到 VNDB 查匹配">
+        <input id="autoFetch" type="checkbox" checked>自动匹配
+      </label>
+      <label class="ftoggle" title="滚动到底自动翻页">
+        <input id="autoMore" type="checkbox" checked>自动翻页
+      </label>
+      <span class="fspace"></span>
+      <button id="density" class="gbtn" title="切换卡片密度">密度：自动</button>
+      <button id="reset" class="gbtn" title="清空全部筛选">重置</button>
+    </div>
+    <div class="frow tagrow" id="tagrow" hidden>
+      <span class="taglabel">标签（多选=AND，与其它条件叠加）</span>
+      <span id="tagchips" class="tagchips"></span>
+    </div>
+  </div>
+
+  <div id="stats" class="statline" role="status"></div>
+
+  <main class="grid" id="grid" data-view="all"></main>
+
+  <div class="loadzone"><button id="more" class="gbtn big">加载更多</button></div>
+
+  <footer class="pagefoot">
+    <p>数据：ErogameScape（中央值 / POV 标签，SQL 接口）· 图片：VNDB 开放接口、DLsite/FANZA 官方直链、EGS 官方转存、Getchu 经 Worker 代理。点击封面看详情，点截图放大。</p>
+  </footer>
+
 </div>
-</header>
-<div id="stats"></div>
-<div id="grid"></div>
-<button id="more">加载更多</button>
-<div id="modal"><div class="mwrap"><aside class="relrail left" id="relL"></aside><div class="box"><button id="close">关闭</button><div id="mbody"></div></div><aside class="relrail right" id="relR"></aside></div></div>
-<div id="viewer"><div id="vspin" aria-hidden="true"></div><img id="vimg" alt="viewer"><div class="bar"><button id="vprev">上一张</button><span id="vcap"></span><button id="vnext">下一张</button><button id="vopen">原图新签页</button><button id="vclose">关闭</button></div></div>
+
+<div id="drawer" aria-hidden="true">
+  <div class="backdrop" data-act="drawer-close"></div>
+  <aside class="panel" role="dialog" aria-modal="true">
+    <header class="phead">
+      <div class="phead-main" id="dhead"></div>
+      <button id="dclose" class="gbtn icon" title="关闭 (Esc)" aria-label="关闭详情">✕</button>
+    </header>
+    <div class="pbody" id="dbody"></div>
+  </aside>
+</div>
+
+<div id="lightbox" aria-hidden="true">
+  <div id="vspin" aria-hidden="true"></div>
+  <figure class="stage"><img id="vimg" alt="viewer"></figure>
+  <button class="lbnav prev" id="vprev" title="上一张 (←)" aria-label="上一张">‹</button>
+  <button class="lbnav next" id="vnext" title="下一张 (→)" aria-label="下一张">›</button>
+  <div class="lbbar">
+    <span id="vcap"></span>
+    <span class="fspace"></span>
+    <button id="vopen" class="gbtn" title="原图新签页">原图</button>
+    <button id="vclose" class="gbtn" title="关闭 (Esc)">关闭</button>
+  </div>
+  <div class="thumbstrip" id="vthumbs"></div>
+</div>
+
 <script>
 /*__PAYLOAD__*/
 /*__URLS__*/

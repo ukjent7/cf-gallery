@@ -1,7 +1,8 @@
 // Frontend smoke test: loads the *built* document the way a browser does and
-// drives every tab. This is the test that would have caught the FANZA-tab crash
-// (applyFilter read `st` above its own declaration), which no unit test could
-// see because the JS only existed inside a Python string.
+// drives every view, the filter controls, the detail drawer and the lightbox.
+// This is the test that would have caught the FANZA-tab crash (applyFilter
+// read `st` above its own declaration), which no unit test could see because
+// the JS only existed inside a Python string.
 import { describe, expect, test } from "bun:test";
 import { Window } from "happy-dom";
 import fs from "fs";
@@ -24,7 +25,7 @@ function loadGallery({ url = "http://localhost/" } = {}) {
     calls.push({ url: String(u), method: (opts && opts.method) || "GET" });
     return Promise.resolve({ ok: false, status: 599, json: () => Promise.resolve(null) });
   };
-  // The real observer fires on scroll; here it just records what it was given.
+  // The real observers fire on scroll; here they just record what they were given.
   const observed = [];
   window.IntersectionObserver = class {
     constructor(cb) { this.cb = cb; }
@@ -39,14 +40,16 @@ function loadGallery({ url = "http://localhost/" } = {}) {
   return { window, doc: window.document, calls, observed };
 }
 
-const TABS = ["all", "vndb", "dlsite", "dmm", "getchu"];
+const VIEWS = ["all", "vndb", "dlsite", "dmm", "getchu"];
 
 describe("built document", () => {
   test("is a single self-contained file with no external requests", () => {
     // Everything must be inline: the artifact has to work from file:// too.
     expect(html).not.toMatch(/<link[^>]+href=["'](?!data:)/i);
     expect(html).not.toMatch(/<script[^>]+src=/i);
-    expect(html).toContain("const STORE");
+    for (const name of ["DATA", "STORE", "CACHE", "TAGS"]) {
+      expect(html).toContain(`const ${name}`);
+    }
   });
 
   test("inlined payload cannot break out of the script tag", () => {
@@ -55,54 +58,64 @@ describe("built document", () => {
 });
 
 describe("app boot", () => {
-  test("runs without throwing and renders the first page", () => {
-    const { doc, window } = loadGallery();
+  test("runs without throwing, renders the first page and asks for nothing", () => {
+    const { doc, window, calls } = loadGallery();
     expect(window.GALLERY).toBeDefined();
-    expect(doc.querySelectorAll("#grid .card").length).toBe(36);
-    expect(doc.getElementById("stats").textContent).toContain("当前Tab：all");
+    expect(doc.querySelectorAll("#grid .cardwrap").length, "first page must render PAGE cards").toBe(36);
+    const stats = doc.getElementById("stats");
+    expect(stats.textContent.trim().length, "stats line is empty").toBeGreaterThan(0);
+    expect(stats.innerHTML, "stats line lost its 共 N / M lead").toMatch(/^共 <b>\d+<\/b> \/ \d+ 个（EROGE限定）/);
+    expect(stats.textContent).toContain("视图：综合");
+    expect(stats.textContent).toContain("已显示 36 个");
+    expect(calls, "boot must not touch the network").toHaveLength(0);
   });
 
-  test("every shipped tab renders with 只看有图 enabled", () => {
+  test("every view renders with 只看有图 enabled and mirrors itself in the shell", () => {
     // Regression guard: the old code threw ReferenceError here on the FANZA tab.
-    for (const tab of TABS) {
+    for (const view of VIEWS) {
       const { doc, window } = loadGallery();
-      const box = doc.getElementById("onlyMatched");
-      box.checked = true;
+      const G = window.GALLERY;
+      doc.getElementById("onlyMatched").checked = true;
       let err = null;
       try {
-        window.GALLERY.setTab(tab);
+        G.setTab(view);
       } catch (e) {
         err = e;
       }
-      expect(err, `setTab("${tab}") with onlyMatched threw: ${err && err.message}`).toBeNull();
-      expect(doc.getElementById("stats").textContent).toContain(`当前Tab：${tab}`);
+      expect(err, `setTab("${view}") with 只看有图 threw: ${err && err.message}`).toBeNull();
+      expect(G.getTab()).toBe(view);
+      const active = doc.querySelector("#views .vtab.on");
+      expect(active && active.dataset.view, `view ${view}: no active vtab`).toBe(view);
+      expect(doc.getElementById("grid").dataset.view, `view ${view}: grid did not follow`).toBe(view);
+      expect(doc.getElementById("onlyMatchedLabel").textContent,
+        `view ${view}: matched label did not follow`).toBe(G.ADAPTERS[view].matchedLabel);
+      expect(doc.getElementById("stats").textContent).toContain(`视图：${G.ADAPTERS[view].navLabel}`);
     }
   });
 
   test("只看有图 keeps exactly the products the adapter claims to match", () => {
-    for (const tab of TABS) {
+    for (const view of VIEWS) {
       const { doc, window } = loadGallery();
+      const G = window.GALLERY;
       doc.getElementById("onlyMatched").checked = true;
-      window.GALLERY.setTab(tab);
-      const a = window.GALLERY.ADAPTERS[tab];
+      G.setTab(view);
+      const a = G.ADAPTERS[view];
 
-      const shownGids = [...doc.querySelectorAll("#grid .card")].map((c) => c.dataset.gid);
-      expect(shownGids.length, `${tab}: matched filter emptied the grid`).toBeGreaterThan(0);
+      const shownGids = [...doc.querySelectorAll("#grid .cardwrap")].map((c) => c.dataset.gid);
+      expect(shownGids.length, `${view}: matched filter emptied the grid`).toBeGreaterThan(0);
 
       // Rendered cards must all satisfy the predicate.
       for (const gid of shownGids) {
-        const item = window.GALLERY.DATA.find((d) => String(d.gid) === gid);
-        expect(item, `${tab}: rendered card ${gid} is not in DATA`).toBeTruthy();
-        const st = window.GALLERY.storeOf(gid);
-        const v = window.GALLERY.liveCache.get(gid) || null;
-        expect(a.has(item, st, v), `${tab}: card ${gid} rendered but has() is false`).toBe(true);
+        const item = G.DATA.find((d) => String(d.gid) === gid);
+        expect(item, `${view}: rendered card ${gid} is not in DATA`).toBeTruthy();
+        expect(a.has(item, G.storeOf(gid), G.liveCache.get(gid) || null),
+          `${view}: card ${gid} rendered but has() is false`).toBe(true);
       }
 
       // And the total count must equal a full pass over DATA, not just page 1.
-      const G = window.GALLERY;
-      const expected = G.DATA.filter((d) => G.ADAPTERS[tab].has(d, G.storeOf(d.gid), G.liveCache.get(d.gid) || null)).length;
+      const expected = G.DATA.filter((d) => a.has(d, G.storeOf(d.gid), G.liveCache.get(d.gid) || null)).length;
       const total = +doc.getElementById("stats").textContent.match(/共 (\d+)/)[1];
-      expect(total, `${tab}: filtered count disagrees with adapter.has()`).toBe(expected);
+      expect(total, `${view}: filtered count disagrees with adapter.has()`).toBe(expected);
     }
   });
 
@@ -114,71 +127,474 @@ describe("app boot", () => {
   });
 });
 
-describe("detail modal", () => {
-  test("opens for the first matched product of every tab", () => {
-    for (const tab of TABS) {
-      const { doc, window } = loadGallery();
-      window.GALLERY.setTab(tab);
-      const gid = openableGid(window, doc, tab);
-      let err = null;
-      try {
-        window.GALLERY.openDetail(gid);
-      } catch (e) {
-        err = e;
-      }
-      expect(err, `openDetail on ${tab} threw: ${err && err.message}`).toBeNull();
-      expect(doc.getElementById("modal").classList.contains("open"), `${tab}: modal did not open`).toBe(true);
-      expect(doc.querySelectorAll("#mbody img").length, `${tab}: modal has no images`).toBeGreaterThan(0);
-      expect(doc.getElementById("mbody").textContent).toContain("全CG");
+describe("cards", () => {
+  test("wrap an article with cover, store dots and the identity line", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const wrap = doc.querySelector("#grid .cardwrap");
+    expect(wrap, "no cardwrap rendered").toBeTruthy();
+    expect(wrap.dataset.gid, "wrapper has no gid").toBeTruthy();
+    const card = wrap.querySelector("article.card");
+    expect(card, "cardwrap must wrap an article.card").toBeTruthy();
+    expect(card.dataset.gid, "card must carry the same gid as its wrapper").toBe(wrap.dataset.gid);
+    const item = G.DATA.find((d) => String(d.gid) === wrap.dataset.gid);
+    expect(item, "first card is not in DATA").toBeTruthy();
+
+    const cover = card.querySelector(".cover");
+    expect(cover.querySelector("img[data-full]"), "cover img lost its full url").toBeTruthy();
+    expect(cover.querySelector(".scrim"), "cover scrim missing").toBeTruthy();
+    expect(cover.querySelector(".rank").textContent, "rank badge").toBe("#" + item.rank);
+    expect(cover.querySelector(".medpill")?.textContent || "", "median pill")
+      .toBe(item.median ? String(item.median) : "");
+    const dots = [...cover.querySelectorAll(".storedots .sdot")];
+    const st = G.storeOf(item.gid);
+    const avail = {
+      D: !!G.dlEntry(st),
+      F: G.dmmEntries(st).length > 0,
+      G: !!G.gcEntry(st),
+      V: !!G.liveCache.get(item.gid),
+    };
+    expect(dots.map((d) => d.textContent), "store dots must read D/F/G/V").toEqual(["D", "F", "G", "V"]);
+    for (const dot of dots) {
+      expect(dot.classList.contains("on"), `store dot ${dot.textContent} availability is wrong`)
+        .toBe(avail[dot.textContent]);
+    }
+
+    expect(card.querySelector(".ctitle").textContent, "card title").toBe(item.name);
+    const line = card.querySelector(".cline").textContent;
+    for (const part of ["中央值", "评分", "POV"]) {
+      expect(line, `card identity line misses ${part}`).toContain(part);
+    }
+    if (G.tagsOf(item.gid).length) {
+      expect(card.querySelector(".cardtag"), "tagged card lost its .cardtag").toBeTruthy();
+    }
+    const hrefs = [...card.querySelectorAll(".cacts a")].map((a) => a.href);
+    expect(hrefs.length, "card actions need a store link plus EGS").toBeGreaterThanOrEqual(2);
+    expect(hrefs.some((h) => h.includes("erogamescape")), "EGS link missing from .cacts").toBe(true);
+  });
+
+  test("cover click opens the drawer; store links and the fetch button do not", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const cards = [...doc.querySelectorAll("#grid article.card")];
+    // A cached match opens synchronously; an uncached one defers to the
+    // (stub-failed) VNDB lookup, so the positive case must use a cached card.
+    const cached = cards.find((c) => G.liveCache.get(c.dataset.gid));
+    expect(cached, "no rendered card has a cached VNDB match").toBeTruthy();
+    cached.querySelector(".cover").click();
+    expect(doc.getElementById("drawer").classList.contains("open"), "cover click did not open the drawer").toBe(true);
+    doc.getElementById("dclose").click();
+
+    // Activating a store link must stay on the grid.
+    const link = cached.querySelector(".cacts a");
+    link.addEventListener("click", (e) => e.preventDefault()); // keep happy-dom from navigating
+    link.dispatchEvent(new window.MouseEvent("click", { bubbles: true, cancelable: true }));
+    expect(doc.getElementById("drawer").classList.contains("open"), "store link opened the drawer").toBe(false);
+
+    // The manual 匹配VNDB button queues a lookup, it never opens the drawer.
+    // Page 1 is fully covered by the baked top-60 CACHE, so walk forward until
+    // an uncached card (and with it the button) exists.
+    for (let page = 0; page < 4 && !cards.find((c) => c.querySelector('[data-act="fetch"]')); page++) {
+      doc.getElementById("more").click();
+    }
+    const uncached = [...doc.querySelectorAll("#grid article.card")].find((c) => c.querySelector('[data-act="fetch"]'));
+    expect(uncached, "no card offers 匹配VNDB on the all view").toBeTruthy();
+    uncached.querySelector('[data-act="fetch"]').click();
+    expect(doc.getElementById("drawer").classList.contains("open"), "fetch button opened the drawer").toBe(false);
+  });
+});
+
+describe("sort", () => {
+  test("median puts the top median first without changing the count", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const sel = doc.getElementById("sort");
+    const before = +doc.getElementById("stats").textContent.match(/共 (\d+)/)[1];
+    sel.value = "median";
+    sel.dispatchEvent(new window.Event("change", { bubbles: true }));
+    const firstGid = doc.querySelector("#grid .cardwrap").dataset.gid;
+    const first = G.DATA.find((d) => String(d.gid) === firstGid);
+    const maxMedian = Math.max(...G.DATA.map((d) => d.median || 0));
+    expect(first.median, "median sort did not put the top median first").toBe(maxMedian);
+    const after = +doc.getElementById("stats").textContent.match(/共 (\d+)/)[1];
+    expect(after, "sorting must not change the filtered count").toBe(before);
+    sel.value = "rank";
+    sel.dispatchEvent(new window.Event("change", { bubbles: true }));
+    expect(doc.querySelector("#grid .cardwrap").dataset.gid, "rank order was lost").toBe(String(G.DATA[0].gid));
+    expect(G.DATA[0].rank, "DATA[0] must be rank 1").toBe(1);
+  });
+});
+
+describe("density", () => {
+  test("the button cycles the three labels and toggles the grid classes", () => {
+    const { doc } = loadGallery();
+    const grid = doc.getElementById("grid");
+    const btn = doc.getElementById("density");
+    expect(btn.textContent).toBe("密度：自动");
+    expect(grid.classList.contains("density-compact")).toBe(false);
+    expect(grid.classList.contains("density-large")).toBe(false);
+    btn.click();
+    expect(btn.textContent, "first density step").toBe("密度：紧凑");
+    expect(grid.classList.contains("density-compact"), "compact class missing").toBe(true);
+    btn.click();
+    expect(btn.textContent, "second density step").toBe("密度：大图");
+    expect(grid.classList.contains("density-large"), "large class missing").toBe(true);
+    expect(grid.classList.contains("density-compact")).toBe(false);
+    btn.click();
+    expect(btn.textContent, "density cycle must wrap").toBe("密度：自动");
+    expect(grid.classList.contains("density-large")).toBe(false);
+  });
+});
+
+describe("load more", () => {
+  test("#more is observed, paginates on click and hides when exhausted", () => {
+    const { doc, window, observed } = loadGallery();
+    const G = window.GALLERY;
+    expect(doc.querySelector(".loadzone #more"), "#more must live inside .loadzone").toBeTruthy();
+    expect(observed.some((el) => el.id === "more"), "#more was never observed").toBe(true);
+    expect(doc.querySelectorAll("#grid .cardwrap").length).toBe(36);
+    doc.getElementById("more").click();
+    expect(doc.querySelectorAll("#grid .cardwrap").length, "#more click did not render the next page").toBe(72);
+    expect(doc.getElementById("more").style.display).toBe("inline-block");
+    // A tag with fewer members than a page exhausts the list: hide the button.
+    const tag = Object.keys(G.TAGS).find((t) => G.TAGS[t].length <= 36);
+    expect(tag, "no shipped tag smaller than a page").toBeTruthy();
+    chipFor(doc, tag).click();
+    expect(doc.querySelectorAll("#grid .cardwrap").length, "tag filter did not re-render the grid")
+      .toBe(G.TAGS[tag].length);
+    expect(doc.getElementById("more").style.display, "exhausted #more stayed visible").toBe("none");
+  });
+});
+
+describe("tag filter", () => {
+  // toggleTag() re-renders #tagchips on every toggle/reset, so a chip node
+  // captured earlier is stale; always look it up fresh.
+  test("tagrow renders one chip per shipped tag with the dataset count", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const chips = [...doc.querySelectorAll("#tagchips .tagchip")];
+    expect(chips.length, "chip count must match the TAGS payload").toBe(Object.keys(G.TAGS).length);
+    expect(doc.getElementById("tagrow").hidden, "#tagrow stayed hidden with tags present").toBe(false);
+    for (const chip of chips) {
+      expect(chip.querySelector(".tagcount").textContent,
+        `chip "${chip.dataset.tag}" shows the wrong count`)
+        .toBe(String(G.TAGS[chip.dataset.tag].length));
     }
   });
 
-  test("more button is observed for infinite scroll", () => {
-    const { observed } = loadGallery();
-    expect(observed.some((el) => el.id === "more"), "#more was never observed").toBe(true);
-  });
-
-  test("detail modal shows related recommendations without self", () => {
+  test("寝取り is the dataset itself and never becomes a chip", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
-    // A cached product that actually has same-brand/series siblings, so the
-    // modal opens synchronously (no live VNDB lookup) and the rows render.
-    const item = G.DATA.find((d) =>
-      G.liveCache.get(d.gid) && G.relatedOf(d, G.liveCache.get(d.gid)).length > 0);
-    expect(item, "no cached product has any related siblings").toBeTruthy();
-    window.GALLERY.setTab("all");
-    window.GALLERY.openDetail(String(item.gid));
-    expect(doc.getElementById("modal").textContent).toContain("相关推荐");
-    expect(doc.querySelector("#mbody .relrail"), "rails must float outside #mbody").toBeNull();
-    const left = [...doc.querySelectorAll("#relL .relcard")];
-    const right = [...doc.querySelectorAll("#relR .relcard")];
-    const cards = left.concat(right);
-    expect(left.length, "left rail is empty").toBeGreaterThan(0);
-    expect(cards.length).toBeLessThanOrEqual(6);
-    // Split is half/half (ceil left): 6 -> 3+3.
-    expect(Math.abs(left.length - right.length)).toBeLessThanOrEqual(1);
-    cards.forEach((c) => {
-      expect(c.dataset.gid, "recommendation card has no gid").toBeTruthy();
-      expect(c.dataset.gid, "recommendation links to itself").not.toBe(String(item.gid));
-      expect(c.querySelector("img") || c.querySelector(".relnocover"), "card has neither cover nor placeholder").toBeTruthy();
-      expect(c.textContent).toContain("中央值");
-    });
+    expect("寝取り" in G.TAGS, "寝取り must stay excluded from TAGS").toBe(false);
+    expect([...doc.querySelectorAll("#tagchips .tagchip")].some((c) => c.dataset.tag === "寝取り"),
+      "寝取り must not render as a chip").toBe(false);
   });
 
-  test("each store section keeps its own image grid", () => {
+  test("selecting a chip via real click ANDs the grid down to tag members", () => {
     const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const tag = Object.keys(G.TAGS)[0];
+    const chip = chipFor(doc, tag);
+    expect(chip, `no chip rendered for "${tag}"`).toBeTruthy();
+    chip.click();
+    expect(chipFor(doc, tag).classList.contains("on"), "clicked chip is not marked on").toBe(true);
+    const total = +doc.getElementById("stats").textContent.match(/共 (\d+)/)[1];
+    expect(total, "stats count disagrees with TAGS[tag].length").toBe(G.TAGS[tag].length);
+    const shownGids = [...doc.querySelectorAll("#grid .cardwrap")].map((c) => c.dataset.gid);
+    expect(shownGids.length, "AND filter emptied the grid").toBeGreaterThan(0);
+    for (const gid of shownGids) {
+      expect(G.TAGS[tag].includes(gid), `rendered card ${gid} does not carry tag "${tag}"`).toBe(true);
+    }
+    const stored = JSON.parse(window.localStorage.getItem("ui_v1"));
+    expect(stored.tags, "selection was not persisted in ui_v1.tags").toContain(tag);
+  });
+
+  test("medchips combine with the tag filter", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const tag = Object.keys(G.TAGS)[0];
+    chipFor(doc, tag).click();
+    const chip80 = doc.querySelector('#medchips .fchip[data-med="80"]');
+    chip80.click();
+    expect(chip80.classList.contains("on"), "clicked medchip is not marked on").toBe(true);
+    const expected = G.DATA.filter((d) => G.TAGS[tag].includes(String(d.gid)) && (d.median || 0) >= 80).length;
+    const total = +doc.getElementById("stats").textContent.match(/共 (\d+)/)[1];
+    expect(total, "AND+median count disagrees with a full pass over DATA").toBe(expected);
+    doc.querySelector('#medchips .fchip[data-med="0"]').click();
+    const total2 = +doc.getElementById("stats").textContent.match(/共 (\d+)/)[1];
+    expect(total2, "clearing the medchip lost tag members").toBe(G.TAGS[tag].length);
+    expect(doc.querySelector('#medchips .fchip[data-med="0"]').classList.contains("on"),
+      "the 0 medchip did not regain .on").toBe(true);
+  });
+
+  test("two chips AND to the intersection of their tag arrays", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const keys = Object.keys(G.TAGS);
+    expect(keys.length, "need two shipped tags to AND").toBeGreaterThanOrEqual(2);
+    const [a, b] = keys;
+    chipFor(doc, a).click();
+    chipFor(doc, b).click();
+    const inter = G.TAGS[a].filter((gid) => G.TAGS[b].includes(gid));
+    const total = +doc.getElementById("stats").textContent.match(/共 (\d+)/)[1];
+    expect(total, "two selected chips must AND, not OR").toBe(inter.length);
+    expect(chipFor(doc, a).classList.contains("on") && chipFor(doc, b).classList.contains("on"),
+      "both chips must be on").toBe(true);
+    expect(doc.getElementById("stats").textContent).toContain(`标签AND：${a}+${b}`);
+  });
+
+  test("reset clears everything", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const tag = Object.keys(G.TAGS)[0];
+    chipFor(doc, tag).click();
+    doc.getElementById("reset").click();
+    expect(G.getTagSel(), "reset left a selection behind").toEqual([]);
+    const total = +doc.getElementById("stats").textContent.match(/共 (\d+)/)[1];
+    expect(total, "reset did not restore the full dataset").toBe(G.DATA.length);
+    expect(chipFor(doc, tag).classList.contains("on"), "chip is still on after reset").toBe(false);
+    expect(JSON.parse(window.localStorage.getItem("ui_v1")).tags,
+      "reset did not persist an empty selection").toEqual([]);
+  });
+
+  test("a stored ui_v1 selection survives reload", () => {
+    // Same pattern as the weak-migration regression: seed storage before the
+    // document exists, then boot. "親子丼" is the shipped tag pinned by the
+    // build test; TAGS itself is only readable after boot.
+    const tag = "親子丼";
+    const window = new Window({ url: "http://localhost/" });
+    window.localStorage.setItem("ui_v1", JSON.stringify({ tags: [tag] }));
+    window.document.write(markupOnly);
+    window.fetch = () => Promise.resolve({ ok: false, status: 599, json: () => Promise.resolve(null) });
+    window.IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
+    window.eval(scriptBody);
+    const G = window.GALLERY;
+    expect(G.getTagSel(), "stored selection did not survive the reload").toEqual([tag]);
+    expect(chipFor(window.document, tag).classList.contains("on"), "restored chip is not on").toBe(true);
+    expect(window.document.getElementById("stats").textContent, "stats missed the AND note").toContain("标签AND：");
+  });
+
+  test("unknown tags in a stored selection are dropped", () => {
+    // v1 dropped unknown names on load rather than emptying the whole grid:
+    // a tag renamed by a data rebuild must not brick the filter.
+    const tag = "親子丼";
+    const window = new Window({ url: "http://localhost/" });
+    window.localStorage.setItem("ui_v1", JSON.stringify({ tags: [tag, "已消失的标签"] }));
+    window.document.write(markupOnly);
+    window.fetch = () => Promise.resolve({ ok: false, status: 599, json: () => Promise.resolve(null) });
+    window.IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
+    window.eval(scriptBody);
+    expect(window.GALLERY.getTagSel(), "unknown stored tag was not dropped").toEqual([tag]);
+  });
+
+  test("a corrupted ui_v1 is discarded, not fatal", () => {
+    const window = new Window({ url: "http://localhost/" });
+    window.localStorage.setItem("ui_v1", "{bad json");  // truncated on purpose
+    window.document.write(markupOnly);
+    window.fetch = () => Promise.resolve({ ok: false, status: 599, json: () => Promise.resolve(null) });
+    window.IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
+    let err = null;
+    try {
+      window.eval(scriptBody);
+    } catch (e) {
+      err = e;
+    }
+    expect(err, `boot threw on a corrupt ui_v1: ${err && err.message}`).toBeNull();
+    expect(window.GALLERY.getTagSel(), "corrupt selection survived as junk").toEqual([]);
+  });
+});
+
+describe("detail drawer", () => {
+  test("opens synchronously for a suitable product of every view", () => {
+    for (const view of VIEWS) {
+      const { doc, window } = loadGallery();
+      const G = window.GALLERY;
+      G.setTab(view);
+      const gid = openableGid(window, doc, view);
+      expect(gid, `${view}: no product to open synchronously`).toBeTruthy();
+      let err = null;
+      try {
+        G.openDetail(gid);
+      } catch (e) {
+        err = e;
+      }
+      expect(err, `openDetail on ${view} threw: ${err && err.message}`).toBeNull();
+      const drawer = doc.getElementById("drawer");
+      expect(drawer.classList.contains("open"), `${view}: drawer did not open`).toBe(true);
+      expect(drawer.getAttribute("aria-hidden"), `${view}: aria-hidden did not follow`).toBe("false");
+      expect(doc.body.classList.contains("locked"), `${view}: body was not locked`).toBe(true);
+      expect(doc.querySelectorAll("#dbody img").length, `${view}: drawer has no images`).toBeGreaterThan(0);
+      expect(doc.getElementById("dbody").textContent).toContain("全CG");
+    }
+  });
+
+  test("dhead carries rank/name, the identity line, 注册标签 and the VNDB match", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    G.setTab("all");
+    const item = G.DATA.find((d) => {
+      const v = G.liveCache.get(d.gid);
+      return v && (v.img || (v.shots || []).length) && G.tagsOf(d.gid).length > 0;
+    });
+    expect(item, "no cached+tagged product to check the header with").toBeTruthy();
+    G.openDetail(String(item.gid));
+    const head = doc.getElementById("dhead");
+    expect(head.querySelector("h2").textContent).toContain(`#${item.rank} ${item.name}`);
+    const hint = head.querySelector(".hint").textContent;
+    for (const part of [item.brand, item.sellday, "中央值", "评分", "POV"]) {
+      expect(hint, `dhead hint misses ${part}`).toContain(part);
+    }
+    const itemTags = G.tagsOf(item.gid);
+    expect(hint, "dhead missed the 注册标签 line").toContain("注册标签");
+    expect(hint, "dhead missed the tag names").toContain(itemTags[0]);
+    expect(hint, "dhead missed the VNDB match line").toContain("VNDB: ");
+  });
+
+  test("the rich drawer keeps per-store strips and store links on their hosts", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
     const gid = richGid(window);
     expect(gid, "no cached product has all three stores").toBeTruthy();
-    window.GALLERY.setTab("all");
-    window.GALLERY.openDetail(gid);
-    const grids = [...doc.querySelectorAll("#mbody .sgrid")];
-    expect(grids.length).toBeGreaterThanOrEqual(2);
-    expect(doc.querySelectorAll("#mbody img").length).toBeGreaterThan(5);
+    G.setTab("all");
+    G.openDetail(gid);
+    const strips = [...doc.querySelectorAll("#dbody .strip")];
+    expect(strips.length, "sections lost their own strips").toBeGreaterThanOrEqual(3);
+    expect(doc.querySelectorAll("#dbody img").length).toBeGreaterThan(5);
+    // Section headings carry the grow-contract ids; sample counts are live.
+    expect(doc.querySelector('#dbody h3[id^="dsec-h-"]'), "section headings lost their ids").toBeTruthy();
+    expect(doc.querySelector("#dbody [data-livecount]"), "no live sample counter").toBeTruthy();
     // Store links must point at their own hosts, never at each other.
-    const hrefs = [...doc.querySelectorAll("#mbody a")].map((a) => a.href);
+    const hrefs = [...doc.querySelectorAll("#dbody a")].map((a) => a.href);
     expect(hrefs.some((h) => h.includes("dlsite.com"))).toBe(true);
     expect(hrefs.some((h) => h.includes("dmm.co.jp"))).toBe(true);
     expect(hrefs.some((h) => h.includes("getchu.com"))).toBe(true);
+    // vndb/all views close with a VNDB search and a re-query button.
+    expect(doc.querySelector('#dbody [data-act="refetch"]'), "no 重查VNDB button").toBeTruthy();
+    expect(doc.getElementById("dbody").textContent).toContain("VNDB搜索");
+  });
+
+  test("related strip stays inside #dbody, never links to itself and opens targets", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    // A cached product that actually has same-brand/series siblings, so the
+    // drawer opens synchronously (no live VNDB lookup) and the rows render.
+    const item = G.DATA.find((d) =>
+      G.liveCache.get(d.gid) && G.relatedOf(d, G.liveCache.get(d.gid)).length > 0);
+    expect(item, "no cached product has any related siblings").toBeTruthy();
+    G.setTab("all");
+    G.openDetail(String(item.gid));
+    const strip = doc.querySelector("#dbody .relstrip");
+    expect(strip, "related strip must render inside #dbody").toBeTruthy();
+    const cards = [...strip.querySelectorAll(".relcard")];
+    expect(cards.length, "related strip is empty").toBeGreaterThan(0);
+    expect(cards.length, "related strip overflowed 8").toBeLessThanOrEqual(8);
+    for (const c of cards) {
+      expect(c.dataset.act).toBe("detail");
+      expect(c.dataset.gid, "recommendation card has no gid").toBeTruthy();
+      expect(c.dataset.gid, "recommendation links to itself").not.toBe(String(item.gid));
+      expect(c.querySelector(".relimg") || c.querySelector(".relnocover"),
+        "card has neither cover nor placeholder").toBeTruthy();
+    }
+    // Clicking a recommendation jumps straight into that game's drawer.
+    const target = G.DATA.find((d) => String(d.gid) === cards[0].dataset.gid);
+    cards[0].click();
+    expect(doc.getElementById("drawer").classList.contains("open"), "drawer closed on relcard click").toBe(true);
+    expect(doc.getElementById("dhead").textContent, "relcard click did not open the target").toContain(target.name);
+  });
+
+  test("closes via Esc, #dclose and the backdrop", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const gid = richGid(window);
+    // Esc
+    G.openDetail(gid);
+    doc.dispatchEvent(new window.KeyboardEvent("keydown", { key: "Escape" }));
+    expect(doc.getElementById("drawer").classList.contains("open"), "Esc did not close the drawer").toBe(false);
+    expect(doc.body.classList.contains("locked"), "Esc left body locked").toBe(false);
+    // #dclose
+    G.openDetail(gid);
+    doc.getElementById("dclose").click();
+    expect(doc.getElementById("drawer").classList.contains("open"), "#dclose did not close the drawer").toBe(false);
+    // backdrop
+    G.openDetail(gid);
+    doc.querySelector("#drawer .backdrop").click();
+    expect(doc.getElementById("drawer").classList.contains("open"), "backdrop did not close the drawer").toBe(false);
+  });
+});
+
+describe("lightbox", () => {
+  // A cached product with enough screenshots to page through.
+  function openWithImages() {
+    const ctx = loadGallery();
+    const G = ctx.window.GALLERY;
+    const gid = Object.keys(G.CACHE).find((k) => G.CACHE[k] && (G.CACHE[k].shots || []).length >= 2);
+    expect(gid, "no cached product with two screenshots").toBeTruthy();
+    G.setTab("all");
+    G.openDetail(gid);
+    return ctx;
+  }
+
+  test("a strip image opens the lightbox with thumbs, caption and the full url", () => {
+    const { doc, window } = openWithImages();
+    const first = doc.querySelector("#dbody .strip img");
+    first.click();
+    const lb = doc.getElementById("lightbox");
+    expect(lb.classList.contains("open"), "lightbox did not open").toBe(true);
+    expect(doc.getElementById("vimg").getAttribute("src"), "vimg must show the clicked full url")
+      .toBe(first.getAttribute("data-full"));
+    expect(doc.getElementById("vcap").textContent, "caption must read i / N label").toMatch(/^1 \/ \d+ /);
+    const thumbs = [...doc.querySelectorAll("#vthumbs button[data-vi]")];
+    const stripImgs = [...doc.querySelectorAll("#dbody .strip img")];
+    expect(thumbs.length, "thumbstrip must mirror the strips").toBe(stripImgs.length);
+    expect(thumbs.every((b) => b.querySelector("img")), "thumbs must be lazy imgs").toBe(true);
+    expect(thumbs[0].classList.contains("cur"), "first thumb not marked current").toBe(true);
+  });
+
+  test("vprev/vnext cycle modulo and thumbstrip buttons jump", () => {
+    const { doc } = openWithImages();
+    doc.querySelector("#dbody .strip img").click(); // open the lightbox first
+    const n = doc.querySelectorAll("#dbody .strip img").length;
+    doc.getElementById("vnext").click();
+    expect(doc.getElementById("vcap").textContent, "#vnext did not advance").toMatch(/^2 \/ /);
+    doc.getElementById("vprev").click();
+    expect(doc.getElementById("vcap").textContent, "#vprev did not step back").toMatch(/^1 \/ /);
+    doc.getElementById("vprev").click();
+    expect(doc.getElementById("vcap").textContent, "#vprev must wrap to the last image")
+      .toMatch(new RegExp(`^${n} \\/ `));
+    const btn = doc.querySelector('#vthumbs button[data-vi="1"]');
+    btn.click();
+    expect(doc.getElementById("vcap").textContent, "thumb click did not jump").toMatch(/^2 \/ /);
+    expect(btn.classList.contains("cur"), "jumped thumb not marked current").toBe(true);
+  });
+
+  test("closing the lightbox keeps body.locked while the drawer is open", () => {
+    const { doc, window } = openWithImages();
+    const lb = doc.getElementById("lightbox");
+    doc.querySelector("#dbody .strip img").click(); // open the lightbox
+    // Esc with the lightbox open closes ONLY the lightbox.
+    doc.dispatchEvent(new window.KeyboardEvent("keydown", { key: "Escape" }));
+    expect(lb.classList.contains("open"), "Esc did not close the lightbox").toBe(false);
+    expect(doc.getElementById("drawer").classList.contains("open"), "Esc closed the drawer too").toBe(true);
+    expect(doc.body.classList.contains("locked"), "drawer still open: body must stay locked").toBe(true);
+    // #vclose behaves the same.
+    doc.querySelector("#dbody .strip img").click();
+    expect(lb.classList.contains("open")).toBe(true);
+    doc.getElementById("vclose").click();
+    expect(lb.classList.contains("open"), "#vclose did not close the lightbox").toBe(false);
+    expect(doc.body.classList.contains("locked"), "#vclose unlocked the open drawer").toBe(true);
+    // With the lightbox closed, Esc closes the drawer and unlocks the body.
+    doc.dispatchEvent(new window.KeyboardEvent("keydown", { key: "Escape" }));
+    expect(doc.getElementById("drawer").classList.contains("open")).toBe(false);
+    expect(doc.body.classList.contains("locked")).toBe(false);
+  });
+
+  test("原图 opens the current full url in a new tab", () => {
+    const { doc, window } = openWithImages();
+    doc.querySelector("#dbody .strip img").click();
+    const opened = [];
+    window.open = (u) => { opened.push(String(u)); return null; };
+    doc.getElementById("vopen").click();
+    expect(opened, "#vopen did not open the current image").toEqual([doc.getElementById("vimg").getAttribute("src")]);
   });
 });
 
@@ -235,26 +651,30 @@ describe("vndb matching guards", () => {
 });
 
 describe("live meta discipline", () => {
-  test("one modal open asks the Worker at most once per store product", () => {
+  test("one drawer open asks the Worker at most once per store product", () => {
     const { window, calls } = loadGallery();
+    const G = window.GALLERY;
     const gid = richGid(window);
-    window.GALLERY.setTab("all");
-    window.GALLERY.openDetail(gid);
+    G.setTab("all");
+    G.openDetail(gid);
     const metaCalls = () => calls.filter((c) => /^\/(gc|dm|dl)\/meta\//.test(c.url));
     const first = metaCalls().length;
-    // Re-open several times: nothing new should be requested.
-    for (let i = 0; i < 4; i++) window.GALLERY.openDetail(gid);
-    expect(metaCalls().length, "repeat modal opens re-asked for meta").toBe(first);
+    // Re-open several times: nothing new should be requested. The DMM section
+    // legitimately asks /dm/meta once per session for a better count, so only
+    // growth is a failure.
+    for (let i = 0; i < 4; i++) G.openDetail(gid);
+    expect(metaCalls().length, "repeat drawer opens re-asked for meta").toBe(first);
   });
 
   test("products whose baked Getchu count is already known never hit /gc/meta", () => {
     const { window, calls } = loadGallery();
-    const gid = Object.keys(window.GALLERY.STORE).find(
-      (k) => window.GALLERY.STORE[k].g && typeof window.GALLERY.STORE[k].g.n === "number" && window.GALLERY.STORE[k].g.n > 0
+    const G = window.GALLERY;
+    const gid = Object.keys(G.STORE).find(
+      (k) => G.STORE[k].g && typeof G.STORE[k].g.n === "number" && G.STORE[k].g.n > 0
     );
     expect(gid).toBeTruthy();
-    window.GALLERY.setTab("getchu");
-    window.GALLERY.openDetail(gid);
+    G.setTab("getchu");
+    G.openDetail(gid);
     expect(calls.some((c) => /^\/gc\/meta\//.test(c.url))).toBe(false);
   });
 });
@@ -289,7 +709,7 @@ describe("localStorage cache safety", () => {
     // Eviction keeps the newest work, not the oldest.
     const kept = Object.keys(parsed);
     expect(kept[kept.length - 1]).toBe("903999");
-    expect(doc.querySelectorAll("#grid .card").length).toBeGreaterThan(0);
+    expect(doc.querySelectorAll("#grid .cardwrap").length).toBeGreaterThan(0);
   });
 
   test("a corrupt stored cache is discarded rather than crashing the page", () => {
@@ -309,49 +729,50 @@ describe("localStorage cache safety", () => {
   });
 });
 
-function storeOf(window, gid) {
-  return window.GALLERY.storeOf(gid);
+// The chip for a shipped tag. toggleTag() re-renders #tagchips, so a node
+// captured before a toggle is stale -- look the chip up fresh each time.
+function chipFor(doc, tag) {
+  return [...doc.querySelectorAll("#tagchips .tagchip")].find((c) => c.dataset.tag === tag);
 }
 
 // A product present in the baked CACHE. Without one, openDetail on the
-// vndb/all tabs legitimately defers while VNDB is looked up, and a synchronous
-// test cannot observe the modal.
+// vndb/all views legitimately defers while VNDB is looked up, and a
+// synchronous test cannot observe the drawer.
 function cachedGid(window, predicate) {
-  const S = window.GALLERY.STORE;
-  return Object.keys(window.GALLERY.CACHE).find(
-    (k) => window.GALLERY.CACHE[k] && (!predicate || predicate(S[k] || {}))
+  const G = window.GALLERY;
+  return Object.keys(G.CACHE).find(
+    (k) => G.CACHE[k] && (!predicate || predicate(G.storeOf(k) || {}, G.CACHE[k]))
   );
 }
 
-// A product with DLsite + FANZA + Getchu ids, so the modal renders every section.
+// A product with DLsite + FANZA + Getchu ids, so the drawer renders every section.
 function richGid(window) {
   return cachedGid(window, (st) => st.l && (st.m || st.m2) && st.g);
 }
 
-// First rendered card that opens synchronously *and* has content for the tab:
+// First rendered card that opens synchronously *and* has images for the view:
 // the adapter must claim it, and on vndb/all a VNDB match must already exist
 // (otherwise openDetail legitimately defers while it is looked up).
-function openableGid(window, doc, tab) {
+function openableGid(window, doc, view) {
   const G = window.GALLERY;
-  const a = G.ADAPTERS[tab];
   // The Getchu section only renders baked Worker images synchronously;
   // products with an unknown count start as an empty grid until live meta
   // arrives (which the stubbed fetch never provides), so pick a baked one.
-  if (tab === "getchu") {
+  if (view === "getchu") {
     const hit = G.DATA.find((d) => {
       const st = G.storeOf(d.gid);
       return st && st.g && typeof st.g.n === "number" && st.g.n > 0;
     });
     if (hit) return String(hit.gid);
   }
-  const cards = [...doc.querySelectorAll("#grid .card")];
-  for (const c of cards) {
-    const gid = c.dataset.gid;
-    const v = G.liveCache.get(gid);
+  const a = G.ADAPTERS[view];
+  for (const wrap of doc.querySelectorAll("#grid .cardwrap")) {
+    const gid = wrap.dataset.gid;
     const item = G.DATA.find((d) => String(d.gid) === gid);
-    if (!item || !a.has(item, G.storeOf(gid), v || null)) continue;
-    if ((tab === "vndb" || tab === "all") && !v) continue;
+    const v = G.liveCache.get(gid) || null;
+    if (!item || !a.has(item, G.storeOf(gid), v)) continue;
+    if ((view === "vndb" || view === "all") && !(v && (v.img || (v.shots || []).length))) continue;
     return gid;
   }
-  return cards[0].dataset.gid;
+  return null;
 }
