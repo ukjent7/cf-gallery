@@ -2874,6 +2874,15 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       .replace(/'/g, "&#39;");
   }
 
+  function getMedClass(med) {
+    var m = med || 0;
+    if (m >= 85) return "med-ex";
+    if (m >= 80) return "med-s";
+    if (m >= 75) return "med-a";
+    if (m >= 70) return "med-b";
+    return "med-c";
+  }
+
   // --- Card Element Factory ---
   function createCardElement(item) {
     var gid = String(item.gid);
@@ -2895,12 +2904,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     article.dataset.gid = gid;
 
     // Rating tier class
-    var medClass = "med-c";
-    var med = item.median || 0;
-    if (med >= 85) medClass = "med-ex";
-    else if (med >= 80) medClass = "med-s";
-    else if (med >= 75) medClass = "med-a";
-    else if (med >= 70) medClass = "med-b";
+    var medClass = getMedClass(item.median);
 
     // Tags list
     var itemTags = tagsOf(gid);
@@ -3481,9 +3485,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var result = document.getElementById("fateResult");
     if (!modal || !reel || !result) return;
 
-    var pool = filteredData.filter(function (d) { return (d.median || 0) >= 80; });
-    if (!pool.length) pool = filteredData;
-    if (!pool.length) pool = _DATA;
+    // Use current filtered pool (respects user search/tag/view filters), fallback to full dataset
+    var pool = filteredData && filteredData.length ? filteredData : _DATA;
+    if (!pool || !pool.length) return;
 
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
@@ -3498,9 +3502,18 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         clearInterval(interval);
         var finalPick = pool[Math.floor(Math.random() * pool.length)];
         reel.textContent = finalPick.name;
+
+        var mc = getMedClass(finalPick.median);
+        var medBadge = finalPick.median
+          ? '<span class="medpill ' + mc + '" style="position:static;display:inline-block;margin-left:6px;vertical-align:middle;">' + finalPick.median + '</span>'
+          : '<span style="color:var(--text-muted);margin-left:6px;">暂无评分</span>';
+
         result.innerHTML =
-          '<b>#' + finalPick.rank + ' ' + escHtml(finalPick.name) + '</b><br>' +
-          '社团：' + escHtml(finalPick.brand) + ' · 中央值：<span style="color:var(--accent-gilded);font-weight:bold;">' + finalPick.median + '</span>';
+          '<div style="font-family:var(--font-serif);font-size:1.15rem;font-weight:700;color:#FFFFFF;margin-bottom:6px;">#' + finalPick.rank + ' ' + escHtml(finalPick.name) + '</div>' +
+          '<div style="font-family:var(--font-sans);font-size:0.92rem;color:#E2E8F0;line-height:1.6;">' +
+            '社团：' + escHtml(finalPick.brand || "未知") + ' · 发售：' + escHtml(finalPick.sellday || "未知") + '<br>' +
+            '中央值：' + medBadge + ' · 评分人数：' + (finalPick.count2 || "-") + '人 · POV: ' + escHtml(finalPick.povs || "寝取") +
+          '</div>';
 
         var confirmBtn = document.getElementById("fateConfirmBtn");
         if (confirmBtn) {
