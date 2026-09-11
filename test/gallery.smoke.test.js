@@ -641,6 +641,36 @@ describe("detail drawer", () => {
     expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/next_0304/");
   });
 
+  test("催眠性指導 -Secret Lesson- (gid 35655 / rank 126) matches FANZA next_0407 and Getchu 1274775", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const st = G.storeOf("35655");
+    expect(st).toBeTruthy();
+    expect(st.m).toBeTruthy();
+    expect(st.m.id).toBe("next_0407");
+    expect(st.m.n).toBe(12);
+    expect(st.g).toBeTruthy();
+    expect(st.g.id).toBe("1274775");
+    expect(st.g.n).toBe(10);
+
+    G.setTab("all");
+    G.openDetail("35655");
+
+    const dmSec = doc.querySelector(".dsec-dmm");
+    expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
+    const dmImgs = [...dmSec.querySelectorAll(".strip img")];
+    expect(dmImgs.length).toBe(10);
+    expect(dmImgs[0].getAttribute("src")).toContain("next_0407/next_0407js-001.jpg");
+    expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/next_0407/");
+
+    const gcSec = doc.querySelector(".dsec-gc");
+    expect(gcSec, "Getchu section must exist in drawer").toBeTruthy();
+    const gcImgs = [...gcSec.querySelectorAll(".strip img")];
+    expect(gcImgs.length).toBe(9);
+    expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/1274775/2.jpg");
+    expect(gcSec.querySelector("a").href).toContain("getchu.com/soft.phtml?id=1274775");
+  });
+
   test("related strip stays inside #dbody, never links to itself and opens targets", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
@@ -934,6 +964,19 @@ describe("vndb matching guards", () => {
     const item500 = { gid: "30195", name: "催眠学習 Secret Desire", sellday: "2021-03-26" };
     expect(G.exactPick([V29779], [item500.name], item500)?.id).toBe("v29779");
     expect(G.containsPick([V29779], item500.name, item500)?.id).toBe("v29779");
+  });
+
+  test("exact match handles hyphens and punctuation differences (v41351 for 催眠性指導 -Secret Lesson-)", () => {
+    const G = fns();
+    const V41351 = {
+      id: "v41351",
+      title: "Saimin Seishidou -Secret Lesson-",
+      alttitle: "催眠性指導 -Secret Lesson-",
+      released: "2024-12-20"
+    };
+    const item126 = { gid: "35655", name: "催眠性指導 -Secret Lesson-", sellday: "2024-12-20" };
+    expect(G.exactPick([V41351], [item126.name], item126)?.id).toBe("v41351");
+    expect(G.containsPick([V41351], item126.name, item126)?.id).toBe("v41351");
   });
 
   test("contains skips a wrong-year first hit", () => {
