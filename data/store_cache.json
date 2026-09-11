@@ -10121,6 +10121,25 @@
     }
   },
   "19189": {
+    "dlsite": {
+      "id": "VJ008382",
+      "wt": "professional",
+      "folder": "VJ009000",
+      "domain": "pro",
+      "n": 9,
+      "page": "https://www.dlsite.com/pro/work/=/product_id/VJ008382.html",
+      "samples": [
+        "smpa1",
+        "smpa2",
+        "smpa3",
+        "smpa4",
+        "smpa5",
+        "smpa6",
+        "smpa7",
+        "smpa8",
+        "smpa9"
+      ]
+    },
     "dmm": {
       "id": "mgold_0079",
       "n": 18

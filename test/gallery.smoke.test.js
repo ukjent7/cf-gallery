@@ -563,6 +563,28 @@ describe("detail drawer", () => {
     expect(imgs[4].getAttribute("data-full")).toBe("https://pics.dmm.co.jp/digital/pcgame/elf_0032/elf_0032jp-005.jpg");
   });
 
+  test("巨乳家族催眠 (gid 19189 / rank 508) matches DLsite VJ008382 with 9 sample stems", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const st = G.storeOf("19189");
+    expect(st).toBeTruthy();
+    expect(st.l).toBeTruthy();
+    expect(st.l.id).toBe("VJ008382");
+    expect(st.l.d).toBe("pro");
+    expect(st.l.n).toBe(9);
+    expect(st.l.sm).toEqual(["smpa1", "smpa2", "smpa3", "smpa4", "smpa5", "smpa6", "smpa7", "smpa8", "smpa9"]);
+
+    G.setTab("all");
+    G.openDetail("19189");
+    const dlSec = doc.querySelector(".dsec-dl");
+    expect(dlSec, "DLsite section must exist in drawer").toBeTruthy();
+    const imgs = [...dlSec.querySelectorAll(".strip img")];
+    expect(imgs.length).toBe(9);
+    expect(imgs[0].getAttribute("src")).toContain("VJ008382_img_smpa1_100x100.jpg");
+    expect(imgs[0].getAttribute("data-full")).toContain("VJ008382_img_smpa1.webp");
+    expect(dlSec.querySelector("a").href).toContain("dlsite.com/pro/work/=/product_id/VJ008382.html");
+  });
+
   test("related strip stays inside #dbody, never links to itself and opens targets", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;

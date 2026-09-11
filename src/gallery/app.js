@@ -627,7 +627,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       '<div class="cover" data-act="detail">' +
         '<img data-full="' + escHtml(art.full) + '" src="' + escHtml(art.thumb) + '"' +
         (art.fb ? ' data-fb="' + escHtml(art.fb) + '"' : '') +
-        ' alt="' + escHtml(item.name) + '" loading="lazy" onload="checkImgLoaded(this)" onerror="chainImgErr(this)">' +
+        ' alt="' + escHtml(item.name) + '" loading="lazy" draggable="false" onload="checkImgLoaded(this)" onerror="chainImgErr(this)">' +
         '<div class="scrim"></div>' +
         '<div class="rank">#' + item.rank + '</div>' +
         (item.median ? '<div class="medpill ' + medClass + '">' + item.median + '</div>' : '') +
@@ -1218,10 +1218,10 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       var cardClass = isClone ? "relclone" : "relcard";
 
       return (
-        '<button type="button" class="' + cardClass + '" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
+        '<div class="' + cardClass + '" role="button" tabindex="0" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
           '<div class="relcover">' +
             (rArt.thumb
-              ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '"' + (rArt.fb ? ' data-fb="' + escHtml(rArt.fb) + '"' : '') + ' alt="' + escHtml(r.name) + '" loading="lazy" decoding="async" onload="checkImgLoaded(this)" onerror="chainImgErr(this)">'
+              ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '"' + (rArt.fb ? ' data-fb="' + escHtml(rArt.fb) + '"' : '') + ' alt="' + escHtml(r.name) + '" loading="lazy" decoding="async" draggable="false" onload="checkImgLoaded(this)" onerror="chainImgErr(this)">'
               : '<div class="relnocover">无封面</div>') +
             '<div class="relrank">#' + r.rank + '</div>' +
             (r.median ? '<div class="relmed ' + medClass + '">' + r.median + '</div>' : '') +
@@ -1230,7 +1230,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
             '<div class="relname">' + escHtml(r.name) + '</div>' +
             '<div class="hint">' + (tagLabel ? '<span class="reltag' + (r.sameSeries ? ' reltag-series' : '') + '">' + escHtml(tagLabel) + '</span> ' : '') + escHtml(r.brand || "未知") + (r.sellday ? ' · ' + escHtml(r.sellday.slice(0, 4)) : '') + '</div>' +
           '</div>' +
-        '</button>'
+        '</div>'
       );
     }
 
@@ -1336,8 +1336,17 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     // Attach Recommendation card click triggers (supports original cards and infinite loop clones)
     dbody.querySelectorAll(".relcard[data-act='detail'], .relclone[data-act='detail']").forEach(function (cardEl) {
       cardEl.addEventListener("click", function () {
+        var sel = window.getSelection ? window.getSelection().toString().trim() : "";
+        if (sel.length > 0) return;
         playBeep(520, "sine", 0.04);
         openDetail(cardEl.dataset.gid);
+      });
+      cardEl.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          playBeep(520, "sine", 0.04);
+          openDetail(cardEl.dataset.gid);
+        }
       });
     });
 
@@ -1972,7 +1981,13 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var drawerOverlay = document.getElementById("drawer");
     if (drawerOverlay) {
       var backdrop = drawerOverlay.querySelector(".backdrop");
-      if (backdrop) backdrop.addEventListener("click", closeDetail);
+      if (backdrop) {
+        backdrop.addEventListener("click", function (e) {
+          var sel = window.getSelection ? window.getSelection().toString().trim() : "";
+          if (sel.length > 0) return;
+          if (e.target === backdrop) closeDetail();
+        });
+      }
     }
 
     // 10. Lightbox Controls
