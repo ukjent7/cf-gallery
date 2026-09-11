@@ -546,12 +546,35 @@ article.card:hover {
   user-select: none;
 }
 
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 2.2s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.35s var(--spring-smooth), filter 0.3s ease;
   display: block;
+  position: relative;
+  z-index: 1;
 }
 
 .cover:hover img {
@@ -1385,7 +1408,14 @@ article.card:hover {
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(
+    90deg,
+    rgba(18, 16, 28, 0.85) 0%,
+    rgba(32, 28, 48, 0.85) 50%,
+    rgba(18, 16, 28, 0.85) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 2s infinite ease-in-out;
   cursor: pointer;
   transition: transform 0.25s var(--spring-snappy), border-color 0.2s ease, box-shadow 0.25s ease;
 }
@@ -1877,6 +1907,68 @@ article.card:hover {
   100% { transform: translateX(-50%) scale(1.3); opacity: 1; }
 }
 
+/* Lightbox Error Tip */
+.lb-error-tip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 12;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  background: rgba(18, 16, 28, 0.92);
+  border: 1px solid rgba(255, 42, 109, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 42, 109, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 22px 34px;
+  border-radius: 14px;
+}
+
+.lightbox-image-stage.is-error .lb-error-tip {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.lb-error-icon {
+  font-size: 1.8rem;
+  filter: drop-shadow(0 0 10px var(--accent-crimson));
+}
+
+.lb-error-text {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-lumina);
+  letter-spacing: 0.04em;
+}
+
+.lb-error-retry {
+  background: rgba(255, 42, 109, 0.15);
+  border: 1px solid var(--accent-crimson);
+  color: #FFFFFF;
+  padding: 5px 18px;
+  border-radius: 18px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lb-error-retry:hover {
+  background: var(--accent-crimson);
+  box-shadow: 0 0 16px var(--accent-crimson-glow);
+  transform: translateY(-1px);
+}
+
 .lightbox-image-stage img {
   --img-ratio: 1.7778;
   /* Proportional canvas framing: scales smaller/older screenshots up comfortably to fill viewport */
@@ -1890,9 +1982,9 @@ article.card:hover {
   /* Smooth dimensional morphing and soft crossfade transition */
   transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.22s ease,
+              opacity 0.25s ease,
               transform 0.25s var(--spring-snappy),
-              filter 0.22s ease;
+              filter 0.25s ease;
   opacity: 1;
   transform: scale(1);
   filter: blur(0);
@@ -1900,10 +1992,13 @@ article.card:hover {
   image-rendering: auto;
 }
 
+.lightbox-image-stage.is-loading img,
+.lightbox-image-stage.is-error img,
+.lightbox-image-stage img.is-loading,
 .lightbox-image-stage img.is-switching {
-  opacity: 0.65;
-  transform: scale(0.985);
-  filter: blur(2px);
+  opacity: 0;
+  transform: scale(0.96);
+  filter: blur(8px);
 }
 
 .lb-nav-arrow {
@@ -2409,6 +2504,11 @@ article.card:hover {
           <div class="spinner-ring"></div>
           <div class="spinner-core"></div>
           <span class="spinner-text">原画加载中...</span>
+        </div>
+        <div class="lb-error-tip" id="lbErrorTip" aria-hidden="true">
+          <div class="lb-error-icon">⚠️</div>
+          <div class="lb-error-text">原画加载超时或不可用</div>
+          <button type="button" class="lb-error-retry" id="lbRetryBtn">点击重试</button>
         </div>
         <img id="vimg" src="" alt="Ultra High Fidelity Artwork" draggable="false">
       </div>
@@ -4057,12 +4157,17 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         preloadedReady.add(url);
       };
 
+      img.onload = markReady;
+      img.onerror = function () {};
+
       if (typeof img.decode === "function") {
         img.src = url;
-        img.decode().then(markReady).catch(markReady);
+        img.decode().then(markReady).catch(function () {
+          if (img.complete && img.naturalWidth > 0) {
+            markReady();
+          }
+        });
       } else {
-        img.onload = markReady;
-        img.onerror = function () {};
         img.src = url;
       }
     } catch (e) {}
@@ -4123,23 +4228,26 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var currentImg = lbImages[lbIndex];
     if (currentImg) syncStageAspectRatio(currentImg);
 
+    if (stage) stage.classList.remove("is-error");
+
+    // Check if this exact image is already confirmed loaded on this element
+    var isAlreadyLoaded = (vimg.dataset.loadedUrl === fullUrl && vimg.getAttribute("src") === fullUrl && vimg.naturalWidth > 0);
+
+    if (isAlreadyLoaded) {
+      syncStageAspectRatio(vimg);
+      if (stage) stage.classList.remove("is-loading");
+      vimg.classList.remove("is-loading");
+      vimg.classList.remove("is-switching");
+      return;
+    }
+
+    // Immediately mark stage as loading and fade out old image so it never lingers
+    if (stage) stage.classList.add("is-loading");
+    vimg.classList.add("is-loading");
+    vimg.classList.add("is-switching");
+
     // Synchronously set src so attributes and synchronous tests stay in sync
     vimg.src = fullUrl;
-
-    if (!stage) return;
-
-    // If image is already preloaded or in memory cache, show immediately without spinner
-    var isReady = preloadedReady.has(fullUrl) || (vimg.complete && vimg.naturalWidth > 0);
-
-    if (isReady) {
-      syncStageAspectRatio(vimg);
-      stage.classList.remove("is-loading");
-      vimg.classList.remove("is-switching");
-    } else {
-      // Set loading spinner and transition dimming for cold loads
-      stage.classList.add("is-loading");
-      vimg.classList.add("is-switching");
-    }
 
     var cleanup = function () {
       vimg.removeEventListener("load", onLoaded);
@@ -4148,11 +4256,16 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     var onLoaded = function () {
       cleanup();
-      preloadedReady.add(fullUrl);
       if (token !== lbLoadToken) return;
+      preloadedReady.add(fullUrl);
+      vimg.dataset.loadedUrl = fullUrl;
       syncStageAspectRatio(vimg);
-      stage.classList.remove("is-loading");
+      if (stage) {
+        stage.classList.remove("is-loading");
+        stage.classList.remove("is-error");
+      }
       requestAnimationFrame(function () {
+        vimg.classList.remove("is-loading");
         vimg.classList.remove("is-switching");
       });
     };
@@ -4160,17 +4273,33 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var onError = function () {
       cleanup();
       if (token !== lbLoadToken) return;
-      stage.classList.remove("is-loading");
-      vimg.classList.remove("is-switching");
-      var currentImg = lbImages[lbIndex];
-      var fb = currentImg && currentImg.getAttribute("data-fb");
+      var curImg = lbImages[lbIndex];
+      var fb = curImg && curImg.getAttribute("data-fb");
       if (fb && fb !== fullUrl) {
         setLightboxImage(fb);
+        return;
       }
+      if (stage) {
+        stage.classList.remove("is-loading");
+        stage.classList.add("is-error");
+      }
+      vimg.classList.remove("is-loading");
+      vimg.classList.add("is-switching");
     };
 
     vimg.addEventListener("load", onLoaded);
     vimg.addEventListener("error", onError);
+
+    // If preloaded, decode asynchronously for instant presentation
+    if (preloadedReady.has(fullUrl)) {
+      if (typeof vimg.decode === "function") {
+        vimg.decode().then(function () {
+          if (token === lbLoadToken) onLoaded();
+        }).catch(function () {
+          // let normal onload fire
+        });
+      }
+    }
   }
 
   function openLightbox(fullUrl, caption, imgs, index, item) {
@@ -4244,9 +4373,17 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden", "true");
     var stage = document.getElementById("lbImageStage");
-    if (stage) stage.classList.remove("is-loading");
+    if (stage) {
+      stage.classList.remove("is-loading");
+      stage.classList.remove("is-error");
+    }
     var vimg = document.getElementById("vimg");
-    if (vimg) vimg.classList.remove("is-switching");
+    if (vimg) {
+      vimg.classList.remove("is-switching");
+      vimg.classList.remove("is-loading");
+      vimg.src = "";
+      delete vimg.dataset.loadedUrl;
+    }
     var drawer = document.getElementById("drawer");
     if (!drawer || !drawer.classList.contains("open")) {
       document.body.classList.remove("locked");
@@ -4551,12 +4688,26 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           e.target.closest(".lb-nav-arrow") ||
           e.target.closest(".lightbox-controls") ||
           e.target.closest("#vthumbs") ||
-          e.target.closest("#vcap")
+          e.target.closest("#vcap") ||
+          e.target.closest(".lb-error-tip") ||
+          e.target.closest(".lb-spinner")
         ) {
           return;
         }
         closeLightbox();
       });
+
+      var lbRetryBtn = document.getElementById("lbRetryBtn");
+      if (lbRetryBtn) {
+        lbRetryBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (lbImages && lbImages.length && lbImages[lbIndex]) {
+            var curImg = lbImages[lbIndex];
+            var full = curImg.getAttribute("data-full") || curImg.src;
+            setLightboxImage(full);
+          }
+        });
+      }
     }
 
     // 11. Topbar Actions: Safe Mode, Sound, Boss Key

@@ -1296,12 +1296,17 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         preloadedReady.add(url);
       };
 
+      img.onload = markReady;
+      img.onerror = function () {};
+
       if (typeof img.decode === "function") {
         img.src = url;
-        img.decode().then(markReady).catch(markReady);
+        img.decode().then(markReady).catch(function () {
+          if (img.complete && img.naturalWidth > 0) {
+            markReady();
+          }
+        });
       } else {
-        img.onload = markReady;
-        img.onerror = function () {};
         img.src = url;
       }
     } catch (e) {}
@@ -1362,23 +1367,26 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var currentImg = lbImages[lbIndex];
     if (currentImg) syncStageAspectRatio(currentImg);
 
+    if (stage) stage.classList.remove("is-error");
+
+    // Check if this exact image is already confirmed loaded on this element
+    var isAlreadyLoaded = (vimg.dataset.loadedUrl === fullUrl && vimg.getAttribute("src") === fullUrl && vimg.naturalWidth > 0);
+
+    if (isAlreadyLoaded) {
+      syncStageAspectRatio(vimg);
+      if (stage) stage.classList.remove("is-loading");
+      vimg.classList.remove("is-loading");
+      vimg.classList.remove("is-switching");
+      return;
+    }
+
+    // Immediately mark stage as loading and fade out old image so it never lingers
+    if (stage) stage.classList.add("is-loading");
+    vimg.classList.add("is-loading");
+    vimg.classList.add("is-switching");
+
     // Synchronously set src so attributes and synchronous tests stay in sync
     vimg.src = fullUrl;
-
-    if (!stage) return;
-
-    // If image is already preloaded or in memory cache, show immediately without spinner
-    var isReady = preloadedReady.has(fullUrl) || (vimg.complete && vimg.naturalWidth > 0);
-
-    if (isReady) {
-      syncStageAspectRatio(vimg);
-      stage.classList.remove("is-loading");
-      vimg.classList.remove("is-switching");
-    } else {
-      // Set loading spinner and transition dimming for cold loads
-      stage.classList.add("is-loading");
-      vimg.classList.add("is-switching");
-    }
 
     var cleanup = function () {
       vimg.removeEventListener("load", onLoaded);
@@ -1387,11 +1395,16 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     var onLoaded = function () {
       cleanup();
-      preloadedReady.add(fullUrl);
       if (token !== lbLoadToken) return;
+      preloadedReady.add(fullUrl);
+      vimg.dataset.loadedUrl = fullUrl;
       syncStageAspectRatio(vimg);
-      stage.classList.remove("is-loading");
+      if (stage) {
+        stage.classList.remove("is-loading");
+        stage.classList.remove("is-error");
+      }
       requestAnimationFrame(function () {
+        vimg.classList.remove("is-loading");
         vimg.classList.remove("is-switching");
       });
     };
@@ -1399,17 +1412,33 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var onError = function () {
       cleanup();
       if (token !== lbLoadToken) return;
-      stage.classList.remove("is-loading");
-      vimg.classList.remove("is-switching");
-      var currentImg = lbImages[lbIndex];
-      var fb = currentImg && currentImg.getAttribute("data-fb");
+      var curImg = lbImages[lbIndex];
+      var fb = curImg && curImg.getAttribute("data-fb");
       if (fb && fb !== fullUrl) {
         setLightboxImage(fb);
+        return;
       }
+      if (stage) {
+        stage.classList.remove("is-loading");
+        stage.classList.add("is-error");
+      }
+      vimg.classList.remove("is-loading");
+      vimg.classList.add("is-switching");
     };
 
     vimg.addEventListener("load", onLoaded);
     vimg.addEventListener("error", onError);
+
+    // If preloaded, decode asynchronously for instant presentation
+    if (preloadedReady.has(fullUrl)) {
+      if (typeof vimg.decode === "function") {
+        vimg.decode().then(function () {
+          if (token === lbLoadToken) onLoaded();
+        }).catch(function () {
+          // let normal onload fire
+        });
+      }
+    }
   }
 
   function openLightbox(fullUrl, caption, imgs, index, item) {
@@ -1483,9 +1512,17 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden", "true");
     var stage = document.getElementById("lbImageStage");
-    if (stage) stage.classList.remove("is-loading");
+    if (stage) {
+      stage.classList.remove("is-loading");
+      stage.classList.remove("is-error");
+    }
     var vimg = document.getElementById("vimg");
-    if (vimg) vimg.classList.remove("is-switching");
+    if (vimg) {
+      vimg.classList.remove("is-switching");
+      vimg.classList.remove("is-loading");
+      vimg.src = "";
+      delete vimg.dataset.loadedUrl;
+    }
     var drawer = document.getElementById("drawer");
     if (!drawer || !drawer.classList.contains("open")) {
       document.body.classList.remove("locked");
@@ -1790,12 +1827,26 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           e.target.closest(".lb-nav-arrow") ||
           e.target.closest(".lightbox-controls") ||
           e.target.closest("#vthumbs") ||
-          e.target.closest("#vcap")
+          e.target.closest("#vcap") ||
+          e.target.closest(".lb-error-tip") ||
+          e.target.closest(".lb-spinner")
         ) {
           return;
         }
         closeLightbox();
       });
+
+      var lbRetryBtn = document.getElementById("lbRetryBtn");
+      if (lbRetryBtn) {
+        lbRetryBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (lbImages && lbImages.length && lbImages[lbIndex]) {
+            var curImg = lbImages[lbIndex];
+            var full = curImg.getAttribute("data-full") || curImg.src;
+            setLightboxImage(full);
+          }
+        });
+      }
     }
 
     // 11. Topbar Actions: Safe Mode, Sound, Boss Key

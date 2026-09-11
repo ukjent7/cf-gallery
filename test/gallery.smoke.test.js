@@ -763,6 +763,38 @@ describe("lightbox", () => {
       expect(G.preloadedUrls.has(lastImg.getAttribute("data-full"))).toBe(true);
     }
   });
+
+  test("lightbox loading transition, stale image suppression and error fallback", () => {
+    const { doc, window } = openWithImages();
+    const G = window.GALLERY;
+    const stripImgs = doc.querySelectorAll("#dbody .strip img");
+    stripImgs[0].click();
+
+    const stage = doc.getElementById("lbImageStage");
+    const vimg = doc.getElementById("vimg");
+    expect(stage.classList.contains("is-loading"), "stage must have is-loading on cold load").toBe(true);
+    expect(vimg.classList.contains("is-loading"), "vimg must have is-loading so stale image does not show").toBe(true);
+
+    // Simulate successful load event
+    vimg.dispatchEvent(new window.Event("load"));
+    expect(stage.classList.contains("is-loading"), "stage must clear is-loading after load").toBe(false);
+    expect(vimg.dataset.loadedUrl, "vimg must track loadedUrl").toBe(stripImgs[0].getAttribute("data-full"));
+
+    // Step to next image: should immediately enter loading state and suppress old image
+    doc.getElementById("vnext").click();
+    expect(stage.classList.contains("is-loading"), "stage must enter loading state on switch").toBe(true);
+    expect(vimg.classList.contains("is-loading"), "vimg must hide old image on switch").toBe(true);
+
+    // Simulate error event on missing fallback
+    vimg.dispatchEvent(new window.Event("error"));
+    expect(stage.classList.contains("is-error"), "stage must enter is-error on failed image").toBe(true);
+    expect(doc.getElementById("lbRetryBtn"), "retry button must be available in DOM").toBeTruthy();
+
+    // Close lightbox: must clean up src and dataset to prevent leaking to next session
+    G.closeLightbox();
+    expect(vimg.getAttribute("src") || "", "vimg src must be reset on close").toBe("");
+    expect(vimg.dataset.loadedUrl, "loadedUrl must be reset on close").toBeUndefined();
+  });
 });
 
 describe("vndb matching guards", () => {
