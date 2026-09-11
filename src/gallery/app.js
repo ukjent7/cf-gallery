@@ -355,50 +355,63 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     var thumb = "";
     var full = "";
+    var fb = null;
     var shots = [];
 
     if (view === "vndb" && v) {
       if (v.img) {
         full = v.img;
         thumb = vnThumb(v.img);
+        fb = egsImg(item.gid, 1);
       }
       if (v.shots && v.shots.length) shots = v.shots;
     } else if (view === "dlsite" && st && st.l) {
       full = dlMainUrl(st.l);
       thumb = dlMainThumbUrl(st.l);
+      fb = egsImg(item.gid, 1);
       shots = dlSamples(st.l);
     } else if (view === "dmm" && st && (st.m || st.m2)) {
       var m = st.m || st.m2;
       full = dmmPkgUrl(m.id);
       thumb = dmmPkgThumb(m.id);
+      fb = egsImg(item.gid, 1);
       var dn = Math.min(m.n || 0, 10);
       for (var di = 1; di <= dn; di++) shots.push(dmmSampleBig(m.id, di));
     } else if (view === "getchu" && st && st.g) {
-      full = gcCoverUrl(st.g.id);
-      thumb = gcCoverUrl(st.g.id);
+      full = USE_GC ? gcApiCover(st.g.id) : egsImg(item.gid, 1);
+      thumb = full;
+      fb = egsImg(item.gid, 1);
       var gn = Math.min(st.g.n || 0, 10);
-      for (var gi = 1; gi <= gn; gi++) shots.push(gcSampleUrl(st.g.id, gi));
+      if (USE_GC) {
+        for (var gi = 1; gi <= gn; gi++) shots.push(gcApiSample(st.g.id, gi));
+      }
     } else {
       // View: all
       if (v && v.img) {
         full = v.img;
         thumb = vnThumb(v.img);
+        fb = egsImg(item.gid, 1);
         shots = v.shots || [];
       } else if (st && st.l) {
         full = dlMainUrl(st.l);
         thumb = dlMainThumbUrl(st.l);
+        fb = egsImg(item.gid, 1);
         shots = dlSamples(st.l);
       } else if (st && (st.m || st.m2)) {
         var dm = st.m || st.m2;
         full = dmmPkgUrl(dm.id);
         thumb = dmmPkgThumb(dm.id);
+        fb = egsImg(item.gid, 1);
         var dmn = Math.min(dm.n || 0, 10);
         for (var dmi = 1; dmi <= dmn; dmi++) shots.push(dmmSampleBig(dm.id, dmi));
       } else if (st && st.g) {
-        full = gcCoverUrl(st.g.id);
-        thumb = gcCoverUrl(st.g.id);
+        full = USE_GC ? gcApiCover(st.g.id) : egsImg(item.gid, 1);
+        thumb = full;
+        fb = egsImg(item.gid, 1);
         var gcn = Math.min(st.g.n || 0, 10);
-        for (var gci = 1; gci <= gcn; gci++) shots.push(gcSampleUrl(st.g.id, gci));
+        if (USE_GC) {
+          for (var gci = 1; gci <= gcn; gci++) shots.push(gcApiSample(st.g.id, gci));
+        }
       } else {
         full = egsImg(item.gid, 1);
         thumb = full;
@@ -411,7 +424,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }
     if (!thumb) thumb = full;
 
-    return { thumb: thumb, full: full, shots: shots };
+    return { thumb: thumb, full: full, shots: shots, fb: fb };
   }
 
   function escHtml(s) {
@@ -432,6 +445,25 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (m >= 70) return "med-b";
     return "med-c";
   }
+
+  // Walk the fallback chain, then hide/remove if the image is genuinely gone so it never stays as a 裂图.
+  function chainImgErr(el) {
+    if (!el) return;
+    var fb = (el.getAttribute("data-fb") || "").split("|").filter(function (u) { return u && u !== el.src; });
+    if (fb.length > 0) {
+      el.setAttribute("data-fb", fb.slice(1).join("|"));
+      el.setAttribute("data-full", fb[0]);
+      el.src = fb[0];
+    } else {
+      var strip = el.closest(".strip");
+      if (strip) {
+        el.style.display = "none";
+      } else {
+        el.classList.add("img-load-failed");
+      }
+    }
+  }
+  window.chainImgErr = chainImgErr;
 
   // --- Card Element Factory ---
   function createCardElement(item) {
@@ -488,7 +520,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     article.innerHTML =
       '<div class="cover" data-act="detail">' +
-        '<img data-full="' + escHtml(art.full) + '" src="' + escHtml(art.thumb) + '" alt="' + escHtml(item.name) + '" loading="lazy">' +
+        '<img data-full="' + escHtml(art.full) + '" src="' + escHtml(art.thumb) + '"' +
+        (art.fb ? ' data-fb="' + escHtml(art.fb) + '"' : '') +
+        ' alt="' + escHtml(item.name) + '" loading="lazy" onerror="chainImgErr(this)">' +
         '<div class="scrim"></div>' +
         '<div class="rank">#' + item.rank + '</div>' +
         (item.median ? '<div class="medpill ' + medClass + '">' + item.median + '</div>' : '') +
@@ -853,26 +887,63 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       var gc = st.g;
       var gcSamples = [];
       var gn = Math.min(gc.n || 0, 10);
-      for (var gi = 1; gi <= gn; gi++) {
-        gcSamples.push(gcSampleUrl(gc.id, gi));
+      if (USE_GC) {
+        for (var gi = 1; gi <= gn; gi++) {
+          gcSamples.push(gcApiSample(gc.id, gi));
+        }
       }
+      var gcCover = USE_GC ? gcApiCover(gc.id) : egsImg(item.gid, 1);
+      var gcFallback = egsImg(item.gid, 1);
+      var displaySamples = gcSamples.length > 0;
+
       bodyHtml +=
         '<div class="drawer-section dsec-gc">' +
-          '<h3 id="dsec-h-gc">Getchu 宣传册样本 (<span data-livecount="gc">' + (gcSamples.length || 1) + '</span>)</h3>' +
+          '<h3 id="dsec-h-gc">Getchu 宣传册样本 (<span data-livecount="gc">' + (gcSamples.length || (gcCover ? 1 : 0)) + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
             '<a href="' + escHtml(gcProductUrl(gc.id)) + '" target="_blank" rel="noopener">Getchu 作品页 (' + escHtml(gc.id) + ')</a>' +
           '</div>' +
+          (!USE_GC ? '<p class="drawer-hint" style="font-size:0.84rem;color:var(--text-muted);">本地文件模式：Getchu 官方图片受防盗链保护，需在部署后的站点（通过 Worker 代理）在线鉴赏原画。</p>' : '') +
           '<div class="strip">' +
-            (gcSamples.length ? gcSamples : [gcCoverUrl(gc.id)]).map(function (u) {
-              return '<img src="' + escHtml(u) + '" data-full="' + escHtml(u) + '" alt="Getchu sample" loading="lazy">';
-            }).join("") +
+            (displaySamples
+              ? gcSamples.map(function (u) {
+                  return '<img src="' + escHtml(u) + '" data-full="' + escHtml(u) + '" alt="Getchu sample" loading="lazy" onerror="chainImgErr(this)">';
+                }).join("")
+              : (gcCover ? '<img src="' + escHtml(gcCover) + '" data-full="' + escHtml(gcCover) + '" data-fb="' + escHtml(gcFallback) + '" alt="Getchu cover" loading="lazy" onerror="chainImgErr(this)">' : '')
+            ) +
           '</div>' +
         '</div>';
 
       // Live Getchu meta check (only if count unknown)
       if (USE_GC && (typeof gc.n !== "number" || gc.n <= 0) && !sessionMetaCache.has("gc:" + gc.id)) {
         sessionMetaCache.add("gc:" + gc.id);
-        fetch(gcApiMeta(gc.id)).then(function (r) { return r.json(); }).catch(function () { return null; });
+        fetch(gcApiMeta(gc.id))
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res && typeof res.n === "number" && res.n > 0) {
+              gc.n = res.n;
+              var dsecGc = document.querySelector(".dsec-gc");
+              if (dsecGc) {
+                var strip = dsecGc.querySelector(".strip");
+                var lc = dsecGc.querySelector('[data-livecount="gc"]');
+                if (strip) {
+                  var newImgs = [];
+                  for (var k = 1; k <= Math.min(res.n, 10); k++) {
+                    var su = gcApiSample(gc.id, k);
+                    newImgs.push('<img src="' + escHtml(su) + '" data-full="' + escHtml(su) + '" alt="Getchu sample" loading="lazy" onerror="chainImgErr(this)">');
+                  }
+                  strip.innerHTML = newImgs.join("");
+                  if (lc) lc.textContent = String(newImgs.length);
+                  var newStripImgs = strip.querySelectorAll("img");
+                  newStripImgs.forEach(function (imgEl, idx) {
+                    imgEl.addEventListener("click", function () {
+                      openLightbox(imgEl.getAttribute("data-full"), (idx + 1) + " / " + newStripImgs.length + " " + item.name, newStripImgs, idx, item);
+                    });
+                  });
+                }
+              }
+            }
+          })
+          .catch(function () { return null; });
       }
     }
 
@@ -1012,6 +1083,61 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
   }
 
   // --- Zenith Aurora Lightbox Stage ---
+  var lbLoadToken = 0;
+
+  function setLightboxImage(fullUrl) {
+    var stage = document.getElementById("lbImageStage");
+    var vimg = document.getElementById("vimg");
+    if (!vimg) return;
+
+    var token = ++lbLoadToken;
+
+    // Synchronously set src so attributes and synchronous tests stay in sync
+    vimg.src = fullUrl;
+
+    if (!stage) return;
+
+    // If image is already fully loaded in memory, clear loading state immediately
+    if (vimg.complete && vimg.naturalWidth > 0) {
+      stage.classList.remove("is-loading");
+      vimg.classList.remove("is-switching");
+      return;
+    }
+
+    // Set loading spinner and transition dimming
+    stage.classList.add("is-loading");
+    vimg.classList.add("is-switching");
+
+    var cleanup = function () {
+      vimg.removeEventListener("load", onLoaded);
+      vimg.removeEventListener("error", onError);
+    };
+
+    var onLoaded = function () {
+      cleanup();
+      if (token !== lbLoadToken) return;
+      stage.classList.remove("is-loading");
+      requestAnimationFrame(function () {
+        vimg.classList.remove("is-switching");
+      });
+    };
+
+    var onError = function () {
+      cleanup();
+      if (token !== lbLoadToken) return;
+      stage.classList.remove("is-loading");
+      vimg.classList.remove("is-switching");
+      var currentImg = lbImages[lbIndex];
+      var fb = currentImg && currentImg.getAttribute("data-fb");
+      if (fb && fb !== fullUrl) {
+        setLightboxImage(fb);
+      }
+    };
+
+    vimg.addEventListener("load", onLoaded);
+    vimg.addEventListener("error", onError);
+  }
+
   function openLightbox(fullUrl, caption, imgs, index, item) {
     var lb = document.getElementById("lightbox");
     var vimg = document.getElementById("vimg");
@@ -1023,7 +1149,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     lbIndex = index || 0;
     lbCurrentItem = item || null;
 
-    vimg.src = fullUrl;
+    setLightboxImage(fullUrl);
     vcap.textContent = caption;
 
     // Build Thumbnail Strip
@@ -1056,7 +1182,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (!lbImages.length) return;
     var currentImg = lbImages[lbIndex];
     var full = currentImg.getAttribute("data-full") || currentImg.src;
-    document.getElementById("vimg").src = full;
+    setLightboxImage(full);
     document.getElementById("vcap").textContent =
       (lbIndex + 1) + " / " + lbImages.length + " " + (lbCurrentItem ? lbCurrentItem.name : "");
 
@@ -1072,6 +1198,10 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (!lb) return;
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden", "true");
+    var stage = document.getElementById("lbImageStage");
+    if (stage) stage.classList.remove("is-loading");
+    var vimg = document.getElementById("vimg");
+    if (vimg) vimg.classList.remove("is-switching");
     var drawer = document.getElementById("drawer");
     if (!drawer || !drawer.classList.contains("open")) {
       document.body.classList.remove("locked");
@@ -1635,7 +1765,8 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     openDetail: openDetail,
     closeDetail: closeDetail,
     openLightbox: openLightbox,
-    closeLightbox: closeLightbox
+    closeLightbox: closeLightbox,
+    chainImgErr: chainImgErr
   };
 
 })();

@@ -474,6 +474,10 @@ describe("detail drawer", () => {
     expect(hrefs.some((h) => h.includes("dlsite.com"))).toBe(true);
     expect(hrefs.some((h) => h.includes("dmm.co.jp"))).toBe(true);
     expect(hrefs.some((h) => h.includes("getchu.com"))).toBe(true);
+    // Getchu images when USE_GC is true must route through /gc/ proxy to bypass hotlink blocking
+    const gcImgs = [...doc.querySelectorAll(".dsec-gc img")].map((img) => img.getAttribute("src") || "");
+    expect(gcImgs.length).toBeGreaterThan(0);
+    expect(gcImgs.some((s) => s.startsWith("/gc/"))).toBe(true);
     // vndb/all views close with a VNDB search and a re-query button.
     expect(doc.querySelector('#dbody [data-act="refetch"]'), "no 重查VNDB button").toBeTruthy();
     expect(doc.getElementById("dbody").textContent).toContain("VNDB搜索");
@@ -548,6 +552,7 @@ describe("lightbox", () => {
     expect(lb.classList.contains("open"), "lightbox did not open").toBe(true);
     expect(doc.getElementById("vimg").getAttribute("src"), "vimg must show the clicked full url")
       .toBe(first.getAttribute("data-full"));
+    expect(doc.getElementById("lbSpinner"), "lbSpinner element must exist").toBeTruthy();
     expect(doc.getElementById("vcap").textContent, "caption must read i / N label").toMatch(/^1 \/ \d+ /);
     const thumbs = [...doc.querySelectorAll("#vthumbs button[data-vi]")];
     const stripImgs = [...doc.querySelectorAll("#dbody .strip img")];

@@ -188,6 +188,11 @@
     <div class="lightbox-viewport" id="lbViewport">
       <button type="button" id="vprev" class="lb-nav-arrow lb-prev" aria-label="上一幅画作">‹</button>
       <div class="lightbox-image-stage" id="lbImageStage">
+        <div class="lb-spinner" id="lbSpinner" aria-hidden="true">
+          <div class="spinner-ring"></div>
+          <div class="spinner-core"></div>
+          <span class="spinner-text">原画加载中...</span>
+        </div>
         <img id="vimg" src="" alt="Ultra High Fidelity Artwork" draggable="false">
       </div>
       <button type="button" id="vnext" class="lb-nav-arrow lb-next" aria-label="下一幅画作">›</button>
