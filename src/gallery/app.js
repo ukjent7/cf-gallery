@@ -417,6 +417,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var dlFull = (st && st.l) ? dlMainUrl(st.l) : "";
     var dlThumb = dlFull;   // Use high-res _img_main.webp instead of 240x240
     var gcCover = (st && st.g) ? (USE_GC ? gcApiCover(st.g.id) : egsImg(item.gid, 1)) : "";
+    var gcSample1 = (st && st.g && USE_GC) ? gcApiSample(st.g.id, 1) : "";
     var vndbCover = v && v.img ? v.img : "";
     var egsCover = egsImg(item.gid, 1);
 
@@ -425,6 +426,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       thumb = dmmThumb;
       if (dlThumb) fbList.push(dlThumb);
       if (gcCover) fbList.push(gcCover);
+      if (gcSample1) fbList.push(gcSample1);
       if (vndbCover) fbList.push(vndbCover);
       var dn = Math.min((st.m || st.m2).n || 0, 10);
       for (var di = 1; di <= dn; di++) shots.push(dmmSampleBig((st.m || st.m2).id, di));
@@ -433,17 +435,19 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       thumb = dlThumb;
       if (dmmThumb) fbList.push(dmmThumb);
       if (gcCover) fbList.push(gcCover);
+      if (gcSample1) fbList.push(gcSample1);
       if (vndbCover) fbList.push(vndbCover);
       shots = dlSamples(st.l);
     } else if (view === "getchu" && st && st.g) {
       full = gcCover || egsCover;
       thumb = full;
+      if (gcSample1) fbList.push(gcSample1);
+      if (vndbCover) fbList.push(vndbCover);
       if (dmmThumb) fbList.push(dmmThumb);
       if (dlThumb) fbList.push(dlThumb);
-      if (vndbCover) fbList.push(vndbCover);
       var gn = Math.min(st.g.n || 0, 10);
-      if (USE_GC) {
-        for (var gi = 1; gi <= gn; gi++) shots.push(gcApiSample(st.g.id, gi));
+      if (USE_GC && gn > 1) {
+        for (var gi = 2; gi <= gn; gi++) shots.push(gcApiSample(st.g.id, gi));
       }
     } else if (view === "vndb" && v) {
       if (vndbCover) {
@@ -453,6 +457,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         if (dmmThumb) fbList.push(dmmThumb);
         if (dlThumb) fbList.push(dlThumb);
         if (gcCover) fbList.push(gcCover);
+        if (gcSample1) fbList.push(gcSample1);
       }
       if (v.shots && v.shots.length) shots = v.shots;
     } else {
@@ -462,6 +467,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         thumb = dmmThumb;
         if (dlThumb) fbList.push(dlThumb);
         if (gcCover) fbList.push(gcCover);
+        if (gcSample1) fbList.push(gcSample1);
         if (vndbCover) fbList.push(vndbCover);
         var dmn = Math.min((st.m || st.m2).n || 0, 10);
         for (var dmi = 1; dmi <= dmn; dmi++) shots.push(dmmSampleBig((st.m || st.m2).id, dmi));
@@ -472,16 +478,21 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         thumb = dlThumb;
         if (dlFull && dlFull !== thumb) fbList.push(dlFull);
         if (gcCover) fbList.push(gcCover);
+        if (gcSample1) fbList.push(gcSample1);
         if (vndbCover) fbList.push(vndbCover);
         shots = dlSamples(st.l);
         if (shots.length === 0 && v && v.shots) shots = v.shots;
       } else if (gcCover) {
         full = gcCover;
         thumb = gcCover;
+        if (gcSample1) fbList.push(gcSample1);
         if (vndbCover) fbList.push(vndbCover);
+        if (dmmThumb) fbList.push(dmmThumb);
+        if (dlThumb) fbList.push(dlThumb);
+        if (egsCover) fbList.push(egsCover);
         var gcn = Math.min(st.g.n || 0, 10);
-        if (USE_GC) {
-          for (var gci = 1; gci <= gcn; gci++) shots.push(gcApiSample(st.g.id, gci));
+        if (USE_GC && gcn > 1) {
+          for (var gci = 2; gci <= gcn; gci++) shots.push(gcApiSample(st.g.id, gci));
         }
         if (shots.length === 0 && v && v.shots) shots = v.shots;
       } else if (vndbCover) {
@@ -549,6 +560,16 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
   }
   window.chainImgErr = chainImgErr;
 
+  // Detect Getchu nowprinting placeholder: 200x200 or containing nowprinting, and trigger fallback
+  function checkImgLoaded(el) {
+    if (!el) return;
+    var src = el.getAttribute("src") || el.src || "";
+    if (src.indexOf("nowprinting") !== -1 || (el.naturalWidth === 200 && el.naturalHeight === 200 && (src.indexOf("/gc/") !== -1 || src.indexOf("getchu.com") !== -1))) {
+      chainImgErr(el);
+    }
+  }
+  window.checkImgLoaded = checkImgLoaded;
+
   // --- Card Element Factory ---
   function createCardElement(item) {
     var gid = String(item.gid);
@@ -606,7 +627,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       '<div class="cover" data-act="detail">' +
         '<img data-full="' + escHtml(art.full) + '" src="' + escHtml(art.thumb) + '"' +
         (art.fb ? ' data-fb="' + escHtml(art.fb) + '"' : '') +
-        ' alt="' + escHtml(item.name) + '" loading="lazy" onerror="chainImgErr(this)">' +
+        ' alt="' + escHtml(item.name) + '" loading="lazy" onload="checkImgLoaded(this)" onerror="chainImgErr(this)">' +
         '<div class="scrim"></div>' +
         '<div class="rank">#' + item.rank + '</div>' +
         (item.median ? '<div class="medpill ' + medClass + '">' + item.median + '</div>' : '') +
@@ -872,6 +893,12 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var v = liveCache.get(String(gid)) || (_CACHE[String(gid)] || null);
     var itemTags = tagsOf(gid);
 
+    // Auto-fetch VNDB live if not cached yet
+    if (!v && item && !sessionMetaCache.has("vn:" + gid)) {
+      sessionMetaCache.add("vn:" + gid);
+      triggerVndbFetch(gid, item, false);
+    }
+
     // Populate Header
     dhead.querySelector("h2").textContent = "#" + item.rank + " " + item.name;
 
@@ -955,27 +982,24 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           });
         }
       });
-      var dmmCover = dmmPkgUrl(dmmList[0].id);
-      var displayDmmSamples = dmmSamples.length > 0;
-      dmmCount = dmmSamples.length || (dmmCover ? 1 : 0);
+      dmmCount = dmmSamples.length;
 
-      dmmHtml =
-        '<div class="drawer-section drawer-store-section dsec-dmm" data-store="dmm">' +
-          '<h3 id="dsec-h-dmm">FANZA 截帧图集 (<span data-livecount="dmm">' + dmmCount + '</span>)</h3>' +
-          '<div class="drawer-meta-links">' +
-            dmmList.map(function (dm) {
-              return '<a href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA ' + escHtml(dmmFloorLabel(dm.id)) + ' (' + escHtml(dm.id) + ')</a>';
-            }).join("") +
-          '</div>' +
-          '<div class="strip">' +
-            (displayDmmSamples
-              ? dmmSamples.map(function (s) {
-                  return '<img src="' + escHtml(s.small) + '" data-full="' + escHtml(s.big) + '" alt="FANZA sample" loading="lazy" decoding="async">';
-                }).join("")
-              : (dmmCover ? '<img src="' + escHtml(dmmCover) + '" data-full="' + escHtml(dmmCover) + '" alt="FANZA cover" loading="lazy" decoding="async">' : '')
-            ) +
-          '</div>' +
-        '</div>';
+      if (dmmSamples.length > 0) {
+        dmmHtml =
+          '<div class="drawer-section drawer-store-section dsec-dmm" data-store="dmm">' +
+            '<h3 id="dsec-h-dmm">FANZA 截帧图集 (<span data-livecount="dmm">' + dmmCount + '</span>)</h3>' +
+            '<div class="drawer-meta-links">' +
+              dmmList.map(function (dm) {
+                return '<a href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA ' + escHtml(dmmFloorLabel(dm.id)) + ' (' + escHtml(dm.id) + ')</a>';
+              }).join("") +
+            '</div>' +
+            '<div class="strip">' +
+              dmmSamples.map(function (s) {
+                return '<img src="' + escHtml(s.small) + '" data-full="' + escHtml(s.big) + '" alt="FANZA sample" loading="lazy" decoding="async">';
+              }).join("") +
+            '</div>' +
+          '</div>';
+      }
 
       // Live DMM meta check (only if count unknown)
       if (USE_GC && (typeof dmmList[0].n !== "number" || dmmList[0].n <= 0) && !sessionMetaCache.has("dm:" + dmmList[0].id)) {
@@ -1022,32 +1046,29 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       var gc = st.g;
       var gcSamples = [];
       var gn = Math.min(gc.n || 0, 10);
-      if (USE_GC) {
-        for (var gi = 1; gi <= gn; gi++) {
+      // Sample 1 is the package cover; promotional samples start from sample 2
+      if (USE_GC && gn > 1) {
+        for (var gi = 2; gi <= gn; gi++) {
           gcSamples.push(gcApiSample(gc.id, gi));
         }
       }
-      var gcCover = USE_GC ? gcApiCover(gc.id) : egsImg(item.gid, 1);
-      var gcFallback = egsImg(item.gid, 1);
-      var displaySamples = gcSamples.length > 0;
-      gcCount = gcSamples.length || (gcCover ? 1 : 0);
+      gcCount = gcSamples.length;
 
-      gcHtml =
-        '<div class="drawer-section drawer-store-section dsec-gc" data-store="gc">' +
-          '<h3 id="dsec-h-gc">Getchu 宣传册样本 (<span data-livecount="gc">' + gcCount + '</span>)</h3>' +
-          '<div class="drawer-meta-links">' +
-            '<a href="' + escHtml(gcProductUrl(gc.id)) + '" target="_blank" rel="noopener">Getchu 作品页 (' + escHtml(gc.id) + ')</a>' +
-          '</div>' +
-          (!USE_GC ? '<p class="drawer-hint" style="font-size:0.84rem;color:var(--text-muted);">本地文件模式：Getchu 官方图片受防盗链保护，需在部署后的站点（通过 Worker 代理）在线鉴赏原画。</p>' : '') +
-          '<div class="strip">' +
-            (displaySamples
-              ? gcSamples.map(function (u) {
-                  return '<img src="' + escHtml(u) + '" data-full="' + escHtml(u) + '" alt="Getchu sample" loading="lazy" decoding="async" onerror="chainImgErr(this)">';
-                }).join("")
-              : (gcCover ? '<img src="' + escHtml(gcCover) + '" data-full="' + escHtml(gcCover) + '" data-fb="' + escHtml(gcFallback) + '" alt="Getchu cover" loading="lazy" decoding="async" onerror="chainImgErr(this)">' : '')
-            ) +
-          '</div>' +
-        '</div>';
+      if (gcSamples.length > 0) {
+        gcHtml =
+          '<div class="drawer-section drawer-store-section dsec-gc" data-store="gc">' +
+            '<h3 id="dsec-h-gc">Getchu 宣传册样本 (<span data-livecount="gc">' + gcCount + '</span>)</h3>' +
+            '<div class="drawer-meta-links">' +
+              '<a href="' + escHtml(gcProductUrl(gc.id)) + '" target="_blank" rel="noopener">Getchu 作品页 (' + escHtml(gc.id) + ')</a>' +
+            '</div>' +
+            (!USE_GC ? '<p class="drawer-hint" style="font-size:0.84rem;color:var(--text-muted);">本地文件模式：Getchu 官方图片受防盗链保护，需在部署后的站点（通过 Worker 代理）在线鉴赏原画。</p>' : '') +
+            '<div class="strip">' +
+              gcSamples.map(function (u) {
+                return '<img src="' + escHtml(u) + '" data-full="' + escHtml(u) + '" alt="Getchu sample" loading="lazy" decoding="async" onerror="chainImgErr(this)">';
+              }).join("") +
+            '</div>' +
+          '</div>';
+      }
 
       // Live Getchu meta check (only if count unknown)
       if (USE_GC && (typeof gc.n !== "number" || gc.n <= 0) && !sessionMetaCache.has("gc:" + gc.id)) {
@@ -1055,7 +1076,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         fetch(gcApiMeta(gc.id))
           .then(function (r) { return r.json(); })
           .then(function (res) {
-            if (res && typeof res.n === "number" && res.n > 0) {
+            if (res && typeof res.n === "number" && res.n > 1) {
               gc.n = res.n;
               var dsecGc = document.querySelector(".dsec-gc");
               if (dsecGc) {
@@ -1063,7 +1084,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
                 var lc = dsecGc.querySelector('[data-livecount="gc"]');
                 if (strip) {
                   var newImgs = [];
-                  for (var k = 1; k <= Math.min(res.n, 10); k++) {
+                  for (var k = 2; k <= Math.min(res.n, 10); k++) {
                     var su = gcApiSample(gc.id, k);
                     newImgs.push('<img src="' + escHtml(su) + '" data-full="' + escHtml(su) + '" alt="Getchu sample" loading="lazy" decoding="async" onerror="chainImgErr(this)">');
                   }
@@ -1200,7 +1221,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         '<button type="button" class="' + cardClass + '" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
           '<div class="relcover">' +
             (rArt.thumb
-              ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '"' + (rArt.fb ? ' data-fb="' + escHtml(rArt.fb) + '"' : '') + ' alt="' + escHtml(r.name) + '" loading="lazy" decoding="async" onerror="chainImgErr(this)">'
+              ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '"' + (rArt.fb ? ' data-fb="' + escHtml(rArt.fb) + '"' : '') + ' alt="' + escHtml(r.name) + '" loading="lazy" decoding="async" onload="checkImgLoaded(this)" onerror="chainImgErr(this)">'
               : '<div class="relnocover">无封面</div>') +
             '<div class="relrank">#' + r.rank + '</div>' +
             (r.median ? '<div class="relmed ' + medClass + '">' + r.median + '</div>' : '') +
@@ -1743,6 +1764,15 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           liveCache.set(String(gid), entry);
           saveLive();
           applyFilter();
+
+          // If detail drawer is currently open for this game, refresh its VNDB display live
+          var drawer = document.getElementById("drawer");
+          if (drawer && drawer.classList.contains("open")) {
+            var dhead = document.getElementById("dhead");
+            if (dhead && dhead.querySelector("h2") && dhead.querySelector("h2").textContent.indexOf("#" + item.rank + " ") === 0) {
+              openDetail(gid);
+            }
+          }
         }
       }
     })
@@ -1967,7 +1997,10 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (vopen) {
       vopen.addEventListener("click", function () {
         var vimg = document.getElementById("vimg");
-        if (vimg && vimg.src) window.open(vimg.src);
+        if (vimg) {
+          var targetUrl = vimg.getAttribute("src") || vimg.src;
+          if (targetUrl) window.open(targetUrl);
+        }
       });
     }
 

@@ -296,6 +296,14 @@ function handleImage(route, request, ctx) {
           var code = up.status === 404 ? 404 : 502;
           return json({ error: code === 404 ? "not found" : "bad gateway" }, code, 60);
         }
+        // If cover is nowprinting placeholder, treat as 404 so client falls back to other platforms
+        if (route.kind === "cover") {
+          var upUrl = up.url || "";
+          var cl = up.headers.get("content-length");
+          if (upUrl.indexOf("nowprinting") !== -1 || cl === "5372") {
+            return json({ error: "not found" }, 404, 60);
+          }
+        }
         var res = new Response(up.body, { status: 200, headers: imageHeaders(up) });
         ctx.waitUntil(cache.put(cacheKey, res.clone()).catch(function () {}));
         return res;
