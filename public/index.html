@@ -2989,82 +2989,87 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var fbList = [];
     var shots = [];
 
-    var vndbCover = v && v.img ? v.img : "";
-    var dlThumb = (st && st.l) ? dlMainThumbUrl(st.l) : "";
-    var dlFull = (st && st.l) ? dlMainUrl(st.l) : "";
+    // Store candidate covers in priority order: 1. FANZA -> 2. DLsite -> 3. Getchu -> 4. VNDB
     var dmmThumb = (st && (st.m || st.m2)) ? dmmPkgThumb((st.m || st.m2).id) : "";
     var dmmFull = (st && (st.m || st.m2)) ? dmmPkgUrl((st.m || st.m2).id) : "";
+    var dlThumb = (st && st.l) ? dlMainThumbUrl(st.l) : "";
+    var dlFull = (st && st.l) ? dlMainUrl(st.l) : "";
     var gcCover = (st && st.g) ? (USE_GC ? gcApiCover(st.g.id) : egsImg(item.gid, 1)) : "";
+    var vndbCover = v && v.img ? v.img : "";
     var egsCover = egsImg(item.gid, 1);
 
-    if (view === "vndb" && v) {
-      if (vndbCover) {
-        full = vndbCover;
-        thumb = vnThumb(vndbCover);
-        if (thumb !== full) fbList.push(full);
-        if (dlThumb) fbList.push(dlThumb);
-        if (dmmThumb) fbList.push(dmmThumb);
-        if (gcCover) fbList.push(gcCover);
-      }
-      if (v.shots && v.shots.length) shots = v.shots;
+    if (view === "dmm" && st && (st.m || st.m2)) {
+      full = dmmFull;
+      thumb = dmmThumb;
+      if (dmmFull && dmmFull !== thumb) fbList.push(dmmFull);
+      if (dlThumb) fbList.push(dlThumb);
+      if (gcCover) fbList.push(gcCover);
+      if (vndbCover) fbList.push(vndbCover);
+      var dn = Math.min((st.m || st.m2).n || 0, 10);
+      for (var di = 1; di <= dn; di++) shots.push(dmmSampleBig((st.m || st.m2).id, di));
     } else if (view === "dlsite" && st && st.l) {
       full = dlFull;
       thumb = dlThumb;
       if (dlFull && dlFull !== thumb) fbList.push(dlFull);
-      if (vndbCover) fbList.push(vndbCover);
       if (dmmThumb) fbList.push(dmmThumb);
       if (gcCover) fbList.push(gcCover);
-      shots = dlSamples(st.l);
-    } else if (view === "dmm" && st && (st.m || st.m2)) {
-      full = dmmFull;
-      thumb = dmmThumb;
-      if (dmmFull && dmmFull !== thumb) fbList.push(dmmFull);
       if (vndbCover) fbList.push(vndbCover);
-      if (dlThumb) fbList.push(dlThumb);
-      if (gcCover) fbList.push(gcCover);
-      var dn = Math.min((st.m || st.m2).n || 0, 10);
-      for (var di = 1; di <= dn; di++) shots.push(dmmSampleBig((st.m || st.m2).id, di));
+      shots = dlSamples(st.l);
     } else if (view === "getchu" && st && st.g) {
       full = gcCover || egsCover;
       thumb = full;
-      if (vndbCover) fbList.push(vndbCover);
-      if (dlThumb) fbList.push(dlThumb);
       if (dmmThumb) fbList.push(dmmThumb);
+      if (dlThumb) fbList.push(dlThumb);
+      if (vndbCover) fbList.push(vndbCover);
       var gn = Math.min(st.g.n || 0, 10);
       if (USE_GC) {
         for (var gi = 1; gi <= gn; gi++) shots.push(gcApiSample(st.g.id, gi));
       }
-    } else {
-      // View: all
+    } else if (view === "vndb" && v) {
       if (vndbCover) {
         full = vndbCover;
         thumb = vnThumb(vndbCover);
         if (thumb !== full) fbList.push(full);
-        if (dlThumb) fbList.push(dlThumb);
         if (dmmThumb) fbList.push(dmmThumb);
+        if (dlThumb) fbList.push(dlThumb);
         if (gcCover) fbList.push(gcCover);
-        shots = v.shots || [];
+      }
+      if (v.shots && v.shots.length) shots = v.shots;
+    } else {
+      // View: all (Priority: 1. FANZA -> 2. DLsite -> 3. Getchu -> 4. VNDB -> 5. EGS)
+      if (dmmThumb) {
+        full = dmmFull;
+        thumb = dmmThumb;
+        if (dmmFull && dmmFull !== thumb) fbList.push(dmmFull);
+        if (dlThumb) fbList.push(dlThumb);
+        if (gcCover) fbList.push(gcCover);
+        if (vndbCover) fbList.push(vndbCover);
+        var dmn = Math.min((st.m || st.m2).n || 0, 10);
+        for (var dmi = 1; dmi <= dmn; dmi++) shots.push(dmmSampleBig((st.m || st.m2).id, dmi));
+        if (shots.length === 0 && dlThumb) shots = dlSamples(st.l);
+        if (shots.length === 0 && v && v.shots) shots = v.shots;
       } else if (dlThumb) {
         full = dlFull;
         thumb = dlThumb;
         if (dlFull && dlFull !== thumb) fbList.push(dlFull);
-        if (dmmThumb) fbList.push(dmmThumb);
         if (gcCover) fbList.push(gcCover);
+        if (vndbCover) fbList.push(vndbCover);
         shots = dlSamples(st.l);
-      } else if (dmmThumb) {
-        full = dmmFull;
-        thumb = dmmThumb;
-        if (dmmFull && dmmFull !== thumb) fbList.push(dmmFull);
-        if (gcCover) fbList.push(gcCover);
-        var dmn = Math.min((st.m || st.m2).n || 0, 10);
-        for (var dmi = 1; dmi <= dmn; dmi++) shots.push(dmmSampleBig((st.m || st.m2).id, dmi));
+        if (shots.length === 0 && v && v.shots) shots = v.shots;
       } else if (gcCover) {
         full = gcCover;
         thumb = gcCover;
+        if (vndbCover) fbList.push(vndbCover);
         var gcn = Math.min(st.g.n || 0, 10);
         if (USE_GC) {
           for (var gci = 1; gci <= gcn; gci++) shots.push(gcApiSample(st.g.id, gci));
         }
+        if (shots.length === 0 && v && v.shots) shots = v.shots;
+      } else if (vndbCover) {
+        full = vndbCover;
+        thumb = vnThumb(vndbCover);
+        if (thumb !== full) fbList.push(full);
+        shots = (v && v.shots) || [];
       } else {
         full = egsCover;
         thumb = egsCover;

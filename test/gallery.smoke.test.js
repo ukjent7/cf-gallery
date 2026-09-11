@@ -225,10 +225,14 @@ describe("cards", () => {
     const cbCard = doc.querySelector('#grid article.card[data-gid="28137"]');
     expect(cbCard, "クロスブリードジョーカー card must exist").toBeTruthy();
     const cbImg = cbCard.querySelector(".cover img");
+    // Priority 1 is FANZA
+    expect(cbImg.getAttribute("src")).toContain("d_141361");
     const cbFb = cbImg.getAttribute("data-fb") || "";
+    // DLsite and VNDB are in fallback chain
+    expect(cbFb).toContain("RJ241070");
     expect(cbFb).toContain("https://t.vndb.org/cv/90/39590.jpg");
     window.chainImgErr(cbImg);
-    expect(cbImg.getAttribute("src")).toBe("https://t.vndb.org/cv/90/39590.jpg");
+    expect(cbImg.getAttribute("src")).toContain("RJ241070");
     expect(cbImg.classList.contains("img-load-failed")).toBe(false);
   });
 });
