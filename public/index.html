@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>PROJECT AURA // NOCTURNE VAULT (夜幕缪斯档案馆) - Galgame·Eroge 中央值画廊</title>
   <meta name="description" content="夜幕缪斯档案馆 (Nocturne Vault) - 视觉小说与 Galgame 高阶鉴赏空间。基于 ErogameScape 批评空间中央值数据与多源图库聚合。">
-  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Noto+Serif+SC:wght@600;700;900&display=swap');
+  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700;900&display=swap');
 
 /* ==========================================================================
    PROJECT AURA // NOCTURNE VAULT (夜幕缪斯档案馆)
@@ -13,16 +13,16 @@
    ========================================================================== */
 
 :root {
-  /* [BASE VOID PALETTE] */
+  /* [CORE COLOR MATRIX] */
   --bg-void: #06060A;
-  --bg-velvet: #0C0B12;
-  --bg-elevated: #14131F;
-  --bg-surface: #1C1A2B;
-  --bg-glass: rgba(18, 16, 28, 0.78);
-  --bg-glass-heavy: rgba(12, 11, 18, 0.92);
-  --bg-card: linear-gradient(155deg, rgba(26, 24, 38, 0.65) 0%, rgba(12, 11, 18, 0.88) 100%);
+  --bg-canvas: #0C0B12;
+  --bg-velvet: #14121E;
+  --bg-surface: #1A1726;
+  --bg-elevated: #242034;
+  --bg-glass: rgba(12, 11, 18, 0.78);
+  --bg-glass-heavy: rgba(8, 7, 13, 0.94);
 
-  /* [ACCENT CHROMA] */
+  /* [NEON SPECTRUM ACCENTS] */
   --accent-crimson: #FF2A6D;
   --accent-crimson-glow: rgba(255, 42, 109, 0.32);
   --accent-crimson-subtle: rgba(255, 42, 109, 0.12);
@@ -35,8 +35,8 @@
 
   /* [TYPOGRAPHY - UNIFIED NOTO FONTS] */
   --font-serif: "Noto Serif SC", "Noto Serif CJK SC", "思源宋体", "Source Han Serif SC", "Source Han Serif CN", "Noto Serif JP", "Noto Serif", "Songti SC", "SimSun", serif;
-  --font-sans: "Noto Sans SC", "Noto Sans CJK SC", "思源黑体", "Source Han Sans SC", "Source Han Sans CN", "Noto Sans JP", "Noto Sans", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "Space Grotesk", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: "Noto Sans SC", "Noto Sans CJK SC", "思源黑体", "Source Han Sans SC", "Source Han Sans CN", "Noto Sans JP", "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Space Grotesk", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Noto Sans SC", "思源黑体", monospace;
   --font-editorial: var(--font-serif);
   --font-ui: var(--font-sans);
 
@@ -154,7 +154,7 @@ body.safe-mode .relcard:hover .relimg {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-mono);
+  font-family: var(--font-serif);
   white-space: nowrap;
   user-select: none;
 }
@@ -174,37 +174,43 @@ body.safe-mode .relcard:hover .relimg {
 }
 
 .brand-monogram {
+  font-family: var(--font-serif);
   font-weight: 900;
   letter-spacing: 0.15em;
   color: var(--accent-crimson);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 
 .brand-sep {
   color: var(--text-muted);
   font-weight: 300;
+  margin: 0 2px;
 }
 
 .brand-title {
+  font-family: var(--font-serif);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--text-lumina);
-  font-size: 0.95rem;
+  font-size: 1.02rem;
 }
 
 .brand-tag {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   color: var(--text-subtle);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 3px 10px;
   border-radius: 12px;
-  margin-left: 4px;
+  margin-left: 6px;
 }
 
 .topbar-stats {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--text-subtle);
   text-align: center;
   white-space: nowrap;
@@ -231,8 +237,9 @@ body.safe-mode .relcard:hover .relimg {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-hairline);
   color: var(--text-subtle);
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
   padding: 5px 12px;
   border-radius: 20px;
   cursor: pointer;
@@ -258,24 +265,28 @@ body.safe-mode .relcard:hover .relimg {
 }
 
 /* ==========================================================================
-   Main Stage & Constellation Filter Matrix
+   Main Stage & Constellation Filter Matrix (Sticky Top Header Area)
    ========================================================================== */
 .main-stage {
   max-width: 1780px;
   margin: 0 auto;
-  padding: 24px clamp(16px, 3vw, 48px) 120px;
+  padding: 12px clamp(16px, 3vw, 48px) 120px;
   position: relative;
   z-index: 1;
 }
 
 .tag-row {
+  position: sticky;
+  top: 52px;
+  z-index: 480;
   margin-bottom: 24px;
-  background: var(--bg-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-hairline);
+  background: rgba(8, 7, 13, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
-  padding: 16px 20px;
+  padding: 12px 18px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75);
   transition: all 0.3s var(--spring-smooth);
 }
 
@@ -288,17 +299,19 @@ body.safe-mode .relcard:hover .relimg {
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .matrix-label {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-subtle);
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .chip-group {
@@ -309,11 +322,12 @@ body.safe-mode .relcard:hover .relimg {
 }
 
 .fchip {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-hairline);
   color: var(--text-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
   padding: 4px 12px;
   border-radius: 14px;
   cursor: pointer;
@@ -321,7 +335,7 @@ body.safe-mode .relcard:hover .relimg {
 }
 
 .fchip:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--text-lumina);
 }
 
@@ -360,10 +374,11 @@ body.safe-mode .relcard:hover .relimg {
 .btn-reset {
   margin-left: auto;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--text-muted);
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
   padding: 4px 12px;
   border-radius: 14px;
   cursor: pointer;
@@ -389,7 +404,7 @@ body.safe-mode .relcard:hover .relimg {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  max-height: 140px;
+  max-height: 90px;
   overflow-y: auto;
   padding-right: 4px;
   scrollbar-width: thin;
@@ -399,7 +414,9 @@ body.safe-mode .relcard:hover .relimg {
   background: rgba(20, 18, 30, 0.6);
   border: 1px solid var(--border-hairline);
   color: var(--text-subtle);
-  font-size: 0.76rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
   padding: 3px 10px;
   border-radius: 12px;
   cursor: pointer;
@@ -424,10 +441,11 @@ body.safe-mode .relcard:hover .relimg {
 }
 
 .tagcount {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
   color: var(--text-muted);
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.3);
   padding: 1px 5px;
   border-radius: 8px;
 }
@@ -1112,26 +1130,23 @@ article.card:hover {
 
 .drawer-panel {
   position: relative;
-  width: min(1440px, 95vw);
-  max-height: min(92vh, 980px);
+  width: min(1000px, 92vw);
+  max-height: min(92vh, 960px);
   height: 92vh;
   background: rgba(12, 11, 18, 0.98);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 24px;
   box-shadow: 0 32px 96px rgba(0, 0, 0, 0.95), 0 0 48px rgba(255, 42, 109, 0.15);
   display: flex;
   flex-direction: column;
-  transform: scale(0.95) translateY(12px);
   opacity: 0;
-  transition: transform 0.3s var(--spring-snappy), opacity 0.25s ease;
-  overflow: hidden;
+  transition: opacity 0.25s ease;
   z-index: 2;
 }
 
 .drawer-overlay.open .drawer-panel {
-  transform: scale(1) translateY(0);
   opacity: 1;
 }
 
@@ -1139,6 +1154,7 @@ article.card:hover {
   padding: 24px 32px;
   background: rgba(20, 18, 30, 0.7);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px 24px 0 0;
   flex-shrink: 0;
 }
 
@@ -1210,53 +1226,21 @@ article.card:hover {
   overflow-y: auto;
   padding: 32px;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-  contain: content;
   overscroll-behavior: contain;
+  border-radius: 0 0 24px 24px;
 }
 
-/* Pavilion 3-Column Flanking Layout inside Detail Drawer */
+/* Pavilion Layout inside Detail Drawer */
 .pavilion-layout {
-  display: grid;
-  gap: 28px;
-  grid-template-columns: 220px minmax(0, 1fr) 220px;
-  grid-template-areas: "relL main relR";
-  align-items: start;
   width: 100%;
 }
 
-.pavilion-layout.single-rel {
-  grid-template-columns: 220px minmax(0, 1fr);
-  grid-template-areas: "relL main";
-}
-
-.pavilion-layout.no-rel {
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "main";
-}
-
 .pavilion-main {
-  grid-area: main;
+  width: 100%;
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 36px;
-}
-
-.relrail.left {
-  grid-area: relL;
-}
-
-.relrail.right {
-  grid-area: relR;
-}
-
-.relrail {
-  position: sticky;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
 }
 
 .drawer-section {
@@ -1334,16 +1318,75 @@ article.card:hover {
 }
 
 /* Flanking Recommendation Rails & Large Cover Cards */
+/* Floating Recommendation Rails & Large Cover Cards (去框留影，悬浮微动效) */
+@media (min-width: 1360px) {
+  .relrail {
+    position: fixed;
+    top: 36px;
+    bottom: 36px;
+    width: 200px;
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 1015;
+    pointer-events: auto;
+  }
+
+  .relrail.left {
+    right: calc(50% + min(1000px, 92vw) / 2 + 18px);
+  }
+
+  .relrail.right {
+    left: calc(50% + min(1000px, 92vw) / 2 + 18px);
+  }
+}
+
+@media (min-width: 1680px) {
+  .relrail {
+    width: 230px;
+  }
+  .relrail.left {
+    right: calc(50% + min(1000px, 92vw) / 2 + 24px);
+  }
+  .relrail.right {
+    left: calc(50% + min(1000px, 92vw) / 2 + 24px);
+  }
+}
+
+@media (max-width: 1359px) {
+  .pavilion-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .relrail {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 14px;
+    width: 100%;
+    margin-top: 14px;
+  }
+  .relrail .relhead {
+    grid-column: 1 / -1;
+  }
+}
+
 .relhead {
-  font-family: var(--font-sans);
-  font-size: 0.86rem;
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: var(--text-lumina);
-  border-left: 3px solid var(--accent-violet);
-  padding-left: 8px;
+  color: #FFFFFF;
   margin: 0 0 2px 0;
   text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .relcard {
@@ -1367,17 +1410,17 @@ article.card:hover {
   aspect-ratio: 3 / 4;
   border-radius: 12px;
   overflow: hidden;
-  background: var(--bg-velvet);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  transition: transform 0.25s var(--spring-snappy), border-color 0.2s ease, box-shadow 0.25s ease;
+  background: #0C0B12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+  transition: transform 0.22s var(--spring-snappy), border-color 0.2s ease, box-shadow 0.22s ease;
 }
 
 .relcard:hover .relcover,
 .relcard:focus-visible .relcover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   border-color: var(--accent-crimson);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 20px var(--accent-crimson-glow);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.9), 0 0 24px var(--accent-crimson-glow);
 }
 
 .relcard img.relimg {
@@ -1385,11 +1428,11 @@ article.card:hover {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
 }
 
 .relcard:hover img.relimg {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .relcard .relnocover {
@@ -1408,7 +1451,7 @@ article.card:hover {
   position: absolute;
   top: 8px;
   left: 8px;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.78);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 2px 7px;
@@ -1452,6 +1495,7 @@ article.card:hover {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   transition: color 0.2s ease;
 }
 
@@ -1477,26 +1521,6 @@ article.card:hover {
   font-size: 0.7rem;
   color: #E2E8F0;
   margin-right: 2px;
-}
-
-@media (max-width: 1240px) {
-  .pavilion-layout {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "main"
-      "relL"
-      "relR";
-    gap: 28px;
-  }
-  .relrail {
-    position: static;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 14px;
-  }
-  .relrail .relhead {
-    grid-column: 1 / -1;
-  }
 }
 
 /* FullCG / Artbook Showcase Section */
