@@ -1260,12 +1260,27 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
   // --- Zenith Aurora Lightbox Stage ---
   var lbLoadToken = 0;
 
+  function syncStageAspectRatio(el) {
+    var vimg = document.getElementById("vimg");
+    if (!vimg || !el) return;
+    var w = el.naturalWidth || (el.getAttribute && Number(el.getAttribute("width"))) || el.width;
+    var h = el.naturalHeight || (el.getAttribute && Number(el.getAttribute("height"))) || el.height;
+    if (w && h && h > 0) {
+      var r = +(w / h).toFixed(4);
+      vimg.style.setProperty("--img-ratio", String(r));
+    }
+  }
+
   function setLightboxImage(fullUrl) {
     var stage = document.getElementById("lbImageStage");
     var vimg = document.getElementById("vimg");
     if (!vimg) return;
 
     var token = ++lbLoadToken;
+
+    // Pre-sync aspect ratio from the active thumbnail to eliminate layout pop
+    var currentImg = lbImages[lbIndex];
+    if (currentImg) syncStageAspectRatio(currentImg);
 
     // Synchronously set src so attributes and synchronous tests stay in sync
     vimg.src = fullUrl;
@@ -1276,6 +1291,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var isReady = preloadedReady.has(fullUrl) || (vimg.complete && vimg.naturalWidth > 0);
 
     if (isReady) {
+      syncStageAspectRatio(vimg);
       stage.classList.remove("is-loading");
       vimg.classList.remove("is-switching");
     } else {
@@ -1293,6 +1309,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       cleanup();
       preloadedReady.add(fullUrl);
       if (token !== lbLoadToken) return;
+      syncStageAspectRatio(vimg);
       stage.classList.remove("is-loading");
       requestAnimationFrame(function () {
         vimg.classList.remove("is-switching");
@@ -1950,6 +1967,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     preloadLightboxNeighbors: preloadLightboxNeighbors,
     preloadedUrls: preloadedUrls,
     preloadedReady: preloadedReady,
+    syncStageAspectRatio: syncStageAspectRatio,
     chainImgErr: chainImgErr
   };
 

@@ -1761,21 +1761,32 @@ article.card:hover {
 }
 
 .lightbox-image-stage img {
+  --img-ratio: 1.7778;
+  /* Proportional canvas framing: scales smaller/older screenshots up comfortably to fill viewport */
+  width: min(min(92vw, 1500px), calc((100vh - 170px) * var(--img-ratio)));
+  height: min(calc(100vh - 170px), calc(min(92vw, 1500px) / var(--img-ratio)));
   max-width: 92vw;
-  max-height: 80vh;
+  max-height: calc(100vh - 170px);
   object-fit: contain;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
-  transition: opacity 0.25s ease, transform 0.25s var(--spring-snappy), filter 0.25s ease;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  /* Smooth dimensional morphing and soft crossfade transition */
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.22s ease,
+              transform 0.25s var(--spring-snappy),
+              filter 0.22s ease;
   opacity: 1;
   transform: scale(1);
   filter: blur(0);
   cursor: default;
+  image-rendering: auto;
 }
 
 .lightbox-image-stage img.is-switching {
-  opacity: 0.25;
-  transform: scale(0.97);
-  filter: blur(4px);
+  opacity: 0.65;
+  transform: scale(0.985);
+  filter: blur(2px);
 }
 
 .lb-nav-arrow {
