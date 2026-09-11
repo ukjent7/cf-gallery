@@ -425,6 +425,12 @@ describe("detail drawer", () => {
       expect(doc.body.classList.contains("locked"), `${view}: body was not locked`).toBe(true);
       expect(doc.querySelectorAll("#dbody img").length, `${view}: drawer has no images`).toBeGreaterThan(0);
       expect(doc.getElementById("dbody").textContent).toContain("全CG");
+      expect(doc.getElementById("dbody").textContent).toContain("Hitomi");
+      expect(doc.getElementById("dbody").textContent).toContain("E-Hentai");
+      const fullcgLinks = Array.from(doc.querySelectorAll(".dsec-fullcg a")).map((a) => a.getAttribute("href") || "");
+      expect(fullcgLinks.some((h) => h.includes("hitomi.la/search.html"))).toBe(true);
+      expect(fullcgLinks.some((h) => h.includes("e-hentai.org/?f_search="))).toBe(true);
+      expect(fullcgLinks.some((h) => h.includes("%20CG") || h.includes("+CG"))).toBe(false);
     }
   });
 

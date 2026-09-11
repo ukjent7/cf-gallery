@@ -662,6 +662,84 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     applyFilter();
   }
 
+  // --- Group / Circle Mapping & Romaji Search Helpers for External Full-CG ---
+  function slugify(s) {
+    return String(s == null ? "" : s).toLowerCase()
+      .replace(/-/g, "_").replace(/[^a-z0-9 _]+/g, "")
+      .replace(/\s+/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, "");
+  }
+
+  function brandSlug(brand) {
+    var b = String(brand == null ? "" : brand).trim().replace(/・/g, " ");
+    if (!/^[A-Za-z0-9][A-Za-z0-9 _.'-]{0,40}$/.test(b)) return null;
+    return slugify(b) || null;
+  }
+
+  function groupFor(brand) {
+    var k = String(brand == null ? "" : brand).trim();
+    if (_BRANDG[k]) {
+      var s = slugify(_BRANDG[k]);
+      if (s) return s;
+    }
+    return brandSlug(brand);
+  }
+
+  function isLatin(s) {
+    return typeof s === "string" && s.trim().length > 0 && !/[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff]/.test(s);
+  }
+
+  function romajiTitle(item, v) {
+    if (v) {
+      if (isLatin(v.title)) return v.title.trim();
+      if (isLatin(v.alttitle)) return v.alttitle.trim();
+    }
+    if (isLatin(item.name)) return item.name.trim();
+    return (v && (v.title || v.alttitle)) ? (v.title || v.alttitle).trim() : item.name.trim();
+  }
+
+  function coreTitle(title) {
+    if (!title) return "";
+    var m = title.match(/^([^~～:\-–—]+?)(?:\s+[-–—~～:]|\s*~|\s*～)/);
+    return (m && m[1].trim().length >= 2) ? m[1].trim() : title.trim();
+  }
+
+  function cleanSearchTitle(title) {
+    if (!title) return "";
+    return title.replace(/"/g, "").replace(/\bCG\b/gi, "").replace(/\s+/g, " ").trim();
+  }
+
+  function hitomiSiteUrl(item, v) {
+    var parts = ["type:gamecg"];
+    var g = groupFor(item.brand);
+    if (g) parts.push("group:" + g);
+    var t = cleanSearchTitle(coreTitle(romajiTitle(item, v)))
+      .replace(/[~:!?,/\\()[\]{}*+^$#@|<>]/g, " ")
+      .replace(/(^|\s)-+/g, "$1")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (t) parts.push(t);
+    return "https://hitomi.la/search.html?" + encodeURIComponent(parts.join(" "));
+  }
+
+  function ehSiteUrl(item, v) {
+    var parts = [];
+    var g = groupFor(item.brand);
+    if (g) parts.push("group:" + g + "$");
+    var t = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
+    if (t) parts.push('title:"' + t + '"');
+    return "https://e-hentai.org/?f_search=" + encodeURIComponent(parts.join(" ")) + "&f_apply=Apply+Filter";
+  }
+
+  function fullcgGoogleUrl(site, item, v) {
+    var raw = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
+    var q = 'site:' + site + ' "' + raw + '"';
+    if (item.name && item.name !== raw) {
+      q += ' OR "' + cleanSearchTitle(item.name) + '"';
+    }
+    if (site.indexOf("hitomi") === 0) q = "gamecg " + q;
+    return "https://www.google.com/search?q=" + encodeURIComponent(q);
+  }
+
   // --- Detail Drawer System ---
   function openDetail(gid) {
     var item = _DATA.find(function (d) { return String(d.gid) === String(gid); });
@@ -819,13 +897,37 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     // 5. Full CG Section
     var fullcg = _FULLCG[gid];
+    var g = groupFor(item.brand);
+    var fullRomaji = romajiTitle(item, v);
+    var searchTitle = coreTitle(fullRomaji);
+    var hitomiUrl = hitomiSiteUrl(item, v);
+    var ehUrl = ehSiteUrl(item, v);
+
+    var fullcgLinks = [];
+    if (fullcg && fullcg.hitomi) {
+      fullcgLinks.push('<a href="' + escHtml(fullcg.hitomi) + '" target="_blank" rel="noopener" class="fullcg-btn-direct">Hitomi 全CG 直连</a>');
+    }
+    if (fullcg && fullcg.ehentai) {
+      fullcgLinks.push('<a href="' + escHtml(fullcg.ehentai) + '" target="_blank" rel="noopener" class="fullcg-btn-direct">E-Hentai 全CG 直连</a>');
+    }
+
+    fullcgLinks.push('<a href="' + escHtml(hitomiUrl) + '" target="_blank" rel="noopener" class="fullcg-btn-hitomi">Hitomi 站内搜索 ' + (g ? '(group:' + escHtml(g) + ')' : '(罗马字)') + '</a>');
+    fullcgLinks.push('<a href="' + escHtml(ehUrl) + '" target="_blank" rel="noopener" class="fullcg-btn-eh">E-Hentai 站内搜索 ' + (g ? '(group:' + escHtml(g) + '$)' : '(罗马字)') + '</a>');
+    fullcgLinks.push('<a href="' + escHtml(fullcgGoogleUrl("hitomi.la", item, v)) + '" target="_blank" rel="noopener">Google 搜 Hitomi</a>');
+    fullcgLinks.push('<a href="' + escHtml(fullcgGoogleUrl("e-hentai.org", item, v)) + '" target="_blank" rel="noopener">Google 搜 E-Hentai</a>');
+
     bodyHtml +=
       '<div class="drawer-section dsec-fullcg">' +
-        '<h3 id="dsec-h-fullcg">全CG / 原画鉴赏</h3>' +
+        '<h3 id="dsec-h-fullcg">全CG / 原画鉴赏' + (fullcg ? '<span class="status-chip chip-gilded">已核实直连</span>' : '') + '</h3>' +
         '<div class="drawer-meta-links">' +
-          (fullcg && fullcg.ehentai ? '<a href="' + escHtml(fullcg.ehentai) + '" target="_blank" rel="noopener">E-Hentai 全CG 图库</a>' : '') +
-          (fullcg && fullcg.hitomi ? '<a href="' + escHtml(fullcg.hitomi) + '" target="_blank" rel="noopener">Hitomi 全CG 图库</a>' : '') +
-          '<a href="https://e-hentai.org/?f_search=' + encodeURIComponent(item.name + ' CG') + '" target="_blank" rel="noopener">全CG 在线索引</a>' +
+          fullcgLinks.join("") +
+        '</div>' +
+        '<div class="drawer-fullcg-hint">' +
+          '<div class="drawer-fullcg-meta">' +
+            '<span>检索罗马字: <b style="color:#FFFFFF;">' + escHtml(searchTitle) + '</b></span>' +
+            (g ? '<span>社团参数: <code>group:' + escHtml(g) + '</code></span>' : '<span style="color:var(--text-dark);">品牌未入社团映射库 (使用标题精准检索)</span>') +
+          '</div>' +
+          '<p class="fullcg-subtext">全CG原画由第三方图库收录。已采用罗马字与社团 Group 参数以保证最高命中率，请对照上方官方原版截图鉴赏比对。</p>' +
         '</div>' +
       '</div>';
 

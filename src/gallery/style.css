@@ -1482,6 +1482,90 @@ article.card:hover {
   overflow: hidden;
 }
 
+/* FullCG / Artbook Showcase Section */
+.drawer-section.dsec-fullcg {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.drawer-section.dsec-fullcg h3 {
+  border-left-color: var(--accent-gilded);
+}
+
+.fullcg-btn-direct {
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.2) 0%, rgba(255, 140, 0, 0.12) 100%) !important;
+  border-color: rgba(255, 184, 0, 0.45) !important;
+  color: #FFDE7A !important;
+  box-shadow: 0 0 12px rgba(255, 184, 0, 0.2);
+}
+
+.fullcg-btn-direct:hover {
+  background: #FFB800 !important;
+  color: #06060A !important;
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.5) !important;
+}
+
+.fullcg-btn-hitomi {
+  border-color: rgba(255, 42, 109, 0.35) !important;
+}
+
+.fullcg-btn-hitomi:hover {
+  background: var(--accent-crimson) !important;
+  border-color: var(--accent-crimson) !important;
+  box-shadow: 0 0 16px var(--accent-crimson-glow) !important;
+}
+
+.fullcg-btn-eh {
+  border-color: rgba(0, 210, 255, 0.35) !important;
+}
+
+.fullcg-btn-eh:hover {
+  background: #00D2FF !important;
+  color: #06060A !important;
+  border-color: #00D2FF !important;
+  box-shadow: 0 0 16px rgba(0, 210, 255, 0.4) !important;
+}
+
+.drawer-fullcg-hint {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.drawer-fullcg-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawer-fullcg-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.drawer-fullcg-meta code {
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--accent-cyan);
+}
+
+.drawer-fullcg-hint .fullcg-subtext {
+  font-size: 0.8rem;
+  color: var(--text-dark);
+}
+
 /* ==========================================================================
    Zenith Aurora Lightbox Stage
    ========================================================================== */
