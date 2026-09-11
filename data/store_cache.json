@@ -18986,6 +18986,27 @@
       "page": "https://www.getchu.com/soft.phtml?id=1109871"
     }
   },
+  "30195": {
+    "dlsite": {
+      "id": "VJ015151",
+      "wt": "professional",
+      "folder": "VJ016000",
+      "domain": "pro",
+      "n": 5,
+      "page": "https://www.dlsite.com/pro/work/=/product_id/VJ015151.html",
+      "samples": [
+        "smpa1",
+        "smpa2",
+        "smpa3",
+        "smpa4",
+        "smpa5"
+      ]
+    },
+    "dmm": {
+      "id": "next_0304",
+      "n": 5
+    }
+  },
   "30257": {
     "dmm": {
       "id": "hobe_0505",

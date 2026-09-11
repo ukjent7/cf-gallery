@@ -582,6 +582,14 @@ article.card:hover {
   z-index: 1;
 }
 
+.cover img.img-load-failed,
+.relimg.img-load-failed,
+img.img-load-failed {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
 .cover:hover img {
   transform: scale(1.04);
 }

@@ -235,6 +235,31 @@ describe("cards", () => {
     expect(cbImg.getAttribute("src")).toContain("RJ241070");
     expect(cbImg.classList.contains("img-load-failed")).toBe(false);
   });
+
+  test("scrub-strip errors do not corrupt cover fallback chain or mark cover as failed", () => {
+    const { doc, window } = loadGallery();
+    const card = [...doc.querySelectorAll("#grid article.card")].find((c) => c.querySelector(".scrub-segment"));
+    expect(card, "card with scrub strip must exist").toBeTruthy();
+    const coverEl = card.querySelector(".cover");
+    const img = coverEl.querySelector("img");
+    const origSrc = img.getAttribute("src");
+    const origFb = img.getAttribute("data-fb");
+
+    // Hover first scrub segment
+    const seg = coverEl.querySelector(".scrub-segment");
+    seg.dispatchEvent(new window.Event("mouseenter"));
+    expect(img.dataset.scrubbing).toBe("true");
+
+    // Simulate error during scrubbing
+    window.chainImgErr(img);
+    expect(img.classList.contains("img-load-failed"), "scrub error marked cover as failed").toBe(false);
+    expect(img.getAttribute("data-fb"), "scrub error consumed fallback chain").toBe(origFb);
+
+    // Mouse leaves scrub strip
+    coverEl.querySelector(".scrub-strip").dispatchEvent(new window.Event("mouseleave"));
+    expect(img.dataset.scrubbing).toBe("false");
+    expect(img.getAttribute("src"), "cover was not restored after scrubbing").toBe(origSrc);
+  });
 });
 
 describe("sort", () => {
@@ -585,6 +610,37 @@ describe("detail drawer", () => {
     expect(dlSec.querySelector("a").href).toContain("dlsite.com/pro/work/=/product_id/VJ008382.html");
   });
 
+  test("催眠学習 Secret Desire (gid 30195 / rank 500) matches DLsite VJ015151 and FANZA next_0304", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const st = G.storeOf("30195");
+    expect(st).toBeTruthy();
+    expect(st.l).toBeTruthy();
+    expect(st.l.id).toBe("VJ015151");
+    expect(st.l.d).toBe("pro");
+    expect(st.l.n).toBe(5);
+    expect(st.l.sm).toEqual(["smpa1", "smpa2", "smpa3", "smpa4", "smpa5"]);
+    expect(st.m).toBeTruthy();
+    expect(st.m.id).toBe("next_0304");
+    expect(st.m.n).toBe(5);
+
+    G.setTab("all");
+    G.openDetail("30195");
+    const dlSec = doc.querySelector(".dsec-dl");
+    expect(dlSec, "DLsite section must exist in drawer").toBeTruthy();
+    const dlImgs = [...dlSec.querySelectorAll(".strip img")];
+    expect(dlImgs.length).toBe(5);
+    expect(dlImgs[0].getAttribute("src")).toContain("VJ015151_img_smpa1_100x100.jpg");
+    expect(dlSec.querySelector("a").href).toContain("dlsite.com/pro/work/=/product_id/VJ015151.html");
+
+    const dmSec = doc.querySelector(".dsec-dmm");
+    expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
+    const dmImgs = [...dmSec.querySelectorAll(".strip img")];
+    expect(dmImgs.length).toBe(5);
+    expect(dmImgs[0].getAttribute("src")).toContain("next_0304/next_0304js-001.jpg");
+    expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/next_0304/");
+  });
+
   test("related strip stays inside #dbody, never links to itself and opens targets", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
@@ -865,6 +921,19 @@ describe("vndb matching guards", () => {
 
   test("exact match ignores spacing around tildes", () => {
     expect(fns().exactPick([V32745], [ITEM.name], ITEM).id).toBe("v32745");
+  });
+
+  test("exact match handles hyphens and punctuation differences (v29779 for 催眠学習 Secret Desire)", () => {
+    const G = fns();
+    const V29779 = {
+      id: "v29779",
+      title: "Saimin Gakushuu -Secret Desire-",
+      alttitle: "催眠学習 -Secret Desire-",
+      released: "2021-03-26"
+    };
+    const item500 = { gid: "30195", name: "催眠学習 Secret Desire", sellday: "2021-03-26" };
+    expect(G.exactPick([V29779], [item500.name], item500)?.id).toBe("v29779");
+    expect(G.containsPick([V29779], item500.name, item500)?.id).toBe("v29779");
   });
 
   test("contains skips a wrong-year first hit", () => {

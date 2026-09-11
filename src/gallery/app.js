@@ -78,15 +78,29 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       .toLowerCase();
   }
 
+  function cleanStr(s) {
+    if (!s) return "";
+    return String(s)
+      .replace(/[\s\u3000~～〜\-_・:：!！?？「」『』()[\]【】―—]+/g, " ")
+      .trim()
+      .toLowerCase();
+  }
+
   function exactPick(candidates, titles, item) {
     if (!candidates || !candidates.length || !titles || !titles.length) return null;
     var targetNorms = titles.map(normStr);
+    var targetCleans = titles.map(cleanStr);
     var matched = [];
     for (var i = 0; i < candidates.length; i++) {
       var c = candidates[i];
       var cT = normStr(c.title);
       var cA = normStr(c.alttitle);
-      if (targetNorms.indexOf(cT) >= 0 || (c.alttitle && targetNorms.indexOf(cA) >= 0)) {
+      var cTClean = cleanStr(c.title);
+      var cAClean = cleanStr(c.alttitle);
+      if (
+        targetNorms.indexOf(cT) >= 0 || (c.alttitle && targetNorms.indexOf(cA) >= 0) ||
+        targetCleans.indexOf(cTClean) >= 0 || (c.alttitle && targetCleans.indexOf(cAClean) >= 0)
+      ) {
         matched.push(c);
       }
     }
@@ -103,12 +117,18 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
   function containsPick(candidates, coreTitle, item) {
     if (!candidates || !candidates.length || !coreTitle) return null;
     var q = normStr(coreTitle);
+    var qClean = cleanStr(coreTitle);
     var matched = [];
     for (var i = 0; i < candidates.length; i++) {
       var c = candidates[i];
       var cT = normStr(c.title);
       var cA = normStr(c.alttitle);
-      if (cT.indexOf(q) >= 0 || (c.alttitle && cA.indexOf(q) >= 0)) {
+      var cTClean = cleanStr(c.title);
+      var cAClean = cleanStr(c.alttitle);
+      if (
+        cT.indexOf(q) >= 0 || (c.alttitle && cA.indexOf(q) >= 0) ||
+        (qClean && (cTClean.indexOf(qClean) >= 0 || (c.alttitle && cAClean.indexOf(qClean) >= 0)))
+      ) {
         matched.push(c);
       }
     }
@@ -412,19 +432,28 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var shots = [];
 
     // Store candidate covers in priority order: 1. FANZA -> 2. DLsite -> 3. Getchu -> 4. VNDB
-    var dmmFull = (st && (st.m || st.m2)) ? dmmPkgUrl((st.m || st.m2).id) : "";
+    var dmEntry = st && (st.m || st.m2);
+    var dmmFull = dmEntry ? dmmPkgUrl(dmEntry.id) : "";
     var dmmThumb = dmmFull; // Use high-res Package Large (pl.jpg) instead of 125px micro-thumb (ps.jpg)
+    var dmmFbs = dmEntry ? dmmPkgFallbacks(dmEntry.id) : [];
+
     var dlFull = (st && st.l) ? dlMainUrl(st.l) : "";
     var dlThumb = dlFull;   // Use high-res _img_main.webp instead of 240x240
+    var dlJpgUrl = (st && st.l) ? dlJpg(dlFull) : "";
+    var dlThumbResized = (st && st.l) ? dlMainThumbUrl(st.l) : "";
+
     var gcCover = (st && st.g) ? (USE_GC ? gcApiCover(st.g.id) : egsImg(item.gid, 1)) : "";
     var gcSample1 = (st && st.g && USE_GC) ? gcApiSample(st.g.id, 1) : "";
     var vndbCover = v && v.img ? v.img : "";
+    var vndbThumb = vndbCover ? vnThumb(vndbCover) : "";
     var egsCover = egsImg(item.gid, 1);
 
     if (view === "dmm" && st && (st.m || st.m2)) {
       full = dmmFull;
       thumb = dmmThumb;
       if (dlThumb) fbList.push(dlThumb);
+      if (dmmFbs && dmmFbs.length) fbList.push.apply(fbList, dmmFbs);
+      if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
       if (gcCover) fbList.push(gcCover);
       if (gcSample1) fbList.push(gcSample1);
       if (vndbCover) fbList.push(vndbCover);
@@ -433,7 +462,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     } else if (view === "dlsite" && st && st.l) {
       full = dlFull;
       thumb = dlThumb;
+      if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
       if (dmmThumb) fbList.push(dmmThumb);
+      if (dmmFbs && dmmFbs.length) fbList.push.apply(fbList, dmmFbs);
       if (gcCover) fbList.push(gcCover);
       if (gcSample1) fbList.push(gcSample1);
       if (vndbCover) fbList.push(vndbCover);
@@ -444,7 +475,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       if (gcSample1) fbList.push(gcSample1);
       if (vndbCover) fbList.push(vndbCover);
       if (dmmThumb) fbList.push(dmmThumb);
+      if (dmmFbs && dmmFbs.length) fbList.push.apply(fbList, dmmFbs);
       if (dlThumb) fbList.push(dlThumb);
+      if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
       var gn = Math.min(st.g.n || 0, 10);
       if (USE_GC && gn > 1) {
         for (var gi = 2; gi <= gn; gi++) shots.push(gcApiSample(st.g.id, gi));
@@ -452,10 +485,12 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     } else if (view === "vndb" && v) {
       if (vndbCover) {
         full = vndbCover;
-        thumb = vnThumb(vndbCover);
+        thumb = vndbThumb || vndbCover;
         if (thumb !== full) fbList.push(full);
         if (dmmThumb) fbList.push(dmmThumb);
+        if (dmmFbs && dmmFbs.length) fbList.push.apply(fbList, dmmFbs);
         if (dlThumb) fbList.push(dlThumb);
+        if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
         if (gcCover) fbList.push(gcCover);
         if (gcSample1) fbList.push(gcSample1);
       }
@@ -466,6 +501,8 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         full = dmmFull;
         thumb = dmmThumb;
         if (dlThumb) fbList.push(dlThumb);
+        if (dmmFbs && dmmFbs.length) fbList.push.apply(fbList, dmmFbs);
+        if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
         if (gcCover) fbList.push(gcCover);
         if (gcSample1) fbList.push(gcSample1);
         if (vndbCover) fbList.push(vndbCover);
@@ -476,7 +513,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       } else if (dlThumb) {
         full = dlFull;
         thumb = dlThumb;
-        if (dlFull && dlFull !== thumb) fbList.push(dlFull);
+        if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
         if (gcCover) fbList.push(gcCover);
         if (gcSample1) fbList.push(gcSample1);
         if (vndbCover) fbList.push(vndbCover);
@@ -488,7 +525,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         if (gcSample1) fbList.push(gcSample1);
         if (vndbCover) fbList.push(vndbCover);
         if (dmmThumb) fbList.push(dmmThumb);
+        if (dmmFbs && dmmFbs.length) fbList.push.apply(fbList, dmmFbs);
         if (dlThumb) fbList.push(dlThumb);
+        if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
         if (egsCover) fbList.push(egsCover);
         var gcn = Math.min(st.g.n || 0, 10);
         if (USE_GC && gcn > 1) {
@@ -497,7 +536,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         if (shots.length === 0 && v && v.shots) shots = v.shots;
       } else if (vndbCover) {
         full = vndbCover;
-        thumb = vnThumb(vndbCover);
+        thumb = vndbThumb || vndbCover;
         if (thumb !== full) fbList.push(full);
         shots = (v && v.shots) || [];
       } else {
@@ -515,7 +554,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     fbList.push(egsCover);
     var fb = fbList
       .filter(function (u, idx, arr) {
-        return u && u !== thumb && arr.indexOf(u) === idx;
+        return u && !sameUrl(u, thumb) && arr.indexOf(u) === idx;
       })
       .join("|");
 
@@ -541,14 +580,42 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     return "med-c";
   }
 
+  function sameUrl(a, b) {
+    if (!a || !b) return false;
+    if (a === b) return true;
+    try {
+      var base = typeof location !== "undefined" ? location.href : "http://localhost/";
+      return new URL(a, base).href === new URL(b, base).href;
+    } catch (e) {
+      return a === b;
+    }
+  }
+
   // Walk the fallback chain, then hide/remove if the image is genuinely gone so it never stays as a 裂图.
   function chainImgErr(el) {
     if (!el) return;
-    var fb = (el.getAttribute("data-fb") || "").split("|").filter(function (u) { return u && u !== el.src; });
+    // Scrubbing error isolation: do not corrupt the card's cover fallback chain if a preview sample fails
+    if (el.dataset && el.dataset.scrubbing === "true") {
+      if (el.dataset.origSrc) {
+        el.setAttribute("src", el.dataset.origSrc);
+        el.src = el.dataset.origSrc;
+      }
+      return;
+    }
+
+    var currentSrc = el.getAttribute("src") || el.src || "";
+    var rawFb = el.getAttribute("data-fb") || "";
+    var fb = rawFb.split("|").filter(function (u) {
+      return u && !sameUrl(u, currentSrc);
+    });
+
     if (fb.length > 0) {
+      var nextUrl = fb[0];
       el.setAttribute("data-fb", fb.slice(1).join("|"));
-      el.setAttribute("data-full", fb[0]);
-      el.src = fb[0];
+      el.setAttribute("data-full", nextUrl);
+      el.setAttribute("src", nextUrl);
+      el.src = nextUrl;
+      if (el.dataset) el.dataset.origSrc = nextUrl;
     } else {
       var strip = el.closest(".strip");
       if (strip) {
@@ -566,7 +633,12 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var src = el.getAttribute("src") || el.src || "";
     if (src.indexOf("nowprinting") !== -1 || (el.naturalWidth === 200 && el.naturalHeight === 200 && (src.indexOf("/gc/") !== -1 || src.indexOf("getchu.com") !== -1))) {
       chainImgErr(el);
+      return;
     }
+    if (el.dataset && el.dataset.scrubbing !== "true") {
+      el.dataset.origSrc = src;
+    }
+    el.classList.remove("img-load-failed");
   }
   window.checkImgLoaded = checkImgLoaded;
 
@@ -684,13 +756,27 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         var seg = document.createElement("div");
         seg.className = "scrub-segment";
         seg.addEventListener("mouseenter", function () {
+          if (!imgEl.dataset.origSrc) {
+            imgEl.dataset.origSrc = imgEl.getAttribute("src") || imgEl.src;
+          }
+          imgEl.dataset.scrubbing = "true";
+          imgEl.setAttribute("src", shotUrl);
           imgEl.src = shotUrl;
         });
         scrubStrip.appendChild(seg);
       });
-      coverEl.addEventListener("mouseleave", function () {
-        imgEl.src = art.thumb;
-      });
+
+      function restoreCover() {
+        imgEl.dataset.scrubbing = "false";
+        var orig = imgEl.dataset.origSrc || art.thumb;
+        if (orig) {
+          imgEl.setAttribute("src", orig);
+          imgEl.src = orig;
+        }
+      }
+
+      scrubStrip.addEventListener("mouseleave", restoreCover);
+      coverEl.addEventListener("mouseleave", restoreCover);
     }
 
     // Manual VNDB Match Button
@@ -2318,6 +2404,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     relatedOf: relatedOf,
     exactPick: exactPick,
     containsPick: containsPick,
+    cleanStr: cleanStr,
     setTab: setTab,
     getTab: getTab,
     getTagSel: getTagSel,
