@@ -841,6 +841,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
                     imgEl.addEventListener("click", function () {
                       openLightbox(imgEl.getAttribute("data-full"), (idx + 1) + " / " + newStripImgs.length + " " + item.name, newStripImgs, idx, item);
                     });
+                    imgEl.addEventListener("mouseenter", function () {
+                      preloadImageUrl(imgEl.getAttribute("data-full") || imgEl.src);
+                    });
                   });
                 }
               }
@@ -911,6 +914,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
                     imgEl.addEventListener("click", function () {
                       openLightbox(imgEl.getAttribute("data-full"), (idx + 1) + " / " + newStripImgs.length + " " + item.name, newStripImgs, idx, item);
                     });
+                    imgEl.addEventListener("mouseenter", function () {
+                      preloadImageUrl(imgEl.getAttribute("data-full") || imgEl.src);
+                    });
                   });
                 }
               }
@@ -976,6 +982,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
                   newStripImgs.forEach(function (imgEl, idx) {
                     imgEl.addEventListener("click", function () {
                       openLightbox(imgEl.getAttribute("data-full"), (idx + 1) + " / " + newStripImgs.length + " " + item.name, newStripImgs, idx, item);
+                    });
+                    imgEl.addEventListener("mouseenter", function () {
+                      preloadImageUrl(imgEl.getAttribute("data-full") || imgEl.src);
                     });
                   });
                 }
@@ -1101,13 +1110,21 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     dbody.scrollTop = 0;
     if (dbody.scrollTo) dbody.scrollTo(0, 0);
 
-    // Attach Lightbox click triggers on strip images
+    // Attach Lightbox click triggers on strip images & predictive hover prefetch
     var stripImages = dbody.querySelectorAll(".strip img");
     stripImages.forEach(function (imgEl, i) {
       imgEl.addEventListener("click", function () {
         openLightbox(imgEl.getAttribute("data-full"), (i + 1) + " / " + stripImages.length + " " + item.name, stripImages, i, item);
       });
+      imgEl.addEventListener("mouseenter", function () {
+        preloadImageUrl(imgEl.getAttribute("data-full") || imgEl.src);
+      });
     });
+
+    // Background prefetch first 2 full screenshots on opening detail
+    for (var pi = 0; pi < Math.min(stripImages.length, 2); pi++) {
+      preloadImageUrl(stripImages[pi].getAttribute("data-full") || stripImages[pi].src);
+    }
 
     // Attach Recommendation card click triggers
     dbody.querySelectorAll(".relcard[data-act='detail']").forEach(function (cardEl) {
@@ -1146,6 +1163,66 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }
   }
 
+  // --- Predictive Image Preloader System ---
+  var preloadedUrls = new Set();
+  var preloadedReady = new Set();
+
+  function preloadImageUrl(url) {
+    if (!url || typeof url !== "string") return;
+    if (preloadedUrls.has(url)) return;
+    preloadedUrls.add(url);
+
+    if (typeof Image === "undefined") return;
+    try {
+      var img = new Image();
+      img.decoding = "async";
+      img.loading = "eager";
+
+      var markReady = function () {
+        preloadedReady.add(url);
+      };
+
+      if (typeof img.decode === "function") {
+        img.src = url;
+        img.decode().then(markReady).catch(markReady);
+      } else {
+        img.onload = markReady;
+        img.onerror = function () {};
+        img.src = url;
+      }
+    } catch (e) {}
+  }
+
+  function preloadFromLbItem(el) {
+    if (!el) return;
+    var fullUrl = (el.getAttribute && el.getAttribute("data-full")) || el.src;
+    if (fullUrl) preloadImageUrl(fullUrl);
+    var fbUrl = el.getAttribute && el.getAttribute("data-fb");
+    if (fbUrl) preloadImageUrl(fbUrl);
+  }
+
+  function preloadLightboxNeighbors(centerIdx, radius) {
+    if (!lbImages || !lbImages.length) return;
+    var len = lbImages.length;
+    if (len <= 1) return;
+    var r = radius || 3;
+    var visited = new Set();
+    visited.add(centerIdx);
+
+    for (var d = 1; d <= r; d++) {
+      var forward = (centerIdx + d) % len;
+      if (!visited.has(forward)) {
+        visited.add(forward);
+        preloadFromLbItem(lbImages[forward]);
+      }
+      var backward = (centerIdx - d + len * 10) % len;
+      if (!visited.has(backward)) {
+        visited.add(backward);
+        preloadFromLbItem(lbImages[backward]);
+      }
+    }
+  }
+
   // --- Zenith Aurora Lightbox Stage ---
   var lbLoadToken = 0;
 
@@ -1161,16 +1238,17 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     if (!stage) return;
 
-    // If image is already fully loaded in memory, clear loading state immediately
-    if (vimg.complete && vimg.naturalWidth > 0) {
+    // If image is already preloaded or in memory cache, show immediately without spinner
+    var isReady = preloadedReady.has(fullUrl) || (vimg.complete && vimg.naturalWidth > 0);
+
+    if (isReady) {
       stage.classList.remove("is-loading");
       vimg.classList.remove("is-switching");
-      return;
+    } else {
+      // Set loading spinner and transition dimming for cold loads
+      stage.classList.add("is-loading");
+      vimg.classList.add("is-switching");
     }
-
-    // Set loading spinner and transition dimming
-    stage.classList.add("is-loading");
-    vimg.classList.add("is-switching");
 
     var cleanup = function () {
       vimg.removeEventListener("load", onLoaded);
@@ -1179,6 +1257,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     var onLoaded = function () {
       cleanup();
+      preloadedReady.add(fullUrl);
       if (token !== lbLoadToken) return;
       stage.classList.remove("is-loading");
       requestAnimationFrame(function () {
@@ -1234,12 +1313,19 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         lbIndex = i;
         updateLightboxState();
       });
+      // Predictive hover prefetch when hovering thumb
+      btn.addEventListener("mouseenter", function () {
+        preloadFromLbItem(imgEl);
+      });
       vthumbs.appendChild(btn);
     });
 
     lb.classList.add("open");
     lb.setAttribute("aria-hidden", "false");
     document.body.classList.add("locked");
+
+    // Predictively preload neighboring full-res images (+1, -1, +2, -2, +3, -3)
+    preloadLightboxNeighbors(lbIndex, 3);
   }
 
   function updateLightboxState() {
@@ -1255,6 +1341,9 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       if (i === lbIndex) t.classList.add("cur");
       else t.classList.remove("cur");
     });
+
+    // Predictively preload neighboring images around the new position
+    preloadLightboxNeighbors(lbIndex, 3);
   }
 
   function closeLightbox() {
@@ -1823,6 +1912,10 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     openLightbox: openLightbox,
     closeLightbox: closeLightbox,
     stepLightbox: stepLightbox,
+    preloadImageUrl: preloadImageUrl,
+    preloadLightboxNeighbors: preloadLightboxNeighbors,
+    preloadedUrls: preloadedUrls,
+    preloadedReady: preloadedReady,
     chainImgErr: chainImgErr
   };
 

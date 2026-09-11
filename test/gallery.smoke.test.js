@@ -666,6 +666,41 @@ describe("lightbox", () => {
     lb.dispatchEvent(wheelDown);
     expect(doc.getElementById("vcap").textContent, "wheel down did not advance").toMatch(/^2 \/ /);
   });
+
+  test("predictively preloads neighboring images and on hover", () => {
+    const { doc, window } = openWithImages();
+    const G = window.GALLERY;
+    expect(G.preloadedUrls, "preloadedUrls Set must exist").toBeTruthy();
+
+    const stripImgs = doc.querySelectorAll("#dbody .strip img");
+    expect(stripImgs.length).toBeGreaterThanOrEqual(2);
+
+    // Initial drawer open should have prefetched the first 2 screenshots
+    expect(G.preloadedUrls.has(stripImgs[0].getAttribute("data-full"))).toBe(true);
+    if (stripImgs.length >= 2) {
+      expect(G.preloadedUrls.has(stripImgs[1].getAttribute("data-full"))).toBe(true);
+    }
+
+    // Hovering a strip image triggers preloading
+    if (stripImgs.length >= 3) {
+      const targetUrl = stripImgs[2].getAttribute("data-full");
+      stripImgs[2].dispatchEvent(new window.Event("mouseenter"));
+      expect(G.preloadedUrls.has(targetUrl)).toBe(true);
+    }
+
+    // Opening lightbox preloads neighboring images (+1, -1, +2, -2, etc.)
+    stripImgs[0].click();
+    expect(G.preloadedUrls.has(stripImgs[1].getAttribute("data-full"))).toBe(true);
+
+    // Hovering a thumbnail button in #vthumbs triggers preloading
+    const thumbs = doc.querySelectorAll("#vthumbs button[data-vi]");
+    if (thumbs.length >= 3) {
+      const lastThumb = thumbs[thumbs.length - 1];
+      const lastImg = stripImgs[thumbs.length - 1];
+      lastThumb.dispatchEvent(new window.Event("mouseenter"));
+      expect(G.preloadedUrls.has(lastImg.getAttribute("data-full"))).toBe(true);
+    }
+  });
 });
 
 describe("vndb matching guards", () => {
