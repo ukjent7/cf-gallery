@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Noto+Serif+SC:wght@600;700;900&display=swap');
+
 /* ==========================================================================
    PROJECT AURA // NOCTURNE VAULT (夜幕缪斯档案馆)
    CF-Gallery CSS Design System & Visual Engine v2.0
@@ -25,8 +27,8 @@
   --accent-cyan: #00D2FF;
 
   /* [TYPOGRAPHY - UNIFIED NOTO FONTS] */
-  --font-serif: "Noto Serif SC", "Noto Serif CJK SC", "Noto Serif JP", "Noto Serif", "Source Han Serif SC", "Source Han Serif", "Songti SC", serif;
-  --font-sans: "Noto Sans SC", "Noto Sans CJK SC", "Noto Sans JP", "Noto Sans", "Source Han Sans SC", "Source Han Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Noto Serif SC", "Noto Serif CJK SC", "思源宋体", "Source Han Serif SC", "Source Han Serif CN", "Noto Serif JP", "Noto Serif", "Songti SC", "SimSun", serif;
+  --font-sans: "Noto Sans SC", "Noto Sans CJK SC", "思源黑体", "Source Han Sans SC", "Source Han Sans CN", "Noto Sans JP", "Noto Sans", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "Space Grotesk", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-editorial: var(--font-serif);
   --font-ui: var(--font-sans);
@@ -67,7 +69,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
@@ -75,7 +77,7 @@ body {
   min-height: 100vh;
   background-color: var(--bg-void);
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body.locked {
@@ -114,7 +116,7 @@ body.safe-mode .relcard:hover .relimg {
 }
 
 /* ==========================================================================
-   Top Minimalist Status Bar
+   Top Minimalist Status Bar (Permanently Pinned at Page Top)
    ========================================================================== */
 .topbar {
   position: sticky;
@@ -122,11 +124,12 @@ body.safe-mode .relcard:hover .relimg {
   left: 0;
   width: 100%;
   height: 52px;
-  background: rgba(6, 6, 10, 0.82);
+  background: rgba(6, 6, 10, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-hairline);
-  z-index: 400;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  z-index: 500;
 }
 
 .topbar-inner {
@@ -947,32 +950,47 @@ article.card:hover {
   color: #FFFFFF;
 }
 
-/* Toggle Pill Label (Only Matched) */
-.toggle-pill-label {
+/* Toggle Pill Label (Only Matched / 只看有图) */
+.dock-matched {
   display: flex;
   align-items: center;
+}
+
+.toggle-pill-label {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
+  height: 38px;
+  padding: 0 14px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border-highlight);
+  border-radius: 19px;
   cursor: pointer;
   user-select: none;
-  font-family: var(--font-sans);
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: #E2E8F0;
-  padding: 4px 10px;
-  border-radius: 16px;
+  transition: all 0.2s var(--spring-snappy);
+}
+
+.toggle-pill-label:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .toggle-pill-label input {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 .toggle-slider {
-  width: 30px;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.16);
-  border-radius: 10px;
   position: relative;
-  transition: background 0.25s ease;
+  width: 28px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+  flex-shrink: 0;
 }
 
 .toggle-slider::after {
@@ -980,19 +998,35 @@ article.card:hover {
   position: absolute;
   top: 2px;
   left: 2px;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   background: #FFFFFF;
   border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   transition: transform 0.25s var(--spring-snappy);
 }
 
 .toggle-pill-label input:checked + .toggle-slider {
   background: var(--accent-crimson);
+  box-shadow: 0 0 10px var(--accent-crimson-glow);
 }
 
 .toggle-pill-label input:checked + .toggle-slider::after {
   transform: translateX(12px);
+}
+
+.toggle-pill-label:has(input:checked) {
+  background: rgba(255, 42, 109, 0.16);
+  border-color: var(--accent-crimson);
+  box-shadow: 0 0 14px var(--accent-crimson-subtle);
+}
+
+.toggle-text {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-lumina);
+  white-space: nowrap;
 }
 
 /* Dock Pill Buttons */
@@ -1173,30 +1207,49 @@ article.card:hover {
   overscroll-behavior: contain;
 }
 
-/* Pavilion Dual-Column Layout inside Detail Drawer */
+/* Pavilion 3-Column Flanking Layout inside Detail Drawer */
 .pavilion-layout {
-  display: flex;
-  gap: 32px;
-  align-items: flex-start;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: 220px minmax(0, 1fr) 220px;
+  grid-template-areas: "relL main relR";
+  align-items: start;
   width: 100%;
 }
 
+.pavilion-layout.single-rel {
+  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-areas: "relL main";
+}
+
+.pavilion-layout.no-rel {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "main";
+}
+
 .pavilion-main {
-  flex: 1 1 0;
+  grid-area: main;
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 36px;
 }
 
-.pavilion-side {
-  width: 300px;
-  flex-shrink: 0;
+.relrail.left {
+  grid-area: relL;
+}
+
+.relrail.right {
+  grid-area: relR;
+}
+
+.relrail {
   position: sticky;
   top: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
 }
 
 .drawer-section {
@@ -1273,64 +1326,51 @@ article.card:hover {
   transform: translateY(-1px);
 }
 
-/* Side Rail Recommendation Shelf (常驻侧边栏) */
-.drawer-section.dsec-rel {
-  background: rgba(22, 19, 34, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  padding: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.drawer-section.dsec-rel h3 {
-  border-left: 4px solid var(--accent-violet);
-  padding-left: 10px;
-  font-size: 1.05rem;
-  color: #FFFFFF;
-  margin-bottom: 2px;
-}
-
-.relstrip {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: min(65vh, 640px);
-  overflow-y: auto;
-  padding-right: 4px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+/* Flanking Recommendation Rails & Large Cover Cards */
+.relhead {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-lumina);
+  border-left: 3px solid var(--accent-violet);
+  padding-left: 8px;
+  margin: 0 0 2px 0;
+  text-transform: uppercase;
 }
 
 .relcard {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  background: rgba(15, 13, 23, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 8px;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  background: none;
+  border: 0;
+  padding: 0;
   cursor: pointer;
-  transition: transform 0.2s var(--spring-snappy), border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  outline: none;
 }
 
-.relcard:hover {
-  transform: translateX(4px);
-  background: rgba(30, 26, 48, 0.95);
-  border-color: var(--accent-violet);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 16px var(--accent-violet-glow);
-}
-
-.relcard .relimg-wrap {
-  width: 52px;
-  height: 68px;
-  flex-shrink: 0;
-  border-radius: 8px;
+.relcard .relcover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
   overflow: hidden;
-  background: #000000;
+  background: var(--bg-velvet);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  transition: transform 0.25s var(--spring-snappy), border-color 0.2s ease, box-shadow 0.25s ease;
+}
+
+.relcard:hover .relcover,
+.relcard:focus-visible .relcover {
+  transform: translateY(-4px);
+  border-color: var(--accent-crimson);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 20px var(--accent-crimson-glow);
 }
 
 .relcard img.relimg {
@@ -1338,11 +1378,11 @@ article.card:hover {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.25s ease;
+  transition: transform 0.3s ease;
 }
 
 .relcard:hover img.relimg {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 .relcard .relnocover {
@@ -1352,61 +1392,103 @@ article.card:hover {
   align-items: center;
   justify-content: center;
   font-family: var(--font-sans);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   background: rgba(255, 255, 255, 0.04);
 }
 
-.relcard .relinfo {
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.relcard .relrank {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 2;
 }
 
-.relcard .reltitle {
-  font-family: var(--font-sans);
-  font-size: 0.84rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  line-height: 1.35;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.relcard .relmed {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .relcard .relmeta {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 0 2px;
+}
+
+.relcard .relname {
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  transition: color 0.2s ease;
+}
+
+.relcard:hover .relname {
+  color: var(--accent-crimson);
+}
+
+.relcard .hint {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   color: var(--text-muted);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.relcard .relscore {
-  color: var(--accent-gilded);
-  font-weight: 700;
+.reltag {
+  display: inline-block;
+  padding: 1px 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #E2E8F0;
+  margin-right: 2px;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1240px) {
   .pavilion-layout {
-    flex-direction: column;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "main"
+      "relL"
+      "relR";
+    gap: 28px;
   }
-  .pavilion-side {
-    width: 100%;
+  .relrail {
     position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
   }
-  .relstrip {
-    flex-direction: row;
-    max-height: none;
-    overflow-x: auto;
-    padding-bottom: 8px;
-  }
-  .relcard {
-    flex: 0 0 240px;
+  .relrail .relhead {
+    grid-column: 1 / -1;
   }
 }
 

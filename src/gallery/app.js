@@ -1043,41 +1043,58 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       '</div>'
     );
 
-    // Side Rail: Related Games (同社团 / 同系列关联推荐 - 左右常驻侧边栏)
-    var sideHtml = "";
+    // Side Rails: Related Games (Flanking Left & Right Rails with Large Covers)
     var related = relatedOf(item, v);
-    if (related.length > 0) {
-      sideHtml =
-        '<aside class="pavilion-side">' +
-          '<div class="drawer-section dsec-rel">' +
-            '<h3 id="dsec-h-rel">同社团 / 系列关联推荐 (' + related.length + ')</h3>' +
-            '<div class="relstrip">' +
-              related.map(function (r) {
-                var rArt = getArtworkFor(r, currentTab);
-                return (
-                  '<div class="relcard" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
-                    '<div class="relimg-wrap">' +
-                      (rArt.thumb ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '" alt="' + escHtml(r.name) + '" loading="lazy" decoding="async">' : '<div class="relnocover">无封面</div>') +
-                    '</div>' +
-                    '<div class="relinfo">' +
-                      '<div class="reltitle">' + escHtml(r.name) + '</div>' +
-                      '<div class="relmeta">' +
-                        (r.median ? '<span class="relscore">中央值 ' + r.median + '</span>' : '') +
-                        (r.sellday ? '<span>' + escHtml(r.sellday.slice(0, 4)) + '</span>' : '') +
-                      '</div>' +
-                    '</div>' +
-                  '</div>'
-                );
-              }).join("") +
-            '</div>' +
+    var relRailLeftHtml = "";
+    var relRailRightHtml = "";
+
+    function createRelCardHtml(r) {
+      var rArt = getArtworkFor(r, currentTab);
+      var tagLabel = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? " · " : "") + (r.sameSeries ? "系列" : "");
+      var medClass = getMedClass(r.median);
+
+      return (
+        '<button type="button" class="relcard" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
+          '<div class="relcover">' +
+            (rArt.thumb
+              ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '" alt="' + escHtml(r.name) + '" loading="lazy" decoding="async" onerror="chainImgErr(this)">'
+              : '<div class="relnocover">无封面</div>') +
+            '<div class="relrank">#' + r.rank + '</div>' +
+            (r.median ? '<div class="relmed ' + medClass + '">' + r.median + '</div>' : '') +
           '</div>' +
+          '<div class="relmeta">' +
+            '<div class="relname">' + escHtml(r.name) + '</div>' +
+            '<div class="hint">' + (tagLabel ? '<span class="reltag">' + escHtml(tagLabel) + '</span> ' : '') + escHtml(r.brand || "未知") + (r.sellday ? ' · ' + escHtml(r.sellday.slice(0, 4)) : '') + '</div>' +
+          '</div>' +
+        '</button>'
+      );
+    }
+
+    if (related.length > 0) {
+      var mid = Math.ceil(related.length / 2);
+      var leftList = related.slice(0, mid);
+      var rightList = related.slice(mid);
+
+      relRailLeftHtml =
+        '<aside class="relrail left" aria-label="左侧同社/系列推荐">' +
+          '<h4 class="relhead">相关推荐 (同社/系列)</h4>' +
+          leftList.map(createRelCardHtml).join("") +
         '</aside>';
+
+      if (rightList.length > 0) {
+        relRailRightHtml =
+          '<aside class="relrail right" aria-label="右侧关联作品">' +
+            '<h4 class="relhead">关联作品</h4>' +
+            rightList.map(createRelCardHtml).join("") +
+          '</aside>';
+      }
     }
 
     var bodyHtml =
-      '<div class="pavilion-layout">' +
+      '<div class="relstrip pavilion-layout' + (related.length === 0 ? ' no-rel' : (related.length === 1 ? ' single-rel' : '')) + '">' +
+        relRailLeftHtml +
         '<div class="pavilion-main">' + mainSections.join("") + '</div>' +
-        sideHtml +
+        relRailRightHtml +
       '</div>';
 
     dbody.innerHTML = bodyHtml;
@@ -1577,15 +1594,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var fateReroll = document.getElementById("fateRerollBtn");
     if (fateReroll) fateReroll.addEventListener("click", triggerFateRoller);
 
-    // 14. Tag Drawer Toggle Button
-    var tagDrawerBtn = document.getElementById("tagDrawerBtn");
-    var tagRow = document.getElementById("tagrow");
-    if (tagDrawerBtn && tagRow) {
-      tagDrawerBtn.addEventListener("click", function () {
-        tagRow.hidden = !tagRow.hidden;
-        playBeep(450, "sine", 0.03);
-      });
-    }
 
     // 16. Global Master Keyboard Shortcuts
     document.addEventListener("keydown", function (e) {
