@@ -457,7 +457,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       if (gcCover) fbList.push(gcCover);
       if (gcSample1) fbList.push(gcSample1);
       if (vndbCover) fbList.push(vndbCover);
-      var dn = Math.min((st.m || st.m2).n || 0, 10);
+      var dn = Math.min((st.m || st.m2).n || 0, DMM_SAMPLE_CAP);
       for (var di = 1; di <= dn; di++) shots.push(dmmSampleBig((st.m || st.m2).id, di));
     } else if (view === "dlsite" && st && st.l) {
       full = dlFull;
@@ -478,7 +478,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       if (dmmFbs && dmmFbs.length) fbList.push.apply(fbList, dmmFbs);
       if (dlThumb) fbList.push(dlThumb);
       if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
-      var gn = Math.min(st.g.n || 0, 10);
+      var gn = Math.min(st.g.n || 0, GETCHU_SAMPLE_CAP);
       if (USE_GC && gn > 1) {
         for (var gi = 2; gi <= gn; gi++) shots.push(gcApiSample(st.g.id, gi));
       }
@@ -506,7 +506,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         if (gcCover) fbList.push(gcCover);
         if (gcSample1) fbList.push(gcSample1);
         if (vndbCover) fbList.push(vndbCover);
-        var dmn = Math.min((st.m || st.m2).n || 0, 10);
+        var dmn = Math.min((st.m || st.m2).n || 0, DMM_SAMPLE_CAP);
         for (var dmi = 1; dmi <= dmn; dmi++) shots.push(dmmSampleBig((st.m || st.m2).id, dmi));
         if (shots.length === 0 && dlThumb) shots = dlSamples(st.l);
         if (shots.length === 0 && v && v.shots) shots = v.shots;
@@ -529,7 +529,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         if (dlThumb) fbList.push(dlThumb);
         if (dlJpgUrl && dlJpgUrl !== dlThumb) fbList.push(dlJpgUrl);
         if (egsCover) fbList.push(egsCover);
-        var gcn = Math.min(st.g.n || 0, 10);
+        var gcn = Math.min(st.g.n || 0, GETCHU_SAMPLE_CAP);
         if (USE_GC && gcn > 1) {
           for (var gci = 2; gci <= gcn; gci++) shots.push(gcApiSample(st.g.id, gci));
         }
@@ -1060,7 +1060,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (dmmList.length > 0) {
       var dmmSamples = [];
       dmmList.forEach(function (dm) {
-        var n = Math.min(dm.n || 0, 10);
+        var n = Math.min(dm.n || 0, DMM_SAMPLE_CAP);
         for (var i = 1; i <= n; i++) {
           dmmSamples.push({
             big: dmmSampleBig(dm.id, i),
@@ -1101,7 +1101,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
                 var lc = dsecDmm.querySelector('[data-livecount="dmm"]');
                 if (strip) {
                   var newSamples = [];
-                  for (var k = 1; k <= Math.min(res.n, 10); k++) {
+                  for (var k = 1; k <= Math.min(res.n, DMM_SAMPLE_CAP); k++) {
                     var sSmall = dmmSampleSmall(dmmList[0].id, k);
                     var sBig = dmmSampleBig(dmmList[0].id, k);
                     newSamples.push('<img src="' + escHtml(sSmall) + '" data-full="' + escHtml(sBig) + '" alt="FANZA sample" loading="lazy" decoding="async">');
@@ -1131,7 +1131,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (st && st.g) {
       var gc = st.g;
       var gcSamples = [];
-      var gn = Math.min(gc.n || 0, 10);
+      var gn = Math.min(gc.n || 0, GETCHU_SAMPLE_CAP);
       // Sample 1 is the package cover; promotional samples start from sample 2
       if (USE_GC && gn > 1) {
         for (var gi = 2; gi <= gn; gi++) {
@@ -1170,7 +1170,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
                 var lc = dsecGc.querySelector('[data-livecount="gc"]');
                 if (strip) {
                   var newImgs = [];
-                  for (var k = 2; k <= Math.min(res.n, 10); k++) {
+                  for (var k = 2; k <= Math.min(res.n, GETCHU_SAMPLE_CAP); k++) {
                     var su = gcApiSample(gc.id, k);
                     newImgs.push('<img src="' + escHtml(su) + '" data-full="' + escHtml(su) + '" alt="Getchu sample" loading="lazy" decoding="async" onerror="chainImgErr(this)">');
                   }

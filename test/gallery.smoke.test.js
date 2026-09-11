@@ -659,7 +659,7 @@ describe("detail drawer", () => {
     const dmSec = doc.querySelector(".dsec-dmm");
     expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
     const dmImgs = [...dmSec.querySelectorAll(".strip img")];
-    expect(dmImgs.length).toBe(10);
+    expect(dmImgs.length, "all 12 FANZA frames render, no display cap").toBe(12);
     expect(dmImgs[0].getAttribute("src")).toContain("next_0407/next_0407js-001.jpg");
     expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/next_0407/");
 
@@ -696,7 +696,7 @@ describe("detail drawer", () => {
     const gcSec = doc.querySelector(".dsec-gc");
     expect(gcSec, "Getchu section must exist in drawer").toBeTruthy();
     const gcImgs = [...gcSec.querySelectorAll(".strip img")];
-    expect(gcImgs.length).toBe(9);
+    expect(gcImgs.length, "samples 2..12 all render, no display cap").toBe(11);
     expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/1185921/2.jpg");
     expect(gcSec.querySelector("a").href).toContain("getchu.com/soft.phtml?id=1185921");
   });
