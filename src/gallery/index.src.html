@@ -70,6 +70,10 @@
 
     <!-- Workspace Container (Supports Mode A Stream, Mode B Split Cockpit, Mode C Runway) -->
     <div class="workspace-viewport" id="workspace">
+      <!-- Mode C Runway Navigation Chevrons -->
+      <button type="button" id="runwayPrevBtn" class="runway-nav-arrow runway-prev" aria-label="上一作品" title="上一作品 [← / A]">❮</button>
+      <button type="button" id="runwayNextBtn" class="runway-nav-arrow runway-next" aria-label="下一作品" title="下一作品 [→ / D]">❯</button>
+
       <!-- Left Stream / Main Grid -->
       <div class="showcase-stream" id="showcaseStream">
         <section id="grid" class="grid-showcase" data-view="all"></section>
@@ -78,13 +82,13 @@
         </div>
       </div>
 
-      <!-- Mode B: Curator Inspector Cockpit (Sticky 40% Panel for Split View) -->
+      <!-- Mode B: Curator Inspector Cockpit (Sticky Panel for Split View) -->
       <aside class="inspector-cockpit" id="inspectorCockpit" aria-label="策展人检视台">
         <div class="cockpit-sticky-card" id="cockpitContent">
           <div class="cockpit-placeholder">
             <div class="cockpit-icon">🔬</div>
             <div class="cockpit-title">策展人检视台已就绪</div>
-            <p class="cockpit-desc">将光标移至藏品上方，或按 <code>J</code> / <code>K</code> 快速锁定作品以获取超清原画及批评空间遥测仪盘。</p>
+            <p class="cockpit-desc">将光标移至左侧作品上方，或按 <code>J</code> / <code>K</code> 快速锁定作品以获取超清样张及批评空间遥测仪盘。</p>
           </div>
         </div>
       </aside>

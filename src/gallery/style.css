@@ -457,15 +457,19 @@ body.safe-mode .relcard:hover .relimg {
   gap: 36px !important;
 }
 
-/* Mode B: Curator Inspector Split */
+/* ==========================================================================
+   Mode B: Curator Split Inspector Cockpit (检视模式)
+   ========================================================================== */
 body.mode-b .workspace-viewport {
   display: grid;
-  grid-template-columns: 1fr 480px;
-  gap: 32px;
+  grid-template-columns: 1fr 500px;
+  gap: 28px;
+  align-items: start;
 }
 
+/* Left Grid: Multi-column responsive compact cards instead of awkward stretched full-width rows */
 body.mode-b .grid-showcase {
-  grid-template-columns: 1fr !important;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)) !important;
   gap: 16px !important;
 }
 
@@ -474,27 +478,16 @@ body.mode-b .cardwrap {
 }
 
 body.mode-b article.card {
-  flex-direction: row;
-  height: 180px;
-}
-
-body.mode-b .cover {
-  width: 135px;
-  height: 100%;
-  flex-shrink: 0;
-  border-radius: 14px 0 0 14px;
-}
-
-body.mode-b .cinfo {
-  flex: 1;
-  display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 16px 20px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.25s var(--spring-snappy), box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.inspector-cockpit {
-  display: none;
+body.mode-b .cardwrap.cockpit-active article.card {
+  border-color: var(--accent-crimson);
+  box-shadow: 0 0 0 2px var(--accent-crimson), 0 10px 30px rgba(255, 42, 109, 0.45);
+  transform: translateY(-4px);
 }
 
 body.mode-b .inspector-cockpit {
@@ -504,17 +497,20 @@ body.mode-b .inspector-cockpit {
 .cockpit-sticky-card {
   position: sticky;
   top: 76px;
-  height: calc(100vh - 170px);
+  height: calc(100vh - 160px);
+  max-height: 900px;
   background: var(--bg-card);
   border: 1px solid var(--border-hairline);
-  border-radius: 18px;
-  padding: 24px;
+  border-radius: 20px;
+  padding: 22px;
   overflow-y: auto;
   box-shadow: var(--shadow-card);
+  scrollbar-width: thin;
 }
 
 .cockpit-placeholder {
   height: 100%;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -530,7 +526,7 @@ body.mode-b .inspector-cockpit {
 }
 
 .cockpit-title {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-lumina);
 }
@@ -548,35 +544,529 @@ body.mode-b .inspector-cockpit {
   color: var(--accent-crimson);
 }
 
-/* Mode C: Cinema Panoramic Runway */
+/* Cockpit Curator Live View */
+.cockpit-curator-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cockpit-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.cockpit-cover-thumb {
+  position: relative;
+  width: 76px;
+  height: 102px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-velvet);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-subtle);
+}
+
+.cockpit-cover-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cockpit-rank-tag {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  color: #FFF;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cockpit-header-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cockpit-score-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cockpit-votes {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.cockpit-pov-pill {
+  font-size: 0.72rem;
+  background: rgba(255, 42, 109, 0.15);
+  color: var(--accent-crimson);
+  border: 1px solid rgba(255, 42, 109, 0.3);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.cockpit-curator-view .cockpit-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #FFFFFF;
+  margin: 2px 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cockpit-brand-date {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cockpit-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.cockpit-chip {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-lumina);
+}
+
+.cockpit-chip:hover {
+  filter: brightness(1.25);
+  transform: translateY(-1px);
+}
+
+.cockpit-chip.dl {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: rgba(0, 240, 255, 0.35);
+  color: #38bdf8;
+}
+
+.cockpit-chip.dmm {
+  background: rgba(255, 107, 0, 0.15);
+  border-color: rgba(255, 107, 0, 0.35);
+  color: #fb923c;
+}
+
+.cockpit-chip.gc {
+  background: rgba(255, 42, 109, 0.15);
+  border-color: rgba(255, 42, 109, 0.35);
+  color: #f472b6;
+}
+
+.cockpit-chip.vn {
+  background: rgba(168, 85, 247, 0.15);
+  border-color: rgba(168, 85, 247, 0.35);
+  color: #c084fc;
+}
+
+.cockpit-chip.egs {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+}
+
+/* Live Screenshot Preview Stage */
+.cockpit-preview-wrap {
+  width: 100%;
+}
+
+.cockpit-preview-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #030206;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  cursor: zoom-in;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cockpit-preview-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.cockpit-preview-stage:hover img {
+  transform: scale(1.02);
+}
+
+.cockpit-stage-scrim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: #E2E8F0;
+  pointer-events: none;
+}
+
+.cockpit-stage-label {
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.cockpit-stage-action {
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+/* Filmstrip Thumbnails Track */
+.cockpit-filmstrip-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cockpit-sec-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-lumina);
+}
+
+.cockpit-sec-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.cockpit-filmstrip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 2px;
+  scrollbar-width: thin;
+}
+
+.cockpit-film-item {
+  width: 68px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+  border: 2px solid transparent;
+  cursor: pointer;
+  opacity: 0.65;
+  transition: all 0.2s ease;
+}
+
+.cockpit-film-item.active {
+  border-color: var(--accent-crimson);
+  opacity: 1;
+  box-shadow: 0 0 12px rgba(255, 42, 109, 0.5);
+  transform: scale(1.05);
+}
+
+.cockpit-film-item:hover {
+  opacity: 1;
+  border-color: rgba(255, 42, 109, 0.5);
+}
+
+.cockpit-film-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tags Section */
+.cockpit-tags-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cockpit-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cockpit-tag {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cockpit-tag:hover {
+  background: rgba(255, 42, 109, 0.2);
+  border-color: var(--accent-crimson);
+  color: #FFF;
+}
+
+.cockpit-actions {
+  margin-top: 6px;
+}
+
+.cockpit-btn-primary {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  background: linear-gradient(135deg, rgba(255, 42, 109, 0.25), rgba(168, 85, 247, 0.25));
+  border: 1px solid rgba(255, 42, 109, 0.4);
+  color: #FFF;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cockpit-btn-primary:hover {
+  background: linear-gradient(135deg, rgba(255, 42, 109, 0.4), rgba(168, 85, 247, 0.4));
+  border-color: var(--accent-crimson);
+  box-shadow: 0 4px 20px rgba(255, 42, 109, 0.4);
+}
+
+@media (max-width: 1200px) {
+  body.mode-b .workspace-viewport {
+    grid-template-columns: 1fr 420px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 960px) {
+  body.mode-b .workspace-viewport {
+    grid-template-columns: 1fr;
+  }
+  body.mode-b .inspector-cockpit {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Mode C: Cinematic Panoramic Runway (跑道模式)
+   ========================================================================== */
+body.mode-c .workspace-viewport {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+body.mode-c .showcase-stream {
+  width: 100%;
+}
+
 body.mode-c .grid-showcase {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  padding: 40px 10vw;
+  padding: 30px max(6vw, calc(50vw - 250px)) 120px;
   gap: 36px;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+body.mode-c .grid-showcase::-webkit-scrollbar {
+  display: none;
 }
 
 body.mode-c .cardwrap {
-  flex: 0 0 520px;
+  flex: 0 0 500px;
+  max-width: 500px;
   scroll-snap-align: center;
-  transition: transform 0.4s var(--spring-smooth), opacity 0.4s ease, filter 0.4s ease;
+  scroll-snap-stop: always;
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 0.35s ease, filter 0.35s ease, box-shadow 0.35s ease;
 }
 
 body.mode-c .cardwrap.runway-active {
-  transform: scale(1.06);
+  transform: scale(1.05);
   opacity: 1;
   filter: none;
   z-index: 10;
 }
 
+body.mode-c .cardwrap.runway-active article.card {
+  border-color: var(--accent-crimson);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 0 2px var(--accent-crimson), 0 0 35px rgba(255, 42, 109, 0.4);
+}
+
 body.mode-c .cardwrap:not(.runway-active) {
-  transform: scale(0.88);
-  opacity: 0.5;
-  filter: blur(1px);
+  transform: scale(0.92);
+  opacity: 0.65;
+  filter: brightness(0.85);
+}
+
+/* Widescreen theater aspect ratio in Mode C */
+body.mode-c article.card {
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-card);
+}
+
+body.mode-c .cover {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+}
+
+body.mode-c .cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  transition: transform 0.5s ease;
+}
+
+body.mode-c .cardwrap.runway-active .cover img {
+  transform: scale(1.04);
+}
+
+body.mode-c .cinfo {
+  padding: 20px 24px;
+}
+
+body.mode-c .ctitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.mode-c .cline {
+  font-size: 0.86rem;
+}
+
+/* In-card sample preview strip for Mode C */
+.runway-shots {
+  display: none;
+}
+
+body.mode-c .runway-shots {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.runway-shot-thumb {
+  width: 76px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.runway-shot-thumb:hover {
+  transform: scale(1.08);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+  z-index: 2;
+}
+
+/* Floating Navigation Chevrons for Mode C */
+.runway-nav-arrow {
+  display: none;
+}
+
+body.mode-c .runway-nav-arrow {
+  display: flex;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(15, 14, 23, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #FFF;
+  font-size: 1.4rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.25s var(--spring-snappy);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+body.mode-c .runway-nav-arrow.runway-prev {
+  left: 24px;
+}
+
+body.mode-c .runway-nav-arrow.runway-next {
+  right: 24px;
+}
+
+body.mode-c .runway-nav-arrow:hover {
+  background: var(--accent-crimson);
+  border-color: var(--accent-crimson);
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 0 28px rgba(255, 42, 109, 0.6);
+}
+
+body.mode-c .runway-nav-arrow:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Hide load more in Mode C because runway auto-paginates on scroll */
+body.mode-c .loadzone {
+  display: none;
 }
 
 /* ==========================================================================
