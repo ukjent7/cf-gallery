@@ -671,6 +671,36 @@ describe("detail drawer", () => {
     expect(gcSec.querySelector("a").href).toContain("getchu.com/soft.phtml?id=1274775");
   });
 
+  test("搾精病棟 (gid 32809 / rank 291) matches FANZA next_0353 and Getchu 1185921", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const st = G.storeOf("32809");
+    expect(st).toBeTruthy();
+    expect(st.m).toBeTruthy();
+    expect(st.m.id).toBe("next_0353");
+    expect(st.m.n).toBe(4);
+    expect(st.g).toBeTruthy();
+    expect(st.g.id).toBe("1185921");
+    expect(st.g.n).toBe(12);
+
+    G.setTab("all");
+    G.openDetail("32809");
+
+    const dmSec = doc.querySelector(".dsec-dmm");
+    expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
+    const dmImgs = [...dmSec.querySelectorAll(".strip img")];
+    expect(dmImgs.length).toBe(4);
+    expect(dmImgs[0].getAttribute("src")).toContain("next_0353/next_0353js-001.jpg");
+    expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/next_0353/");
+
+    const gcSec = doc.querySelector(".dsec-gc");
+    expect(gcSec, "Getchu section must exist in drawer").toBeTruthy();
+    const gcImgs = [...gcSec.querySelectorAll(".strip img")];
+    expect(gcImgs.length).toBe(9);
+    expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/1185921/2.jpg");
+    expect(gcSec.querySelector("a").href).toContain("getchu.com/soft.phtml?id=1185921");
+  });
+
   test("related strip stays inside #dbody, never links to itself and opens targets", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
