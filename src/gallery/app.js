@@ -51,23 +51,21 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
   function saveLive() {
     if (typeof localStorage === "undefined") return;
-    var obj = {};
-    for (var [k, v] of liveCache.entries()) {
-      obj[k] = v;
-    }
-    var str = JSON.stringify(obj);
-    if (str.length > LIVE_BUDGET) {
-      var keys = Object.keys(obj);
-      while (str.length > LIVE_BUDGET && keys.length > 0) {
-        var evict = keys.shift();
-        delete obj[evict];
-        str = JSON.stringify(obj);
+    var kept = [];
+    liveCache.forEach(function (v, k) {
+      if (v && !_CACHE[k]) kept.push(k);
+    });
+    for (;;) {
+      var o = {};
+      for (var i = 0; i < kept.length; i++) o[kept[i]] = liveCache.get(kept[i]);
+      var s = JSON.stringify(o);
+      if (s.length <= LIVE_BUDGET) {
+        try { localStorage.setItem(LIVE_KEY, s); } catch (e) { /* private mode */ }
+        return;
       }
-    }
-    try {
-      localStorage.setItem(LIVE_KEY, str);
-    } catch (err) {
-      console.warn("saveLive warning:", err);
+      if (!kept.length) return;
+      var drop = Math.max(1, Math.ceil(kept.length * (1 - LIVE_BUDGET / s.length)));
+      kept = kept.slice(drop);
     }
   }
 
@@ -687,6 +685,28 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     // Collect Store Image Strips
     var bodyHtml = "";
 
+    // 0. Related Games Strip (同社团 / 同系列关联推荐) - Prominently at the top!
+    var related = relatedOf(item, v);
+    if (related.length > 0) {
+      bodyHtml +=
+        '<div class="drawer-section dsec-rel">' +
+          '<h3 id="dsec-h-rel">同社团 / 系列关联推荐 (' + related.length + ')</h3>' +
+          '<div class="relstrip">' +
+            related.map(function (r) {
+              var rArt = getArtworkFor(r, currentTab);
+              return (
+                '<div class="relcard" data-act="detail" data-gid="' + r.gid + '">' +
+                  '<div class="relimg-wrap">' +
+                    (rArt.thumb ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '" alt="' + escHtml(r.name) + '" loading="lazy">' : '<div class="relnocover">无封面</div>') +
+                  '</div>' +
+                  '<div class="reltitle">' + escHtml(r.name) + '</div>' +
+                '</div>'
+              );
+            }).join("") +
+          '</div>' +
+        '</div>';
+    }
+
     // 1. DLsite Section
     if (st && st.l) {
       var dlSt = st.l;
@@ -805,27 +825,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         '</div>' +
       '</div>';
 
-    // 6. Related Games Strip
-    var related = relatedOf(item, v);
-    if (related.length > 0) {
-      bodyHtml +=
-        '<div class="drawer-section dsec-rel">' +
-          '<h3 id="dsec-h-rel">同社团 / 系列藏品推荐 (' + related.length + ')</h3>' +
-          '<div class="relstrip">' +
-            related.map(function (r) {
-              var rArt = getArtworkFor(r, currentTab);
-              return (
-                '<div class="relcard" data-act="detail" data-gid="' + r.gid + '">' +
-                  '<div class="relimg-wrap">' +
-                    (rArt.thumb ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '" alt="' + escHtml(r.name) + '" loading="lazy">' : '<div class="relnocover">无封面</div>') +
-                  '</div>' +
-                  '<div class="reltitle">' + escHtml(r.name) + '</div>' +
-                '</div>'
-              );
-            }).join("") +
-          '</div>' +
-        '</div>';
-    }
 
     dbody.innerHTML = bodyHtml;
 
