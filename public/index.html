@@ -1623,7 +1623,7 @@ article.card:hover {
   pointer-events: none;
   visibility: hidden;
   transition: opacity 0.3s var(--spring-cinematic), visibility 0.3s ease;
-  cursor: zoom-out;
+  cursor: default;
 }
 
 .lightbox-top-hud, .lightbox-bottom-hud, .lb-nav-arrow, .lightbox-controls, .lightbox-thumb-strip {
@@ -1688,7 +1688,7 @@ article.card:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  cursor: zoom-out;
+  cursor: default;
 }
 
 .lightbox-image-stage {
@@ -1699,7 +1699,7 @@ article.card:hover {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  cursor: zoom-out;
+  cursor: default;
 }
 
 .lb-spinner {
@@ -2289,9 +2289,8 @@ article.card:hover {
     <div class="lightbox-bottom-hud">
       <div id="vthumbs" class="lightbox-thumb-strip"></div>
       <div class="lightbox-shortcuts-hint">
-        <span><code>←</code> / <code>→</code> 切换</span>
-        <span><code>滚轮</code> 平滑缩放</span>
-        <span><code>ESC</code> 退出</span>
+        <span><code>←</code> / <code>→</code> / <code>滚轮</code> 切换图片</span>
+        <span><code>ESC</code> / <code>点击背景</code> 退出鉴赏</span>
       </div>
     </div>
   </div>
@@ -3905,6 +3904,13 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }
   }
 
+  function stepLightbox(delta) {
+    if (!lbImages.length) return;
+    lbIndex = (lbIndex + delta + lbImages.length) % lbImages.length;
+    updateLightboxState();
+    playBeep(450, "sine", 0.02);
+  }
+
   // --- VNDB Live Lookup Stub/Handler ---
   function triggerVndbFetch(gid, item, force) {
     if (!item) return;
@@ -4140,18 +4146,14 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var vprev = document.getElementById("vprev");
     if (vprev) {
       vprev.addEventListener("click", function () {
-        if (!lbImages.length) return;
-        lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
-        updateLightboxState();
+        stepLightbox(-1);
       });
     }
 
     var vnext = document.getElementById("vnext");
     if (vnext) {
       vnext.addEventListener("click", function () {
-        if (!lbImages.length) return;
-        lbIndex = (lbIndex + 1) % lbImages.length;
-        updateLightboxState();
+        stepLightbox(1);
       });
     }
 
@@ -4166,9 +4168,34 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       });
     }
 
-    // Allow closing lightbox by clicking backdrop/viewport outside image and controls
+    // Mouse wheel image switching with inertia throttle
+    var lastLbWheelTime = 0;
     var lbEl = document.getElementById("lightbox");
     if (lbEl) {
+      lbEl.addEventListener("wheel", function (e) {
+        if (!lbEl.classList.contains("open") || !lbImages.length) return;
+        // Keep natural scroll on bottom thumbnail strip
+        if (e.target.closest("#vthumbs")) return;
+
+        if (e.preventDefault) e.preventDefault();
+
+        var now = Date.now();
+        if (now - lastLbWheelTime < 180) return;
+
+        var dy = e.deltaY;
+        var dx = e.deltaX;
+        if (dy === undefined && dx === undefined) return;
+        if (Math.abs(dy || 0) < 6 && Math.abs(dx || 0) < 6) return;
+
+        lastLbWheelTime = now;
+        if ((dy !== undefined && dy > 0) || (dx !== undefined && dx > 0)) {
+          stepLightbox(1);
+        } else {
+          stepLightbox(-1);
+        }
+      }, { passive: false });
+
+      // Allow closing lightbox by clicking backdrop/viewport outside image and controls
       lbEl.addEventListener("click", function (e) {
         if (
           e.target.closest("#vimg") ||
@@ -4427,6 +4454,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     closeDetail: closeDetail,
     openLightbox: openLightbox,
     closeLightbox: closeLightbox,
+    stepLightbox: stepLightbox,
     chainImgErr: chainImgErr
   };
 

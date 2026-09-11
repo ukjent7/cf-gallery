@@ -1272,6 +1272,13 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }
   }
 
+  function stepLightbox(delta) {
+    if (!lbImages.length) return;
+    lbIndex = (lbIndex + delta + lbImages.length) % lbImages.length;
+    updateLightboxState();
+    playBeep(450, "sine", 0.02);
+  }
+
   // --- VNDB Live Lookup Stub/Handler ---
   function triggerVndbFetch(gid, item, force) {
     if (!item) return;
@@ -1507,18 +1514,14 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var vprev = document.getElementById("vprev");
     if (vprev) {
       vprev.addEventListener("click", function () {
-        if (!lbImages.length) return;
-        lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
-        updateLightboxState();
+        stepLightbox(-1);
       });
     }
 
     var vnext = document.getElementById("vnext");
     if (vnext) {
       vnext.addEventListener("click", function () {
-        if (!lbImages.length) return;
-        lbIndex = (lbIndex + 1) % lbImages.length;
-        updateLightboxState();
+        stepLightbox(1);
       });
     }
 
@@ -1533,9 +1536,34 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       });
     }
 
-    // Allow closing lightbox by clicking backdrop/viewport outside image and controls
+    // Mouse wheel image switching with inertia throttle
+    var lastLbWheelTime = 0;
     var lbEl = document.getElementById("lightbox");
     if (lbEl) {
+      lbEl.addEventListener("wheel", function (e) {
+        if (!lbEl.classList.contains("open") || !lbImages.length) return;
+        // Keep natural scroll on bottom thumbnail strip
+        if (e.target.closest("#vthumbs")) return;
+
+        if (e.preventDefault) e.preventDefault();
+
+        var now = Date.now();
+        if (now - lastLbWheelTime < 180) return;
+
+        var dy = e.deltaY;
+        var dx = e.deltaX;
+        if (dy === undefined && dx === undefined) return;
+        if (Math.abs(dy || 0) < 6 && Math.abs(dx || 0) < 6) return;
+
+        lastLbWheelTime = now;
+        if ((dy !== undefined && dy > 0) || (dx !== undefined && dx > 0)) {
+          stepLightbox(1);
+        } else {
+          stepLightbox(-1);
+        }
+      }, { passive: false });
+
+      // Allow closing lightbox by clicking backdrop/viewport outside image and controls
       lbEl.addEventListener("click", function (e) {
         if (
           e.target.closest("#vimg") ||
@@ -1794,6 +1822,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     closeDetail: closeDetail,
     openLightbox: openLightbox,
     closeLightbox: closeLightbox,
+    stepLightbox: stepLightbox,
     chainImgErr: chainImgErr
   };
 

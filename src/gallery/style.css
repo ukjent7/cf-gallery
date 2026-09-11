@@ -1616,7 +1616,7 @@ article.card:hover {
   pointer-events: none;
   visibility: hidden;
   transition: opacity 0.3s var(--spring-cinematic), visibility 0.3s ease;
-  cursor: zoom-out;
+  cursor: default;
 }
 
 .lightbox-top-hud, .lightbox-bottom-hud, .lb-nav-arrow, .lightbox-controls, .lightbox-thumb-strip {
@@ -1681,7 +1681,7 @@ article.card:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  cursor: zoom-out;
+  cursor: default;
 }
 
 .lightbox-image-stage {
@@ -1692,7 +1692,7 @@ article.card:hover {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  cursor: zoom-out;
+  cursor: default;
 }
 
 .lb-spinner {

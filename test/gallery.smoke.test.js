@@ -653,6 +653,19 @@ describe("lightbox", () => {
     doc.getElementById("lbViewport").click();
     expect(lb.classList.contains("open"), "clicking viewport backdrop should close lightbox").toBe(false);
   });
+
+  test("mouse wheel switches images in lightbox", () => {
+    const { doc, window } = openWithImages();
+    doc.querySelector("#dbody .strip img").click(); // open
+    expect(doc.getElementById("vcap").textContent).toMatch(/^1 \/ /);
+
+    const lb = doc.getElementById("lightbox");
+    // Scroll down (deltaY > 0) -> advance to image 2
+    const wheelDown = new window.Event("wheel", { bubbles: true, cancelable: true });
+    wheelDown.deltaY = 100;
+    lb.dispatchEvent(wheelDown);
+    expect(doc.getElementById("vcap").textContent, "wheel down did not advance").toMatch(/^2 \/ /);
+  });
 });
 
 describe("vndb matching guards", () => {
