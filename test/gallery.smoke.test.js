@@ -488,6 +488,19 @@ describe("detail drawer", () => {
     expect(doc.getElementById("dbody").textContent).toContain("VNDB搜索");
   });
 
+  test("媚肉の香り (gid 10035) renders FANZA screenshots with correct sample URLs", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    G.setTab("all");
+    G.openDetail("10035");
+    const dsec = doc.querySelector(".dsec-dmm");
+    expect(dsec, "FANZA section must exist for 媚肉の香り").toBeTruthy();
+    const imgs = [...dsec.querySelectorAll(".strip img")];
+    expect(imgs.length, "FANZA screenshots must have 10 images").toBe(10);
+    expect(imgs[4].getAttribute("src")).toContain("elf_0032/elf_0032js-005.jpg");
+    expect(imgs[4].getAttribute("data-full")).toBe("https://pics.dmm.co.jp/digital/pcgame/elf_0032/elf_0032jp-005.jpg");
+  });
+
   test("related strip stays inside #dbody, never links to itself and opens targets", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;

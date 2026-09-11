@@ -868,18 +868,24 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           });
         }
       });
+      var dmmCover = dmmPkgUrl(dmmList[0].id);
+      var displayDmmSamples = dmmSamples.length > 0;
+
       mainSections.push(
         '<div class="drawer-section dsec-dmm">' +
-          '<h3 id="dsec-h-dmm">FANZA 截帧图集 (<span data-livecount="dmm">' + dmmSamples.length + '</span>)</h3>' +
+          '<h3 id="dsec-h-dmm">FANZA 截帧图集 (<span data-livecount="dmm">' + (dmmSamples.length || (dmmCover ? 1 : 0)) + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
             dmmList.map(function (dm) {
               return '<a href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA ' + escHtml(dmmFloorLabel(dm.id)) + ' (' + escHtml(dm.id) + ')</a>';
             }).join("") +
           '</div>' +
           '<div class="strip">' +
-            dmmSamples.map(function (s) {
-              return '<img src="' + escHtml(s.small) + '" data-full="' + escHtml(s.big) + '" alt="FANZA sample" loading="lazy" decoding="async">';
-            }).join("") +
+            (displayDmmSamples
+              ? dmmSamples.map(function (s) {
+                  return '<img src="' + escHtml(s.small) + '" data-full="' + escHtml(s.big) + '" alt="FANZA sample" loading="lazy" decoding="async">';
+                }).join("")
+              : (dmmCover ? '<img src="' + escHtml(dmmCover) + '" data-full="' + escHtml(dmmCover) + '" alt="FANZA cover" loading="lazy" decoding="async">' : '')
+            ) +
           '</div>' +
         '</div>'
       );
@@ -887,7 +893,35 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       // Live DMM meta check
       if (USE_GC && !sessionMetaCache.has("dm:" + dmmList[0].id)) {
         sessionMetaCache.add("dm:" + dmmList[0].id);
-        fetch(dmApiMeta(dmmList[0].id)).then(function (r) { return r.json(); }).catch(function () { return null; });
+        fetch(dmApiMeta(dmmList[0].id))
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res && typeof res.n === "number" && res.n > 0) {
+              dmmList[0].n = res.n;
+              var dsecDmm = document.querySelector(".dsec-dmm");
+              if (dsecDmm) {
+                var strip = dsecDmm.querySelector(".strip");
+                var lc = dsecDmm.querySelector('[data-livecount="dmm"]');
+                if (strip) {
+                  var newSamples = [];
+                  for (var k = 1; k <= Math.min(res.n, 10); k++) {
+                    var sSmall = dmmSampleSmall(dmmList[0].id, k);
+                    var sBig = dmmSampleBig(dmmList[0].id, k);
+                    newSamples.push('<img src="' + escHtml(sSmall) + '" data-full="' + escHtml(sBig) + '" alt="FANZA sample" loading="lazy" decoding="async">');
+                  }
+                  strip.innerHTML = newSamples.join("");
+                  if (lc) lc.textContent = String(newSamples.length);
+                  var newStripImgs = strip.querySelectorAll("img");
+                  newStripImgs.forEach(function (imgEl, idx) {
+                    imgEl.addEventListener("click", function () {
+                      openLightbox(imgEl.getAttribute("data-full"), (idx + 1) + " / " + newStripImgs.length + " " + item.name, newStripImgs, idx, item);
+                    });
+                  });
+                }
+              }
+            }
+          })
+          .catch(function () { return null; });
       }
     }
 
