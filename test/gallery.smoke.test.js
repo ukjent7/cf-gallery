@@ -207,18 +207,28 @@ describe("cards", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
 
-    // YU-NO (gid 2093, rank 5) is on page 1
+    // YU-NO (gid 2093, rank 5) is on page 1 and now carries a FANZA cover, so
+    // the store cover leads and VNDB stays in the chain behind it.
     const yunoCard = doc.querySelector('#grid article.card[data-gid="2093"]');
     expect(yunoCard, "YU-NO card must be rendered in first page").toBeTruthy();
     const yunoImg = yunoCard.querySelector(".cover img");
     expect(yunoImg, "YU-NO cover img must exist").toBeTruthy();
+    expect(yunoImg.getAttribute("src")).toContain("fanzagames_0054/fanzagames_0054pl.jpg");
     const yunoFb = yunoImg.getAttribute("data-fb") || "";
     expect(yunoFb).toContain("https://t.vndb.org/cv/29/59029.jpg");
 
+    // 鬼畜王ランス (gid 204, rank 12) is the remaining page-1 item with no store
+    // row at all, so it is the degenerate case: VNDB thumb, full art behind it.
+    const ranceCard = doc.querySelector('#grid article.card[data-gid="204"]');
+    expect(ranceCard, "鬼畜王ランス card must be rendered in first page").toBeTruthy();
+    const ranceImg = ranceCard.querySelector(".cover img");
+    expect(ranceImg.getAttribute("src")).toBe("https://t.vndb.org/cv.t/51/91051.jpg");
+    expect(ranceImg.getAttribute("data-fb") || "").toContain("https://t.vndb.org/cv/51/91051.jpg");
+
     // Simulating chainImgErr on error recovers to the full cover without failing
-    window.chainImgErr(yunoImg);
-    expect(yunoImg.getAttribute("src")).toBe("https://t.vndb.org/cv/29/59029.jpg");
-    expect(yunoImg.classList.contains("img-load-failed")).toBe(false);
+    window.chainImgErr(ranceImg);
+    expect(ranceImg.getAttribute("src")).toBe("https://t.vndb.org/cv/51/91051.jpg");
+    expect(ranceImg.classList.contains("img-load-failed")).toBe(false);
 
     // クロスブリードジョーカー (gid 28137, rank 45) -> click more to paginate
     doc.getElementById("more").click();
@@ -742,6 +752,34 @@ describe("detail drawer", () => {
     expect(dlImgs.length).toBe(11);
     expect(dlImgs[0].getAttribute("src")).toContain("VJ01002625_img_smp1_100x100.jpg");
     expect(dlSec.querySelector("a").href).toContain("dlsite.com/pro/work/=/product_id/VJ01002625.html");
+  });
+
+  test("audit fill-ins render for YU-NO (2093), 魔女狩りの夜に (721) and 僕色に染まる叔母 (34226)", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    // gid, FANZA cid, FANZA frames, Getchu id, Getchu samples, expected strip length
+    const cases = [
+      ["2093", "fanzagames_0054", 8, "1214730", 14, 13],
+      ["721", "ail_0033", 10, "673897", 5, 4],
+      ["34226", "next_0381", 16, "1228375", 4, 3],
+    ];
+    for (const [gid, cid, dn, gcid, gn, gcLen] of cases) {
+      const st = G.storeOf(gid);
+      expect(st, "store row for " + gid).toBeTruthy();
+      expect(st.m.id).toBe(cid);
+      expect(st.m.n).toBe(dn);
+      expect(st.g.id).toBe(gcid);
+      expect(st.g.n).toBe(gn);
+
+      G.setTab("all");
+      G.openDetail(gid);
+      const dmImgs = [...doc.querySelectorAll(".dsec-dmm .strip img")];
+      expect(dmImgs.length, gid + " FANZA frames").toBe(dn);
+      expect(dmImgs[0].getAttribute("src")).toContain(cid + "/" + cid + "js-001.jpg");
+      const gcImgs = [...doc.querySelectorAll(".dsec-gc .strip img")];
+      expect(gcImgs.length, gid + " Getchu frames").toBe(gcLen);
+      expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/" + gcid + "/2.jpg");
+    }
   });
 
   test("related strip stays inside #dbody, never links to itself and opens targets", () => {
