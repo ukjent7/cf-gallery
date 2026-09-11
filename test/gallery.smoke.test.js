@@ -202,6 +202,35 @@ describe("cards", () => {
     uncached.querySelector('[data-act="fetch"]').click();
     expect(doc.getElementById("drawer").classList.contains("open"), "fetch button opened the drawer").toBe(false);
   });
+
+  test("cards provide fallback chain including full VNDB and store covers for degenerate items (YU-NO, etc.)", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+
+    // YU-NO (gid 2093, rank 5) is on page 1
+    const yunoCard = doc.querySelector('#grid article.card[data-gid="2093"]');
+    expect(yunoCard, "YU-NO card must be rendered in first page").toBeTruthy();
+    const yunoImg = yunoCard.querySelector(".cover img");
+    expect(yunoImg, "YU-NO cover img must exist").toBeTruthy();
+    const yunoFb = yunoImg.getAttribute("data-fb") || "";
+    expect(yunoFb).toContain("https://t.vndb.org/cv/29/59029.jpg");
+
+    // Simulating chainImgErr on error recovers to the full cover without failing
+    window.chainImgErr(yunoImg);
+    expect(yunoImg.getAttribute("src")).toBe("https://t.vndb.org/cv/29/59029.jpg");
+    expect(yunoImg.classList.contains("img-load-failed")).toBe(false);
+
+    // クロスブリードジョーカー (gid 28137, rank 45) -> click more to paginate
+    doc.getElementById("more").click();
+    const cbCard = doc.querySelector('#grid article.card[data-gid="28137"]');
+    expect(cbCard, "クロスブリードジョーカー card must exist").toBeTruthy();
+    const cbImg = cbCard.querySelector(".cover img");
+    const cbFb = cbImg.getAttribute("data-fb") || "";
+    expect(cbFb).toContain("https://t.vndb.org/cv/90/39590.jpg");
+    window.chainImgErr(cbImg);
+    expect(cbImg.getAttribute("src")).toBe("https://t.vndb.org/cv/90/39590.jpg");
+    expect(cbImg.classList.contains("img-load-failed")).toBe(false);
+  });
 });
 
 describe("sort", () => {

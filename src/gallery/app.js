@@ -354,76 +354,105 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     var thumb = "";
     var full = "";
-    var fb = null;
+    var fbList = [];
     var shots = [];
 
+    var vndbCover = v && v.img ? v.img : "";
+    var dlThumb = (st && st.l) ? dlMainThumbUrl(st.l) : "";
+    var dlFull = (st && st.l) ? dlMainUrl(st.l) : "";
+    var dmmThumb = (st && (st.m || st.m2)) ? dmmPkgThumb((st.m || st.m2).id) : "";
+    var dmmFull = (st && (st.m || st.m2)) ? dmmPkgUrl((st.m || st.m2).id) : "";
+    var gcCover = (st && st.g) ? (USE_GC ? gcApiCover(st.g.id) : egsImg(item.gid, 1)) : "";
+    var egsCover = egsImg(item.gid, 1);
+
     if (view === "vndb" && v) {
-      if (v.img) {
-        full = v.img;
-        thumb = vnThumb(v.img);
-        fb = egsImg(item.gid, 1);
+      if (vndbCover) {
+        full = vndbCover;
+        thumb = vnThumb(vndbCover);
+        if (thumb !== full) fbList.push(full);
+        if (dlThumb) fbList.push(dlThumb);
+        if (dmmThumb) fbList.push(dmmThumb);
+        if (gcCover) fbList.push(gcCover);
       }
       if (v.shots && v.shots.length) shots = v.shots;
     } else if (view === "dlsite" && st && st.l) {
-      full = dlMainUrl(st.l);
-      thumb = dlMainThumbUrl(st.l);
-      fb = egsImg(item.gid, 1);
+      full = dlFull;
+      thumb = dlThumb;
+      if (dlFull && dlFull !== thumb) fbList.push(dlFull);
+      if (vndbCover) fbList.push(vndbCover);
+      if (dmmThumb) fbList.push(dmmThumb);
+      if (gcCover) fbList.push(gcCover);
       shots = dlSamples(st.l);
     } else if (view === "dmm" && st && (st.m || st.m2)) {
-      var m = st.m || st.m2;
-      full = dmmPkgUrl(m.id);
-      thumb = dmmPkgThumb(m.id);
-      fb = egsImg(item.gid, 1);
-      var dn = Math.min(m.n || 0, 10);
-      for (var di = 1; di <= dn; di++) shots.push(dmmSampleBig(m.id, di));
+      full = dmmFull;
+      thumb = dmmThumb;
+      if (dmmFull && dmmFull !== thumb) fbList.push(dmmFull);
+      if (vndbCover) fbList.push(vndbCover);
+      if (dlThumb) fbList.push(dlThumb);
+      if (gcCover) fbList.push(gcCover);
+      var dn = Math.min((st.m || st.m2).n || 0, 10);
+      for (var di = 1; di <= dn; di++) shots.push(dmmSampleBig((st.m || st.m2).id, di));
     } else if (view === "getchu" && st && st.g) {
-      full = USE_GC ? gcApiCover(st.g.id) : egsImg(item.gid, 1);
+      full = gcCover || egsCover;
       thumb = full;
-      fb = egsImg(item.gid, 1);
+      if (vndbCover) fbList.push(vndbCover);
+      if (dlThumb) fbList.push(dlThumb);
+      if (dmmThumb) fbList.push(dmmThumb);
       var gn = Math.min(st.g.n || 0, 10);
       if (USE_GC) {
         for (var gi = 1; gi <= gn; gi++) shots.push(gcApiSample(st.g.id, gi));
       }
     } else {
       // View: all
-      if (v && v.img) {
-        full = v.img;
-        thumb = vnThumb(v.img);
-        fb = egsImg(item.gid, 1);
+      if (vndbCover) {
+        full = vndbCover;
+        thumb = vnThumb(vndbCover);
+        if (thumb !== full) fbList.push(full);
+        if (dlThumb) fbList.push(dlThumb);
+        if (dmmThumb) fbList.push(dmmThumb);
+        if (gcCover) fbList.push(gcCover);
         shots = v.shots || [];
-      } else if (st && st.l) {
-        full = dlMainUrl(st.l);
-        thumb = dlMainThumbUrl(st.l);
-        fb = egsImg(item.gid, 1);
+      } else if (dlThumb) {
+        full = dlFull;
+        thumb = dlThumb;
+        if (dlFull && dlFull !== thumb) fbList.push(dlFull);
+        if (dmmThumb) fbList.push(dmmThumb);
+        if (gcCover) fbList.push(gcCover);
         shots = dlSamples(st.l);
-      } else if (st && (st.m || st.m2)) {
-        var dm = st.m || st.m2;
-        full = dmmPkgUrl(dm.id);
-        thumb = dmmPkgThumb(dm.id);
-        fb = egsImg(item.gid, 1);
-        var dmn = Math.min(dm.n || 0, 10);
-        for (var dmi = 1; dmi <= dmn; dmi++) shots.push(dmmSampleBig(dm.id, dmi));
-      } else if (st && st.g) {
-        full = USE_GC ? gcApiCover(st.g.id) : egsImg(item.gid, 1);
-        thumb = full;
-        fb = egsImg(item.gid, 1);
+      } else if (dmmThumb) {
+        full = dmmFull;
+        thumb = dmmThumb;
+        if (dmmFull && dmmFull !== thumb) fbList.push(dmmFull);
+        if (gcCover) fbList.push(gcCover);
+        var dmn = Math.min((st.m || st.m2).n || 0, 10);
+        for (var dmi = 1; dmi <= dmn; dmi++) shots.push(dmmSampleBig((st.m || st.m2).id, dmi));
+      } else if (gcCover) {
+        full = gcCover;
+        thumb = gcCover;
         var gcn = Math.min(st.g.n || 0, 10);
         if (USE_GC) {
           for (var gci = 1; gci <= gcn; gci++) shots.push(gcApiSample(st.g.id, gci));
         }
       } else {
-        full = egsImg(item.gid, 1);
-        thumb = full;
+        full = egsCover;
+        thumb = egsCover;
       }
     }
 
     if (!full) {
-      full = egsImg(item.gid, 1);
+      full = egsCover;
       thumb = full;
     }
     if (!thumb) thumb = full;
 
-    return { thumb: thumb, full: full, shots: shots, fb: fb };
+    fbList.push(egsCover);
+    var fb = fbList
+      .filter(function (u, idx, arr) {
+        return u && u !== thumb && arr.indexOf(u) === idx;
+      })
+      .join("|");
+
+    return { thumb: thumb, full: full, shots: shots, fb: fb || null };
   }
 
   function escHtml(s) {
@@ -1066,7 +1095,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         '<button type="button" class="relcard" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
           '<div class="relcover">' +
             (rArt.thumb
-              ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '" alt="' + escHtml(r.name) + '" loading="lazy" decoding="async" onerror="chainImgErr(this)">'
+              ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '"' + (rArt.fb ? ' data-fb="' + escHtml(rArt.fb) + '"' : '') + ' alt="' + escHtml(r.name) + '" loading="lazy" decoding="async" onerror="chainImgErr(this)">'
               : '<div class="relnocover">无封面</div>') +
             '<div class="relrank">#' + r.rank + '</div>' +
             (r.median ? '<div class="relmed ' + medClass + '">' + r.median + '</div>' : '') +
