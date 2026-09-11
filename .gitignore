@@ -5,3 +5,5 @@ dist-check.js
 tmp/
 __pycache__/
 *.sig
+DESIGN_SPEC.md
+scripts/fetch_vndb_tags.ts

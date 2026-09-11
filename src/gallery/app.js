@@ -897,15 +897,31 @@ var STATS = (function () {
 function adapter() { return ADAPTERS[TAB]; }
 
 // --- cards -----------------------------------------------------------------------
+function medClass(m) {
+  if (!m) return "";
+  if (m >= 90) return "med-90";
+  if (m >= 85) return "med-85";
+  if (m >= 80) return "med-80";
+  if (m >= 70) return "med-70";
+  return "";
+}
+
+function rankClass(r) {
+  if (r === 1) return "rank rank-1";
+  if (r === 2) return "rank rank-2";
+  if (r === 3) return "rank rank-3";
+  return "rank";
+}
+
 function storeDotsHtml(st, v) {
   var dots = [
-    ["D", !!dlEntry(st), "DLsite"],
-    ["F", dmmEntries(st).length > 0, "FANZA"],
-    ["G", !!gcEntry(st), "Getchu"],
-    ["V", !!v, "VNDB"],
+    ["D", !!dlEntry(st), "DLsite", "sdot-d"],
+    ["F", dmmEntries(st).length > 0, "FANZA", "sdot-f"],
+    ["G", !!gcEntry(st), "Getchu", "sdot-g"],
+    ["V", !!v, "VNDB", "sdot-v"],
   ];
   return '<span class="storedots">' + dots.map(function (dot) {
-    return '<span class="sdot' + (dot[1] ? " on" : "") + '" title="' + dot[2] + '">' + dot[0] + "</span>";
+    return '<span class="sdot ' + dot[3] + (dot[1] ? " on" : "") + '" title="' + dot[2] + '">' + dot[0] + "</span>";
   }).join("") + "</span>";
 }
 
@@ -930,9 +946,11 @@ function cardHtml(item, v) {
     ? ' <span class="cardtag" title="EGS注册标签">' + itemTags.map(esc).join("・") + "</span>"
     : "";
   var link = a.link(item, st, v);
+  var mc = medClass(item.median);
+  var medPill = item.median ? '<span class="medpill' + (mc ? ' ' + mc : '') + '" title="中央值">' + item.median + "</span>" : "";
   return '<div class="cover">' + coverHtml + '<div class="scrim"></div>' +
-      '<span class="rank">#' + item.rank + "</span>" +
-      (item.median ? '<span class="medpill" title="中央值">' + item.median + "</span>" : "") +
+      '<span class="' + rankClass(item.rank) + '">#' + item.rank + "</span>" +
+      medPill +
       storeDotsHtml(st, v) + manual + "</div>" +
     '<div class="cmeta"><h3 class="ctitle">' + esc(item.name) + "</h3>" +
       '<p class="csub">' + esc(item.brand) + " · " + esc(item.sellday) + "</p>" +
