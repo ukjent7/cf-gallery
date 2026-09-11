@@ -20631,6 +20631,24 @@
       "page": "https://www.getchu.com/soft.phtml?id=1275798"
     }
   },
+  "36010": {
+    "dlsite": {
+      "id": "VJ01002625",
+      "wt": "professional",
+      "folder": "VJ01003000",
+      "domain": "pro",
+      "n": 11,
+      "page": "https://www.dlsite.com/pro/work/=/product_id/VJ01002625.html"
+    },
+    "dmm": {
+      "id": "root_0068",
+      "n": 10
+    },
+    "getchu": {
+      "id": "1274199",
+      "page": "https://www.getchu.com/soft.phtml?id=1274199"
+    }
+  },
   "36162": {
     "dlsite": {
       "id": "VJ01002394",

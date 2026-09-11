@@ -701,6 +701,49 @@ describe("detail drawer", () => {
     expect(gcSec.querySelector("a").href).toContain("getchu.com/soft.phtml?id=1185921");
   });
 
+  test("魔法閃士フェアリーバレット (gid 36010 / rank 589) matches FANZA root_0068, Getchu 1274199 and DLsite VJ01002625", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const st = G.storeOf("36010");
+    expect(st).toBeTruthy();
+    expect(st.m).toBeTruthy();
+    expect(st.m.id).toBe("root_0068");
+    expect(st.m.n).toBe(10);
+    expect(st.g).toBeTruthy();
+    expect(st.g.id).toBe("1274199");
+    expect(st.g.n).toBe(3);
+    expect(st.l).toBeTruthy();
+    expect(st.l.id).toBe("VJ01002625");
+    expect(st.l.d).toBe("pro");
+    expect(st.l.n).toBe(11);
+    // Stems were never harvested; the count alone is stored, so the payload
+    // must carry the `un` flag that makes the gallery self-heal from live meta.
+    expect(st.l.un).toBe(1);
+
+    G.setTab("all");
+    G.openDetail("36010");
+
+    const dmSec = doc.querySelector(".dsec-dmm");
+    expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
+    const dmImgs = [...dmSec.querySelectorAll(".strip img")];
+    expect(dmImgs.length).toBe(10);
+    expect(dmImgs[0].getAttribute("src")).toContain("root_0068/root_0068js-001.jpg");
+    expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/root_0068/");
+
+    const gcSec = doc.querySelector(".dsec-gc");
+    expect(gcSec, "Getchu section must exist in drawer").toBeTruthy();
+    const gcImgs = [...gcSec.querySelectorAll(".strip img")];
+    expect(gcImgs.length, "samples 2..3").toBe(2);
+    expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/1274199/2.jpg");
+
+    const dlSec = doc.querySelector(".dsec-dl");
+    expect(dlSec, "DLsite section must exist in drawer").toBeTruthy();
+    const dlImgs = [...dlSec.querySelectorAll(".strip img")];
+    expect(dlImgs.length).toBe(11);
+    expect(dlImgs[0].getAttribute("src")).toContain("VJ01002625_img_smp1_100x100.jpg");
+    expect(dlSec.querySelector("a").href).toContain("dlsite.com/pro/work/=/product_id/VJ01002625.html");
+  });
+
   test("related strip stays inside #dbody, never links to itself and opens targets", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
