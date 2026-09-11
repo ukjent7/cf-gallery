@@ -1321,6 +1321,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       var engine = {
         vp: vp,
         track: track,
+        pos: vp.scrollTop || 0,
         paused: false,
         pauseUntil: 0
       };
@@ -1330,17 +1331,25 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       });
       vp.addEventListener("mouseleave", function () {
         engine.paused = false;
-        engine.pauseUntil = Date.now() + 500;
+        engine.pauseUntil = Date.now() + 400;
+        engine.pos = vp.scrollTop;
       });
       vp.addEventListener("wheel", function () {
-        engine.pauseUntil = Date.now() + 1400;
+        engine.pauseUntil = Date.now() + 1200;
+        engine.pos = vp.scrollTop;
       }, { passive: true });
       vp.addEventListener("touchstart", function () {
         engine.paused = true;
       }, { passive: true });
       vp.addEventListener("touchend", function () {
         engine.paused = false;
-        engine.pauseUntil = Date.now() + 800;
+        engine.pauseUntil = Date.now() + 600;
+        engine.pos = vp.scrollTop;
+      }, { passive: true });
+      vp.addEventListener("scroll", function () {
+        if (engine.paused || Date.now() < engine.pauseUntil) {
+          engine.pos = vp.scrollTop;
+        }
       }, { passive: true });
 
       relAutoScrollEngines.push(engine);
@@ -1349,7 +1358,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (!relAutoScrollEngines.length) return;
 
     var lastTime = performance.now();
-    var SPEED_PX_PER_SEC = 28; // calm, elegant continuous stream speed
+    var SPEED_PX_PER_SEC = 85; // brisk, engaging showcase speed (~3.8s per card)
 
     function tick(now) {
       var dt = (now - lastTime) / 1000;
@@ -1365,18 +1374,21 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         var halfHeight = track.scrollHeight / 2;
         if (halfHeight <= 0) return;
 
-        // Seamless wrap around boundary
-        if (vp.scrollTop >= halfHeight) {
-          vp.scrollTop -= halfHeight;
-        } else if (vp.scrollTop < 0) {
-          vp.scrollTop += halfHeight;
-        }
-
         if (eng.paused || nowMs < eng.pauseUntil) {
+          eng.pos = vp.scrollTop;
           return;
         }
 
-        vp.scrollTop += SPEED_PX_PER_SEC * dt;
+        eng.pos += SPEED_PX_PER_SEC * dt;
+
+        // Seamless wrap around boundary
+        if (eng.pos >= halfHeight) {
+          eng.pos -= halfHeight;
+        } else if (eng.pos < 0) {
+          eng.pos += halfHeight;
+        }
+
+        vp.scrollTop = eng.pos;
       });
 
       relScrollAnimationId = requestAnimationFrame(tick);
