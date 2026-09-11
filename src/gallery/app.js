@@ -216,7 +216,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
   var currentTab = "all";
   var currentSort = "rank";
   var currentDensity = 0; // 0: auto, 1: compact, 2: large
-  var currentMode = "A"; // A: Stream, B: Split, C: Runway
   var minMed = 0;
   var tagSel = [];
   var onlyMatched = false;
@@ -465,73 +464,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
   }
   window.chainImgErr = chainImgErr;
 
-  // --- Multi-Source Sample CG Collector ---
-  function collectItemSamples(item) {
-    var gid = String(item.gid);
-    var st = storeOf(gid) || {};
-    var v = liveCache.get(gid) || (_CACHE[gid] || null);
-    var samples = [];
-
-    // 1. DLsite
-    if (st && st.l) {
-      var stems = dlStems(st.l);
-      stems.forEach(function (s, idx) {
-        samples.push({
-          thumb: dlSampleThumbUrl(st.l, s),
-          full: dlSampleUrl(st.l, s),
-          label: "DLsite 样张 " + (idx + 1),
-          source: "DLsite"
-        });
-      });
-    }
-
-    // 2. FANZA
-    var dmmList = dmmEntries(st);
-    if (dmmList.length > 0) {
-      dmmList.forEach(function (dm) {
-        var n = Math.min(dm.n || 0, 10);
-        for (var i = 1; i <= n; i++) {
-          samples.push({
-            thumb: dmmSampleSmall(dm.id, i),
-            full: dmmSampleBig(dm.id, i),
-            label: "FANZA 截帧 " + i,
-            source: "FANZA"
-          });
-        }
-      });
-    }
-
-    // 3. Getchu
-    if (st && st.g) {
-      var gn = Math.min(st.g.n || 0, 10);
-      if (USE_GC) {
-        for (var gi = 1; gi <= gn; gi++) {
-          var su = gcApiSample(st.g.id, gi);
-          samples.push({
-            thumb: su,
-            full: su,
-            label: "Getchu 样本 " + gi,
-            source: "Getchu"
-          });
-        }
-      }
-    }
-
-    // 4. VNDB
-    if (v && v.shots && v.shots.length > 0) {
-      v.shots.forEach(function (u, idx) {
-        samples.push({
-          thumb: vnThumb(u),
-          full: u,
-          label: "VNDB 原画 " + (idx + 1),
-          source: "VNDB"
-        });
-      });
-    }
-
-    return samples;
-  }
-
   // --- Card Element Factory ---
   function createCardElement(item) {
     var gid = String(item.gid);
@@ -585,16 +517,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     // Always ensure at least 2 links and one containing erogamescape
     var egsLinkHtml = '<a href="' + escHtml(egsUrl(item.gid)) + '" target="_blank" rel="noopener">批评空间</a>';
 
-    // In-card sample preview strip for Mode C (Cinematic Runway)
-    var runwayShotsHtml = "";
-    if (art.shots && art.shots.length > 0) {
-      runwayShotsHtml = '<div class="runway-shots" aria-label="样张预览">';
-      art.shots.slice(0, 4).forEach(function (shotUrl, sIdx) {
-        runwayShotsHtml += '<img class="runway-shot-thumb" src="' + escHtml(shotUrl) + '" data-full="' + escHtml(shotUrl) + '" alt="样张 ' + (sIdx + 1) + '" loading="lazy" decoding="async" onerror="chainImgErr(this)">';
-      });
-      runwayShotsHtml += '</div>';
-    }
-
     article.innerHTML =
       '<div class="cover" data-act="detail">' +
         '<img data-full="' + escHtml(art.full) + '" src="' + escHtml(art.thumb) + '"' +
@@ -615,7 +537,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         '<div class="ctitle" title="' + escHtml(item.name) + '">' + escHtml(item.name) + '</div>' +
         '<div class="cline">中央值 ' + (item.median || "-") + ' · 评分 ' + (item.count2 || "-") + '人 · POV: ' + (item.povs || "寝取") + '</div>' +
         (tagsHtml ? '<div class="cardtag">' + tagsHtml + '</div>' : '') +
-        runwayShotsHtml +
         '<div class="cacts">' +
           storeLinksHtml +
           egsLinkHtml +
@@ -631,35 +552,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       }
       playBeep(520, "sine", 0.04);
       openDetail(gid);
-    });
-
-    // Wire in-card sample thumbnails click (opens lightbox directly)
-    article.querySelectorAll(".runway-shot-thumb").forEach(function (thumbEl, sIdx) {
-      thumbEl.addEventListener("click", function (e) {
-        e.stopPropagation();
-        var allThumbs = article.querySelectorAll(".runway-shot-thumb");
-        openLightbox(thumbEl.getAttribute("data-full"), (sIdx + 1) + " / " + allThumbs.length + " " + item.name, allThumbs, sIdx, item);
-      });
-    });
-
-    // Mode B: Hover or click on card inspects game in right cockpit
-    wrap.addEventListener("mouseenter", function () {
-      if (currentMode === "B") {
-        var prev = document.querySelector("#grid .cardwrap.cockpit-active");
-        if (prev) prev.classList.remove("cockpit-active");
-        wrap.classList.add("cockpit-active");
-        renderCockpit(item);
-      }
-    });
-
-    wrap.addEventListener("click", function (e) {
-      if (currentMode === "B") {
-        if (e.target.closest("a") || e.target.closest("button") || e.target.closest(".cover") || e.target.closest(".runway-shot-thumb")) return;
-        var prev = document.querySelector("#grid .cardwrap.cockpit-active");
-        if (prev) prev.classList.remove("cockpit-active");
-        wrap.classList.add("cockpit-active");
-        renderCockpit(item);
-      }
     });
 
     // 3D Magnetic Tilt Physics
@@ -732,17 +624,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       }
     }
 
-    // Update Cockpit in Mode B
-    if (currentMode === "B" && slice.length > 0) {
-      renderCockpit(slice[0]);
-      var firstCard = grid.querySelector(".cardwrap");
-      if (firstCard) firstCard.classList.add("cockpit-active");
-    }
-
-    // Update Runway in Mode C
-    if (currentMode === "C" && slice.length > 0) {
-      setTimeout(updateRunwayActiveCard, 40);
-    }
   }
 
   function renderNextPage() {
@@ -1248,243 +1129,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }
   }
 
-  // --- Mode B: Sticky Inspector Cockpit ---
-  function renderCockpit(item) {
-    var cockpit = document.getElementById("cockpitContent");
-    if (!cockpit || !item) return;
-    var gid = String(item.gid);
-    var art = getArtworkFor(item, currentTab);
-    var st = storeOf(gid) || {};
-    var v = liveCache.get(gid) || (_CACHE[gid] || null);
-    var itemTags = tagsOf(gid);
-    var medClass = getMedClass(item.median);
-
-    // Collect all samples across sources
-    var samples = collectItemSamples(item);
-
-    var storeChipsHtml = "";
-    if (st && st.l) {
-      storeChipsHtml += '<a class="cockpit-chip dl" href="' + escHtml(dlProductUrl(st.l.id, st.l.d)) + '" target="_blank" rel="noopener">DLsite</a>';
-    }
-    if (st && (st.m || st.m2)) {
-      var dm = st.m || st.m2;
-      storeChipsHtml += '<a class="cockpit-chip dmm" href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA</a>';
-    }
-    if (st && st.g) {
-      storeChipsHtml += '<a class="cockpit-chip gc" href="' + escHtml(gcProductUrl(st.g.id)) + '" target="_blank" rel="noopener">Getchu</a>';
-    }
-    if (v) {
-      storeChipsHtml += '<a class="cockpit-chip vn" href="' + escHtml(vnUrl(v.id)) + '" target="_blank" rel="noopener">VNDB</a>';
-    }
-    storeChipsHtml += '<a class="cockpit-chip egs" href="' + escHtml(egsUrl(item.gid)) + '" target="_blank" rel="noopener">批评空间</a>';
-
-    var tagsHtml = "";
-    if (itemTags.length > 0) {
-      tagsHtml = itemTags.slice(0, 8).map(function (t) {
-        return '<button type="button" class="cockpit-tag" data-tag="' + escHtml(t) + '">#' + escHtml(t) + '</button>';
-      }).join("");
-    }
-
-    var mainImg = samples.length > 0 ? samples[0].full : art.full;
-    var mainLabel = samples.length > 0 ? samples[0].label : "封面海报";
-
-    var filmstripHtml = "";
-    if (samples.length > 0) {
-      filmstripHtml =
-        '<div class="cockpit-filmstrip-head">' +
-          '<span class="cockpit-sec-title">🖼️ 实时原画与样张 (' + samples.length + ')</span>' +
-          '<span class="cockpit-sec-hint">悬停即时预览 · 点击全屏</span>' +
-        '</div>' +
-        '<div class="cockpit-filmstrip" id="cockpitFilmstrip">' +
-          samples.map(function (s, idx) {
-            return '<div class="cockpit-film-item' + (idx === 0 ? ' active' : '') + '" data-idx="' + idx + '" data-full="' + escHtml(s.full) + '" data-thumb="' + escHtml(s.thumb) + '" data-label="' + escHtml(s.label) + '">' +
-              '<img src="' + escHtml(s.thumb) + '" alt="' + escHtml(s.label) + '" loading="lazy" onerror="chainImgErr(this)">' +
-            '</div>';
-          }).join("") +
-        '</div>';
-    }
-
-    cockpit.innerHTML =
-      '<div class="cockpit-curator-view">' +
-        // Compact Header
-        '<div class="cockpit-header">' +
-          '<div class="cockpit-cover-thumb">' +
-            '<img src="' + escHtml(art.thumb) + '" alt="' + escHtml(item.name) + '" onerror="chainImgErr(this)">' +
-            '<div class="cockpit-rank-tag">#' + item.rank + '</div>' +
-          '</div>' +
-          '<div class="cockpit-header-meta">' +
-            '<div class="cockpit-score-row">' +
-              (item.median ? '<span class="medpill ' + medClass + '" style="position:static;">' + item.median + '</span>' : '') +
-              '<span class="cockpit-votes">' + (item.count2 || "-") + ' 人评分</span>' +
-              '<span class="cockpit-pov-pill">' + escHtml(item.povs || "寝取") + '</span>' +
-            '</div>' +
-            '<h2 class="cockpit-title" title="' + escHtml(item.name) + '">' + escHtml(item.name) + '</h2>' +
-            '<div class="cockpit-brand-date">' + escHtml(item.brand || "未知") + ' · ' + escHtml(item.sellday || "未知") + '</div>' +
-            '<div class="cockpit-chips-row">' + storeChipsHtml + '</div>' +
-          '</div>' +
-        '</div>' +
-
-        // Live Screenshot Preview Screen
-        '<div class="cockpit-preview-wrap">' +
-          '<div class="cockpit-preview-stage" id="cockpitPreviewStage" title="点击打开全屏灯箱鉴赏">' +
-            '<img id="cockpitMainImg" src="' + escHtml(mainImg) + '" alt="' + escHtml(mainLabel) + '" onerror="chainImgErr(this)">' +
-            '<div class="cockpit-stage-scrim">' +
-              '<span id="cockpitStageLabel" class="cockpit-stage-label">' + escHtml(mainLabel) + '</span>' +
-              '<span class="cockpit-stage-action">🔍 全屏鉴赏</span>' +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-
-        filmstripHtml +
-
-        // Tags Section
-        (tagsHtml ? '<div class="cockpit-tags-wrap"><div class="cockpit-sec-title">🏷️ 作品特征标签</div><div class="cockpit-tags-list">' + tagsHtml + '</div></div>' : '') +
-
-        // Bottom Actions
-        '<div class="cockpit-actions">' +
-          '<button type="button" class="cockpit-btn-primary" id="cockpitDetailBtn">进入完整典藏抽屉 [Enter]</button>' +
-        '</div>' +
-      '</div>';
-
-    // Hook up clicks and interactions
-    var stage = cockpit.querySelector("#cockpitPreviewStage");
-    var mainImgEl = cockpit.querySelector("#cockpitMainImg");
-    var stageLabelEl = cockpit.querySelector("#cockpitStageLabel");
-    var filmItems = cockpit.querySelectorAll(".cockpit-film-item");
-
-    var currentSampleIdx = 0;
-
-    filmItems.forEach(function (fItem, idx) {
-      fItem.addEventListener("mouseenter", function () {
-        currentSampleIdx = idx;
-        filmItems.forEach(function (fi) { fi.classList.remove("active"); });
-        fItem.classList.add("active");
-        var fFull = fItem.getAttribute("data-full");
-        var fLabel = fItem.getAttribute("data-label");
-        if (mainImgEl) mainImgEl.src = fFull;
-        if (stageLabelEl) stageLabelEl.textContent = fLabel;
-      });
-
-      fItem.addEventListener("click", function () {
-        if (samples.length > 0) {
-          var lbImgs = samples.map(function (s) {
-            var img = document.createElement("img");
-            img.src = s.thumb;
-            img.setAttribute("data-full", s.full);
-            return img;
-          });
-          openLightbox(samples[idx].full, (idx + 1) + " / " + samples.length + " " + item.name, lbImgs, idx, item);
-        }
-      });
-    });
-
-    if (stage) {
-      stage.addEventListener("click", function () {
-        if (samples.length > 0) {
-          var lbImgs = samples.map(function (s) {
-            var img = document.createElement("img");
-            img.src = s.thumb;
-            img.setAttribute("data-full", s.full);
-            return img;
-          });
-          openLightbox(samples[currentSampleIdx].full, (currentSampleIdx + 1) + " / " + samples.length + " " + item.name, lbImgs, currentSampleIdx, item);
-        } else {
-          var singleImg = document.createElement("img");
-          singleImg.src = art.thumb;
-          singleImg.setAttribute("data-full", art.full);
-          openLightbox(art.full, "1 / 1 " + item.name, [singleImg], 0, item);
-        }
-      });
-    }
-
-    // Tag filter click
-    cockpit.querySelectorAll(".cockpit-tag").forEach(function (tBtn) {
-      tBtn.addEventListener("click", function () {
-        var t = tBtn.getAttribute("data-tag");
-        if (t && tagSel.indexOf(t) === -1) {
-          tagSel.push(t);
-          persistTags();
-          renderTagChips();
-          applyFilter();
-        }
-      });
-    });
-
-    var btn = cockpit.querySelector("#cockpitDetailBtn");
-    if (btn) {
-      btn.addEventListener("click", function () {
-        openDetail(gid);
-      });
-    }
-  }
-
-  // --- Mode C: Runway Navigation & Active Card Detection ---
-  var runwayScrollTimer = null;
-  function debounceRunwayUpdate() {
-    if (runwayScrollTimer) clearTimeout(runwayScrollTimer);
-    runwayScrollTimer = setTimeout(updateRunwayActiveCard, 40);
-  }
-
-  function updateRunwayActiveCard() {
-    if (currentMode !== "C") return;
-    var grid = document.getElementById("grid");
-    if (!grid) return;
-    var cards = grid.querySelectorAll(".cardwrap");
-    if (!cards.length) return;
-
-    var gridRect = grid.getBoundingClientRect();
-    var centerX = gridRect.left + gridRect.width / 2;
-
-    var closestCard = null;
-    var minDiff = Infinity;
-
-    cards.forEach(function (c) {
-      var r = c.getBoundingClientRect();
-      var cCenter = r.left + r.width / 2;
-      var diff = Math.abs(cCenter - centerX);
-      if (diff < minDiff) {
-        minDiff = diff;
-        closestCard = c;
-      }
-    });
-
-    if (closestCard) {
-      cards.forEach(function (c) {
-        if (c === closestCard) {
-          if (!c.classList.contains("runway-active")) {
-            c.classList.add("runway-active");
-            playBeep(480, "sine", 0.02);
-          }
-        } else {
-          c.classList.remove("runway-active");
-        }
-      });
-
-      // Auto-paginate if near the end
-      var lastCards = Array.from(cards).slice(-4);
-      if (lastCards.indexOf(closestCard) !== -1) {
-        renderNextPage();
-      }
-    }
-  }
-
-  function scrollRunway(direction) {
-    var grid = document.getElementById("grid");
-    if (!grid) return;
-    var cards = Array.from(grid.querySelectorAll(".cardwrap"));
-    if (!cards.length) return;
-
-    var activeIdx = cards.findIndex(function (c) { return c.classList.contains("runway-active"); });
-    if (activeIdx === -1) activeIdx = 0;
-
-    var targetIdx = Math.max(0, Math.min(cards.length - 1, activeIdx + direction));
-    var targetCard = cards[targetIdx];
-    if (targetCard) {
-      targetCard.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      setTimeout(updateRunwayActiveCard, 350);
-    }
-  }
-
   // --- Zenith Aurora Lightbox Stage ---
   var lbLoadToken = 0;
 
@@ -1712,33 +1356,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }, 60);
   }
 
-  // --- View Mode Switcher (A: Stream, B: Split, C: Runway) ---
-  function setViewMode(mode) {
-    currentMode = mode;
-    document.body.classList.remove("mode-a", "mode-b", "mode-c");
-    if (mode === "A") document.body.classList.add("mode-a");
-    else if (mode === "B") document.body.classList.add("mode-b");
-    else if (mode === "C") document.body.classList.add("mode-c");
-
-    var modeTabs = document.querySelectorAll("#modeSwitcher .mode-tab");
-    modeTabs.forEach(function (tab) {
-      if (tab.dataset.mode === mode) tab.classList.add("on");
-      else tab.classList.remove("on");
-    });
-
-    renderShowcaseGrid();
-
-    if (mode === "C") {
-      setTimeout(function () {
-        var grid = document.getElementById("grid");
-        if (grid) {
-          grid.scrollLeft = 0;
-          updateRunwayActiveCard();
-        }
-      }, 50);
-    }
-  }
-
   // --- Event Wireup & Boot Initializer ---
   function initGallery() {
     // 1. Data Source View Tabs
@@ -1960,18 +1577,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var fateReroll = document.getElementById("fateRerollBtn");
     if (fateReroll) fateReroll.addEventListener("click", triggerFateRoller);
 
-    // 13. View Mode Switcher
-    var modeSwitcher = document.getElementById("modeSwitcher");
-    if (modeSwitcher) {
-      modeSwitcher.addEventListener("click", function (e) {
-        var btn = e.target.closest(".mode-tab");
-        if (btn && btn.dataset.mode) {
-          playBeep(560, "sine", 0.04);
-          setViewMode(btn.dataset.mode);
-        }
-      });
-    }
-
     // 14. Tag Drawer Toggle Button
     var tagDrawerBtn = document.getElementById("tagDrawerBtn");
     var tagRow = document.getElementById("tagrow");
@@ -1980,41 +1585,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         tagRow.hidden = !tagRow.hidden;
         playBeep(450, "sine", 0.03);
       });
-    }
-
-    // 15. Runway Navigation Controls & Horizontal Wheel (Mode C)
-    var runwayPrevBtn = document.getElementById("runwayPrevBtn");
-    if (runwayPrevBtn) {
-      runwayPrevBtn.addEventListener("click", function () {
-        playBeep(440, "sine", 0.03);
-        scrollRunway(-1);
-      });
-    }
-
-    var runwayNextBtn = document.getElementById("runwayNextBtn");
-    if (runwayNextBtn) {
-      runwayNextBtn.addEventListener("click", function () {
-        playBeep(480, "sine", 0.03);
-        scrollRunway(1);
-      });
-    }
-
-    var grid = document.getElementById("grid");
-    if (grid) {
-      grid.addEventListener("wheel", function (e) {
-        if (currentMode !== "C") return;
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-          e.preventDefault();
-          grid.scrollLeft += e.deltaY * 1.6;
-          debounceRunwayUpdate();
-        }
-      }, { passive: false });
-
-      grid.addEventListener("scroll", function () {
-        if (currentMode === "C") {
-          debounceRunwayUpdate();
-        }
-      }, { passive: true });
     }
 
     // 16. Global Master Keyboard Shortcuts
@@ -2062,25 +1632,6 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         return;
       }
 
-      // View Modes: 1, 2, 3
-      if (e.key === "1") { setViewMode("A"); return; }
-      if (e.key === "2") { setViewMode("B"); return; }
-      if (e.key === "3") { setViewMode("C"); return; }
-
-      // Runway Left / Right Navigation: ArrowLeft / ArrowRight / A / D in Mode C
-      if (currentMode === "C") {
-        if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
-          e.preventDefault();
-          scrollRunway(-1);
-          return;
-        }
-        if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
-          e.preventDefault();
-          scrollRunway(1);
-          return;
-        }
-      }
-
       // Fate Roller: R
       if (e.key === "r" || e.key === "R") {
         e.preventDefault();
@@ -2107,46 +1658,22 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
       if (e.key === "j" || e.key === "J" || e.key === "ArrowDown") {
         e.preventDefault();
-        if (currentMode === "C") {
-          scrollRunway(1);
-          return;
-        }
         focusedCardIndex = Math.min(focusedCardIndex + 1, cards.length - 1);
         var targetCard = cards[focusedCardIndex];
         if (targetCard) {
           targetCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
           playBeep(420, "sine", 0.02);
-          if (currentMode === "B") {
-            var prevB = document.querySelector("#grid .cardwrap.cockpit-active");
-            if (prevB) prevB.classList.remove("cockpit-active");
-            targetCard.classList.add("cockpit-active");
-            var g = targetCard.dataset.gid;
-            var itm = _DATA.find(function (d) { return String(d.gid) === g; });
-            if (itm) renderCockpit(itm);
-          }
         }
         return;
       }
 
       if (e.key === "k" || e.key === "K" || e.key === "ArrowUp") {
         e.preventDefault();
-        if (currentMode === "C") {
-          scrollRunway(-1);
-          return;
-        }
         focusedCardIndex = Math.max(focusedCardIndex - 1, 0);
         var tCard = cards[focusedCardIndex];
         if (tCard) {
           tCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
           playBeep(460, "sine", 0.02);
-          if (currentMode === "B") {
-            var prevBk = document.querySelector("#grid .cardwrap.cockpit-active");
-            if (prevBk) prevBk.classList.remove("cockpit-active");
-            tCard.classList.add("cockpit-active");
-            var tg = tCard.dataset.gid;
-            var tItm = _DATA.find(function (d) { return String(d.gid) === tg; });
-            if (tItm) renderCockpit(tItm);
-          }
         }
         return;
       }

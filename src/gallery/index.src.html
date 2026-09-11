@@ -7,7 +7,7 @@
   <meta name="description" content="夜幕缪斯档案馆 (Nocturne Vault) - 视觉小说与 Galgame 高阶鉴赏空间。基于 ErogameScape 批评空间中央值数据与多源图库聚合。">
   <style>/*__STYLE__*/</style>
 </head>
-<body class="mode-a">
+<body>
   <!-- Dynamic Ambient Mesh Glow Background -->
   <div id="ambientMesh" class="ambient-mesh" aria-hidden="true"></div>
 
@@ -68,30 +68,15 @@
       </div>
     </section>
 
-    <!-- Workspace Container (Supports Mode A Stream, Mode B Split Cockpit, Mode C Runway) -->
+    <!-- Workspace Container -->
     <div class="workspace-viewport" id="workspace">
-      <!-- Mode C Runway Navigation Chevrons -->
-      <button type="button" id="runwayPrevBtn" class="runway-nav-arrow runway-prev" aria-label="上一作品" title="上一作品 [← / A]">❮</button>
-      <button type="button" id="runwayNextBtn" class="runway-nav-arrow runway-next" aria-label="下一作品" title="下一作品 [→ / D]">❯</button>
-
-      <!-- Left Stream / Main Grid -->
+      <!-- Main Grid Showcase Stream -->
       <div class="showcase-stream" id="showcaseStream">
         <section id="grid" class="grid-showcase" data-view="all"></section>
         <div class="loadzone">
           <button type="button" id="more" class="btn-load-more">加载更多藏品</button>
         </div>
       </div>
-
-      <!-- Mode B: Curator Inspector Cockpit (Sticky Panel for Split View) -->
-      <aside class="inspector-cockpit" id="inspectorCockpit" aria-label="策展人检视台">
-        <div class="cockpit-sticky-card" id="cockpitContent">
-          <div class="cockpit-placeholder">
-            <div class="cockpit-icon">🔬</div>
-            <div class="cockpit-title">策展人检视台已就绪</div>
-            <p class="cockpit-desc">将光标移至左侧作品上方，或按 <code>J</code> / <code>K</code> 快速锁定作品以获取超清样张及批评空间遥测仪盘。</p>
-          </div>
-        </div>
-      </aside>
     </div>
   </main>
 
@@ -141,13 +126,6 @@
 
       <!-- Density Cycler -->
       <button type="button" id="density" class="dock-pill-btn" title="切换展示密度">密度：自动</button>
-
-      <!-- View Modes A / B / C Switcher -->
-      <div class="dock-module dock-mode-switcher" id="modeSwitcher">
-        <button type="button" class="mode-tab on" data-mode="A" title="模式 A: 典藏海报画册流 [1]">画册</button>
-        <button type="button" class="mode-tab" data-mode="B" title="模式 B: 策展人分栏检视台 [2]">检视</button>
-        <button type="button" class="mode-tab" data-mode="C" title="模式 C: 电影全景跑道 [3]">跑道</button>
-      </div>
 
       <!-- Tag Drawer Toggle Button -->
       <button type="button" id="tagDrawerBtn" class="dock-pill-btn" title="展开/收起星丛标签面板">
