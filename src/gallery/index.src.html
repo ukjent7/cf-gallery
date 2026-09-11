@@ -1,113 +1,264 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#07090e">
-<meta name="description" content="POV559 寝取り EROGE 中央值排名画廊：封面 + 截图一站浏览，支持商店图源切换与 EGS 标签/属性多重筛选。">
-<title>寝取画廊 · POV559 EROGE 中央值排名</title>
-<style>
-/*__STYLE__*/
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PROJECT AURA // NOCTURNE VAULT (夜幕缪斯档案馆) - Galgame·Eroge 中央值画廊</title>
+  <meta name="description" content="夜幕缪斯档案馆 (Nocturne Vault) - 视觉小说与 Galgame 高阶鉴赏空间。基于 ErogameScape 批评空间中央值数据与多源图库聚合。">
+  <style>/*__STYLE__*/</style>
 </head>
-<body>
-<div id="app">
+<body class="mode-a">
+  <!-- Dynamic Ambient Mesh Glow Background -->
+  <div id="ambientMesh" class="ambient-mesh" aria-hidden="true"></div>
 
-  <header id="topbar">
-    <a class="brand" href="#" id="brand" title="回到顶部 / 重置筛选">
-      <span class="brand-mark">寝</span>
-      <span class="brand-text">寝取画廊<small>POV559 · 中央值排名</small></span>
-    </a>
-    <label class="search" for="q">
-      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-      <input id="q" type="text" placeholder="搜游戏 / 品牌 / VNDB 标题" autocomplete="off" spellcheck="false">
-      <kbd>/</kbd>
-    </label>
-    <nav class="views" id="views" aria-label="图源">
-      <button class="vtab on" data-view="all">综合</button>
-      <button class="vtab" data-view="vndb">VNDB</button>
-      <button class="vtab" data-view="dlsite">DLsite</button>
-      <button class="vtab" data-view="dmm">FANZA</button>
-      <button class="vtab" data-view="getchu">官方图</button>
-    </nav>
+  <!-- Top Minimalist Status Bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-brand">
+        <span class="cyber-pulse-dot" aria-hidden="true"></span>
+        <span class="brand-monogram">AURA</span>
+        <span class="brand-sep">//</span>
+        <span class="brand-title">NOCTURNE VAULT</span>
+        <span class="brand-tag">夜幕缪斯档案馆</span>
+      </div>
+
+      <div id="stats" class="topbar-stats"></div>
+
+      <div class="topbar-actions">
+        <button type="button" id="safeModeBtn" class="pill-action-btn" title="轻量私密：感官微模糊模式 (Safe Mode)">
+          <span class="icon">🛡️</span> <span class="btn-text">安全模式</span>
+        </button>
+        <button type="button" id="audioToggleBtn" class="pill-action-btn" title="微电磁音效开关">
+          <span class="icon" id="audioIcon">🔊</span> <span class="btn-text">音效</span>
+        </button>
+        <button type="button" id="bossKeyBtn" class="pill-action-btn pill-action-hazard" title="紧急学术伪装模式 (快捷键: B)">
+          <span class="icon">⚡</span> <span class="btn-text">老板键 [B]</span>
+        </button>
+      </div>
+    </div>
   </header>
 
-  <div id="filterbar">
-    <div class="frow" id="frowMain">
-      <select id="sort" title="排序">
-        <option value="rank">排名</option>
-        <option value="median">中央值 ↓</option>
-        <option value="count2">评分人数 ↓</option>
-        <option value="sellday">发售日 ↓</option>
-      </select>
-      <div class="medchips" id="medchips" role="group" aria-label="中央值下限">
-        <button class="fchip on" data-med="0">全部</button>
-        <button class="fchip" data-med="70">≥70</button>
-        <button class="fchip" data-med="80">≥80</button>
-        <button class="fchip" data-med="85">≥85</button>
-        <button class="fchip" data-med="90">≥90</button>
+  <!-- Main Viewport Canvas -->
+  <main class="main-stage" id="mainStage">
+    <!-- Constellation Tag Filter Matrix Drawer -->
+    <section id="tagrow" class="tag-row" aria-label="标签星丛与属性矩阵">
+      <div class="tag-matrix-wrap">
+        <div class="tag-matrix-controls">
+          <div class="matrix-label">
+            <span class="label-glow">⚡</span> 中央值梯级：
+          </div>
+          <div id="medchips" class="chip-group">
+            <button type="button" class="fchip on" data-med="0">全部 0+</button>
+            <button type="button" class="fchip tier-ex" data-med="85">殿堂 85+</button>
+            <button type="button" class="fchip tier-s" data-med="80">名作 80+</button>
+            <button type="button" class="fchip tier-a" data-med="75">优秀 75+</button>
+            <button type="button" class="fchip tier-b" data-med="70">佳作 70+</button>
+          </div>
+          <button type="button" id="reset" class="btn-reset" title="重置全部筛选条件">
+            <span>↺</span> 重置筛选
+          </button>
+        </div>
+
+        <div class="tag-constellation-scroll">
+          <div class="matrix-label">
+            <span class="label-glow">🏷️</span> 星丛标签 (AND 多选交集)：
+          </div>
+          <div id="tagchips" class="tag-chips-stream"></div>
+        </div>
       </div>
-      <label class="ftoggle" id="onlyMatchedWrap" title="只在当前图源有图的游戏">
-        <input id="onlyMatched" type="checkbox"><span id="onlyMatchedLabel">只看有图</span>
-      </label>
-      <label class="ftoggle" title="卡片滚进视口时自动到 VNDB 查匹配">
-        <input id="autoFetch" type="checkbox" checked>自动匹配
-      </label>
-      <label class="ftoggle" title="滚动到底自动翻页">
-        <input id="autoMore" type="checkbox" checked>自动翻页
-      </label>
-      <span class="fspace"></span>
-      <button id="density" class="gbtn" title="切换卡片密度">密度：自动</button>
-      <button id="reset" class="gbtn" title="清空全部筛选">重置</button>
+    </section>
+
+    <!-- Workspace Container (Supports Mode A Stream, Mode B Split Cockpit, Mode C Runway) -->
+    <div class="workspace-viewport" id="workspace">
+      <!-- Left Stream / Main Grid -->
+      <div class="showcase-stream" id="showcaseStream">
+        <section id="grid" class="grid-showcase" data-view="all"></section>
+        <div class="loadzone">
+          <button type="button" id="more" class="btn-load-more">加载更多藏品</button>
+        </div>
+      </div>
+
+      <!-- Mode B: Curator Inspector Cockpit (Sticky 40% Panel for Split View) -->
+      <aside class="inspector-cockpit" id="inspectorCockpit" aria-label="策展人检视台">
+        <div class="cockpit-sticky-card" id="cockpitContent">
+          <div class="cockpit-placeholder">
+            <div class="cockpit-icon">🔬</div>
+            <div class="cockpit-title">策展人检视台已就绪</div>
+            <p class="cockpit-desc">将光标移至藏品上方，或按 <code>J</code> / <code>K</code> 快速锁定作品以获取超清原画及批评空间遥测仪盘。</p>
+          </div>
+        </div>
+      </aside>
     </div>
-    <div class="frow tagrow" id="tagrow" hidden>
-      <span class="taglabel">标签（多选=AND，与其它条件叠加）</span>
-      <span id="tagchips" class="tagchips"></span>
+  </main>
+
+  <!-- Aerosol Floating Dock (Bottom Pinned Control Capsule) -->
+  <aside class="dock-container" id="dockContainer" aria-label="气溶胶悬浮操控岛">
+    <div class="dock-capsule" id="dockCapsule">
+      <!-- Omni Search Box -->
+      <div class="dock-module dock-search">
+        <span class="search-icon">🔍</span>
+        <input type="search" id="omniSearch" class="search-input" placeholder="快速检索 [/]" autocomplete="off" spellcheck="false">
+        <kbd class="dock-kbd">/</kbd>
+      </div>
+
+      <div class="dock-divider"></div>
+
+      <!-- Data Source View Tabs -->
+      <nav id="views" class="dock-module dock-views" aria-label="多源视图">
+        <button type="button" class="vtab on" data-view="all" title="全源综合视图">综合</button>
+        <button type="button" class="vtab" data-view="vndb" title="VNDB 国际视觉小说数据库">VNDB</button>
+        <button type="button" class="vtab" data-view="dlsite" title="DLsite 二次元数字商店">DLsite</button>
+        <button type="button" class="vtab" data-view="dmm" title="FANZA / DMM 综合平台">FANZA</button>
+        <button type="button" class="vtab" data-view="getchu" title="Getchu 萌系美少女专门店">Getchu</button>
+      </nav>
+
+      <div class="dock-divider"></div>
+
+      <!-- Sort Dimension Selector -->
+      <div class="dock-module dock-sort-wrap">
+        <select id="sort" class="dock-select" aria-label="排序维度">
+          <option value="rank">默认排名 (# 升序)</option>
+          <option value="median">中央值 (得分降序)</option>
+          <option value="count2">批评空间评分人数</option>
+          <option value="sellday">发售日期倒序</option>
+        </select>
+      </div>
+
+      <!-- Only Matched Toggle -->
+      <div class="dock-module dock-matched">
+        <label class="toggle-pill-label" for="onlyMatched" title="过滤未匹配或无图藏品">
+          <input type="checkbox" id="onlyMatched">
+          <span class="toggle-slider"></span>
+          <span id="onlyMatchedLabel" class="toggle-text">只看有图</span>
+        </label>
+      </div>
+
+      <div class="dock-divider"></div>
+
+      <!-- Density Cycler -->
+      <button type="button" id="density" class="dock-pill-btn" title="切换展示密度">密度：自动</button>
+
+      <!-- View Modes A / B / C Switcher -->
+      <div class="dock-module dock-mode-switcher" id="modeSwitcher">
+        <button type="button" class="mode-tab on" data-mode="A" title="模式 A: 典藏海报画册流 [1]">画册</button>
+        <button type="button" class="mode-tab" data-mode="B" title="模式 B: 策展人分栏检视台 [2]">检视</button>
+        <button type="button" class="mode-tab" data-mode="C" title="模式 C: 电影全景跑道 [3]">跑道</button>
+      </div>
+
+      <!-- Tag Drawer Toggle Button -->
+      <button type="button" id="tagDrawerBtn" class="dock-pill-btn" title="展开/收起星丛标签面板">
+        <span>🏷️</span> 星丛
+      </button>
+
+      <!-- Fate Roller Trigger -->
+      <button type="button" id="fateRollerBtn" class="dock-pill-btn dock-btn-roller" title="命运轮盘：随机抽取一部宝藏神作 [R]">
+        <span class="roller-dice">🎲</span> 命运轮盘
+      </button>
     </div>
-  </div>
-
-  <div id="stats" class="statline" role="status"></div>
-
-  <main class="grid" id="grid" data-view="all"></main>
-
-  <div class="loadzone"><button id="more" class="gbtn big">加载更多</button></div>
-
-  <footer class="pagefoot">
-    <p>数据：ErogameScape（中央值 / POV 标签，SQL 接口）· 图片：VNDB 开放接口、DLsite/FANZA 官方直链、EGS 官方转存、Getchu 经 Worker 代理。点击封面看详情，点截图放大。</p>
-  </footer>
-
-</div>
-
-<div id="drawer" aria-hidden="true">
-  <div class="backdrop" data-act="drawer-close"></div>
-  <aside class="panel" role="dialog" aria-modal="true">
-    <header class="phead">
-      <div class="phead-main" id="dhead"></div>
-      <button id="dclose" class="gbtn icon" title="关闭 (Esc)" aria-label="关闭详情">✕</button>
-    </header>
-    <div class="pbody" id="dbody"></div>
   </aside>
-</div>
 
-<div id="lightbox" aria-hidden="true">
-  <div id="vspin" aria-hidden="true"></div>
-  <figure class="stage"><img id="vimg" alt="viewer"></figure>
-  <button class="lbnav prev" id="vprev" title="上一张 (←)" aria-label="上一张">‹</button>
-  <button class="lbnav next" id="vnext" title="下一张 (→)" aria-label="下一张">›</button>
-  <div class="lbbar">
-    <span id="vcap"></span>
-    <span class="fspace"></span>
-    <button id="vopen" class="gbtn" title="原图新签页">原图</button>
-    <button id="vclose" class="gbtn" title="关闭 (Esc)">关闭</button>
+  <!-- Curator Detail Drawer -->
+  <div id="drawer" class="drawer-overlay" aria-hidden="true">
+    <div class="backdrop" id="drawerBackdrop"></div>
+    <div class="drawer-panel">
+      <div class="drawer-header" id="dhead">
+        <div class="drawer-header-meta">
+          <div class="drawer-title-group">
+            <span class="drawer-status-badge">ARCHIVE ITEM</span>
+            <h2></h2>
+          </div>
+          <button type="button" id="dclose" class="drawer-btn-close" aria-label="关闭详情抽屉">✕</button>
+        </div>
+        <div class="hint"></div>
+      </div>
+      <div class="drawer-scroll" id="dbody"></div>
+    </div>
   </div>
-  <div class="thumbstrip" id="vthumbs"></div>
-</div>
 
-<script>
-/*__PAYLOAD__*/
-/*__URLS__*/
-/*__APP__*/
-</script>
+  <!-- Zenith Aurora Lightbox Stage -->
+  <div id="lightbox" class="lightbox-stage" aria-hidden="true">
+    <div class="lightbox-top-hud">
+      <div id="vcap" class="lightbox-title-caption"></div>
+      <div class="lightbox-controls">
+        <button type="button" id="vopen" class="lb-action-btn" title="新标签页打开原始无损大图">原图 ↗</button>
+        <button type="button" id="vclose" class="lb-action-btn lb-close-btn" title="退出天顶画廊 (Esc)">✕ 关闭</button>
+      </div>
+    </div>
+
+    <div class="lightbox-viewport" id="lbViewport">
+      <button type="button" id="vprev" class="lb-nav-arrow lb-prev" aria-label="上一幅画作">‹</button>
+      <div class="lightbox-image-stage" id="lbImageStage">
+        <img id="vimg" src="" alt="Ultra High Fidelity Artwork" draggable="false">
+      </div>
+      <button type="button" id="vnext" class="lb-nav-arrow lb-next" aria-label="下一幅画作">›</button>
+    </div>
+
+    <div class="lightbox-bottom-hud">
+      <div id="vthumbs" class="lightbox-thumb-strip"></div>
+      <div class="lightbox-shortcuts-hint">
+        <span><code>←</code> / <code>→</code> 切换</span>
+        <span><code>滚轮</code> 平滑缩放</span>
+        <span><code>ESC</code> 退出</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ghost Academic Shield (Boss-Key Disguise) -->
+  <div id="bossShield" class="boss-shield" aria-hidden="true">
+    <div class="paper-container">
+      <div class="paper-header">
+        <div class="paper-journal">IEEE Transactions on Computational Narrative &amp; Algorithmic Game Theory, Vol. 48, No. 3</div>
+        <h1 class="paper-title">Computational Analysis of Narrative Convergence in Interactive Digital Media: Central Values and Player Decision Topologies in Branching Visual Novels</h1>
+        <div class="paper-authors">Dr. A. Vance<sup>1</sup>, Prof. K. Morishima<sup>2</sup>, Dr. S. K. Sterling<sup>1</sup></div>
+        <div class="paper-affiliations"><sup>1</sup>Laboratory for Statistical Information Dynamics &bull; <sup>2</sup>Institute of Behavioral Informatics</div>
+      </div>
+      <div class="paper-abstract">
+        <strong>Abstract</strong> &mdash; This study presents a deterministic telemetry framework for analyzing player choice bifurcations and satisfaction metrics within interactive visual novels. By examining statistical distributions of median evaluation scores ($\mathcal{M}_{score} \in [0, 100]$) across $N = 1,420$ narrative corpora, we evaluate the stochastic equilibrium of branch point traversal. Empirical findings suggest that branching complexity correlates strongly with decision dissonance ($\rho = 0.784, p < 0.001$).
+      </div>
+      <div class="paper-body">
+        <h3>1. Methodology &amp; Mathematical Formulation</h3>
+        <p>Let $\mathcal{G} = (V, E)$ denote the directed narrative acyclic graph where $V$ represents narrative nodes and $E$ signifies decision transitions. The median divergence operator is formalized as:</p>
+        <div class="paper-formula">$$\Phi(\mathcal{G}) = \frac{1}{|E|}\sum_{(u, v) \in E} \log_2 \left( 1 + \frac{\sigma(u)}{\sigma(v)} \right) \cdot \oint_{\Gamma} \frac{dz}{z - \lambda_{crit}}$$</div>
+        <h3>2. Empirical Convergence Table</h3>
+        <table class="paper-table">
+          <thead>
+            <tr><th>Sample ID</th><th>Sample Size ($n$)</th><th>Mean Score ($\mu$)</th><th>Median Score ($M$)</th><th>Std. Dev ($\sigma$)</th><th>$p$-value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CORPUS-A</td><td>1,153</td><td>87.42</td><td>99.00</td><td>4.21</td><td>&lt; 0.0001</td></tr>
+            <tr><td>CORPUS-B</td><td>642</td><td>82.19</td><td>86.50</td><td>6.83</td><td>0.0012</td></tr>
+            <tr><td>CORPUS-C</td><td>419</td><td>79.88</td><td>81.20</td><td>8.45</td><td>0.0048</td></tr>
+            <tr><td>CORPUS-D</td><td>298</td><td>74.60</td><td>76.00</td><td>9.12</td><td>0.0152</td></tr>
+          </tbody>
+        </table>
+        <p class="paper-dismiss-hint">按 <code>B</code> 或 <code>ESC</code> 退出文献审阅模式并返回工作台。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fate Roller Holographic Modal -->
+  <div id="fateModal" class="fate-modal" aria-hidden="true">
+    <div class="fate-backdrop"></div>
+    <div class="fate-content">
+      <div class="fate-glow-ring"></div>
+      <div class="fate-header">
+        <span class="fate-label">DESTINY MATRIX // FATE ROLLER</span>
+        <h3>命运轮盘抽取中</h3>
+      </div>
+      <div class="fate-roller-stage">
+        <div class="fate-roller-reel" id="fateReel">
+          <div class="reel-item">???</div>
+        </div>
+      </div>
+      <div class="fate-result" id="fateResult"></div>
+      <div class="fate-actions">
+        <button type="button" id="fateConfirmBtn" class="fate-btn-confirm">检视该作</button>
+        <button type="button" id="fateRerollBtn" class="fate-btn-reroll">再次抽选</button>
+        <button type="button" id="fateCloseBtn" class="fate-btn-close">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <script>/*__PAYLOAD__*/ /*__URLS__*/ /*__APP__*/</script>
 </body>
 </html>
