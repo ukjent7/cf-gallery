@@ -1169,7 +1169,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
       relRailLeftHtml =
         '<aside class="relrail left" aria-label="左侧同社/系列推荐">' +
-          '<h4 class="relhead">相关推荐 (同社/系列)' + (leftScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
+          '<h4 class="relhead"><span class="relhead-title">相关推荐 (同社/系列)</span>' + (leftScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
           '<div class="relrail-viewport' + (leftScroll ? ' has-autoscroll' : '') + '" data-rail="left">' +
             '<div class="relrail-track">' +
               leftList.map(function (r) { return createRelCardHtml(r, false); }).join("") +
@@ -1181,7 +1181,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       if (rightList.length > 0) {
         relRailRightHtml =
           '<aside class="relrail right" aria-label="右侧关联作品">' +
-            '<h4 class="relhead">关联作品' + (rightScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
+            '<h4 class="relhead"><span class="relhead-title">关联作品</span>' + (rightScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
             '<div class="relrail-viewport' + (rightScroll ? ' has-autoscroll' : '') + '" data-rail="right">' +
               '<div class="relrail-track">' +
                 rightList.map(function (r) { return createRelCardHtml(r, false); }).join("") +

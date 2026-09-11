@@ -1452,41 +1452,57 @@ article.card:hover {
 }
 
 /* Flanking Recommendation Rails & Large Cover Cards */
-/* Floating Recommendation Rails & Large Cover Cards (去框留影，悬浮微动效，自动无限循环) */
+/* Flanking Recommendation Companion Pods (策展伴随舷舱 · 与检视台尺寸及边缘绝对对齐，磨砂暗夜玻璃与无限循环) */
 @media (min-width: 1360px) {
   .relrail {
     position: fixed;
-    top: 36px;
-    bottom: 36px;
-    width: 200px;
-    height: calc(100vh - 72px);
-    max-height: calc(100vh - 72px);
+    top: max(4vh, calc(50vh - 480px));
+    bottom: max(4vh, calc(50vh - 480px));
+    height: min(92vh, 960px);
+    max-height: min(92vh, 960px);
+    width: clamp(170px, 12.5vw, 210px);
     display: flex;
     flex-direction: column;
-    gap: 10px;
     z-index: 1015;
     pointer-events: auto;
-    overflow: visible;
+    overflow: hidden;
+    background: rgba(12, 11, 18, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 24px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85), 0 0 32px rgba(255, 42, 109, 0.08);
+    padding: 18px 14px 14px 14px;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .drawer-overlay.open .relrail {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .relrail.left {
-    right: calc(50% + min(1000px, 92vw) / 2 + 18px);
+    right: calc(50% + min(1000px, 92vw) / 2 + 16px);
   }
 
   .relrail.right {
-    left: calc(50% + min(1000px, 92vw) / 2 + 18px);
+    left: calc(50% + min(1000px, 92vw) / 2 + 16px);
   }
 }
 
 @media (min-width: 1680px) {
   .relrail {
-    width: 230px;
+    width: 232px;
+    padding: 20px 16px 16px 16px;
   }
   .relrail.left {
-    right: calc(50% + min(1000px, 92vw) / 2 + 24px);
+    right: calc(50% + min(1000px, 92vw) / 2 + 20px);
   }
   .relrail.right {
-    left: calc(50% + min(1000px, 92vw) / 2 + 24px);
+    left: calc(50% + min(1000px, 92vw) / 2 + 20px);
   }
 }
 
@@ -1496,6 +1512,7 @@ article.card:hover {
   min-height: 0;
   position: relative;
   overflow: hidden;
+  margin-top: 10px;
 }
 
 .relrail-viewport.has-autoscroll {
@@ -1505,15 +1522,15 @@ article.card:hover {
   mask-image: linear-gradient(
     180deg,
     transparent 0%,
-    black 28px,
-    black calc(100% - 28px),
+    black 16px,
+    black calc(100% - 16px),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     180deg,
     transparent 0%,
-    black 28px,
-    black calc(100% - 28px),
+    black 16px,
+    black calc(100% - 16px),
     transparent 100%
   );
 }
@@ -1525,21 +1542,59 @@ article.card:hover {
 .relrail-track {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  padding: 4px 2px 10px 2px;
+}
+
+.relhead {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #F8FAFC;
+  margin: 0;
+  padding: 0 2px 12px 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-shrink: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+}
+
+.relhead-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.relhead-title::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-crimson);
+  box-shadow: 0 0 8px var(--accent-crimson-glow);
+  flex-shrink: 0;
 }
 
 .relhead-badge {
   font-family: var(--font-sans);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   background: rgba(255, 42, 109, 0.15);
   border: 1px solid rgba(255, 42, 109, 0.35);
   color: var(--accent-crimson);
-  padding: 1px 6px;
+  padding: 1px 7px;
   border-radius: 10px;
-  margin-left: 6px;
-  text-transform: none;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   gap: 3px;
@@ -1566,14 +1621,26 @@ article.card:hover {
     margin-top: 14px;
     height: auto !important;
     max-height: none !important;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    opacity: 1 !important;
+    transform: none !important;
   }
   .relrail .relhead {
     grid-column: 1 / -1;
+    border-bottom: none;
+    padding-bottom: 0;
   }
   .relrail-viewport {
     display: contents;
     mask-image: none !important;
     -webkit-mask-image: none !important;
+    margin-top: 0;
   }
   .relrail-track {
     display: contents;
@@ -1586,26 +1653,11 @@ article.card:hover {
   }
 }
 
-.relhead {
-  font-family: var(--font-serif);
-  font-size: 0.92rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: #FFFFFF;
-  margin: 0 0 2px 0;
-  text-transform: uppercase;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
 .relcard,
 .relclone {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
   background: none;
   border: 0;
@@ -1626,7 +1678,7 @@ article.card:hover {
   overflow: hidden;
   background: #0C0B12;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
   transition: transform 0.22s var(--spring-snappy), border-color 0.2s ease, box-shadow 0.22s ease;
 }
 
@@ -1634,9 +1686,9 @@ article.card:hover {
 .relcard:focus-visible .relcover,
 .relclone:hover .relcover,
 .relclone:focus-visible .relcover {
-  transform: translateY(-5px);
+  transform: translateY(-3px) scale(1.02);
   border-color: var(--accent-crimson);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.9), 0 0 24px var(--accent-crimson-glow);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85), 0 0 20px var(--accent-crimson-glow);
 }
 
 .relcard img.relimg,
@@ -1702,15 +1754,15 @@ article.card:hover {
 .relclone .relmeta {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   min-width: 0;
   padding: 0 2px;
 }
 
 .relcard .relname,
 .relclone .relname {
-  font-family: var(--font-serif);
-  font-size: 0.88rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
   font-weight: 600;
   color: #FFFFFF;
   line-height: 1.35;
