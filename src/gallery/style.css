@@ -287,31 +287,56 @@ body.safe-mode .relcard:hover .relimg {
   display: none !important;
 }
 
-.tag-matrix-controls {
+.matrix-flow {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  gap: 12px 16px;
+}
+
+.matrix-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.matrix-group-med {
+  flex-shrink: 0;
+}
+
+.matrix-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.14);
+  flex-shrink: 0;
+}
+
+.matrix-group-tags {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 320px;
 }
 
 .matrix-label {
   font-family: var(--font-serif);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: 0.03em;
   color: #FFFFFF;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .chip-group {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .fchip {
@@ -319,11 +344,12 @@ body.safe-mode .relcard:hover .relimg {
   border: 1px solid var(--border-hairline);
   color: var(--text-subtle);
   font-family: var(--font-sans);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  padding: 4px 12px;
+  padding: 4px 11px;
   border-radius: 14px;
   cursor: pointer;
+  white-space: nowrap;
   transition: all 0.2s var(--spring-snappy);
 }
 
@@ -366,6 +392,7 @@ body.safe-mode .relcard:hover .relimg {
 
 .btn-reset {
   margin-left: auto;
+  flex-shrink: 0;
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--text-muted);
@@ -378,6 +405,7 @@ body.safe-mode .relcard:hover .relimg {
   display: flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
   transition: all 0.2s ease;
 }
 
@@ -386,21 +414,16 @@ body.safe-mode .relcard:hover .relimg {
   border-color: var(--accent-crimson);
 }
 
-.tag-constellation-scroll {
-  padding-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .tag-chips-stream {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  max-height: 90px;
+  align-items: center;
+  gap: 6px;
+  max-height: 80px;
   overflow-y: auto;
   padding-right: 4px;
   scrollbar-width: thin;
+  flex: 1;
 }
 
 .tagchip {
@@ -1236,19 +1259,24 @@ article.card:hover {
   gap: 36px;
 }
 
-/* Drawer Store Tabs (On-demand gallery filtering & bandwidth protection) */
+/* Drawer Store Tabs (Pinned Sticky Header & On-Demand Filtering) */
 .drawer-store-tabs {
+  position: sticky;
+  top: -32px;
+  z-index: 45;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 12px 16px;
-  background: rgba(18, 16, 26, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 18px;
+  background: rgba(14, 12, 22, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 14px;
-  margin-bottom: 8px;
+  margin: -16px 0 20px 0;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 42, 109, 0.12);
+  transition: all 0.2s ease;
 }
 
 .drawer-tabs-label {

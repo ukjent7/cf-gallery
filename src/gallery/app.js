@@ -1190,7 +1190,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (dbody.scrollTo) dbody.scrollTo(0, 0);
 
     // Drawer Store Tabs switching logic (On-demand gallery filtering & bandwidth protection)
-    function applyStoreTab(targetTab) {
+    function applyStoreTab(targetTab, shouldScroll) {
       var storeSections = dbody.querySelectorAll(".drawer-store-section");
       storeSections.forEach(function (sec) {
         if (targetTab === "all" || sec.getAttribute("data-store") === targetTab) {
@@ -1202,17 +1202,25 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       dbody.querySelectorAll(".drawer-tab").forEach(function (btn) {
         btn.classList.toggle("active", btn.getAttribute("data-store-tab") === targetTab);
       });
+      if (shouldScroll) {
+        var targetEl = targetTab === "all"
+          ? dbody.querySelector(".drawer-store-tabs")
+          : dbody.querySelector('.drawer-store-section[data-store="' + targetTab + '"]');
+        if (targetEl && targetEl.scrollIntoView) {
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
     }
 
     if (storeTabs.length >= 2 && defaultStoreTab !== "all") {
-      applyStoreTab(defaultStoreTab);
+      applyStoreTab(defaultStoreTab, false);
     }
 
     dbody.querySelectorAll(".drawer-tab").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var target = btn.getAttribute("data-store-tab");
         playBeep(640, "sine", 0.03);
-        applyStoreTab(target);
+        applyStoreTab(target, true);
       });
     });
 
