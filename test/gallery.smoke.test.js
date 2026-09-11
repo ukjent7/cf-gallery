@@ -478,6 +478,11 @@ describe("detail drawer", () => {
     const gcImgs = [...doc.querySelectorAll(".dsec-gc img")].map((img) => img.getAttribute("src") || "");
     expect(gcImgs.length).toBeGreaterThan(0);
     expect(gcImgs.some((s) => s.startsWith("/gc/"))).toBe(true);
+    // DLsite images in strip must use lightweight 100x100 thumbnails for fast loading
+    const dlImgs = [...doc.querySelectorAll(".dsec-dl img")];
+    expect(dlImgs.length).toBeGreaterThan(0);
+    expect(dlImgs.every((img) => (img.getAttribute("src") || "").includes("_100x100.jpg"))).toBe(true);
+    expect(dlImgs.every((img) => (img.getAttribute("data-full") || "").endsWith(".webp"))).toBe(true);
     // vndb/all views close with a VNDB search and a re-query button.
     expect(doc.querySelector('#dbody [data-act="refetch"]'), "no 重查VNDB button").toBeTruthy();
     expect(doc.getElementById("dbody").textContent).toContain("VNDB搜索");
@@ -529,6 +534,19 @@ describe("detail drawer", () => {
     G.openDetail(gid);
     doc.querySelector("#drawer .backdrop").click();
     expect(doc.getElementById("drawer").classList.contains("open"), "backdrop did not close the drawer").toBe(false);
+  });
+
+  test("openDetail resets scroll position to top", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const gid = richGid(window);
+    G.setTab("all");
+    G.openDetail(gid);
+    const dbody = doc.getElementById("dbody");
+    dbody.scrollTop = 450;
+    // Open detail again
+    G.openDetail(gid);
+    expect(dbody.scrollTop, "dbody.scrollTop must be reset to 0 after opening").toBe(0);
   });
 });
 
@@ -606,6 +624,21 @@ describe("lightbox", () => {
     window.open = (u) => { opened.push(String(u)); return null; };
     doc.getElementById("vopen").click();
     expect(opened, "#vopen did not open the current image").toEqual([doc.getElementById("vimg").getAttribute("src")]);
+  });
+
+  test("clicking outside image on lightbox closes it, clicking image keeps it open", () => {
+    const { doc } = openWithImages();
+    const lb = doc.getElementById("lightbox");
+    doc.querySelector("#dbody .strip img").click(); // open
+    expect(lb.classList.contains("open")).toBe(true);
+
+    // Clicking image keeps it open
+    doc.getElementById("vimg").click();
+    expect(lb.classList.contains("open"), "clicking image should not close lightbox").toBe(true);
+
+    // Clicking viewport backdrop closes it
+    doc.getElementById("lbViewport").click();
+    expect(lb.classList.contains("open"), "clicking viewport backdrop should close lightbox").toBe(false);
   });
 });
 

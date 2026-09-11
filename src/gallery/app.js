@@ -784,6 +784,10 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var dbody = document.getElementById("dbody");
     if (!drawer || !dhead || !dbody) return;
 
+    // Reset scroll position immediately so previous scroll offset doesn't stick
+    dbody.scrollTop = 0;
+    if (dbody.scrollTo) dbody.scrollTo(0, 0);
+
     var st = storeOf(gid) || {};
     var v = liveCache.get(String(gid)) || (_CACHE[String(gid)] || null);
     var itemTags = tagsOf(gid);
@@ -798,52 +802,56 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       "VNDB: " + (v ? (v.id + (v.title ? " (" + v.title + ")" : "")) : "未匹配");
     dhead.querySelector(".hint").textContent = hintText;
 
-    // Collect Store Image Strips
-    var bodyHtml = "";
-
-    // 0. Related Games Strip (同社团 / 同系列关联推荐) - Prominently at the top!
-    var related = relatedOf(item, v);
-    if (related.length > 0) {
-      bodyHtml +=
-        '<div class="drawer-section dsec-rel">' +
-          '<h3 id="dsec-h-rel">同社团 / 系列关联推荐 (' + related.length + ')</h3>' +
-          '<div class="relstrip">' +
-            related.map(function (r) {
-              var rArt = getArtworkFor(r, currentTab);
-              return (
-                '<div class="relcard" data-act="detail" data-gid="' + r.gid + '">' +
-                  '<div class="relimg-wrap">' +
-                    (rArt.thumb ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '" alt="' + escHtml(r.name) + '" loading="lazy">' : '<div class="relnocover">无封面</div>') +
-                  '</div>' +
-                  '<div class="reltitle">' + escHtml(r.name) + '</div>' +
-                '</div>'
-              );
-            }).join("") +
-          '</div>' +
-        '</div>';
-    }
+    var mainSections = [];
 
     // 1. DLsite Section
     if (st && st.l) {
       var dlSt = st.l;
-      var dlImgs = dlSamples(dlSt);
-      bodyHtml +=
+      var stems = dlStems(dlSt);
+      mainSections.push(
         '<div class="drawer-section dsec-dl">' +
-          '<h3 id="dsec-h-dl">DLsite 样本原画 (<span data-livecount="dl">' + dlImgs.length + '</span>)</h3>' +
+          '<h3 id="dsec-h-dl">DLsite 样本原画 (<span data-livecount="dl">' + stems.length + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
             '<a href="' + escHtml(dlProductUrl(dlSt.id, dlSt.d)) + '" target="_blank" rel="noopener">DLsite 商品页面 (' + escHtml(dlSt.id) + ')</a>' +
           '</div>' +
           '<div class="strip">' +
-            dlImgs.map(function (u) {
-              return '<img src="' + escHtml(dlJpg(u)) + '" data-full="' + escHtml(u) + '" alt="DLsite sample" loading="lazy">';
+            stems.map(function (s) {
+              return '<img src="' + escHtml(dlSampleThumbUrl(dlSt, s)) + '" data-full="' + escHtml(dlSampleUrl(dlSt, s)) + '" alt="DLsite sample" loading="lazy" decoding="async">';
             }).join("") +
           '</div>' +
-        '</div>';
+        '</div>'
+      );
 
       // Live DLsite meta check if unharvested
       if (USE_GC && dlSt.un && !sessionMetaCache.has("dl:" + dlSt.id)) {
         sessionMetaCache.add("dl:" + dlSt.id);
-        fetch(dlApiMeta(dlSt.id, dlSt.d)).then(function (r) { return r.json(); }).catch(function () { return null; });
+        fetch(dlApiMeta(dlSt.id, dlSt.d))
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res && res.stems && res.stems.length) {
+              dlSt.sm = res.stems;
+              delete dlSt.un;
+              var dsecDl = document.querySelector(".dsec-dl");
+              if (dsecDl) {
+                var strip = dsecDl.querySelector(".strip");
+                var lc = dsecDl.querySelector('[data-livecount="dl"]');
+                if (strip) {
+                  var newStems = dlStems(dlSt);
+                  strip.innerHTML = newStems.map(function (s) {
+                    return '<img src="' + escHtml(dlSampleThumbUrl(dlSt, s)) + '" data-full="' + escHtml(dlSampleUrl(dlSt, s)) + '" alt="DLsite sample" loading="lazy" decoding="async">';
+                  }).join("");
+                  if (lc) lc.textContent = String(newStems.length);
+                  var newStripImgs = strip.querySelectorAll("img");
+                  newStripImgs.forEach(function (imgEl, idx) {
+                    imgEl.addEventListener("click", function () {
+                      openLightbox(imgEl.getAttribute("data-full"), (idx + 1) + " / " + newStripImgs.length + " " + item.name, newStripImgs, idx, item);
+                    });
+                  });
+                }
+              }
+            }
+          })
+          .catch(function () { return null; });
       }
     }
 
@@ -860,7 +868,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           });
         }
       });
-      bodyHtml +=
+      mainSections.push(
         '<div class="drawer-section dsec-dmm">' +
           '<h3 id="dsec-h-dmm">FANZA 截帧图集 (<span data-livecount="dmm">' + dmmSamples.length + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
@@ -870,10 +878,11 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           '</div>' +
           '<div class="strip">' +
             dmmSamples.map(function (s) {
-              return '<img src="' + escHtml(s.small) + '" data-full="' + escHtml(s.big) + '" alt="FANZA sample" loading="lazy">';
+              return '<img src="' + escHtml(s.small) + '" data-full="' + escHtml(s.big) + '" alt="FANZA sample" loading="lazy" decoding="async">';
             }).join("") +
           '</div>' +
-        '</div>';
+        '</div>'
+      );
 
       // Live DMM meta check
       if (USE_GC && !sessionMetaCache.has("dm:" + dmmList[0].id)) {
@@ -896,7 +905,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       var gcFallback = egsImg(item.gid, 1);
       var displaySamples = gcSamples.length > 0;
 
-      bodyHtml +=
+      mainSections.push(
         '<div class="drawer-section dsec-gc">' +
           '<h3 id="dsec-h-gc">Getchu 宣传册样本 (<span data-livecount="gc">' + (gcSamples.length || (gcCover ? 1 : 0)) + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
@@ -906,12 +915,13 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           '<div class="strip">' +
             (displaySamples
               ? gcSamples.map(function (u) {
-                  return '<img src="' + escHtml(u) + '" data-full="' + escHtml(u) + '" alt="Getchu sample" loading="lazy" onerror="chainImgErr(this)">';
+                  return '<img src="' + escHtml(u) + '" data-full="' + escHtml(u) + '" alt="Getchu sample" loading="lazy" decoding="async" onerror="chainImgErr(this)">';
                 }).join("")
-              : (gcCover ? '<img src="' + escHtml(gcCover) + '" data-full="' + escHtml(gcCover) + '" data-fb="' + escHtml(gcFallback) + '" alt="Getchu cover" loading="lazy" onerror="chainImgErr(this)">' : '')
+              : (gcCover ? '<img src="' + escHtml(gcCover) + '" data-full="' + escHtml(gcCover) + '" data-fb="' + escHtml(gcFallback) + '" alt="Getchu cover" loading="lazy" decoding="async" onerror="chainImgErr(this)">' : '')
             ) +
           '</div>' +
-        '</div>';
+        '</div>'
+      );
 
       // Live Getchu meta check (only if count unknown)
       if (USE_GC && (typeof gc.n !== "number" || gc.n <= 0) && !sessionMetaCache.has("gc:" + gc.id)) {
@@ -929,7 +939,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
                   var newImgs = [];
                   for (var k = 1; k <= Math.min(res.n, 10); k++) {
                     var su = gcApiSample(gc.id, k);
-                    newImgs.push('<img src="' + escHtml(su) + '" data-full="' + escHtml(su) + '" alt="Getchu sample" loading="lazy" onerror="chainImgErr(this)">');
+                    newImgs.push('<img src="' + escHtml(su) + '" data-full="' + escHtml(su) + '" alt="Getchu sample" loading="lazy" decoding="async" onerror="chainImgErr(this)">');
                   }
                   strip.innerHTML = newImgs.join("");
                   if (lc) lc.textContent = String(newImgs.length);
@@ -949,7 +959,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     // 4. VNDB Section
     var vndbShots = v && v.shots ? v.shots : [];
-    bodyHtml +=
+    mainSections.push(
       '<div class="drawer-section dsec-vndb">' +
         '<h3 id="dsec-h-vndb">VNDB 视觉小说画廊 (<span data-livecount="vndb">' + vndbShots.length + '</span>)</h3>' +
         '<div class="drawer-meta-links">' +
@@ -960,11 +970,12 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
         (vndbShots.length > 0 ? (
           '<div class="strip">' +
             vndbShots.map(function (u) {
-              return '<img src="' + escHtml(vnThumb(u)) + '" data-full="' + escHtml(u) + '" alt="VNDB shot" loading="lazy">';
+              return '<img src="' + escHtml(vnThumb(u)) + '" data-full="' + escHtml(u) + '" alt="VNDB shot" loading="lazy" decoding="async">';
             }).join("") +
           '</div>'
         ) : '') +
-      '</div>';
+      '</div>'
+    );
 
     // 5. Full CG Section
     var fullcg = _FULLCG[gid];
@@ -987,7 +998,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     fullcgLinks.push('<a href="' + escHtml(fullcgGoogleUrl("hitomi.la", item, v)) + '" target="_blank" rel="noopener">Google 搜 Hitomi</a>');
     fullcgLinks.push('<a href="' + escHtml(fullcgGoogleUrl("e-hentai.org", item, v)) + '" target="_blank" rel="noopener">Google 搜 E-Hentai</a>');
 
-    bodyHtml +=
+    mainSections.push(
       '<div class="drawer-section dsec-fullcg">' +
         '<h3 id="dsec-h-fullcg">全CG / 原画鉴赏' + (fullcg ? '<span class="status-chip chip-gilded">已核实直连</span>' : '') + '</h3>' +
         '<div class="drawer-meta-links">' +
@@ -1000,10 +1011,49 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           '</div>' +
           '<p class="fullcg-subtext">全CG原画由第三方图库收录。已采用罗马字与社团 Group 参数以保证最高命中率，请对照上方官方原版截图鉴赏比对。</p>' +
         '</div>' +
+      '</div>'
+    );
+
+    // Side Rail: Related Games (同社团 / 同系列关联推荐 - 左右常驻侧边栏)
+    var sideHtml = "";
+    var related = relatedOf(item, v);
+    if (related.length > 0) {
+      sideHtml =
+        '<aside class="pavilion-side">' +
+          '<div class="drawer-section dsec-rel">' +
+            '<h3 id="dsec-h-rel">同社团 / 系列关联推荐 (' + related.length + ')</h3>' +
+            '<div class="relstrip">' +
+              related.map(function (r) {
+                var rArt = getArtworkFor(r, currentTab);
+                return (
+                  '<div class="relcard" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
+                    '<div class="relimg-wrap">' +
+                      (rArt.thumb ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '" alt="' + escHtml(r.name) + '" loading="lazy" decoding="async">' : '<div class="relnocover">无封面</div>') +
+                    '</div>' +
+                    '<div class="relinfo">' +
+                      '<div class="reltitle">' + escHtml(r.name) + '</div>' +
+                      '<div class="relmeta">' +
+                        (r.median ? '<span class="relscore">中央值 ' + r.median + '</span>' : '') +
+                        (r.sellday ? '<span>' + escHtml(r.sellday.slice(0, 4)) + '</span>' : '') +
+                      '</div>' +
+                    '</div>' +
+                  '</div>'
+                );
+              }).join("") +
+            '</div>' +
+          '</div>' +
+        '</aside>';
+    }
+
+    var bodyHtml =
+      '<div class="pavilion-layout">' +
+        '<div class="pavilion-main">' + mainSections.join("") + '</div>' +
+        sideHtml +
       '</div>';
 
-
     dbody.innerHTML = bodyHtml;
+    dbody.scrollTop = 0;
+    if (dbody.scrollTo) dbody.scrollTo(0, 0);
 
     // Attach Lightbox click triggers on strip images
     var stripImages = dbody.querySelectorAll(".strip img");
@@ -1039,6 +1089,11 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (!drawer) return;
     drawer.classList.remove("open");
     drawer.setAttribute("aria-hidden", "true");
+    var dbody = document.getElementById("dbody");
+    if (dbody) {
+      dbody.scrollTop = 0;
+      if (dbody.scrollTo) dbody.scrollTo(0, 0);
+    }
     var lb = document.getElementById("lightbox");
     if (!lb || !lb.classList.contains("open")) {
       document.body.classList.remove("locked");
@@ -1483,6 +1538,23 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       vopen.addEventListener("click", function () {
         var vimg = document.getElementById("vimg");
         if (vimg && vimg.src) window.open(vimg.src);
+      });
+    }
+
+    // Allow closing lightbox by clicking backdrop/viewport outside image and controls
+    var lbEl = document.getElementById("lightbox");
+    if (lbEl) {
+      lbEl.addEventListener("click", function (e) {
+        if (
+          e.target.closest("#vimg") ||
+          e.target.closest(".lb-nav-arrow") ||
+          e.target.closest(".lightbox-controls") ||
+          e.target.closest("#vthumbs") ||
+          e.target.closest("#vcap")
+        ) {
+          return;
+        }
+        closeLightbox();
       });
     }
 
