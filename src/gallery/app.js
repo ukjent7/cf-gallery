@@ -154,21 +154,75 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     return res;
   }
 
+  function cleanGameTitle(name) {
+    if (!name) return "";
+    return name
+      .replace(/\([^)]*(?:DOS|Win|Windows|CD|DVD|FD|PC-?98|DL|APP|Mac|PS|SS)[^)]*\)/gi, " ")
+      .replace(/\[[^\]]*\]/g, " ")
+      .replace(/[0-9０-９一二三四五六七八九十IVXLCDMivxlcdm\s～〜\-:：!！?？・.+*★☆♡❤︎/／#＃&＆]+/g, " ")
+      .trim();
+  }
+
+  function getSignificantTokens(name) {
+    var cleaned = cleanGameTitle(name);
+    var matches = cleaned.match(/[a-zA-Z]{3,}|[\u30a0-\u30ff]{2,}|[\u4e00-\u9fa5]{2,}/g) || [];
+    var stopWords = {
+      "完全版": 1, "通常版": 1, "初回版": 1, "劇場版": 1, "外伝": 1, "前編": 1, "後編": 1, "特别版": 1, "体验版": 1, "リメイク": 1,
+      "dos": 1, "win": 1, "remake": 1, "edition": 1, "version": 1, "plus": 1, "special": 1, "fandisc": 1, "disc": 1
+    };
+    return matches.filter(function (t) { return !stopWords[t.toLowerCase()]; });
+  }
+
+  function isSeriesMatch(nameA, nameB) {
+    if (!nameA || !nameB) return false;
+    var crossMap = {
+      "rance": "ランス", "ランス": "rance",
+      "white album": "ホワイトアルバム",
+      "toheart": "トゥハート",
+      "dc": "ダ・カーポ"
+    };
+    var tokensA = getSignificantTokens(nameA);
+    var tokensB = getSignificantTokens(nameB);
+
+    for (var i = 0; i < tokensA.length; i++) {
+      var tA = tokensA[i];
+      var lowA = tA.toLowerCase();
+      var crossA = crossMap[lowA];
+      for (var j = 0; j < tokensB.length; j++) {
+        var tB = tokensB[j];
+        var lowB = tB.toLowerCase();
+        if (lowA === lowB) return true;
+        if (crossA && lowB.indexOf(crossA) !== -1) return true;
+        if (crossMap[lowB] && lowA.indexOf(crossMap[lowB]) !== -1) return true;
+        if (tA.length >= 3 && tB.length >= 3) {
+          if (tA.indexOf(tB) !== -1 || tB.indexOf(tA) !== -1) return true;
+        }
+      }
+    }
+    return false;
+  }
+
   function relatedOf(item, vndbItem) {
     if (!item || !item.brand) return [];
     var bg = _BRANDG[item.brand] || item.brand;
     var rel = [];
     var sid = String(item.gid);
-    for (var i = 0; i < _DATA.length; i++) {
-      var d = _DATA[i];
+    for (var i = 0; i < DATA.length; i++) {
+      var d = DATA[i];
       if (String(d.gid) === sid) continue;
       var dbg = _BRANDG[d.brand] || d.brand;
       if (dbg === bg) {
-        rel.push(d);
-        if (rel.length >= 8) break;
+        var isSeries = isSeriesMatch(item.name, d.name);
+        rel.push(Object.assign({}, d, { sameBrand: true, sameSeries: isSeries }));
       }
     }
-    return rel;
+    // Prioritize series siblings first, then rank by highest median
+    rel.sort(function (a, b) {
+      if (a.sameSeries && !b.sameSeries) return -1;
+      if (!a.sameSeries && b.sameSeries) return 1;
+      return (b.median || 0) - (a.median || 0);
+    });
+    return rel.slice(0, 8);
   }
 
   // --- Multi-Source Adapters ---
@@ -1138,7 +1192,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
     function createRelCardHtml(r, isClone) {
       var rArt = getArtworkFor(r, currentTab);
-      var tagLabel = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? " · " : "") + (r.sameSeries ? "系列" : "");
+      var tagLabel = r.sameSeries ? "系列" : (r.sameBrand ? "同社" : "");
       var medClass = getMedClass(r.median);
       var cardClass = isClone ? "relclone" : "relcard";
 
@@ -1153,23 +1207,27 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
           '</div>' +
           '<div class="relmeta">' +
             '<div class="relname">' + escHtml(r.name) + '</div>' +
-            '<div class="hint">' + (tagLabel ? '<span class="reltag">' + escHtml(tagLabel) + '</span> ' : '') + escHtml(r.brand || "未知") + (r.sellday ? ' · ' + escHtml(r.sellday.slice(0, 4)) : '') + '</div>' +
+            '<div class="hint">' + (tagLabel ? '<span class="reltag' + (r.sameSeries ? ' reltag-series' : '') + '">' + escHtml(tagLabel) + '</span> ' : '') + escHtml(r.brand || "未知") + (r.sellday ? ' · ' + escHtml(r.sellday.slice(0, 4)) : '') + '</div>' +
           '</div>' +
         '</button>'
       );
     }
 
     if (related.length > 0) {
-      var mid = Math.ceil(related.length / 2);
+      var mid = related.length <= 3 ? related.length : Math.ceil(related.length / 2);
       var leftList = related.slice(0, mid);
       var rightList = related.slice(mid);
 
       var leftScroll = leftList.length >= 3;
       var rightScroll = rightList.length >= 3;
 
+      var hasSeries = leftList.some(function (r) { return r.sameSeries; });
+      var leftTitle = hasSeries ? "同系列 / 关联作" : "同社代表作";
+      var rightTitle = "同社更多作品";
+
       relRailLeftHtml =
-        '<aside class="relrail left" aria-label="左侧同社/系列推荐">' +
-          '<h4 class="relhead"><span class="relhead-title">相关推荐 (同社/系列)</span>' + (leftScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
+        '<aside class="relrail left' + (leftScroll ? ' has-scroll' : '') + '" aria-label="左侧同社/系列推荐">' +
+          '<h4 class="relhead"><span class="relhead-title">' + escHtml(leftTitle) + '</span>' + (leftScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
           '<div class="relrail-viewport' + (leftScroll ? ' has-autoscroll' : '') + '" data-rail="left">' +
             '<div class="relrail-track">' +
               leftList.map(function (r) { return createRelCardHtml(r, false); }).join("") +
@@ -1180,8 +1238,8 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
 
       if (rightList.length > 0) {
         relRailRightHtml =
-          '<aside class="relrail right" aria-label="右侧关联作品">' +
-            '<h4 class="relhead"><span class="relhead-title">关联作品</span>' + (rightScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
+          '<aside class="relrail right' + (rightScroll ? ' has-scroll' : '') + '" aria-label="右侧关联作品">' +
+            '<h4 class="relhead"><span class="relhead-title">' + escHtml(rightTitle) + '</span>' + (rightScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
             '<div class="relrail-viewport' + (rightScroll ? ' has-autoscroll' : '') + '" data-rail="right">' +
               '<div class="relrail-track">' +
                 rightList.map(function (r) { return createRelCardHtml(r, false); }).join("") +
