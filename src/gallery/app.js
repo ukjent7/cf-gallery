@@ -1136,13 +1136,14 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var relRailLeftHtml = "";
     var relRailRightHtml = "";
 
-    function createRelCardHtml(r) {
+    function createRelCardHtml(r, isClone) {
       var rArt = getArtworkFor(r, currentTab);
       var tagLabel = (r.sameBrand ? "同社" : "") + (r.sameBrand && r.sameSeries ? " · " : "") + (r.sameSeries ? "系列" : "");
       var medClass = getMedClass(r.median);
+      var cardClass = isClone ? "relclone" : "relcard";
 
       return (
-        '<button type="button" class="relcard" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
+        '<button type="button" class="' + cardClass + '" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
           '<div class="relcover">' +
             (rArt.thumb
               ? '<img class="relimg" src="' + escHtml(rArt.thumb) + '"' + (rArt.fb ? ' data-fb="' + escHtml(rArt.fb) + '"' : '') + ' alt="' + escHtml(r.name) + '" loading="lazy" decoding="async" onerror="chainImgErr(this)">'
@@ -1163,17 +1164,30 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       var leftList = related.slice(0, mid);
       var rightList = related.slice(mid);
 
+      var leftScroll = leftList.length >= 3;
+      var rightScroll = rightList.length >= 3;
+
       relRailLeftHtml =
         '<aside class="relrail left" aria-label="左侧同社/系列推荐">' +
-          '<h4 class="relhead">相关推荐 (同社/系列)</h4>' +
-          leftList.map(createRelCardHtml).join("") +
+          '<h4 class="relhead">相关推荐 (同社/系列)' + (leftScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
+          '<div class="relrail-viewport' + (leftScroll ? ' has-autoscroll' : '') + '" data-rail="left">' +
+            '<div class="relrail-track">' +
+              leftList.map(function (r) { return createRelCardHtml(r, false); }).join("") +
+              (leftScroll ? leftList.map(function (r) { return createRelCardHtml(r, true); }).join("") : "") +
+            '</div>' +
+          '</div>' +
         '</aside>';
 
       if (rightList.length > 0) {
         relRailRightHtml =
           '<aside class="relrail right" aria-label="右侧关联作品">' +
-            '<h4 class="relhead">关联作品</h4>' +
-            rightList.map(createRelCardHtml).join("") +
+            '<h4 class="relhead">关联作品' + (rightScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
+            '<div class="relrail-viewport' + (rightScroll ? ' has-autoscroll' : '') + '" data-rail="right">' +
+              '<div class="relrail-track">' +
+                rightList.map(function (r) { return createRelCardHtml(r, false); }).join("") +
+                (rightScroll ? rightList.map(function (r) { return createRelCardHtml(r, true); }).join("") : "") +
+              '</div>' +
+            '</div>' +
           '</aside>';
       }
     }
@@ -1240,8 +1254,8 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       preloadImageUrl(stripImages[pi].getAttribute("data-full") || stripImages[pi].src);
     }
 
-    // Attach Recommendation card click triggers
-    dbody.querySelectorAll(".relcard[data-act='detail']").forEach(function (cardEl) {
+    // Attach Recommendation card click triggers (supports original cards and infinite loop clones)
+    dbody.querySelectorAll(".relcard[data-act='detail'], .relclone[data-act='detail']").forEach(function (cardEl) {
       cardEl.addEventListener("click", function () {
         playBeep(520, "sine", 0.04);
         openDetail(cardEl.dataset.gid);
@@ -1259,9 +1273,12 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     drawer.classList.add("open");
     drawer.setAttribute("aria-hidden", "false");
     document.body.classList.add("locked");
+
+    startRelAutoScroll();
   }
 
   function closeDetail() {
+    stopRelAutoScroll();
     var drawer = document.getElementById("drawer");
     if (!drawer) return;
     drawer.classList.remove("open");
@@ -1275,6 +1292,97 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     if (!lb || !lb.classList.contains("open")) {
       document.body.classList.remove("locked");
     }
+  }
+
+  // --- Flanking Rails Infinite Auto-Scroller Engine ---
+  var relScrollAnimationId = null;
+  var relAutoScrollEngines = [];
+
+  function stopRelAutoScroll() {
+    if (relScrollAnimationId) {
+      cancelAnimationFrame(relScrollAnimationId);
+      relScrollAnimationId = null;
+    }
+    relAutoScrollEngines = [];
+  }
+
+  function startRelAutoScroll() {
+    stopRelAutoScroll();
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var viewports = document.querySelectorAll("#dbody .relrail-viewport.has-autoscroll");
+    if (!viewports.length) return;
+
+    viewports.forEach(function (vp) {
+      var track = vp.querySelector(".relrail-track");
+      if (!track) return;
+
+      var engine = {
+        vp: vp,
+        track: track,
+        paused: false,
+        pauseUntil: 0
+      };
+
+      vp.addEventListener("mouseenter", function () {
+        engine.paused = true;
+      });
+      vp.addEventListener("mouseleave", function () {
+        engine.paused = false;
+        engine.pauseUntil = Date.now() + 500;
+      });
+      vp.addEventListener("wheel", function () {
+        engine.pauseUntil = Date.now() + 1400;
+      }, { passive: true });
+      vp.addEventListener("touchstart", function () {
+        engine.paused = true;
+      }, { passive: true });
+      vp.addEventListener("touchend", function () {
+        engine.paused = false;
+        engine.pauseUntil = Date.now() + 800;
+      }, { passive: true });
+
+      relAutoScrollEngines.push(engine);
+    });
+
+    if (!relAutoScrollEngines.length) return;
+
+    var lastTime = performance.now();
+    var SPEED_PX_PER_SEC = 28; // calm, elegant continuous stream speed
+
+    function tick(now) {
+      var dt = (now - lastTime) / 1000;
+      lastTime = now;
+      if (dt > 0.1) dt = 0.016;
+
+      var nowMs = Date.now();
+      relAutoScrollEngines.forEach(function (eng) {
+        var vp = eng.vp;
+        var track = eng.track;
+        if (!vp || !track) return;
+
+        var halfHeight = track.scrollHeight / 2;
+        if (halfHeight <= 0) return;
+
+        // Seamless wrap around boundary
+        if (vp.scrollTop >= halfHeight) {
+          vp.scrollTop -= halfHeight;
+        } else if (vp.scrollTop < 0) {
+          vp.scrollTop += halfHeight;
+        }
+
+        if (eng.paused || nowMs < eng.pauseUntil) {
+          return;
+        }
+
+        vp.scrollTop += SPEED_PX_PER_SEC * dt;
+      });
+
+      relScrollAnimationId = requestAnimationFrame(tick);
+    }
+
+    relScrollAnimationId = requestAnimationFrame(tick);
   }
 
   // --- Predictive Image Preloader System ---
@@ -2106,6 +2214,8 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     preloadedUrls: preloadedUrls,
     preloadedReady: preloadedReady,
     syncStageAspectRatio: syncStageAspectRatio,
+    startRelAutoScroll: startRelAutoScroll,
+    stopRelAutoScroll: stopRelAutoScroll,
     chainImgErr: chainImgErr
   };
 

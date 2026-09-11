@@ -592,6 +592,35 @@ describe("detail drawer", () => {
     expect(doc.getElementById("dhead").textContent, "relcard click did not open the target").toContain(target.name);
   });
 
+  test("related flanking rails support infinite autoscroll with viewport, clones and clickable targets", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    // Find a game whose brand has >= 6 items so leftList has >= 3 items (triggers autoscroll)
+    const item = G.DATA.find((d) =>
+      G.liveCache.get(d.gid) && G.relatedOf(d, G.liveCache.get(d.gid)).length >= 5);
+    expect(item, "no cached product has >= 5 related siblings").toBeTruthy();
+
+    G.setTab("all");
+    G.openDetail(String(item.gid));
+
+    const vp = doc.querySelector("#dbody .relrail-viewport.has-autoscroll");
+    expect(vp, "overflowing rail must have .has-autoscroll viewport").toBeTruthy();
+
+    const clones = [...vp.querySelectorAll(".relclone")];
+    expect(clones.length, "autoscroll viewport must contain clones for infinite loop").toBeGreaterThanOrEqual(3);
+
+    // Clicking a cloned card also seamlessly opens that game's drawer
+    const cloneTarget = G.DATA.find((d) => String(d.gid) === clones[0].dataset.gid);
+    clones[0].click();
+    expect(doc.getElementById("drawer").classList.contains("open"), "drawer closed on clone click").toBe(true);
+    expect(doc.getElementById("dhead").textContent, "clone click did not open target").toContain(cloneTarget.name);
+
+    // Stop and restart autoscroll cleanly
+    expect(typeof G.startRelAutoScroll).toBe("function");
+    expect(typeof G.stopRelAutoScroll).toBe("function");
+    G.stopRelAutoScroll();
+  });
+
   test("closes via Esc, #dclose and the backdrop", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;

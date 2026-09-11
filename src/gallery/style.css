@@ -111,7 +111,8 @@ body.safe-mode .relimg {
 
 body.safe-mode .cover:hover img,
 body.safe-mode .strip:hover img,
-body.safe-mode .relcard:hover .relimg {
+body.safe-mode .relcard:hover .relimg,
+body.safe-mode .relclone:hover .relimg {
   filter: blur(0px) brightness(1);
 }
 
@@ -1451,21 +1452,21 @@ article.card:hover {
 }
 
 /* Flanking Recommendation Rails & Large Cover Cards */
-/* Floating Recommendation Rails & Large Cover Cards (去框留影，悬浮微动效) */
+/* Floating Recommendation Rails & Large Cover Cards (去框留影，悬浮微动效，自动无限循环) */
 @media (min-width: 1360px) {
   .relrail {
     position: fixed;
     top: 36px;
     bottom: 36px;
     width: 200px;
+    height: calc(100vh - 72px);
     max-height: calc(100vh - 72px);
-    overflow-y: auto;
-    scrollbar-width: thin;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
     z-index: 1015;
     pointer-events: auto;
+    overflow: visible;
   }
 
   .relrail.left {
@@ -1489,6 +1490,67 @@ article.card:hover {
   }
 }
 
+.relrail-viewport {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.relrail-viewport.has-autoscroll {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    black 28px,
+    black calc(100% - 28px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    black 28px,
+    black calc(100% - 28px),
+    transparent 100%
+  );
+}
+
+.relrail-viewport.has-autoscroll::-webkit-scrollbar {
+  display: none;
+}
+
+.relrail-track {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.relhead-badge {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  background: rgba(255, 42, 109, 0.15);
+  border: 1px solid rgba(255, 42, 109, 0.35);
+  color: var(--accent-crimson);
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+  text-transform: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  animation: pulseBadge 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseBadge {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; border-color: var(--accent-crimson); }
+}
+
 @media (max-width: 1359px) {
   .pavilion-layout {
     display: flex;
@@ -1502,9 +1564,25 @@ article.card:hover {
     gap: 14px;
     width: 100%;
     margin-top: 14px;
+    height: auto !important;
+    max-height: none !important;
   }
   .relrail .relhead {
     grid-column: 1 / -1;
+  }
+  .relrail-viewport {
+    display: contents;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+  .relrail-track {
+    display: contents;
+  }
+  .relclone {
+    display: none !important;
+  }
+  .relhead-badge {
+    display: none !important;
   }
 }
 
@@ -1520,9 +1598,11 @@ article.card:hover {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
-.relcard {
+.relcard,
+.relclone {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -1537,7 +1617,8 @@ article.card:hover {
   outline: none;
 }
 
-.relcard .relcover {
+.relcard .relcover,
+.relclone .relcover {
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
@@ -1550,13 +1631,16 @@ article.card:hover {
 }
 
 .relcard:hover .relcover,
-.relcard:focus-visible .relcover {
+.relcard:focus-visible .relcover,
+.relclone:hover .relcover,
+.relclone:focus-visible .relcover {
   transform: translateY(-5px);
   border-color: var(--accent-crimson);
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.9), 0 0 24px var(--accent-crimson-glow);
 }
 
-.relcard img.relimg {
+.relcard img.relimg,
+.relclone img.relimg {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1564,11 +1648,13 @@ article.card:hover {
   transition: transform 0.25s ease;
 }
 
-.relcard:hover img.relimg {
+.relcard:hover img.relimg,
+.relclone:hover img.relimg {
   transform: scale(1.06);
 }
 
-.relcard .relnocover {
+.relcard .relnocover,
+.relclone .relnocover {
   width: 100%;
   height: 100%;
   display: flex;
@@ -1580,7 +1666,8 @@ article.card:hover {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.relcard .relrank {
+.relcard .relrank,
+.relclone .relrank {
   position: absolute;
   top: 8px;
   left: 8px;
@@ -1597,7 +1684,8 @@ article.card:hover {
   z-index: 2;
 }
 
-.relcard .relmed {
+.relcard .relmed,
+.relclone .relmed {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -1610,7 +1698,8 @@ article.card:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
-.relcard .relmeta {
+.relcard .relmeta,
+.relclone .relmeta {
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -1618,7 +1707,8 @@ article.card:hover {
   padding: 0 2px;
 }
 
-.relcard .relname {
+.relcard .relname,
+.relclone .relname {
   font-family: var(--font-serif);
   font-size: 0.88rem;
   font-weight: 600;
@@ -1632,11 +1722,13 @@ article.card:hover {
   transition: color 0.2s ease;
 }
 
-.relcard:hover .relname {
+.relcard:hover .relname,
+.relclone:hover .relname {
   color: var(--accent-crimson);
 }
 
-.relcard .hint {
+.relcard .hint,
+.relclone .hint {
   font-family: var(--font-sans);
   font-size: 0.75rem;
   color: var(--text-muted);
