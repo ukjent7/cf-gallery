@@ -1452,15 +1452,15 @@ article.card:hover {
 }
 
 /* Flanking Recommendation Rails & Large Cover Cards */
-/* Flanking Recommendation Companion Pods (策展伴随舷舱 · 与检视台尺寸及边缘绝对对齐，磨砂暗夜玻璃与无限循环) */
+/* Flanking Recommendation Companion Pods (策展伴随舷舱 · 绝对锚定检视面板，磨砂暗夜玻璃与无限循环) */
 @media (min-width: 1360px) {
   .relrail {
-    position: fixed;
-    top: max(4vh, calc(50vh - 480px));
-    bottom: max(4vh, calc(50vh - 480px));
-    height: min(92vh, 960px);
-    max-height: min(92vh, 960px);
-    width: clamp(170px, 12.5vw, 210px);
+    position: absolute;
+    top: -1px;
+    bottom: -1px;
+    height: calc(100% + 2px);
+    max-height: calc(100% + 2px);
+    width: clamp(160px, 11.5vw, 210px);
     display: flex;
     flex-direction: column;
     z-index: 1015;
@@ -1475,21 +1475,19 @@ article.card:hover {
     padding: 18px 14px 14px 14px;
     box-sizing: border-box;
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    transition: opacity 0.25s ease;
   }
 
   .drawer-overlay.open .relrail {
     opacity: 1;
-    transform: translateY(0);
   }
 
   .relrail.left {
-    right: calc(50% + min(1000px, 92vw) / 2 + 16px);
+    right: calc(100% + 16px);
   }
 
   .relrail.right {
-    left: calc(50% + min(1000px, 92vw) / 2 + 16px);
+    left: calc(100% + 16px);
   }
 }
 
@@ -1499,10 +1497,10 @@ article.card:hover {
     padding: 20px 16px 16px 16px;
   }
   .relrail.left {
-    right: calc(50% + min(1000px, 92vw) / 2 + 20px);
+    right: calc(100% + 20px);
   }
   .relrail.right {
-    left: calc(50% + min(1000px, 92vw) / 2 + 20px);
+    left: calc(100% + 20px);
   }
 }
 
