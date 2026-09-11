@@ -521,6 +521,35 @@ describe("detail drawer", () => {
     expect(doc.getElementById("dbody").textContent).toContain("VNDB搜索");
   });
 
+  test("drawer store tabs switch active gallery section and support show all", () => {
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const gid = richGid(window);
+    G.setTab("all");
+    G.openDetail(gid);
+    const tabs = [...doc.querySelectorAll(".drawer-store-tabs .drawer-tab")];
+    expect(tabs.length).toBeGreaterThanOrEqual(3);
+    const activeTab = doc.querySelector(".drawer-store-tabs .drawer-tab.active");
+    expect(activeTab).toBeTruthy();
+
+    // Click a different store tab
+    const targetTab = tabs.find((t) => t.dataset.storeTab && t.dataset.storeTab !== "all" && t !== activeTab);
+    expect(targetTab).toBeTruthy();
+    targetTab.click();
+    expect(targetTab.classList.contains("active")).toBe(true);
+    const targetStoreId = targetTab.dataset.storeTab;
+    const targetSec = doc.querySelector(`.drawer-store-section[data-store="${targetStoreId}"]`);
+    expect(targetSec.classList.contains("dsec-hidden")).toBe(false);
+
+    // Click "all" tab
+    const allTab = doc.querySelector('.drawer-store-tabs .drawer-tab[data-store-tab="all"]');
+    expect(allTab).toBeTruthy();
+    allTab.click();
+    expect(allTab.classList.contains("active")).toBe(true);
+    const hiddenSecs = doc.querySelectorAll(".drawer-store-section.dsec-hidden");
+    expect(hiddenSecs.length).toBe(0);
+  });
+
   test("媚肉の香り (gid 10035) renders FANZA screenshots with correct sample URLs", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
@@ -814,6 +843,18 @@ describe("live meta discipline", () => {
     G.setTab("getchu");
     G.openDetail(gid);
     expect(calls.some((c) => /^\/gc\/meta\//.test(c.url))).toBe(false);
+  });
+
+  test("products whose baked DMM count is already known never hit /dm/meta", () => {
+    const { window, calls } = loadGallery();
+    const G = window.GALLERY;
+    const gid = Object.keys(G.STORE).find(
+      (k) => (G.STORE[k].m || G.STORE[k].m2) && typeof (G.STORE[k].m || G.STORE[k].m2).n === "number" && (G.STORE[k].m || G.STORE[k].m2).n > 0
+    );
+    expect(gid).toBeTruthy();
+    G.setTab("dmm");
+    G.openDetail(gid);
+    expect(calls.some((c) => /^\/dm\/meta\//.test(c.url))).toBe(false);
   });
 });
 

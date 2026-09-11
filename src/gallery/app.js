@@ -831,11 +831,14 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     var mainSections = [];
 
     // 1. DLsite Section
+    var dlHtml = "";
+    var dlCount = 0;
     if (st && st.l) {
       var dlSt = st.l;
       var stems = dlStems(dlSt);
-      mainSections.push(
-        '<div class="drawer-section dsec-dl">' +
+      dlCount = stems.length;
+      dlHtml =
+        '<div class="drawer-section drawer-store-section dsec-dl" data-store="dl">' +
           '<h3 id="dsec-h-dl">DLsite 样本原画 (<span data-livecount="dl">' + stems.length + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
             '<a href="' + escHtml(dlProductUrl(dlSt.id, dlSt.d)) + '" target="_blank" rel="noopener">DLsite 商品页面 (' + escHtml(dlSt.id) + ')</a>' +
@@ -845,8 +848,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
               return '<img src="' + escHtml(dlSampleThumbUrl(dlSt, s)) + '" data-full="' + escHtml(dlSampleUrl(dlSt, s)) + '" alt="DLsite sample" loading="lazy" decoding="async">';
             }).join("") +
           '</div>' +
-        '</div>'
-      );
+        '</div>';
 
       // Live DLsite meta check if unharvested
       if (USE_GC && dlSt.un && !sessionMetaCache.has("dl:" + dlSt.id)) {
@@ -885,6 +887,8 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }
 
     // 2. FANZA Section
+    var dmmHtml = "";
+    var dmmCount = 0;
     var dmmList = dmmEntries(st);
     if (dmmList.length > 0) {
       var dmmSamples = [];
@@ -899,10 +903,11 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       });
       var dmmCover = dmmPkgUrl(dmmList[0].id);
       var displayDmmSamples = dmmSamples.length > 0;
+      dmmCount = dmmSamples.length || (dmmCover ? 1 : 0);
 
-      mainSections.push(
-        '<div class="drawer-section dsec-dmm">' +
-          '<h3 id="dsec-h-dmm">FANZA 截帧图集 (<span data-livecount="dmm">' + (dmmSamples.length || (dmmCover ? 1 : 0)) + '</span>)</h3>' +
+      dmmHtml =
+        '<div class="drawer-section drawer-store-section dsec-dmm" data-store="dmm">' +
+          '<h3 id="dsec-h-dmm">FANZA 截帧图集 (<span data-livecount="dmm">' + dmmCount + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
             dmmList.map(function (dm) {
               return '<a href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA ' + escHtml(dmmFloorLabel(dm.id)) + ' (' + escHtml(dm.id) + ')</a>';
@@ -916,11 +921,10 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
               : (dmmCover ? '<img src="' + escHtml(dmmCover) + '" data-full="' + escHtml(dmmCover) + '" alt="FANZA cover" loading="lazy" decoding="async">' : '')
             ) +
           '</div>' +
-        '</div>'
-      );
+        '</div>';
 
-      // Live DMM meta check
-      if (USE_GC && !sessionMetaCache.has("dm:" + dmmList[0].id)) {
+      // Live DMM meta check (only if count unknown)
+      if (USE_GC && (typeof dmmList[0].n !== "number" || dmmList[0].n <= 0) && !sessionMetaCache.has("dm:" + dmmList[0].id)) {
         sessionMetaCache.add("dm:" + dmmList[0].id);
         fetch(dmApiMeta(dmmList[0].id))
           .then(function (r) { return r.json(); })
@@ -958,6 +962,8 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }
 
     // 3. Getchu Section
+    var gcHtml = "";
+    var gcCount = 0;
     if (st && st.g) {
       var gc = st.g;
       var gcSamples = [];
@@ -970,10 +976,11 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
       var gcCover = USE_GC ? gcApiCover(gc.id) : egsImg(item.gid, 1);
       var gcFallback = egsImg(item.gid, 1);
       var displaySamples = gcSamples.length > 0;
+      gcCount = gcSamples.length || (gcCover ? 1 : 0);
 
-      mainSections.push(
-        '<div class="drawer-section dsec-gc">' +
-          '<h3 id="dsec-h-gc">Getchu 宣传册样本 (<span data-livecount="gc">' + (gcSamples.length || (gcCover ? 1 : 0)) + '</span>)</h3>' +
+      gcHtml =
+        '<div class="drawer-section drawer-store-section dsec-gc" data-store="gc">' +
+          '<h3 id="dsec-h-gc">Getchu 宣传册样本 (<span data-livecount="gc">' + gcCount + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
             '<a href="' + escHtml(gcProductUrl(gc.id)) + '" target="_blank" rel="noopener">Getchu 作品页 (' + escHtml(gc.id) + ')</a>' +
           '</div>' +
@@ -986,8 +993,7 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
               : (gcCover ? '<img src="' + escHtml(gcCover) + '" data-full="' + escHtml(gcCover) + '" data-fb="' + escHtml(gcFallback) + '" alt="Getchu cover" loading="lazy" decoding="async" onerror="chainImgErr(this)">' : '')
             ) +
           '</div>' +
-        '</div>'
-      );
+        '</div>';
 
       // Live Getchu meta check (only if count unknown)
       if (USE_GC && (typeof gc.n !== "number" || gc.n <= 0) && !sessionMetaCache.has("gc:" + gc.id)) {
@@ -1027,10 +1033,12 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     }
 
     // 4. VNDB Section
+    var vndbHtml = "";
     var vndbShots = v && v.shots ? v.shots : [];
-    mainSections.push(
-      '<div class="drawer-section dsec-vndb">' +
-        '<h3 id="dsec-h-vndb">VNDB 视觉小说画廊 (<span data-livecount="vndb">' + vndbShots.length + '</span>)</h3>' +
+    var vndbCount = vndbShots.length;
+    vndbHtml =
+      '<div class="drawer-section drawer-store-section dsec-vndb" data-store="vndb">' +
+        '<h3 id="dsec-h-vndb">VNDB 视觉小说画廊 (<span data-livecount="vndb">' + vndbCount + '</span>)</h3>' +
         '<div class="drawer-meta-links">' +
           (v ? '<a href="' + escHtml(vnUrl(v.id)) + '" target="_blank" rel="noopener">VNDB 典藏页 (' + escHtml(v.id) + ')</a>' : '') +
           '<a href="' + escHtml(vnSearchUrl(item.name)) + '" target="_blank" rel="noopener">VNDB搜索</a>' +
@@ -1043,8 +1051,48 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
             }).join("") +
           '</div>'
         ) : '') +
-      '</div>'
-    );
+      '</div>';
+
+    // Store Tabs Navigation (On-demand viewing & network deferral)
+    var storeTabs = [];
+    if (dmmHtml) storeTabs.push({ id: "dmm", label: "FANZA", icon: "💎", count: dmmCount });
+    if (dlHtml) storeTabs.push({ id: "dl", label: "DLsite", icon: "🔷", count: dlCount });
+    if (gcHtml) storeTabs.push({ id: "gc", label: "Getchu", icon: "🔶", count: gcCount });
+    if (vndbShots.length > 0) storeTabs.push({ id: "vndb", label: "VNDB", icon: "🌐", count: vndbShots.length });
+
+    var defaultStoreTab = "all";
+    if (storeTabs.length >= 2) {
+      if (currentTab === "dmm" && dmmHtml) defaultStoreTab = "dmm";
+      else if (currentTab === "dlsite" && dlHtml) defaultStoreTab = "dl";
+      else if (currentTab === "getchu" && gcHtml) defaultStoreTab = "gc";
+      else if (currentTab === "vndb" && vndbShots.length > 0) defaultStoreTab = "vndb";
+      else if (dmmHtml) defaultStoreTab = "dmm";
+      else if (dlHtml) defaultStoreTab = "dl";
+      else if (gcHtml) defaultStoreTab = "gc";
+      else if (vndbShots.length > 0) defaultStoreTab = "vndb";
+    }
+
+    var tabsBarHtml = "";
+    if (storeTabs.length >= 2) {
+      tabsBarHtml =
+        '<div class="drawer-store-tabs" role="tablist" aria-label="画册图源筛选">' +
+          '<span class="drawer-tabs-label">画册图源</span>' +
+          storeTabs.map(function (tb) {
+            var isAct = tb.id === defaultStoreTab;
+            return '<button type="button" class="drawer-tab' + (isAct ? ' active' : '') + '" data-store-tab="' + tb.id + '">' +
+              '<span class="tab-icon">' + tb.icon + '</span> ' + tb.label + ' <span class="tab-badge">' + tb.count + '</span>' +
+            '</button>';
+          }).join("") +
+          '<button type="button" class="drawer-tab tab-all' + (defaultStoreTab === 'all' ? ' active' : '') + '" data-store-tab="all">全部展开</button>' +
+        '</div>';
+    }
+
+    var mainSections = [];
+    if (tabsBarHtml) mainSections.push(tabsBarHtml);
+    if (dmmHtml) mainSections.push(dmmHtml);
+    if (dlHtml) mainSections.push(dlHtml);
+    if (gcHtml) mainSections.push(gcHtml);
+    if (vndbHtml) mainSections.push(vndbHtml);
 
     // 5. Full CG Section
     var fullcg = _FULLCG[gid];
@@ -1140,6 +1188,33 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     dbody.innerHTML = bodyHtml;
     dbody.scrollTop = 0;
     if (dbody.scrollTo) dbody.scrollTo(0, 0);
+
+    // Drawer Store Tabs switching logic (On-demand gallery filtering & bandwidth protection)
+    function applyStoreTab(targetTab) {
+      var storeSections = dbody.querySelectorAll(".drawer-store-section");
+      storeSections.forEach(function (sec) {
+        if (targetTab === "all" || sec.getAttribute("data-store") === targetTab) {
+          sec.classList.remove("dsec-hidden");
+        } else {
+          sec.classList.add("dsec-hidden");
+        }
+      });
+      dbody.querySelectorAll(".drawer-tab").forEach(function (btn) {
+        btn.classList.toggle("active", btn.getAttribute("data-store-tab") === targetTab);
+      });
+    }
+
+    if (storeTabs.length >= 2 && defaultStoreTab !== "all") {
+      applyStoreTab(defaultStoreTab);
+    }
+
+    dbody.querySelectorAll(".drawer-tab").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var target = btn.getAttribute("data-store-tab");
+        playBeep(640, "sine", 0.03);
+        applyStoreTab(target);
+      });
+    });
 
     // Attach Lightbox click triggers on strip images & predictive hover prefetch
     var stripImages = dbody.querySelectorAll(".strip img");
@@ -1884,6 +1959,13 @@ var USE_GC = typeof window !== "undefined" && window.location && window.location
     // Boot Pipeline
     renderTagChips();
     applyFilter();
+
+    // Register Service Worker for Cache-First offline media caching (HTTP/HTTPS only)
+    if (typeof window !== "undefined" && "serviceWorker" in navigator && window.location && window.location.protocol && window.location.protocol.indexOf("http") === 0) {
+      try {
+        navigator.serviceWorker.register("/sw.js").catch(function () {});
+      } catch (e) {}
+    }
   }
 
   // --- Public View Tab Switcher ---

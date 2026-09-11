@@ -264,7 +264,7 @@ function handleDlMeta(route, domain, env) {
 
 function imageHeaders(up) {
   var headers = new Headers(up.headers);
-  headers.set("cache-control", "public, max-age=86400");
+  headers.set("cache-control", "public, max-age=2592000, s-maxage=2592000, immutable");
   // A cached Set-Cookie would poison the edge cache entry.
   headers.delete("set-cookie");
   return headers;
@@ -277,7 +277,7 @@ function handleImage(route, request, ctx) {
   return cache.match(cacheKey).then(function (hit) {
     if (hit) {
       var h = new Headers(hit.headers);
-      h.set("cache-control", "public, max-age=86400");
+      h.set("cache-control", "public, max-age=2592000, s-maxage=2592000, immutable");
       return new Response(hit.body, { status: hit.status, headers: h });
     }
     return throttle()
