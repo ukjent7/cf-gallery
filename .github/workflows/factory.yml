@@ -1,0 +1,60 @@
+name: factory
+
+# Full factory run: EGS export -> merge -> enrich -> recount -> snapshot,
+# then rebuild + test. Opens a PR, never pushes to main directly.
+on:
+  schedule:
+    - cron: "0 20 * * 0"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Cap crawl items per stage (empty = full run)"
+        required: false
+        default: ""
+
+concurrency:
+  group: factory
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: cf-gallery
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install factory deps
+        run: pip install -r scripts/factory/requirements.txt
+
+      - name: Run factory pipeline
+        env:
+          PIPELINE_LIMIT: ${{ inputs.limit }}
+        run: python3 scripts/factory/pipeline.py --all
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Rebuild and test
+        run: bun run check
+
+      - name: Open update PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: factory/update
+          delete-branch: true
+          commit-message: "chore(factory): weekly store snapshot update"
+          title: "chore(factory): weekly store snapshot update"
+          body: |
+            Automated factory run (`pipeline.py --all` + `bun run check`).
+            Review the `data/store_cache.json` diff before merging;
+            audit rows and delisted-work counts are preserved by merge policy.

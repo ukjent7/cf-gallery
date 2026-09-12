@@ -1,0 +1,11164 @@
+{
+ "12923": {
+  "gid": "12923",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17"
+  ]
+ },
+ "20636": {
+  "gid": "20636",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20764": {
+  "gid": "20764",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18",
+   "smpa19",
+   "smpa20"
+  ]
+ },
+ "22": {
+  "gid": "22",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26": {
+  "gid": "26",
+  "ok": false,
+  "reason": "skip"
+ },
+ "42": {
+  "gid": "42",
+  "ok": false,
+  "reason": "skip"
+ },
+ "113": {
+  "gid": "113",
+  "ok": false,
+  "reason": "skip"
+ },
+ "141": {
+  "gid": "141",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "158": {
+  "gid": "158",
+  "ok": false,
+  "reason": "skip"
+ },
+ "191": {
+  "gid": "191",
+  "ok": false,
+  "reason": "skip"
+ },
+ "204": {
+  "gid": "204",
+  "ok": false,
+  "reason": "skip"
+ },
+ "224": {
+  "gid": "224",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "236": {
+  "gid": "236",
+  "ok": false,
+  "reason": "skip"
+ },
+ "270": {
+  "gid": "270",
+  "ok": false,
+  "samples": []
+ },
+ "323": {
+  "gid": "323",
+  "ok": false,
+  "reason": "skip"
+ },
+ "334": {
+  "gid": "334",
+  "ok": false,
+  "reason": "skip"
+ },
+ "337": {
+  "gid": "337",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "371": {
+  "gid": "371",
+  "ok": false,
+  "reason": "skip"
+ },
+ "408": {
+  "gid": "408",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "452": {
+  "gid": "452",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "466": {
+  "gid": "466",
+  "ok": false,
+  "reason": "skip"
+ },
+ "491": {
+  "gid": "491",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "560": {
+  "gid": "560",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "583": {
+  "gid": "583",
+  "ok": false,
+  "reason": "skip"
+ },
+ "595": {
+  "gid": "595",
+  "ok": false,
+  "reason": "skip"
+ },
+ "617": {
+  "gid": "617",
+  "ok": false,
+  "reason": "skip"
+ },
+ "618": {
+  "gid": "618",
+  "ok": false,
+  "reason": "skip"
+ },
+ "686": {
+  "gid": "686",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "697": {
+  "gid": "697",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "701": {
+  "gid": "701",
+  "ok": false,
+  "reason": "skip"
+ },
+ "716": {
+  "gid": "716",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "721": {
+  "gid": "721",
+  "ok": false,
+  "reason": "skip"
+ },
+ "731": {
+  "gid": "731",
+  "ok": false,
+  "reason": "skip"
+ },
+ "733": {
+  "gid": "733",
+  "ok": false,
+  "reason": "skip"
+ },
+ "880": {
+  "gid": "880",
+  "ok": false,
+  "reason": "skip"
+ },
+ "888": {
+  "gid": "888",
+  "ok": false,
+  "reason": "skip"
+ },
+ "900": {
+  "gid": "900",
+  "ok": false,
+  "reason": "skip"
+ },
+ "964": {
+  "gid": "964",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1137": {
+  "gid": "1137",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1243": {
+  "gid": "1243",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1306": {
+  "gid": "1306",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1403": {
+  "gid": "1403",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "1420": {
+  "gid": "1420",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1530": {
+  "gid": "1530",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1535": {
+  "gid": "1535",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "1608": {
+  "gid": "1608",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1622": {
+  "gid": "1622",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1634": {
+  "gid": "1634",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1648": {
+  "gid": "1648",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "1721": {
+  "gid": "1721",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1762": {
+  "gid": "1762",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "1773": {
+  "gid": "1773",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "1791": {
+  "gid": "1791",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "1892": {
+  "gid": "1892",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "1933": {
+  "gid": "1933",
+  "ok": false,
+  "reason": "skip"
+ },
+ "1957": {
+  "gid": "1957",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "1970": {
+  "gid": "1970",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2006": {
+  "gid": "2006",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2008": {
+  "gid": "2008",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2071": {
+  "gid": "2071",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "2082": {
+  "gid": "2082",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2093": {
+  "gid": "2093",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2100": {
+  "gid": "2100",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2187": {
+  "gid": "2187",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2199": {
+  "gid": "2199",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2331": {
+  "gid": "2331",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2414": {
+  "gid": "2414",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "2445": {
+  "gid": "2445",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2452": {
+  "gid": "2452",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "2478": {
+  "gid": "2478",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2501": {
+  "gid": "2501",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2502": {
+  "gid": "2502",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2535": {
+  "gid": "2535",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2541": {
+  "gid": "2541",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2627": {
+  "gid": "2627",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2640": {
+  "gid": "2640",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2643": {
+  "gid": "2643",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2662": {
+  "gid": "2662",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2666": {
+  "gid": "2666",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2779": {
+  "gid": "2779",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17"
+  ]
+ },
+ "2789": {
+  "gid": "2789",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2790": {
+  "gid": "2790",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2797": {
+  "gid": "2797",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2838": {
+  "gid": "2838",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2879": {
+  "gid": "2879",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2886": {
+  "gid": "2886",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4"
+  ]
+ },
+ "2894": {
+  "gid": "2894",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2912": {
+  "gid": "2912",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "2922": {
+  "gid": "2922",
+  "ok": false,
+  "reason": "skip"
+ },
+ "2935": {
+  "gid": "2935",
+  "ok": false,
+  "reason": "fetch-failed"
+ },
+ "2950": {
+  "gid": "2950",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "2960": {
+  "gid": "2960",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3017": {
+  "gid": "3017",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3060": {
+  "gid": "3060",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3184": {
+  "gid": "3184",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3193": {
+  "gid": "3193",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14"
+  ]
+ },
+ "3254": {
+  "gid": "3254",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3274": {
+  "gid": "3274",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3378": {
+  "gid": "3378",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3404": {
+  "gid": "3404",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3452": {
+  "gid": "3452",
+  "ok": false,
+  "samples": []
+ },
+ "3477": {
+  "gid": "3477",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "3513": {
+  "gid": "3513",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18"
+  ]
+ },
+ "3530": {
+  "gid": "3530",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3648": {
+  "gid": "3648",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3693": {
+  "gid": "3693",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3704": {
+  "gid": "3704",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3706": {
+  "gid": "3706",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3713": {
+  "gid": "3713",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3729": {
+  "gid": "3729",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3741": {
+  "gid": "3741",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3804": {
+  "gid": "3804",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3805": {
+  "gid": "3805",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3840": {
+  "gid": "3840",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3852": {
+  "gid": "3852",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3898": {
+  "gid": "3898",
+  "ok": false,
+  "reason": "skip"
+ },
+ "3933": {
+  "gid": "3933",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3948": {
+  "gid": "3948",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "3999": {
+  "gid": "3999",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "4126": {
+  "gid": "4126",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "4128": {
+  "gid": "4128",
+  "ok": false,
+  "reason": "skip"
+ },
+ "4138": {
+  "gid": "4138",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "4140": {
+  "gid": "4140",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "4248": {
+  "gid": "4248",
+  "ok": false,
+  "reason": "skip"
+ },
+ "4255": {
+  "gid": "4255",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "4280": {
+  "gid": "4280",
+  "ok": false,
+  "reason": "skip"
+ },
+ "4286": {
+  "gid": "4286",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "4410": {
+  "gid": "4410",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "4430": {
+  "gid": "4430",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "4438": {
+  "gid": "4438",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "4517": {
+  "gid": "4517",
+  "ok": false,
+  "reason": "skip"
+ },
+ "4528": {
+  "gid": "4528",
+  "ok": false,
+  "reason": "fetch-failed"
+ },
+ "4529": {
+  "gid": "4529",
+  "ok": false,
+  "reason": "skip"
+ },
+ "4540": {
+  "gid": "4540",
+  "ok": false,
+  "reason": "skip"
+ },
+ "4673": {
+  "gid": "4673",
+  "ok": false,
+  "reason": "skip"
+ },
+ "4813": {
+  "gid": "4813",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "4857": {
+  "gid": "4857",
+  "ok": false,
+  "reason": "skip"
+ },
+ "4866": {
+  "gid": "4866",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "4939": {
+  "gid": "4939",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "4949": {
+  "gid": "4949",
+  "ok": false,
+  "reason": "skip"
+ },
+ "5031": {
+  "gid": "5031",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16"
+  ]
+ },
+ "5078": {
+  "gid": "5078",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "5133": {
+  "gid": "5133",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "5137": {
+  "gid": "5137",
+  "ok": false,
+  "reason": "skip"
+ },
+ "5149": {
+  "gid": "5149",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "5167": {
+  "gid": "5167",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "5924": {
+  "gid": "5924",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "5982": {
+  "gid": "5982",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "6075": {
+  "gid": "6075",
+  "ok": false,
+  "reason": "skip"
+ },
+ "6079": {
+  "gid": "6079",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "6083": {
+  "gid": "6083",
+  "ok": false,
+  "reason": "skip"
+ },
+ "6092": {
+  "gid": "6092",
+  "ok": false,
+  "reason": "skip"
+ },
+ "6151": {
+  "gid": "6151",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "6313": {
+  "gid": "6313",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "6354": {
+  "gid": "6354",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "6356": {
+  "gid": "6356",
+  "ok": false,
+  "reason": "skip"
+ },
+ "6376": {
+  "gid": "6376",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "6401": {
+  "gid": "6401",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "6412": {
+  "gid": "6412",
+  "ok": false,
+  "reason": "skip"
+ },
+ "6467": {
+  "gid": "6467",
+  "ok": false,
+  "reason": "skip"
+ },
+ "6887": {
+  "gid": "6887",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "6940": {
+  "gid": "6940",
+  "ok": false,
+  "reason": "skip"
+ },
+ "7134": {
+  "gid": "7134",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7147": {
+  "gid": "7147",
+  "ok": false,
+  "reason": "skip"
+ },
+ "7169": {
+  "gid": "7169",
+  "ok": false,
+  "reason": "skip"
+ },
+ "7216": {
+  "gid": "7216",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "7293": {
+  "gid": "7293",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "7472": {
+  "gid": "7472",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7475": {
+  "gid": "7475",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7485": {
+  "gid": "7485",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17"
+  ]
+ },
+ "7549": {
+  "gid": "7549",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "7585": {
+  "gid": "7585",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "7619": {
+  "gid": "7619",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "7686": {
+  "gid": "7686",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7705": {
+  "gid": "7705",
+  "ok": false,
+  "reason": "fetch-failed"
+ },
+ "7763": {
+  "gid": "7763",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "7798": {
+  "gid": "7798",
+  "ok": false,
+  "reason": "skip"
+ },
+ "7805": {
+  "gid": "7805",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7820": {
+  "gid": "7820",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7841": {
+  "gid": "7841",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7850": {
+  "gid": "7850",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7853": {
+  "gid": "7853",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7862": {
+  "gid": "7862",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "7897": {
+  "gid": "7897",
+  "ok": false,
+  "reason": "skip"
+ },
+ "7941": {
+  "gid": "7941",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7944": {
+  "gid": "7944",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "7950": {
+  "gid": "7950",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "8134": {
+  "gid": "8134",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "8169": {
+  "gid": "8169",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "8173": {
+  "gid": "8173",
+  "ok": false,
+  "reason": "skip"
+ },
+ "8380": {
+  "gid": "8380",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "8404": {
+  "gid": "8404",
+  "ok": false,
+  "reason": "skip"
+ },
+ "8433": {
+  "gid": "8433",
+  "ok": false,
+  "reason": "skip"
+ },
+ "8461": {
+  "gid": "8461",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "8489": {
+  "gid": "8489",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "8492": {
+  "gid": "8492",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "8559": {
+  "gid": "8559",
+  "ok": false,
+  "reason": "skip"
+ },
+ "8565": {
+  "gid": "8565",
+  "ok": false,
+  "reason": "skip"
+ },
+ "8719": {
+  "gid": "8719",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "8725": {
+  "gid": "8725",
+  "ok": false,
+  "reason": "skip"
+ },
+ "8810": {
+  "gid": "8810",
+  "ok": false,
+  "reason": "skip"
+ },
+ "8826": {
+  "gid": "8826",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "8921": {
+  "gid": "8921",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9048": {
+  "gid": "9048",
+  "ok": false,
+  "reason": "fetch-failed"
+ },
+ "9303": {
+  "gid": "9303",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9308": {
+  "gid": "9308",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "9310": {
+  "gid": "9310",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9315": {
+  "gid": "9315",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9326": {
+  "gid": "9326",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "9406": {
+  "gid": "9406",
+  "ok": false,
+  "reason": "skip"
+ },
+ "9464": {
+  "gid": "9464",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9494": {
+  "gid": "9494",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9555": {
+  "gid": "9555",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "9559": {
+  "gid": "9559",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9594": {
+  "gid": "9594",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "9685": {
+  "gid": "9685",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9706": {
+  "gid": "9706",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "9854": {
+  "gid": "9854",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "9856": {
+  "gid": "9856",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9952": {
+  "gid": "9952",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "9956": {
+  "gid": "9956",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "9967": {
+  "gid": "9967",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10035": {
+  "gid": "10035",
+  "ok": false,
+  "reason": "skip"
+ },
+ "10080": {
+  "gid": "10080",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10087": {
+  "gid": "10087",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10170": {
+  "gid": "10170",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "10205": {
+  "gid": "10205",
+  "ok": false,
+  "reason": "skip"
+ },
+ "10263": {
+  "gid": "10263",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "10286": {
+  "gid": "10286",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "10317": {
+  "gid": "10317",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10324": {
+  "gid": "10324",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10378": {
+  "gid": "10378",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "10396": {
+  "gid": "10396",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10468": {
+  "gid": "10468",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10469": {
+  "gid": "10469",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10498": {
+  "gid": "10498",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10550": {
+  "gid": "10550",
+  "ok": false,
+  "reason": "skip"
+ },
+ "10723": {
+  "gid": "10723",
+  "ok": false,
+  "reason": "skip"
+ },
+ "10732": {
+  "gid": "10732",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "10740": {
+  "gid": "10740",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10952": {
+  "gid": "10952",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "10977": {
+  "gid": "10977",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "10983": {
+  "gid": "10983",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "11018": {
+  "gid": "11018",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "11122": {
+  "gid": "11122",
+  "ok": false,
+  "reason": "skip"
+ },
+ "11230": {
+  "gid": "11230",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "11347": {
+  "gid": "11347",
+  "ok": false,
+  "reason": "skip"
+ },
+ "11357": {
+  "gid": "11357",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "11482": {
+  "gid": "11482",
+  "ok": false,
+  "reason": "skip"
+ },
+ "11510": {
+  "gid": "11510",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "11681": {
+  "gid": "11681",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "11748": {
+  "gid": "11748",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "11950": {
+  "gid": "11950",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "12011": {
+  "gid": "12011",
+  "ok": false,
+  "reason": "skip"
+ },
+ "12074": {
+  "gid": "12074",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12156": {
+  "gid": "12156",
+  "ok": false,
+  "reason": "skip"
+ },
+ "12216": {
+  "gid": "12216",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12224": {
+  "gid": "12224",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12246": {
+  "gid": "12246",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12251": {
+  "gid": "12251",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "12367": {
+  "gid": "12367",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12480": {
+  "gid": "12480",
+  "ok": false,
+  "reason": "skip"
+ },
+ "12559": {
+  "gid": "12559",
+  "ok": false,
+  "samples": []
+ },
+ "12575": {
+  "gid": "12575",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "12730": {
+  "gid": "12730",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12735": {
+  "gid": "12735",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12754": {
+  "gid": "12754",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "12794": {
+  "gid": "12794",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12807": {
+  "gid": "12807",
+  "ok": false,
+  "reason": "skip"
+ },
+ "12869": {
+  "gid": "12869",
+  "ok": false,
+  "reason": "skip"
+ },
+ "12903": {
+  "gid": "12903",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12942": {
+  "gid": "12942",
+  "ok": false,
+  "reason": "skip"
+ },
+ "12954": {
+  "gid": "12954",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12981": {
+  "gid": "12981",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "12990": {
+  "gid": "12990",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "12992": {
+  "gid": "12992",
+  "ok": false,
+  "reason": "skip"
+ },
+ "13058": {
+  "gid": "13058",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "13070": {
+  "gid": "13070",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13255": {
+  "gid": "13255",
+  "ok": false,
+  "reason": "skip"
+ },
+ "13267": {
+  "gid": "13267",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13268": {
+  "gid": "13268",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "13273": {
+  "gid": "13273",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13403": {
+  "gid": "13403",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "13474": {
+  "gid": "13474",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13530": {
+  "gid": "13530",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13569": {
+  "gid": "13569",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13588": {
+  "gid": "13588",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13594": {
+  "gid": "13594",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "13641": {
+  "gid": "13641",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13702": {
+  "gid": "13702",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13717": {
+  "gid": "13717",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13745": {
+  "gid": "13745",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4"
+  ]
+ },
+ "13762": {
+  "gid": "13762",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13779": {
+  "gid": "13779",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "13803": {
+  "gid": "13803",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13809": {
+  "gid": "13809",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "13823": {
+  "gid": "13823",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "13907": {
+  "gid": "13907",
+  "ok": false,
+  "reason": "skip"
+ },
+ "13909": {
+  "gid": "13909",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "13913": {
+  "gid": "13913",
+  "ok": false,
+  "reason": "skip"
+ },
+ "14003": {
+  "gid": "14003",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "14006": {
+  "gid": "14006",
+  "ok": false,
+  "reason": "skip"
+ },
+ "14022": {
+  "gid": "14022",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "14038": {
+  "gid": "14038",
+  "ok": false,
+  "reason": "skip"
+ },
+ "14139": {
+  "gid": "14139",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "14165": {
+  "gid": "14165",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "14174": {
+  "gid": "14174",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "14178": {
+  "gid": "14178",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "14201": {
+  "gid": "14201",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "14203": {
+  "gid": "14203",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "14321": {
+  "gid": "14321",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "14367": {
+  "gid": "14367",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "14434": {
+  "gid": "14434",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "14480": {
+  "gid": "14480",
+  "ok": false,
+  "reason": "skip"
+ },
+ "14514": {
+  "gid": "14514",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "14520": {
+  "gid": "14520",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "14524": {
+  "gid": "14524",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "14562": {
+  "gid": "14562",
+  "ok": false,
+  "reason": "fetch-failed"
+ },
+ "14607": {
+  "gid": "14607",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "14609": {
+  "gid": "14609",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "14626": {
+  "gid": "14626",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "14628": {
+  "gid": "14628",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "14630": {
+  "gid": "14630",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "14730": {
+  "gid": "14730",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "14834": {
+  "gid": "14834",
+  "ok": false,
+  "reason": "skip"
+ },
+ "14862": {
+  "gid": "14862",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "14899": {
+  "gid": "14899",
+  "ok": false,
+  "reason": "skip"
+ },
+ "14969": {
+  "gid": "14969",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "14990": {
+  "gid": "14990",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15010": {
+  "gid": "15010",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15048": {
+  "gid": "15048",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15068": {
+  "gid": "15068",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "15079": {
+  "gid": "15079",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15084": {
+  "gid": "15084",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15121": {
+  "gid": "15121",
+  "ok": false,
+  "reason": "skip"
+ },
+ "15130": {
+  "gid": "15130",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "15199": {
+  "gid": "15199",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15203": {
+  "gid": "15203",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15231": {
+  "gid": "15231",
+  "ok": false,
+  "reason": "skip"
+ },
+ "15250": {
+  "gid": "15250",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15303": {
+  "gid": "15303",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15319": {
+  "gid": "15319",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15"
+  ]
+ },
+ "15332": {
+  "gid": "15332",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15351": {
+  "gid": "15351",
+  "ok": false,
+  "reason": "skip"
+ },
+ "15404": {
+  "gid": "15404",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15406": {
+  "gid": "15406",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15415": {
+  "gid": "15415",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15432": {
+  "gid": "15432",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15438": {
+  "gid": "15438",
+  "ok": false,
+  "reason": "skip"
+ },
+ "15443": {
+  "gid": "15443",
+  "ok": false,
+  "reason": "skip"
+ },
+ "15455": {
+  "gid": "15455",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15488": {
+  "gid": "15488",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15519": {
+  "gid": "15519",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15523": {
+  "gid": "15523",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15586": {
+  "gid": "15586",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "15587": {
+  "gid": "15587",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "15590": {
+  "gid": "15590",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "15607": {
+  "gid": "15607",
+  "ok": false,
+  "reason": "skip"
+ },
+ "15711": {
+  "gid": "15711",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15738": {
+  "gid": "15738",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15881": {
+  "gid": "15881",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15896": {
+  "gid": "15896",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "15901": {
+  "gid": "15901",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15913": {
+  "gid": "15913",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15925": {
+  "gid": "15925",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15929": {
+  "gid": "15929",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "15937": {
+  "gid": "15937",
+  "ok": false,
+  "reason": "skip"
+ },
+ "15961": {
+  "gid": "15961",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15984": {
+  "gid": "15984",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "15986": {
+  "gid": "15986",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16028": {
+  "gid": "16028",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16068": {
+  "gid": "16068",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16075": {
+  "gid": "16075",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "16077": {
+  "gid": "16077",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16109": {
+  "gid": "16109",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "16123": {
+  "gid": "16123",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "16124": {
+  "gid": "16124",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16133": {
+  "gid": "16133",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16136": {
+  "gid": "16136",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16147": {
+  "gid": "16147",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "16150": {
+  "gid": "16150",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16159": {
+  "gid": "16159",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "16173": {
+  "gid": "16173",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16206": {
+  "gid": "16206",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "16224": {
+  "gid": "16224",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "16247": {
+  "gid": "16247",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16263": {
+  "gid": "16263",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "16281": {
+  "gid": "16281",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16285": {
+  "gid": "16285",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16322": {
+  "gid": "16322",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16411": {
+  "gid": "16411",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16450": {
+  "gid": "16450",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16518": {
+  "gid": "16518",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "16569": {
+  "gid": "16569",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18",
+   "smpa19"
+  ]
+ },
+ "16604": {
+  "gid": "16604",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "16657": {
+  "gid": "16657",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "16717": {
+  "gid": "16717",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "16752": {
+  "gid": "16752",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16782": {
+  "gid": "16782",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "16798": {
+  "gid": "16798",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "16869": {
+  "gid": "16869",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "16878": {
+  "gid": "16878",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16882": {
+  "gid": "16882",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16883": {
+  "gid": "16883",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16900": {
+  "gid": "16900",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16905": {
+  "gid": "16905",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16964": {
+  "gid": "16964",
+  "ok": false,
+  "reason": "skip"
+ },
+ "16984": {
+  "gid": "16984",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "16992": {
+  "gid": "16992",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17002": {
+  "gid": "17002",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17003": {
+  "gid": "17003",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "17017": {
+  "gid": "17017",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17043": {
+  "gid": "17043",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17072": {
+  "gid": "17072",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "17075": {
+  "gid": "17075",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "17079": {
+  "gid": "17079",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17097": {
+  "gid": "17097",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17113": {
+  "gid": "17113",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17116": {
+  "gid": "17116",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17144": {
+  "gid": "17144",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17145": {
+  "gid": "17145",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17176": {
+  "gid": "17176",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17179": {
+  "gid": "17179",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17194": {
+  "gid": "17194",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17238": {
+  "gid": "17238",
+  "ok": false,
+  "reason": "skip"
+ },
+ "17239": {
+  "gid": "17239",
+  "ok": false,
+  "reason": "skip"
+ },
+ "17251": {
+  "gid": "17251",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "17310": {
+  "gid": "17310",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17361": {
+  "gid": "17361",
+  "ok": false,
+  "reason": "skip"
+ },
+ "17388": {
+  "gid": "17388",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17438": {
+  "gid": "17438",
+  "ok": true,
+  "samples": [
+   "smpa1"
+  ]
+ },
+ "17527": {
+  "gid": "17527",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17589": {
+  "gid": "17589",
+  "ok": false,
+  "reason": "skip"
+ },
+ "17592": {
+  "gid": "17592",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17601": {
+  "gid": "17601",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17659": {
+  "gid": "17659",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17736": {
+  "gid": "17736",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "17744": {
+  "gid": "17744",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17782": {
+  "gid": "17782",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "17789": {
+  "gid": "17789",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17791": {
+  "gid": "17791",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "17792": {
+  "gid": "17792",
+  "ok": false,
+  "reason": "skip"
+ },
+ "17802": {
+  "gid": "17802",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17806": {
+  "gid": "17806",
+  "ok": false,
+  "reason": "skip"
+ },
+ "17811": {
+  "gid": "17811",
+  "ok": false,
+  "reason": "skip"
+ },
+ "17827": {
+  "gid": "17827",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17831": {
+  "gid": "17831",
+  "ok": false,
+  "reason": "skip"
+ },
+ "17862": {
+  "gid": "17862",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17876": {
+  "gid": "17876",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17884": {
+  "gid": "17884",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17885": {
+  "gid": "17885",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18",
+   "smpa19",
+   "smpa20",
+   "smpa21",
+   "smpa22"
+  ]
+ },
+ "17890": {
+  "gid": "17890",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17905": {
+  "gid": "17905",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17909": {
+  "gid": "17909",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17911": {
+  "gid": "17911",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17921": {
+  "gid": "17921",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17924": {
+  "gid": "17924",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "17931": {
+  "gid": "17931",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "17986": {
+  "gid": "17986",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "18021": {
+  "gid": "18021",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "18037": {
+  "gid": "18037",
+  "ok": false,
+  "reason": "skip"
+ },
+ "18049": {
+  "gid": "18049",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "18084": {
+  "gid": "18084",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "18089": {
+  "gid": "18089",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "18100": {
+  "gid": "18100",
+  "ok": false,
+  "reason": "skip"
+ },
+ "18135": {
+  "gid": "18135",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "18156": {
+  "gid": "18156",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "18165": {
+  "gid": "18165",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "18172": {
+  "gid": "18172",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "18179": {
+  "gid": "18179",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "18257": {
+  "gid": "18257",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "18465": {
+  "gid": "18465",
+  "ok": true,
+  "samples": [
+   "smp1"
+  ]
+ },
+ "18469": {
+  "gid": "18469",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "18470": {
+  "gid": "18470",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "18485": {
+  "gid": "18485",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "18486": {
+  "gid": "18486",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "18640": {
+  "gid": "18640",
+  "ok": false,
+  "reason": "skip"
+ },
+ "18791": {
+  "gid": "18791",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "18834": {
+  "gid": "18834",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "18840": {
+  "gid": "18840",
+  "ok": false,
+  "reason": "skip"
+ },
+ "18898": {
+  "gid": "18898",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "18903": {
+  "gid": "18903",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "18905": {
+  "gid": "18905",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "18933": {
+  "gid": "18933",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "18934": {
+  "gid": "18934",
+  "ok": false,
+  "reason": "skip"
+ },
+ "18957": {
+  "gid": "18957",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "18969": {
+  "gid": "18969",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "18970": {
+  "gid": "18970",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19029": {
+  "gid": "19029",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19046": {
+  "gid": "19046",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19097": {
+  "gid": "19097",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19099": {
+  "gid": "19099",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19104": {
+  "gid": "19104",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19111": {
+  "gid": "19111",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19189": {
+  "gid": "19189",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19205": {
+  "gid": "19205",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19227": {
+  "gid": "19227",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19230": {
+  "gid": "19230",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "19250": {
+  "gid": "19250",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19268": {
+  "gid": "19268",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19272": {
+  "gid": "19272",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19273": {
+  "gid": "19273",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19280": {
+  "gid": "19280",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19281": {
+  "gid": "19281",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19335": {
+  "gid": "19335",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14"
+  ]
+ },
+ "19346": {
+  "gid": "19346",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19386": {
+  "gid": "19386",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19387": {
+  "gid": "19387",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19415": {
+  "gid": "19415",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19425": {
+  "gid": "19425",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19437": {
+  "gid": "19437",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "19443": {
+  "gid": "19443",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19474": {
+  "gid": "19474",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3"
+  ]
+ },
+ "19475": {
+  "gid": "19475",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19602": {
+  "gid": "19602",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19609": {
+  "gid": "19609",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "19619": {
+  "gid": "19619",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19620": {
+  "gid": "19620",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "19623": {
+  "gid": "19623",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19661": {
+  "gid": "19661",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19664": {
+  "gid": "19664",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "19713": {
+  "gid": "19713",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "19714": {
+  "gid": "19714",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19721": {
+  "gid": "19721",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19746": {
+  "gid": "19746",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19791": {
+  "gid": "19791",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19807": {
+  "gid": "19807",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19856": {
+  "gid": "19856",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19867": {
+  "gid": "19867",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19873": {
+  "gid": "19873",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19912": {
+  "gid": "19912",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19919": {
+  "gid": "19919",
+  "ok": false,
+  "reason": "skip"
+ },
+ "19927": {
+  "gid": "19927",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "19936": {
+  "gid": "19936",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "19949": {
+  "gid": "19949",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "19951": {
+  "gid": "19951",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19952": {
+  "gid": "19952",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19956": {
+  "gid": "19956",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "19984": {
+  "gid": "19984",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20068": {
+  "gid": "20068",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "20078": {
+  "gid": "20078",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20122": {
+  "gid": "20122",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20167": {
+  "gid": "20167",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20174": {
+  "gid": "20174",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20183": {
+  "gid": "20183",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20185": {
+  "gid": "20185",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20189": {
+  "gid": "20189",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20236": {
+  "gid": "20236",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20254": {
+  "gid": "20254",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20284": {
+  "gid": "20284",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20294": {
+  "gid": "20294",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "20302": {
+  "gid": "20302",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20312": {
+  "gid": "20312",
+  "ok": false,
+  "reason": "skip"
+ },
+ "20314": {
+  "gid": "20314",
+  "ok": false,
+  "reason": "skip"
+ },
+ "20320": {
+  "gid": "20320",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20328": {
+  "gid": "20328",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20349": {
+  "gid": "20349",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "20359": {
+  "gid": "20359",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20370": {
+  "gid": "20370",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20371": {
+  "gid": "20371",
+  "ok": false,
+  "reason": "skip"
+ },
+ "20396": {
+  "gid": "20396",
+  "ok": false,
+  "reason": "skip"
+ },
+ "20459": {
+  "gid": "20459",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20460": {
+  "gid": "20460",
+  "ok": false,
+  "reason": "skip"
+ },
+ "20463": {
+  "gid": "20463",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20497": {
+  "gid": "20497",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "20515": {
+  "gid": "20515",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20541": {
+  "gid": "20541",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "20551": {
+  "gid": "20551",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20579": {
+  "gid": "20579",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20580": {
+  "gid": "20580",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20602": {
+  "gid": "20602",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16"
+  ]
+ },
+ "20635": {
+  "gid": "20635",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "20666": {
+  "gid": "20666",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20711": {
+  "gid": "20711",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20723": {
+  "gid": "20723",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20727": {
+  "gid": "20727",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "20730": {
+  "gid": "20730",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20780": {
+  "gid": "20780",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20792": {
+  "gid": "20792",
+  "ok": false,
+  "reason": "skip"
+ },
+ "20801": {
+  "gid": "20801",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20852": {
+  "gid": "20852",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20856": {
+  "gid": "20856",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "20875": {
+  "gid": "20875",
+  "ok": false,
+  "reason": "skip"
+ },
+ "20882": {
+  "gid": "20882",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2"
+  ]
+ },
+ "20883": {
+  "gid": "20883",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2"
+  ]
+ },
+ "20885": {
+  "gid": "20885",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2"
+  ]
+ },
+ "20947": {
+  "gid": "20947",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20959": {
+  "gid": "20959",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "20987": {
+  "gid": "20987",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "20989": {
+  "gid": "20989",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21008": {
+  "gid": "21008",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "21009": {
+  "gid": "21009",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "21033": {
+  "gid": "21033",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21064": {
+  "gid": "21064",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21073": {
+  "gid": "21073",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21074": {
+  "gid": "21074",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21076": {
+  "gid": "21076",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21080": {
+  "gid": "21080",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "21095": {
+  "gid": "21095",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21104": {
+  "gid": "21104",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21109": {
+  "gid": "21109",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21226": {
+  "gid": "21226",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4"
+  ]
+ },
+ "21248": {
+  "gid": "21248",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21267": {
+  "gid": "21267",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21298": {
+  "gid": "21298",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21300": {
+  "gid": "21300",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21326": {
+  "gid": "21326",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21355": {
+  "gid": "21355",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21364": {
+  "gid": "21364",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "21366": {
+  "gid": "21366",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21368": {
+  "gid": "21368",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21372": {
+  "gid": "21372",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "21387": {
+  "gid": "21387",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "21401": {
+  "gid": "21401",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "21414": {
+  "gid": "21414",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21426": {
+  "gid": "21426",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21434": {
+  "gid": "21434",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21436": {
+  "gid": "21436",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21451": {
+  "gid": "21451",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21523": {
+  "gid": "21523",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21525": {
+  "gid": "21525",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "21531": {
+  "gid": "21531",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21535": {
+  "gid": "21535",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21541": {
+  "gid": "21541",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21576": {
+  "gid": "21576",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "21627": {
+  "gid": "21627",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21645": {
+  "gid": "21645",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21693": {
+  "gid": "21693",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21717": {
+  "gid": "21717",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "21746": {
+  "gid": "21746",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "21757": {
+  "gid": "21757",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21820": {
+  "gid": "21820",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21878": {
+  "gid": "21878",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21902": {
+  "gid": "21902",
+  "ok": false,
+  "reason": "skip"
+ },
+ "21909": {
+  "gid": "21909",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21917": {
+  "gid": "21917",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "21930": {
+  "gid": "21930",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15"
+  ]
+ },
+ "21962": {
+  "gid": "21962",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22002": {
+  "gid": "22002",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22023": {
+  "gid": "22023",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "22037": {
+  "gid": "22037",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22060": {
+  "gid": "22060",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "22068": {
+  "gid": "22068",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22195": {
+  "gid": "22195",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22200": {
+  "gid": "22200",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22253": {
+  "gid": "22253",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22269": {
+  "gid": "22269",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22289": {
+  "gid": "22289",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22301": {
+  "gid": "22301",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "22302": {
+  "gid": "22302",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "22341": {
+  "gid": "22341",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22386": {
+  "gid": "22386",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "22458": {
+  "gid": "22458",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22464": {
+  "gid": "22464",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22471": {
+  "gid": "22471",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22488": {
+  "gid": "22488",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22531": {
+  "gid": "22531",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22628": {
+  "gid": "22628",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22668": {
+  "gid": "22668",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22677": {
+  "gid": "22677",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22679": {
+  "gid": "22679",
+  "ok": false,
+  "reason": "skip"
+ },
+ "22698": {
+  "gid": "22698",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "22705": {
+  "gid": "22705",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22811": {
+  "gid": "22811",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22834": {
+  "gid": "22834",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "22873": {
+  "gid": "22873",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "22886": {
+  "gid": "22886",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "22923": {
+  "gid": "22923",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "22978": {
+  "gid": "22978",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "23010": {
+  "gid": "23010",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14"
+  ]
+ },
+ "23043": {
+  "gid": "23043",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23046": {
+  "gid": "23046",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23066": {
+  "gid": "23066",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23111": {
+  "gid": "23111",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "23148": {
+  "gid": "23148",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23162": {
+  "gid": "23162",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23165": {
+  "gid": "23165",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "23213": {
+  "gid": "23213",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "23223": {
+  "gid": "23223",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23326": {
+  "gid": "23326",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23327": {
+  "gid": "23327",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23345": {
+  "gid": "23345",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "23426": {
+  "gid": "23426",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "23454": {
+  "gid": "23454",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23499": {
+  "gid": "23499",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23515": {
+  "gid": "23515",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "23563": {
+  "gid": "23563",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23574": {
+  "gid": "23574",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23607": {
+  "gid": "23607",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23617": {
+  "gid": "23617",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23618": {
+  "gid": "23618",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23627": {
+  "gid": "23627",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "23664": {
+  "gid": "23664",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23670": {
+  "gid": "23670",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "23696": {
+  "gid": "23696",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "23710": {
+  "gid": "23710",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23723": {
+  "gid": "23723",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "23742": {
+  "gid": "23742",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23743": {
+  "gid": "23743",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "23787": {
+  "gid": "23787",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23791": {
+  "gid": "23791",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23805": {
+  "gid": "23805",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "23812": {
+  "gid": "23812",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "23827": {
+  "gid": "23827",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23922": {
+  "gid": "23922",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "23954": {
+  "gid": "23954",
+  "ok": false,
+  "reason": "skip"
+ },
+ "23980": {
+  "gid": "23980",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "24008": {
+  "gid": "24008",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "24024": {
+  "gid": "24024",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "24085": {
+  "gid": "24085",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24134": {
+  "gid": "24134",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "24138": {
+  "gid": "24138",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "24156": {
+  "gid": "24156",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24198": {
+  "gid": "24198",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24210": {
+  "gid": "24210",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "24229": {
+  "gid": "24229",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "24231": {
+  "gid": "24231",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "24249": {
+  "gid": "24249",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "24292": {
+  "gid": "24292",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24315": {
+  "gid": "24315",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24345": {
+  "gid": "24345",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24346": {
+  "gid": "24346",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24350": {
+  "gid": "24350",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "24362": {
+  "gid": "24362",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24364": {
+  "gid": "24364",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "24393": {
+  "gid": "24393",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "24397": {
+  "gid": "24397",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "24411": {
+  "gid": "24411",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "24449": {
+  "gid": "24449",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24464": {
+  "gid": "24464",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "24509": {
+  "gid": "24509",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5"
+  ]
+ },
+ "24519": {
+  "gid": "24519",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "24530": {
+  "gid": "24530",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "24556": {
+  "gid": "24556",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "24634": {
+  "gid": "24634",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8"
+  ]
+ },
+ "24642": {
+  "gid": "24642",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "24765": {
+  "gid": "24765",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24831": {
+  "gid": "24831",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "24915": {
+  "gid": "24915",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "24936": {
+  "gid": "24936",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24954": {
+  "gid": "24954",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "24958": {
+  "gid": "24958",
+  "ok": false,
+  "reason": "skip"
+ },
+ "24975": {
+  "gid": "24975",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "24981": {
+  "gid": "24981",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "24992": {
+  "gid": "24992",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25034": {
+  "gid": "25034",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "25103": {
+  "gid": "25103",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25117": {
+  "gid": "25117",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "25139": {
+  "gid": "25139",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25140": {
+  "gid": "25140",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25141": {
+  "gid": "25141",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25162": {
+  "gid": "25162",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "25180": {
+  "gid": "25180",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13"
+  ]
+ },
+ "25183": {
+  "gid": "25183",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25212": {
+  "gid": "25212",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "25229": {
+  "gid": "25229",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "25283": {
+  "gid": "25283",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25375": {
+  "gid": "25375",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "25406": {
+  "gid": "25406",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25436": {
+  "gid": "25436",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "25439": {
+  "gid": "25439",
+  "ok": true,
+  "samples": [
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "25460": {
+  "gid": "25460",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "25496": {
+  "gid": "25496",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "25600": {
+  "gid": "25600",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "25610": {
+  "gid": "25610",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25627": {
+  "gid": "25627",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7"
+  ]
+ },
+ "25650": {
+  "gid": "25650",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25690": {
+  "gid": "25690",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "25697": {
+  "gid": "25697",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13"
+  ]
+ },
+ "25720": {
+  "gid": "25720",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "25722": {
+  "gid": "25722",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "25723": {
+  "gid": "25723",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "25745": {
+  "gid": "25745",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13"
+  ]
+ },
+ "25792": {
+  "gid": "25792",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "25820": {
+  "gid": "25820",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "25830": {
+  "gid": "25830",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "25863": {
+  "gid": "25863",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15"
+  ]
+ },
+ "25868": {
+  "gid": "25868",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25891": {
+  "gid": "25891",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18",
+   "smpa19",
+   "smpa20"
+  ]
+ },
+ "25939": {
+  "gid": "25939",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "25972": {
+  "gid": "25972",
+  "ok": false,
+  "reason": "skip"
+ },
+ "25978": {
+  "gid": "25978",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26015": {
+  "gid": "26015",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "26090": {
+  "gid": "26090",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26114": {
+  "gid": "26114",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "26117": {
+  "gid": "26117",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "26142": {
+  "gid": "26142",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "26206": {
+  "gid": "26206",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26219": {
+  "gid": "26219",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "26222": {
+  "gid": "26222",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "26242": {
+  "gid": "26242",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "26244": {
+  "gid": "26244",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "26255": {
+  "gid": "26255",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26529": {
+  "gid": "26529",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26541": {
+  "gid": "26541",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "26543": {
+  "gid": "26543",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "26557": {
+  "gid": "26557",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26562": {
+  "gid": "26562",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "26604": {
+  "gid": "26604",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26607": {
+  "gid": "26607",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "26612": {
+  "gid": "26612",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "26614": {
+  "gid": "26614",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "26624": {
+  "gid": "26624",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "26660": {
+  "gid": "26660",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "26667": {
+  "gid": "26667",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7"
+  ]
+ },
+ "26672": {
+  "gid": "26672",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "26678": {
+  "gid": "26678",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26691": {
+  "gid": "26691",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8"
+  ]
+ },
+ "26694": {
+  "gid": "26694",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26724": {
+  "gid": "26724",
+  "ok": false,
+  "reason": "skip"
+ },
+ "26804": {
+  "gid": "26804",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7"
+  ]
+ },
+ "26817": {
+  "gid": "26817",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18",
+   "smpa19",
+   "smpa20"
+  ]
+ },
+ "26849": {
+  "gid": "26849",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "26850": {
+  "gid": "26850",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11"
+  ]
+ },
+ "26932": {
+  "gid": "26932",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "26964": {
+  "gid": "26964",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "27022": {
+  "gid": "27022",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "27041": {
+  "gid": "27041",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "27062": {
+  "gid": "27062",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15"
+  ]
+ },
+ "27063": {
+  "gid": "27063",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "27073": {
+  "gid": "27073",
+  "ok": false,
+  "reason": "skip"
+ },
+ "27080": {
+  "gid": "27080",
+  "ok": false,
+  "reason": "skip"
+ },
+ "27145": {
+  "gid": "27145",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14"
+  ]
+ },
+ "27152": {
+  "gid": "27152",
+  "ok": false,
+  "reason": "skip"
+ },
+ "27163": {
+  "gid": "27163",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "27188": {
+  "gid": "27188",
+  "ok": false,
+  "reason": "skip"
+ },
+ "27201": {
+  "gid": "27201",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "27207": {
+  "gid": "27207",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "27223": {
+  "gid": "27223",
+  "ok": false,
+  "reason": "fetch-failed"
+ },
+ "27225": {
+  "gid": "27225",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "27239": {
+  "gid": "27239",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "27254": {
+  "gid": "27254",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "27257": {
+  "gid": "27257",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "27299": {
+  "gid": "27299",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15"
+  ]
+ },
+ "27398": {
+  "gid": "27398",
+  "ok": false,
+  "reason": "skip"
+ },
+ "27409": {
+  "gid": "27409",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "27509": {
+  "gid": "27509",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4"
+  ]
+ },
+ "27542": {
+  "gid": "27542",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "27551": {
+  "gid": "27551",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18",
+   "smpa19",
+   "smpa20",
+   "smpa21",
+   "smpa22"
+  ]
+ },
+ "27559": {
+  "gid": "27559",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "27640": {
+  "gid": "27640",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "27644": {
+  "gid": "27644",
+  "ok": false,
+  "samples": []
+ },
+ "27663": {
+  "gid": "27663",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "27675": {
+  "gid": "27675",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "27716": {
+  "gid": "27716",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "27720": {
+  "gid": "27720",
+  "ok": false,
+  "reason": "skip"
+ },
+ "27757": {
+  "gid": "27757",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "27815": {
+  "gid": "27815",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "27824": {
+  "gid": "27824",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "27829": {
+  "gid": "27829",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "27947": {
+  "gid": "27947",
+  "ok": false,
+  "reason": "fetch-failed"
+ },
+ "27960": {
+  "gid": "27960",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2"
+  ]
+ },
+ "27976": {
+  "gid": "27976",
+  "ok": false,
+  "reason": "skip"
+ },
+ "27995": {
+  "gid": "27995",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "28037": {
+  "gid": "28037",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28072": {
+  "gid": "28072",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14"
+  ]
+ },
+ "28136": {
+  "gid": "28136",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "28137": {
+  "gid": "28137",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "28210": {
+  "gid": "28210",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5"
+  ]
+ },
+ "28224": {
+  "gid": "28224",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "28260": {
+  "gid": "28260",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28261": {
+  "gid": "28261",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28341": {
+  "gid": "28341",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28407": {
+  "gid": "28407",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "28444": {
+  "gid": "28444",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5"
+  ]
+ },
+ "28509": {
+  "gid": "28509",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28633": {
+  "gid": "28633",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17"
+  ]
+ },
+ "28635": {
+  "gid": "28635",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "28757": {
+  "gid": "28757",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28762": {
+  "gid": "28762",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28766": {
+  "gid": "28766",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17"
+  ]
+ },
+ "28789": {
+  "gid": "28789",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28806": {
+  "gid": "28806",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "28843": {
+  "gid": "28843",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "28928": {
+  "gid": "28928",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "28933": {
+  "gid": "28933",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "28941": {
+  "gid": "28941",
+  "ok": false,
+  "reason": "skip"
+ },
+ "28984": {
+  "gid": "28984",
+  "ok": false,
+  "reason": "skip"
+ },
+ "29006": {
+  "gid": "29006",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "29018": {
+  "gid": "29018",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "29028": {
+  "gid": "29028",
+  "ok": false,
+  "reason": "skip"
+ },
+ "29036": {
+  "gid": "29036",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7"
+  ]
+ },
+ "29059": {
+  "gid": "29059",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "29109": {
+  "gid": "29109",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18",
+   "smpa19",
+   "smpa20",
+   "smpa21"
+  ]
+ },
+ "29183": {
+  "gid": "29183",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "29197": {
+  "gid": "29197",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "29217": {
+  "gid": "29217",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "29228": {
+  "gid": "29228",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "29247": {
+  "gid": "29247",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "29315": {
+  "gid": "29315",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7"
+  ]
+ },
+ "29387": {
+  "gid": "29387",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "29477": {
+  "gid": "29477",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "29485": {
+  "gid": "29485",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "29585": {
+  "gid": "29585",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "29597": {
+  "gid": "29597",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4"
+  ]
+ },
+ "29598": {
+  "gid": "29598",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "29628": {
+  "gid": "29628",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8"
+  ]
+ },
+ "29724": {
+  "gid": "29724",
+  "ok": false,
+  "reason": "skip"
+ },
+ "29791": {
+  "gid": "29791",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "29843": {
+  "gid": "29843",
+  "ok": false,
+  "reason": "skip"
+ },
+ "30000": {
+  "gid": "30000",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "30002": {
+  "gid": "30002",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "30068": {
+  "gid": "30068",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "30109": {
+  "gid": "30109",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "30153": {
+  "gid": "30153",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "30157": {
+  "gid": "30157",
+  "ok": false,
+  "reason": "skip"
+ },
+ "30195": {
+  "gid": "30195",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "30257": {
+  "gid": "30257",
+  "ok": false,
+  "reason": "skip"
+ },
+ "30275": {
+  "gid": "30275",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "30336": {
+  "gid": "30336",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8"
+  ]
+ },
+ "30358": {
+  "gid": "30358",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "30380": {
+  "gid": "30380",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7"
+  ]
+ },
+ "30501": {
+  "gid": "30501",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "30594": {
+  "gid": "30594",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "30743": {
+  "gid": "30743",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5"
+  ]
+ },
+ "30844": {
+  "gid": "30844",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5"
+  ]
+ },
+ "30951": {
+  "gid": "30951",
+  "ok": false,
+  "reason": "skip"
+ },
+ "30962": {
+  "gid": "30962",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "31008": {
+  "gid": "31008",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "31121": {
+  "gid": "31121",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "31391": {
+  "gid": "31391",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "31454": {
+  "gid": "31454",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "31475": {
+  "gid": "31475",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "31550": {
+  "gid": "31550",
+  "ok": false,
+  "reason": "skip"
+ },
+ "31614": {
+  "gid": "31614",
+  "ok": false,
+  "reason": "skip"
+ },
+ "31629": {
+  "gid": "31629",
+  "ok": false,
+  "reason": "skip"
+ },
+ "31742": {
+  "gid": "31742",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "31744": {
+  "gid": "31744",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "31779": {
+  "gid": "31779",
+  "ok": false,
+  "reason": "skip"
+ },
+ "31798": {
+  "gid": "31798",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "31861": {
+  "gid": "31861",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5"
+  ]
+ },
+ "31868": {
+  "gid": "31868",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "31963": {
+  "gid": "31963",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8"
+  ]
+ },
+ "31977": {
+  "gid": "31977",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "31997": {
+  "gid": "31997",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13",
+   "smpa14",
+   "smpa15",
+   "smpa16",
+   "smpa17",
+   "smpa18"
+  ]
+ },
+ "32017": {
+  "gid": "32017",
+  "ok": false,
+  "reason": "skip"
+ },
+ "32044": {
+  "gid": "32044",
+  "ok": false,
+  "reason": "skip"
+ },
+ "32087": {
+  "gid": "32087",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "32365": {
+  "gid": "32365",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "32476": {
+  "gid": "32476",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "32575": {
+  "gid": "32575",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "32576": {
+  "gid": "32576",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8"
+  ]
+ },
+ "32585": {
+  "gid": "32585",
+  "ok": false,
+  "reason": "skip"
+ },
+ "32621": {
+  "gid": "32621",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "32622": {
+  "gid": "32622",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9"
+  ]
+ },
+ "32625": {
+  "gid": "32625",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "32627": {
+  "gid": "32627",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "32773": {
+  "gid": "32773",
+  "ok": false,
+  "reason": "skip"
+ },
+ "32862": {
+  "gid": "32862",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "32969": {
+  "gid": "32969",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "32999": {
+  "gid": "32999",
+  "ok": false,
+  "reason": "skip"
+ },
+ "33026": {
+  "gid": "33026",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "33089": {
+  "gid": "33089",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7"
+  ]
+ },
+ "33130": {
+  "gid": "33130",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "33134": {
+  "gid": "33134",
+  "ok": false,
+  "reason": "skip"
+ },
+ "33259": {
+  "gid": "33259",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13"
+  ]
+ },
+ "33298": {
+  "gid": "33298",
+  "ok": false,
+  "reason": "skip"
+ },
+ "33304": {
+  "gid": "33304",
+  "ok": false,
+  "reason": "skip"
+ },
+ "33332": {
+  "gid": "33332",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "33603": {
+  "gid": "33603",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "33621": {
+  "gid": "33621",
+  "ok": false,
+  "reason": "skip"
+ },
+ "33715": {
+  "gid": "33715",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "33724": {
+  "gid": "33724",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5"
+  ]
+ },
+ "33739": {
+  "gid": "33739",
+  "ok": false,
+  "reason": "skip"
+ },
+ "33836": {
+  "gid": "33836",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "33905": {
+  "gid": "33905",
+  "ok": false,
+  "reason": "skip"
+ },
+ "33961": {
+  "gid": "33961",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "34132": {
+  "gid": "34132",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7"
+  ]
+ },
+ "34226": {
+  "gid": "34226",
+  "ok": false,
+  "reason": "skip"
+ },
+ "34346": {
+  "gid": "34346",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "34454": {
+  "gid": "34454",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "34601": {
+  "gid": "34601",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "34636": {
+  "gid": "34636",
+  "ok": false,
+  "samples": []
+ },
+ "34637": {
+  "gid": "34637",
+  "ok": false,
+  "samples": []
+ },
+ "34806": {
+  "gid": "34806",
+  "ok": false,
+  "reason": "skip"
+ },
+ "35000": {
+  "gid": "35000",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "35043": {
+  "gid": "35043",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "35325": {
+  "gid": "35325",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "35332": {
+  "gid": "35332",
+  "ok": false,
+  "reason": "skip"
+ },
+ "35333": {
+  "gid": "35333",
+  "ok": false,
+  "reason": "skip"
+ },
+ "35390": {
+  "gid": "35390",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "35394": {
+  "gid": "35394",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9"
+  ]
+ },
+ "35624": {
+  "gid": "35624",
+  "ok": false,
+  "reason": "skip"
+ },
+ "35655": {
+  "gid": "35655",
+  "ok": false,
+  "reason": "skip"
+ },
+ "36003": {
+  "gid": "36003",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "36009": {
+  "gid": "36009",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "36162": {
+  "gid": "36162",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12",
+   "smpa13"
+  ]
+ },
+ "36193": {
+  "gid": "36193",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "36402": {
+  "gid": "36402",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "36416": {
+  "gid": "36416",
+  "ok": false,
+  "reason": "skip"
+ },
+ "36426": {
+  "gid": "36426",
+  "ok": false,
+  "samples": []
+ },
+ "36544": {
+  "gid": "36544",
+  "ok": false,
+  "reason": "skip"
+ },
+ "36758": {
+  "gid": "36758",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "36806": {
+  "gid": "36806",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10"
+  ]
+ },
+ "37113": {
+  "gid": "37113",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "37114": {
+  "gid": "37114",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "37347": {
+  "gid": "37347",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3"
+  ]
+ },
+ "37496": {
+  "gid": "37496",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "37613": {
+  "gid": "37613",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "37773": {
+  "gid": "37773",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "37845": {
+  "gid": "37845",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "38111": {
+  "gid": "38111",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "38128": {
+  "gid": "38128",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8"
+  ]
+ },
+ "38235": {
+  "gid": "38235",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "38388": {
+  "gid": "38388",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6",
+   "smp7",
+   "smp8",
+   "smp9",
+   "smp10"
+  ]
+ },
+ "38543": {
+  "gid": "38543",
+  "ok": false,
+  "reason": "skip"
+ },
+ "38751": {
+  "gid": "38751",
+  "ok": false,
+  "reason": "skip"
+ },
+ "39199": {
+  "gid": "39199",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "39430": {
+  "gid": "39430",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4"
+  ]
+ },
+ "39687": {
+  "gid": "39687",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "39690": {
+  "gid": "39690",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6"
+  ]
+ },
+ "39947": {
+  "gid": "39947",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8",
+   "smpa9",
+   "smpa10",
+   "smpa11",
+   "smpa12"
+  ]
+ },
+ "40106": {
+  "gid": "40106",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "40140": {
+  "gid": "40140",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7",
+   "smpa8"
+  ]
+ },
+ "40309": {
+  "gid": "40309",
+  "ok": false,
+  "samples": []
+ },
+ "40424": {
+  "gid": "40424",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5"
+  ]
+ },
+ "40470": {
+  "gid": "40470",
+  "ok": false,
+  "samples": []
+ },
+ "40717": {
+  "gid": "40717",
+  "ok": true,
+  "samples": [
+   "smp1",
+   "smp2",
+   "smp3",
+   "smp4",
+   "smp5",
+   "smp6"
+  ]
+ },
+ "40723": {
+  "gid": "40723",
+  "ok": true,
+  "samples": [
+   "smpa1",
+   "smpa2",
+   "smpa3",
+   "smpa4",
+   "smpa5",
+   "smpa6",
+   "smpa7"
+  ]
+ },
+ "40813": {
+  "gid": "40813",
+  "ok": false,
+  "samples": []
+ },
+ "40815": {
+  "gid": "40815",
+  "ok": false,
+  "reason": "skip"
+ }
+}

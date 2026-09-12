@@ -23,5 +23,10 @@
   无参数运行则刷新两个文件里已有的全部条目；之后 `bun run build`。
   刷新寝取全集（并入缺失游戏）：`bun scripts/fetch_tags.ts --pov 559`。
   EGS 的网页统计/检索页会截断列表，一律以 SQL 接口为准。
+- 商店数据工厂：`python3 scripts/factory/pipeline.py --all`（EGS 重拉到临时文件、
+  合并保护审计行与下架计数后才写回，状态在 `scripts/factory/state/`，
+  快照按 gid 数字排序写入 `data/store_cache.json` 并保留宇宙补全行）。
+  每周日自动跑 `.github/workflows/factory.yml`，只开 PR、不直推 main；
+  合并 PR 前看一眼 `data/store_cache.json` 的 diff。
 - 部署：`bun run deploy`；本地预览：`bun run dev`。
 - 这是公开仓库：不要提交抓取日志、临时文件或内部运维细节；`tmp/` 只作本地暂存。
