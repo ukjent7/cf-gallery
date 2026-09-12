@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": false,
+    "types": []
+  },
+  "include": ["src/gallery/js/**/*.js", "src/gallery/js/**/*.d.ts"]
+}

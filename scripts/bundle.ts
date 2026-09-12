@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 // Assemble the self-contained gallery document.
 //
-// Reads src/gallery/{index.src.html,style.css,app.js} plus src/urls.js and
+// Reads src/gallery/index.src.html, css/ and js/ plus src/urls.js and
 // build/data.json, and writes public/index.html: one file with no external
 // requests, so it still works when double-clicked from disk.
 //
@@ -79,6 +79,63 @@ function payloadSource(data: Map<string, PyVal>): string {
   return lines.join("\n") + "\n";
 }
 
+// Client modules (src/gallery/js/*.js) are real ESM at author time: each
+// file imports what it uses, so the dependency graph is explicit. The
+// shipped artifact stays one classic <script> (file:// has no module
+// loader), so imports resolve here at build time: topo-sort the files,
+// strip the import/export syntax, and wrap the result in one IIFE to keep
+// the old closure scoping. Only relative single-line imports are accepted.
+function bundleJsModules(jsDir: string): string {
+  const files = readdirSync(jsDir).filter((f) => f.endsWith(".js")).sort();
+  if (!files.length) fail("error: no client modules in " + jsDir);
+  const sources = new Map<string, string>();
+  for (const f of files) sources.set(f, readText(path.join(jsDir, f)));
+
+  const deps = new Map<string, Set<string>>();
+  for (const [f, src] of sources) {
+    const d = new Set<string>();
+    for (const line of src.split("\n")) {
+      const t = line.trim();
+      if (!t.startsWith("import")) continue;
+      const m = /^import\s*\{[^}]*\}\s*from\s*["']\.\/([^"']+)["']\s*;?$/.exec(t);
+      if (!m || !sources.has(m[1])) fail(`error: ${f}: unresolvable import: ${t}`);
+      if (m[1] !== f) d.add(m[1]);
+    }
+    if (/^\s*export\s+default\b/m.test(src)) fail(`error: ${f}: default exports are not inlined`);
+    deps.set(f, d);
+  }
+
+  // Kahn's algorithm, alphabetical among ready files. A leftover cycle
+  // (e.g. filter<->cards call each other) falls back to filename order:
+  // safe because every cross-file call happens at runtime, after the IIFE
+  // has been fully evaluated.
+  const order: string[] = [];
+  const done = new Set<string>();
+  let progress = true;
+  while (order.length < files.length && progress) {
+    progress = false;
+    for (const f of files) {
+      if (done.has(f)) continue;
+      if ([...deps.get(f)!].every((x) => done.has(x))) {
+        done.add(f);
+        order.push(f);
+        progress = true;
+      }
+    }
+  }
+  for (const f of files) if (!done.has(f)) order.push(f);
+
+  const parts = order.map((f) => {
+    const stripped = sources.get(f)!.split("\n")
+      .filter((line) => !line.trim().startsWith("import"))
+      .map((line) => line.replace(/^(\s*)export\s+(?=(?:async\s+)?(?:var|let|const|function|class)\b)/, "$1"))
+      .join("\n");
+    if (/^\s*export\b/m.test(stripped)) fail(`error: ${f}: has an export form bundleJsModules() does not strip`);
+    return rstripNl(stripped);
+  });
+  return `(function () {\n"use strict";\n${parts.join("\n")}\n})();\n`;
+}
+
 function build(outPath?: string, checkOnly = false): string {
   outPath = outPath ?? DEFAULT_OUT;
   const dataPath = DATA_JSON;
@@ -86,17 +143,15 @@ function build(outPath?: string, checkOnly = false): string {
   const data = parsePyJson(readText(dataPath)) as Map<string, PyVal>;
 
   const shell = readText(path.join(GALLERY, "index.src.html"));
-  // The client is authored as focused modules under js/ and css/ and
-  // concatenated here, so no single source file grows past a healthy size
+  // The client is authored as focused ESM modules under js/ and css/ and
+  // inlined here, so no single source file grows past a healthy size
   // while the shipped artifact stays one self-contained document.
   const cssDir = path.join(GALLERY, "css");
   const jsDir = path.join(GALLERY, "js");
   const css = existsSync(cssDir)
     ? readdirSync(cssDir).filter((f) => f.endsWith(".css")).sort().map((f) => rstripNl(readText(path.join(cssDir, f)))).join("\n")
-    : rstripNl(readText(path.join(GALLERY, "style.css")));
-  const app = existsSync(jsDir)
-    ? readdirSync(jsDir).filter((f) => f.endsWith(".js")).sort().map((f) => rstripNl(readText(path.join(jsDir, f)))).join("\n")
-    : rstripNl(readText(path.join(GALLERY, "app.js")));
+    : fail("error: src/gallery/css/ is missing");
+  const app = existsSync(jsDir) ? bundleJsModules(jsDir) : fail("error: src/gallery/js/ is missing");
 
   for (const token of ["/*__STYLE__*/", "/*__PAYLOAD__*/", "/*__URLS__*/", "/*__APP__*/"]) {
     if (!shell.includes(token)) fail(`error: ${token} missing from index.src.html`);

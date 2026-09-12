@@ -13,7 +13,7 @@
 
 ## 项目速览
 
-- 构建 + 测试：`bun run check`（`scripts/prep_data.py` + `scripts/bundle.py` + `bun test`）。
+- 构建 + 测试：`bun run check`（`bun run typecheck` + `scripts/prep_data.ts` + `scripts/bundle.ts` + `bun test`）。
 - 改了 `src/gallery/*` 或 `data/*` 之后必须 `bun run build`，并把
   `public/index.html`、`build/data.json` 与源文件一起提交
   （`test/build.test.js` 会校验产物比输入新）。

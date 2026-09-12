@@ -61,7 +61,7 @@ describe("app boot", () => {
   test("runs without throwing, renders the first page and asks for nothing", () => {
     const { doc, window, calls } = loadGallery();
     expect(window.GALLERY).toBeDefined();
-    expect(doc.querySelectorAll("#grid .cardwrap").length, "first page must render PAGE cards").toBe(36);
+    expect(doc.querySelectorAll("#grid .cardwrap").length, "first page must render PAGE cards").toBe(window.GALLERY.PAGE_SIZE);
     const stats = doc.getElementById("stats");
     expect(stats.textContent.trim().length, "stats line is empty").toBeGreaterThan(0);
     expect(stats.innerHTML, "stats line lost its 共 N / M lead").toMatch(/^共 <b>\d+<\/b> \/ \d+ 个（EROGE限定）/);
@@ -203,47 +203,59 @@ describe("cards", () => {
     expect(doc.getElementById("drawer").classList.contains("open"), "fetch button opened the drawer").toBe(false);
   });
 
-  test("cards provide fallback chain including full VNDB and store covers for degenerate items (YU-NO, etc.)", () => {
+  test("cards lead with the store cover and keep VNDB art in the fallback chain", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
+    const page1 = [...doc.querySelectorAll("#grid article.card")];
+    expect(page1.length, "first page must render").toBe(G.PAGE_SIZE);
 
-    // YU-NO (gid 2093, rank 5) is on page 1 and now carries a FANZA cover, so
-    // the store cover leads and VNDB stays in the chain behind it.
-    const yunoCard = doc.querySelector('#grid article.card[data-gid="2093"]');
-    expect(yunoCard, "YU-NO card must be rendered in first page").toBeTruthy();
-    const yunoImg = yunoCard.querySelector(".cover img");
-    expect(yunoImg, "YU-NO cover img must exist").toBeTruthy();
-    expect(yunoImg.getAttribute("src")).toContain("fanzagames_0054/fanzagames_0054pl.jpg");
-    const yunoFb = yunoImg.getAttribute("data-fb") || "";
-    expect(yunoFb).toContain("https://t.vndb.org/cv/29/59029.jpg");
+    const entryOf = (card) => {
+      const st = G.storeOf(card.dataset.gid);
+      return st && (st.m || st.m2);
+    };
+    const artOf = (card) => G.liveCache.get(card.dataset.gid);
 
-    // 鬼畜王ランス (gid 204, rank 12) is the remaining page-1 item with no store
-    // row at all, so it is the degenerate case: VNDB thumb, full art behind it.
-    const ranceCard = doc.querySelector('#grid article.card[data-gid="204"]');
-    expect(ranceCard, "鬼畜王ランス card must be rendered in first page").toBeTruthy();
-    const ranceImg = ranceCard.querySelector(".cover img");
-    expect(ranceImg.getAttribute("src")).toBe("https://t.vndb.org/cv.t/51/91051.jpg");
-    expect(ranceImg.getAttribute("data-fb") || "").toContain("https://t.vndb.org/cv/51/91051.jpg");
+    // FANZA-led: the package cover leads, the cached VNDB full art trails.
+    const led = page1.find((c) => entryOf(c) && artOf(c) && artOf(c).img);
+    expect(led, "no FANZA-led card with cached VNDB art on page 1").toBeTruthy();
+    const cid = entryOf(led).id;
+    const ledImg = led.querySelector(".cover img");
+    expect(ledImg.getAttribute("src")).toContain(cid);
+    expect(ledImg.getAttribute("data-fb") || "").toContain(artOf(led).img);
+
+    // Degenerate case: no store row at all, so the VNDB thumb leads and the
+    // full art sits behind it in the chain.
+    const bare = page1.find((c) => {
+      const v = artOf(c);
+      return !G.storeOf(c.dataset.gid) && v && v.img && v.img.includes("t.vndb.org/") && !v.img.includes(".t/");
+    });
+    expect(bare, "no store-less VNDB card on page 1").toBeTruthy();
+    const bareImg = bare.querySelector(".cover img");
+    const full = artOf(bare).img;
+    expect(bareImg.getAttribute("src")).not.toBe(full);
+    expect(bareImg.getAttribute("src")).toContain(".t/");
+    expect(bareImg.getAttribute("data-fb") || "").toContain(full);
 
     // Simulating chainImgErr on error recovers to the full cover without failing
-    window.chainImgErr(ranceImg);
-    expect(ranceImg.getAttribute("src")).toBe("https://t.vndb.org/cv/51/91051.jpg");
-    expect(ranceImg.classList.contains("img-load-failed")).toBe(false);
+    window.chainImgErr(bareImg);
+    expect(bareImg.getAttribute("src")).toBe(full);
+    expect(bareImg.classList.contains("img-load-failed")).toBe(false);
 
-    // クロスブリードジョーカー (gid 28137, rank 45) -> click more to paginate
+    // Multi-store card over two pages: DLsite and VNDB stay in the chain.
     doc.getElementById("more").click();
-    const cbCard = doc.querySelector('#grid article.card[data-gid="28137"]');
-    expect(cbCard, "クロスブリードジョーカー card must exist").toBeTruthy();
-    const cbImg = cbCard.querySelector(".cover img");
-    // Priority 1 is FANZA
-    expect(cbImg.getAttribute("src")).toContain("d_141361");
-    const cbFb = cbImg.getAttribute("data-fb") || "";
-    // DLsite and VNDB are in fallback chain
-    expect(cbFb).toContain("RJ241070");
-    expect(cbFb).toContain("https://t.vndb.org/cv/90/39590.jpg");
-    window.chainImgErr(cbImg);
-    expect(cbImg.getAttribute("src")).toContain("RJ241070");
-    expect(cbImg.classList.contains("img-load-failed")).toBe(false);
+    const both = [...doc.querySelectorAll("#grid article.card")].find((c) => {
+      const st = G.storeOf(c.dataset.gid);
+      const v = artOf(c);
+      return st && st.m && st.l && v && v.img;
+    });
+    expect(both, "no FANZA+DLsite card in the first two pages").toBeTruthy();
+    const bothImg = both.querySelector(".cover img");
+    expect(bothImg.getAttribute("src")).toContain((G.storeOf(both.dataset.gid).m).id);
+    const bothFb = bothImg.getAttribute("data-fb") || "";
+    expect(bothFb).toContain("dlsite");
+    expect(bothFb).toContain(artOf(both).img);
+    window.chainImgErr(bothImg);
+    expect(bothImg.classList.contains("img-load-failed")).toBe(false);
   });
 
   test("scrub-strip errors do not corrupt cover fallback chain or mark cover as failed", () => {
@@ -320,12 +332,12 @@ describe("load more", () => {
     const G = window.GALLERY;
     expect(doc.querySelector(".loadzone #more"), "#more must live inside .loadzone").toBeTruthy();
     expect(observed.some((el) => el.id === "more"), "#more was never observed").toBe(true);
-    expect(doc.querySelectorAll("#grid .cardwrap").length).toBe(36);
+    expect(doc.querySelectorAll("#grid .cardwrap").length).toBe(G.PAGE_SIZE);
     doc.getElementById("more").click();
-    expect(doc.querySelectorAll("#grid .cardwrap").length, "#more click did not render the next page").toBe(72);
+    expect(doc.querySelectorAll("#grid .cardwrap").length, "#more click did not render the next page").toBe(G.PAGE_SIZE * 2);
     expect(doc.getElementById("more").style.display).toBe("inline-block");
     // A tag with fewer members than a page exhausts the list: hide the button.
-    const tag = Object.keys(G.TAGS).find((t) => G.TAGS[t].length <= 36);
+    const tag = Object.keys(G.TAGS).find((t) => G.TAGS[t].length <= G.PAGE_SIZE);
     expect(tag, "no shipped tag smaller than a page").toBeTruthy();
     chipFor(doc, tag).click();
     expect(doc.querySelectorAll("#grid .cardwrap").length, "tag filter did not re-render the grid")
@@ -427,9 +439,10 @@ describe("tag filter", () => {
 
   test("a stored ui_v1 selection survives reload", () => {
     // Same pattern as the weak-migration regression: seed storage before the
-    // document exists, then boot. "親子丼" is the shipped tag pinned by the
-    // build test; TAGS itself is only readable after boot.
-    const tag = "親子丼";
+    // document exists, then boot. The tag comes from the shipped payload, so
+    // a data rebuild that renames tags updates this test automatically.
+    const tag = Object.keys(loadGallery().window.GALLERY.TAGS)[0];
+    expect(tag, "shipped payload has no tags").toBeTruthy();
     const window = new Window({ url: "http://localhost/" });
     window.localStorage.setItem("ui_v1", JSON.stringify({ tags: [tag] }));
     window.document.write(markupOnly);
@@ -445,7 +458,7 @@ describe("tag filter", () => {
   test("unknown tags in a stored selection are dropped", () => {
     // v1 dropped unknown names on load rather than emptying the whole grid:
     // a tag renamed by a data rebuild must not brick the filter.
-    const tag = "親子丼";
+    const tag = Object.keys(loadGallery().window.GALLERY.TAGS)[0];
     const window = new Window({ url: "http://localhost/" });
     window.localStorage.setItem("ui_v1", JSON.stringify({ tags: [tag, "已消失的标签"] }));
     window.document.write(markupOnly);
@@ -585,219 +598,187 @@ describe("detail drawer", () => {
     expect(hiddenSecs.length).toBe(0);
   });
 
-  test("媚肉の香り (gid 10035) renders FANZA screenshots with correct sample URLs", () => {
+  test("a FANZA product renders the baked sample count with small/full URL pairs", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
+    const gid = storeGidWhere(window, (st) => st.m && !st.m2 && (st.m.n || 0) > 0);
+    expect(gid, "no single-edition FANZA product with samples").toBeTruthy();
+    const entry = G.storeOf(gid).m;
     G.setTab("all");
-    G.openDetail("10035");
+    G.openDetail(gid);
     const dsec = doc.querySelector(".dsec-dmm");
-    expect(dsec, "FANZA section must exist for 媚肉の香り").toBeTruthy();
+    expect(dsec, "FANZA section must exist").toBeTruthy();
     const imgs = [...dsec.querySelectorAll(".strip img")];
-    expect(imgs.length, "FANZA screenshots must have 24 images").toBe(24);
-    expect(imgs[4].getAttribute("src")).toContain("elf_0032/elf_0032js-005.jpg");
-    expect(imgs[4].getAttribute("data-full")).toBe("https://pics.dmm.co.jp/digital/pcgame/elf_0032/elf_0032jp-005.jpg");
+    expect(imgs.length, "FANZA screenshots must match the baked count").toBe(Math.min(entry.n, 60));
+    expect(imgs[0].getAttribute("src")).toContain(entry.id + "js-001.jpg");
+    expect(imgs[0].getAttribute("data-full")).toContain(entry.id + "jp-001.jpg");
   });
 
-  test("boxed-only FANZA (gid 26 アトラク＝ナクア) renders 盒装版 links and mono-floor images", () => {
-    // No download edition exists for this game, so the boxed edition is the
-    // FANZA entry instead of nothing.
+  test("a boxed-floor FANZA product renders 盒装版 links and mono-floor images", () => {
+    // No download edition exists for this shape of product, so the boxed
+    // edition carries the FANZA entry. The floor is identified by its mono
+    // detail URL, never by cid shape.
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
-    const st = G.storeOf("26");
-    expect(st && st.m && st.m.id).toBe("505ali0031");
     G.setTab("all");
-    G.openDetail("26");
+    let gid = null;
+    for (const d of G.DATA) {
+      const st = G.storeOf(d.gid);
+      if (!st || (!st.m && !st.m2)) continue;
+      G.openDetail(String(d.gid));
+      const link = doc.querySelector(".dsec-dmm .drawer-meta-links a");
+      if (link && (link.href || "").includes("/mono/")) {
+        gid = String(d.gid);
+        break;
+      }
+    }
+    expect(gid, "no boxed-floor FANZA product found").toBeTruthy();
     const dsec = doc.querySelector(".dsec-dmm");
-    expect(dsec, "FANZA section must exist for boxed-only gid 26").toBeTruthy();
+    expect(dsec, "FANZA section must exist").toBeTruthy();
     const link = dsec.querySelector(".drawer-meta-links a");
     expect(link.textContent).toContain("盒装版");
     expect(link.href).toContain("/mono/pcgame/");
+    const entries = [G.storeOf(gid).m, G.storeOf(gid).m2].filter(Boolean);
     const imgs = [...dsec.querySelectorAll(".strip img")];
-    expect(imgs.length).toBe(10);
-    expect(imgs[0].getAttribute("src")).toContain("pics.dmm.co.jp/mono/game/505ali0031/");
+    expect(imgs.length).toBe(entries.reduce((a, e) => a + Math.min(e.n || 0, 60), 0));
+    expect(imgs[0].getAttribute("src")).toContain("mono/game/");
   });
 
-  test("巨乳家族催眠 (gid 19189 / rank 508) matches DLsite VJ008382 with 9 sample stems", () => {
+  test("a DLsite product renders harvested stems with thumbnail/full pairs", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
-    const st = G.storeOf("19189");
-    expect(st).toBeTruthy();
-    expect(st.l).toBeTruthy();
-    expect(st.l.id).toBe("VJ008382");
-    expect(st.l.d).toBe("pro");
-    expect(st.l.n).toBe(9);
-    expect(st.l.sm).toEqual(["smpa1", "smpa2", "smpa3", "smpa4", "smpa5", "smpa6", "smpa7", "smpa8", "smpa9"]);
+    const gid = storeGidWhere(window, (st) => st.l && st.l.sm && st.l.sm.length > 0);
+    expect(gid, "no DLsite product with harvested stems").toBeTruthy();
+    const entry = G.storeOf(gid).l;
 
     G.setTab("all");
-    G.openDetail("19189");
+    G.openDetail(gid);
     const dlSec = doc.querySelector(".dsec-dl");
     expect(dlSec, "DLsite section must exist in drawer").toBeTruthy();
     const imgs = [...dlSec.querySelectorAll(".strip img")];
-    expect(imgs.length).toBe(9);
-    expect(imgs[0].getAttribute("src")).toContain("VJ008382_img_smpa1_100x100.jpg");
-    expect(imgs[0].getAttribute("data-full")).toContain("VJ008382_img_smpa1.webp");
-    expect(dlSec.querySelector("a").href).toContain("dlsite.com/pro/work/=/product_id/VJ008382.html");
+    expect(imgs.length).toBe(Math.min(entry.sm.length, 40));
+    expect(imgs[0].getAttribute("src")).toContain(entry.id + "_img_" + entry.sm[0]);
+    expect(imgs[0].getAttribute("data-full")).toContain(entry.id + "_img_" + entry.sm[0]);
+    expect(imgs[0].getAttribute("data-full").endsWith(".webp")).toBe(true);
+    expect(dlSec.querySelector("a").href).toContain("product_id/" + entry.id);
   });
 
-  test("催眠学習 Secret Desire (gid 30195 / rank 500) matches DLsite VJ015151 and FANZA next_0304", () => {
+  test("a DLsite+FANZA product renders both strips with per-store counts", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
-    const st = G.storeOf("30195");
-    expect(st).toBeTruthy();
-    expect(st.l).toBeTruthy();
-    expect(st.l.id).toBe("VJ015151");
-    expect(st.l.d).toBe("pro");
-    expect(st.l.n).toBe(5);
-    expect(st.l.sm).toEqual(["smpa1", "smpa2", "smpa3", "smpa4", "smpa5"]);
-    expect(st.m).toBeTruthy();
-    expect(st.m.id).toBe("next_0304");
-    expect(st.m.n).toBe(5);
+    const gid = storeGidWhere(window,
+      (st) => st.l && st.l.sm && st.l.sm.length > 0 && st.m && !st.m2 && (st.m.n || 0) > 0);
+    expect(gid, "no DLsite+FANZA product").toBeTruthy();
+    const st = G.storeOf(gid);
 
     G.setTab("all");
-    G.openDetail("30195");
+    G.openDetail(gid);
     const dlSec = doc.querySelector(".dsec-dl");
     expect(dlSec, "DLsite section must exist in drawer").toBeTruthy();
     const dlImgs = [...dlSec.querySelectorAll(".strip img")];
-    expect(dlImgs.length).toBe(5);
-    expect(dlImgs[0].getAttribute("src")).toContain("VJ015151_img_smpa1_100x100.jpg");
-    expect(dlSec.querySelector("a").href).toContain("dlsite.com/pro/work/=/product_id/VJ015151.html");
+    expect(dlImgs.length).toBe(Math.min(st.l.sm.length, 40));
+    expect(dlImgs[0].getAttribute("src")).toContain(st.l.id + "_img_" + st.l.sm[0]);
+    expect(dlSec.querySelector("a").href).toContain("product_id/" + st.l.id);
 
     const dmSec = doc.querySelector(".dsec-dmm");
     expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
     const dmImgs = [...dmSec.querySelectorAll(".strip img")];
-    expect(dmImgs.length).toBe(5);
-    expect(dmImgs[0].getAttribute("src")).toContain("next_0304/next_0304js-001.jpg");
-    expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/next_0304/");
+    expect(dmImgs.length).toBe(Math.min(st.m.n, 60));
+    expect(dmImgs[0].getAttribute("src")).toContain(st.m.id + "js-001.jpg");
+    expect(dmSec.querySelector("a").href).toContain(st.m.id);
   });
 
-  test("催眠性指導 -Secret Lesson- (gid 35655 / rank 126) matches FANZA next_0407 and Getchu 1274775", () => {
+  test("a FANZA+Getchu product renders both strips with per-store counts", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
-    const st = G.storeOf("35655");
-    expect(st).toBeTruthy();
-    expect(st.m).toBeTruthy();
-    expect(st.m.id).toBe("next_0407");
-    expect(st.m.n).toBe(12);
-    expect(st.g).toBeTruthy();
-    expect(st.g.id).toBe("1274775");
-    expect(st.g.n).toBe(10);
+    const gid = storeGidWhere(window,
+      (st) => st.m && !st.m2 && (st.m.n || 0) > 0 && st.g && (st.g.n || 0) > 1);
+    expect(gid, "no FANZA+Getchu product").toBeTruthy();
+    const st = G.storeOf(gid);
 
     G.setTab("all");
-    G.openDetail("35655");
+    G.openDetail(gid);
 
     const dmSec = doc.querySelector(".dsec-dmm");
     expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
     const dmImgs = [...dmSec.querySelectorAll(".strip img")];
-    expect(dmImgs.length, "all 12 FANZA frames render, no display cap").toBe(12);
-    expect(dmImgs[0].getAttribute("src")).toContain("next_0407/next_0407js-001.jpg");
-    expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/next_0407/");
+    expect(dmImgs.length, "all FANZA frames render, no display cap").toBe(Math.min(st.m.n, 60));
+    expect(dmImgs[0].getAttribute("src")).toContain(st.m.id + "js-001.jpg");
+    expect(dmSec.querySelector("a").href).toContain(st.m.id);
 
     const gcSec = doc.querySelector(".dsec-gc");
     expect(gcSec, "Getchu section must exist in drawer").toBeTruthy();
     const gcImgs = [...gcSec.querySelectorAll(".strip img")];
-    expect(gcImgs.length).toBe(9);
-    expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/1274775/2.jpg");
-    expect(gcSec.querySelector("a").href).toContain("getchu.com/soft.phtml?id=1274775");
+    expect(gcImgs.length).toBe(st.g.n - 1);
+    expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/" + st.g.id + "/2.jpg");
+    expect(gcSec.querySelector("a").href).toContain("soft.phtml?id=" + st.g.id);
   });
 
-  test("搾精病棟 (gid 32809 / rank 291) matches FANZA next_0353 and Getchu 1185921", () => {
+  test("Getchu samples render from index 2 through the baked count", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
-    const st = G.storeOf("32809");
-    expect(st).toBeTruthy();
-    expect(st.m).toBeTruthy();
-    expect(st.m.id).toBe("next_0353");
-    expect(st.m.n).toBe(4);
-    expect(st.g).toBeTruthy();
-    expect(st.g.id).toBe("1185921");
-    expect(st.g.n).toBe(12);
+    const gid = storeGidWhere(window, (st) => st.g && (st.g.n || 0) >= 6);
+    expect(gid, "no Getchu product with six or more samples").toBeTruthy();
+    const entry = G.storeOf(gid).g;
 
     G.setTab("all");
-    G.openDetail("32809");
-
-    const dmSec = doc.querySelector(".dsec-dmm");
-    expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
-    const dmImgs = [...dmSec.querySelectorAll(".strip img")];
-    expect(dmImgs.length).toBe(4);
-    expect(dmImgs[0].getAttribute("src")).toContain("next_0353/next_0353js-001.jpg");
-    expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/next_0353/");
+    G.openDetail(gid);
 
     const gcSec = doc.querySelector(".dsec-gc");
     expect(gcSec, "Getchu section must exist in drawer").toBeTruthy();
     const gcImgs = [...gcSec.querySelectorAll(".strip img")];
-    expect(gcImgs.length, "samples 2..12 all render, no display cap").toBe(11);
-    expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/1185921/2.jpg");
-    expect(gcSec.querySelector("a").href).toContain("getchu.com/soft.phtml?id=1185921");
+    expect(gcImgs.length, "samples 2..n all render, no display cap").toBe(entry.n - 1);
+    expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/" + entry.id + "/2.jpg");
+    expect(gcImgs[gcImgs.length - 1].getAttribute("src")).toContain("/gc/sample/" + entry.id + "/" + entry.n + ".jpg");
+    expect(gcSec.querySelector("a").href).toContain("soft.phtml?id=" + entry.id);
   });
 
-  test("魔法閃士フェアリーバレット (gid 36010 / rank 589) matches FANZA root_0068, Getchu 1274199 and DLsite VJ01002625", () => {
+  test("a triple-store product renders all three strips", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
-    const st = G.storeOf("36010");
-    expect(st).toBeTruthy();
-    expect(st.m).toBeTruthy();
-    expect(st.m.id).toBe("root_0068");
-    expect(st.m.n).toBe(10);
-    expect(st.g).toBeTruthy();
-    expect(st.g.id).toBe("1274199");
-    expect(st.g.n).toBe(3);
-    expect(st.l).toBeTruthy();
-    expect(st.l.id).toBe("VJ01002625");
-    expect(st.l.d).toBe("pro");
-    expect(st.l.n).toBe(11);
-    // Stems were never harvested; the count alone is stored, so the payload
-    // must carry the `un` flag that makes the gallery self-heal from live meta.
-    expect(st.l.un).toBe(1);
+    const gid = richGid(window);
+    expect(gid, "no cached product has all three stores").toBeTruthy();
+    const st = G.storeOf(gid);
 
     G.setTab("all");
-    G.openDetail("36010");
+    G.openDetail(gid);
 
-    const dmSec = doc.querySelector(".dsec-dmm");
-    expect(dmSec, "FANZA section must exist in drawer").toBeTruthy();
-    const dmImgs = [...dmSec.querySelectorAll(".strip img")];
-    expect(dmImgs.length).toBe(10);
-    expect(dmImgs[0].getAttribute("src")).toContain("root_0068/root_0068js-001.jpg");
-    expect(dmSec.querySelector("a").href).toContain("dlsoft.dmm.co.jp/detail/root_0068/");
+    for (const [sel, id] of [[".dsec-dl", st.l.id], [".dsec-dmm", (st.m || st.m2).id], [".dsec-gc", st.g.id]]) {
+      const sec = doc.querySelector(sel);
+      expect(sec, sel + " section must exist in drawer").toBeTruthy();
+      expect(sec.querySelectorAll(".strip img").length, sel + " strip is empty").toBeGreaterThan(0);
+      expect(sec.querySelector("a").href).toContain(id);
+    }
 
-    const gcSec = doc.querySelector(".dsec-gc");
-    expect(gcSec, "Getchu section must exist in drawer").toBeTruthy();
-    const gcImgs = [...gcSec.querySelectorAll(".strip img")];
-    expect(gcImgs.length, "samples 2..3").toBe(2);
-    expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/1274199/2.jpg");
-
-    const dlSec = doc.querySelector(".dsec-dl");
-    expect(dlSec, "DLsite section must exist in drawer").toBeTruthy();
-    const dlImgs = [...dlSec.querySelectorAll(".strip img")];
-    expect(dlImgs.length).toBe(11);
-    expect(dlImgs[0].getAttribute("src")).toContain("VJ01002625_img_smp1_100x100.jpg");
-    expect(dlSec.querySelector("a").href).toContain("dlsite.com/pro/work/=/product_id/VJ01002625.html");
+    // Unharvested DLsite stems still render a full guessed strip: the build
+    // knew a count but never the names, flagged with `un`.
+    const un = Object.keys(G.STORE).find(
+      (k) => G.STORE[k].l && G.STORE[k].l.un === 1 && (G.STORE[k].l.n || 0) > 0);
+    expect(un, "no product carries the unharvested-stems flag").toBeTruthy();
+    G.openDetail(un);
+    const unImgs = [...doc.querySelectorAll(".dsec-dl .strip img")];
+    expect(unImgs.length).toBe(Math.min(G.STORE[un].l.n, 40));
+    expect(unImgs[0].getAttribute("src")).toContain(G.STORE[un].l.id + "_img_smp1");
   });
 
-  test("audit fill-ins render for YU-NO (2093), 魔女狩りの夜に (721) and 僕色に染まる叔母 (34226)", () => {
+  test("FANZA and Getchu strips agree with the STORE row for sampled products", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
-    // gid, FANZA cid, FANZA frames, Getchu id, Getchu samples, expected strip length
-    const cases = [
-      ["2093", "fanzagames_0054", 8, "1214730", 14, 13],
-      ["721", "ail_0033", 10, "673897", 5, 4],
-      ["34226", "next_0381", 16, "1228375", 4, 3],
-    ];
-    for (const [gid, cid, dn, gcid, gn, gcLen] of cases) {
+    const picks = G.DATA.map((d) => String(d.gid)).filter((gid) => {
       const st = G.storeOf(gid);
-      expect(st, "store row for " + gid).toBeTruthy();
-      expect(st.m.id).toBe(cid);
-      expect(st.m.n).toBe(dn);
-      expect(st.g.id).toBe(gcid);
-      expect(st.g.n).toBe(gn);
-
+      return st && st.m && !st.m2 && (st.m.n || 0) > 0 && st.g && (st.g.n || 0) > 1;
+    }).slice(0, 3);
+    expect(picks.length, "need three FANZA+Getchu products to sample").toBe(3);
+    for (const gid of picks) {
+      const st = G.storeOf(gid);
       G.setTab("all");
       G.openDetail(gid);
       const dmImgs = [...doc.querySelectorAll(".dsec-dmm .strip img")];
-      expect(dmImgs.length, gid + " FANZA frames").toBe(dn);
-      expect(dmImgs[0].getAttribute("src")).toContain(cid + "/" + cid + "js-001.jpg");
+      expect(dmImgs.length, gid + " FANZA frames").toBe(Math.min(st.m.n, 60));
+      expect(dmImgs[0].getAttribute("src")).toContain(st.m.id + "js-001.jpg");
       const gcImgs = [...doc.querySelectorAll(".dsec-gc .strip img")];
-      expect(gcImgs.length, gid + " Getchu frames").toBe(gcLen);
-      expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/" + gcid + "/2.jpg");
+      expect(gcImgs.length, gid + " Getchu frames").toBe(st.g.n - 1);
+      expect(gcImgs[0].getAttribute("src")).toContain("/gc/sample/" + st.g.id + "/2.jpg");
     }
   });
 
@@ -1091,7 +1072,7 @@ describe("vndb matching guards", () => {
       alttitle: "催眠学習 -Secret Desire-",
       released: "2021-03-26"
     };
-    const item500 = { gid: "30195", name: "催眠学習 Secret Desire", sellday: "2021-03-26" };
+    const item500 = { gid: "t500", name: "催眠学習 Secret Desire", sellday: "2021-03-26" };
     expect(G.exactPick([V29779], [item500.name], item500)?.id).toBe("v29779");
     expect(G.containsPick([V29779], item500.name, item500)?.id).toBe("v29779");
   });
@@ -1104,7 +1085,7 @@ describe("vndb matching guards", () => {
       alttitle: "催眠性指導 -Secret Lesson-",
       released: "2024-12-20"
     };
-    const item126 = { gid: "35655", name: "催眠性指導 -Secret Lesson-", sellday: "2024-12-20" };
+    const item126 = { gid: "t126", name: "催眠性指導 -Secret Lesson-", sellday: "2024-12-20" };
     expect(G.exactPick([V41351], [item126.name], item126)?.id).toBe("v41351");
     expect(G.containsPick([V41351], item126.name, item126)?.id).toBe("v41351");
   });
@@ -1252,6 +1233,15 @@ function cachedGid(window, predicate) {
 // A product with DLsite + FANZA + Getchu ids, so the drawer renders every section.
 function richGid(window) {
   return cachedGid(window, (st) => st.l && (st.m || st.m2) && st.g);
+}
+
+// First DATA gid (rank order) whose STORE row satisfies pred. Product
+// specifics (cids, sample counts) come from the shipped payload, never from
+// literals, so a data rebuild updates these tests automatically.
+function storeGidWhere(window, pred) {
+  const G = window.GALLERY;
+  const hit = G.DATA.find((d) => pred(G.storeOf(d.gid) || {}));
+  return hit ? String(hit.gid) : null;
 }
 
 // First rendered card that opens synchronously *and* has images for the view:

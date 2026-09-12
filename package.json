@@ -13,9 +13,11 @@
     "kv:force-seed": "bun scripts/setup-kv.cjs --force-seed",
     "setup-kv": "bun scripts/setup-kv.cjs --no-seed",
     "test": "bun test",
-    "check": "bun run build && bun test"
+    "typecheck": "tsc -p tsconfig.json",
+    "check": "bun run typecheck && bun run build && bun test"
   },
   "devDependencies": {
-    "happy-dom": "^20.14.0"
+    "happy-dom": "^20.14.0",
+    "typescript": "^7.0.2"
   }
 }
