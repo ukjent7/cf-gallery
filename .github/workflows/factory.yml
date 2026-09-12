@@ -24,9 +24,6 @@ jobs:
   pipeline:
     runs-on: ubuntu-latest
     timeout-minutes: 360
-    defaults:
-      run:
-        working-directory: cf-gallery
     steps:
       - uses: actions/checkout@v4
 
@@ -45,7 +42,9 @@ jobs:
       - uses: oven-sh/setup-bun@v2
 
       - name: Rebuild and test
-        run: bun run check
+        # The pipeline just changed data/, so artifacts must be rebuilt before
+        # check: its tests compare committed artifacts against a fresh build.
+        run: bun run build && bun run check
 
       - name: Open update PR
         uses: peter-evans/create-pull-request@v7

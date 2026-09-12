@@ -2,7 +2,7 @@
 // Prepare gallery payloads: CSV/JSON inputs -> one build/data.json.
 //
 // Pure data transform. No HTML, no CSS, no JavaScript: the front-end is authored
-// normally under src/gallery/ and assembled by bundle.py.
+// normally under src/gallery/ and assembled by bundle.ts.
 //
 // DATA is the 寝取 CSV plus the POV559 universe crawl (fetch_tags.py --pov 559):
 // the attlist.php search page truncates its list, the DB does not, and a game
@@ -55,7 +55,6 @@ const INPUTS = {
   brand_group: "brand_group.json",
   egs_tags: "egs_tags.json",
   egs_povs: "egs_povs.json",
-  vndb_tags: "vndb_tags.json",
   universe: "pov559_universe.json",
 };
 
@@ -236,29 +235,23 @@ function urlOf(x: PyVal): string | null {
 function leanTags(
   egsTags: Map<string, PyVal>,
   egsPovs: Map<string, PyVal>,
-  vndbTags: Map<string, PyVal>,
   gidSet: Set<string>,
 ): Map<string, string[]> {
   // {tag: [gid, ...]} limited to games this gallery lists.
   //
-  // Sources: egs_tags.json (user tags, 親子丼), egs_povs.json (POV 属性,
-  // 堕ちる過程) from the EGS SQL interface, and vndb_tags.json (fetch_vndb_ts,
-  // kana API) — the 親子丼 key unions with the EGS one, 寝取り(VNDB) ships as
-  // its own key. The 寝取 CSV is itself POV559, and the universe crawl unions
-  // it into DATA, so a source whose intersection covers every listed game
-  // (寝取り) cannot filter anything and is not shipped. A name known to more
-  // than one source merges as the union: both assert the game carries the
-  // concept.
+  // Sources: egs_tags.json (user tags, 親子丼) and egs_povs.json (POV 属性,
+  // 堕ちる過程), both from the EGS SQL interface. A same-named key merges as
+  // the union: both assert the game carries the concept. The 寝取 CSV is
+  // itself POV559 and the universe crawl unions it into DATA, so a source
+  // whose intersection covers every listed game (寝取り) cannot filter
+  // anything and is not shipped.
   const out = new Map<string, string[]>();
-  const sources: [string, PyVal][] = [...egsTags.entries(), ...egsPovs.entries(), ...vndbTags.entries()];
+  const sources: [string, PyVal][] = [...egsTags.entries(), ...egsPovs.entries()];
   for (const [tag, games] of sources) {
     const rows = Array.isArray(games) ? (games as PyVal[]) : (games as Map<string, PyVal>)?.get("gids");
     const gids = new Set<string>();
     for (const e of Array.isArray(rows) ? (rows as PyVal[]) : []) {
-      // EGS rows are {id, ...} maps; VNDB rows are plain gid strings.
-      const raw = e instanceof Map ? e.get("id") : typeof e === "object" && e !== null
-        ? (e as Record<string, unknown>).id
-        : e;
+      const raw = e instanceof Map ? e.get("id") : e;
       const gid = pyStrip(String(raw ?? ""));
       if (gidSet.has(gid)) gids.add(gid);
     }
@@ -286,14 +279,13 @@ function main() {
     ["TAGS", leanTags(
       load("egs_tags", new Map()) as Map<string, PyVal>,
       load("egs_povs", new Map()) as Map<string, PyVal>,
-      load("vndb_tags", new Map()) as Map<string, PyVal>,
       new Set(data.map((d) => d.gid)),
     )],
   ]);
 
   mkdirSync(OUT_DIR, { recursive: true });
   const out = path.join(OUT_DIR, "data.json");
-  // LF endings so the artifact is byte-identical on every platform; bundle.py
+  // LF endings so the artifact is byte-identical on every platform; bundle.ts
   // inlines it verbatim into public/index.html.
   writeFileSync(out, dumpsCompact(payloads as unknown as PyVal) + "\n");
 

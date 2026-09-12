@@ -39,8 +39,6 @@ export function openDetail(gid) {
     "VNDB: " + (v ? (v.id + (v.title ? " (" + v.title + ")" : "")) : "未匹配");
   dhead.querySelector(".hint").textContent = hintText;
 
-  var mainSections = [];
-
   // 1. DLsite Section
   var dlHtml = "";
   var dlCount = 0;

@@ -1,0 +1,28 @@
+name: ci
+
+# Gate every push and PR: typecheck + tests (against the committed artifacts)
+# + rebuild. The tests compare committed build/data.json and public/index.html
+# against a fresh build, so a source change without its artifacts fails here.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck, test, rebuild
+        run: bun run check

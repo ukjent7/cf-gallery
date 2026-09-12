@@ -1,9 +1,9 @@
 // Single source of truth for store ID formats, product URLs, and image paths.
 //
 // Imported by the Worker (src/index.js) and inlined verbatim into the gallery
-// bundle (src/gallery/app.js) by scripts/bundle.py. Python data scripts read the
-// same rules out of this file rather than re-deriving them, so the three layers
-// cannot drift apart again.
+// bundle by scripts/bundle.ts. Python data scripts read the same rules out of
+// this file rather than re-deriving them, so the three layers cannot drift
+// apart again.
 
 // --- validation limits -------------------------------------------------------
 var MAX_CID_LEN = 10;      // Getchu numeric id
@@ -221,8 +221,11 @@ function dlApiMeta(rid, domain) {
 }
 
 // --- HTML scrapers -----------------------------------------------------------
-// Shared with the Python crawl scripts, which mirror these regexes verbatim and
-// are checked against them by test/urls.test.js.
+// Shared with the Python crawl scripts, which mirror these regexes. Parity is
+// verified at the data level: test/build.test.js checks that the JS functions
+// reproduce the Python-crawled facts in data/store_cache.json across the
+// whole dataset, and the fixture test at the bottom of that file pins the
+// regex shapes.
 
 function reEscape(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
 

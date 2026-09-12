@@ -191,16 +191,14 @@ describe("the lean payload loses nothing", () => {
 describe("tag payload", () => {
   test("TAGS is the union of the tag and POV crawls intersected with DATA", () => {
     // egs_tags.json (user tags) and egs_povs.json (POV 属性) both hold every
-    // game carrying the name (rows with id/name/sellday/n); vndb_tags.json
-    // holds {id, name, gids} with plain gid strings. A same-named key merges
-    // as the union. The payload keeps only the ids the 寝取 gallery
+    // game carrying the name (rows with id/name/sellday/n). A same-named key
+    // merges as the union. The payload keeps only the ids the 寝取 gallery
     // renders, numerically sorted. Anything else would make chips filter on
     // games that can never be shown.
     const rawTags = source("egs_tags.json");
     if (!rawTags) return;
     const rawPovs = source("egs_povs.json");
     if (!rawPovs) return;
-    const rawVndb = source("vndb_tags.json");
     const gids = new Set(built.DATA.map((d) => String(d.gid)));
     for (const [tag, payload] of Object.entries(built.TAGS)) {
       const rawIds = new Set();
@@ -210,13 +208,6 @@ describe("tag payload", () => {
           if (gids.has(id)) rawIds.add(id);
         }
       }
-      // VNDB shape: {key: {id, name, gids: [gid, ...]}}.
-      const vndbEntry = rawVndb?.[tag];
-      const vndbGids = Array.isArray(vndbEntry) ? vndbEntry : vndbEntry?.gids;
-      for (const gid of vndbGids || []) {
-        const id = String(typeof gid === "object" && gid !== null ? gid.id : gid);
-        if (gids.has(id)) rawIds.add(id);
-      }
       const merged = [...rawIds].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
       expect(payload, `TAGS["${tag}"] diverged from the raw crawls`).toEqual(merged);
       for (const gid of payload) {
@@ -224,7 +215,7 @@ describe("tag payload", () => {
       }
     }
     for (const tag of Object.keys(built.TAGS)) {
-      expect(tag in rawTags || tag in rawPovs || (rawVndb && tag in rawVndb), `tag "${tag}" is not in any raw crawl`).toBe(true);
+      expect(tag in rawTags || tag in rawPovs, `tag "${tag}" is not in any raw crawl`).toBe(true);
     }
   });
 
@@ -250,7 +241,7 @@ describe("tag payload", () => {
 
 describe("DATA covers the 寝取 universe", () => {
   test("every universe row and CSV game lands in DATA, ranked 1..N", () => {
-    // prep_data.py unions pov559_universe.json (POV559 straight from the DB)
+    // prep_data.ts unions pov559_universe.json (POV559 straight from the DB)
     // into the 寝取 CSV and renumbers the ranks, so DATA is exactly the
     // distinct union of both sources.
     const universe = source("pov559_universe.json");
@@ -285,22 +276,44 @@ describe("build outputs", () => {
     }
   });
 
-  test("the shipped document is newer than every input to the build", () => {
-    const doc = path.join(REPO, "public", "index.html");
-    const mtime = fs.statSync(doc).mtimeMs;
-    const inputs = ["src/urls.js", "src/gallery/index.src.html", "build/data.json"];
-    for (const dir of ["src/gallery/js", "src/gallery/css"]) {
-      for (const f of fs.readdirSync(path.join(REPO, dir)).filter((f) => f.endsWith(".js") || f.endsWith(".css"))) {
-        inputs.push(`${dir}/${f}`);
-      }
+  test("committed artifacts are byte-identical to a fresh build", () => {
+    // A fresh clone commits the artifacts, so the real freshness guarantee is
+    // content equality, not mtimes (which are all equal after a checkout and
+    // prove nothing). Rebuild both artifacts and compare bytes; on drift the
+    // test names the fix (`bun run build` + commit).
+    // build/data.json: prep_data.ts rewrites it in place; no other test file
+    // reads it, so the rewrite cannot race a parallel reader.
+    const dataPath = path.join(REPO, "build", "data.json");
+    const dataBefore = fs.readFileSync(dataPath);
+    let r = Bun.spawnSync(["bun", "scripts/prep_data.ts"], { cwd: REPO, stdout: "pipe", stderr: "pipe" });
+    if (r.exitCode !== 0) {
+      console.error(r.stderr.toString());
+      expect(r.exitCode, "prep_data.ts failed").toBe(0);
     }
-    // Legacy single-file sources were split into js/ and css/; fail loudly
-    // if they ever reappear as competing inputs.
+    expect(
+      fs.readFileSync(dataPath).equals(dataBefore),
+      "build/data.json drifted from data/*: run `bun run build` and commit both",
+    ).toBe(true);
+
+    // public/index.html: bundle to tmp/ (gitignored) so the committed artifact
+    // is never touched while parallel test files may be reading it.
+    const docPath = path.join(REPO, "public", "index.html");
+    const tmpDoc = path.join(REPO, "tmp", "bundle-check.html");
+    fs.mkdirSync(path.dirname(tmpDoc), { recursive: true });
+    r = Bun.spawnSync(["bun", "scripts/bundle.ts", "--out", tmpDoc], { cwd: REPO, stdout: "pipe", stderr: "pipe" });
+    if (r.exitCode !== 0) {
+      console.error(r.stderr.toString());
+      expect(r.exitCode, "bundle.ts failed").toBe(0);
+    }
+    expect(
+      fs.readFileSync(tmpDoc).equals(fs.readFileSync(docPath)),
+      "public/index.html drifted from src/*: run `bun run build` and commit both",
+    ).toBe(true);
+  });
+
+  test("legacy single-file sources stay deleted (split into js/ and css/)", () => {
     for (const legacy of ["src/gallery/app.js", "src/gallery/style.css"]) {
       expect(fs.existsSync(path.join(REPO, legacy)), `${legacy} must stay deleted (split into js/ and css/)`).toBe(false);
-    }
-    for (const f of inputs) {
-      expect(fs.statSync(path.join(REPO, f)).mtimeMs, `${f} changed after the build`).toBeLessThanOrEqual(mtime);
     }
   });
 

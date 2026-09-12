@@ -165,7 +165,7 @@ function readSeed() {
   });
   if (bad.length) {
     console.error(`REFUSING to upload: ${bad.length}/${seed.length} seed entries lack a boolean "hit".`);
-    console.error("Regenerate with: python scripts/make-kv-bulk.py");
+    console.error("Regenerate with: bun scripts/make-kv-bulk.ts");
     process.exit(1);
   }
   return seed;

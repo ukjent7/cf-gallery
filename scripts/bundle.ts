@@ -139,7 +139,7 @@ function bundleJsModules(jsDir: string): string {
 function build(outPath?: string, checkOnly = false): string {
   outPath = outPath ?? DEFAULT_OUT;
   const dataPath = DATA_JSON;
-  if (!existsSync(dataPath)) fail("error: build/data.json not found; run scripts/prep_data.py first");
+  if (!existsSync(dataPath)) fail("error: build/data.json not found; run `bun scripts/prep_data.ts` first");
   const data = parsePyJson(readText(dataPath)) as Map<string, PyVal>;
 
   const shell = readText(path.join(GALLERY, "index.src.html"));

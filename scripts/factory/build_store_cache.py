@@ -55,5 +55,4 @@ json.dump(cache, open('store_cache.json', 'w', encoding='utf-8'), ensure_ascii=F
 n_dl = sum(1 for e in cache.values() if 'dlsite' in e)
 n_dmm = sum(1 for e in cache.values() if 'dmm' in e)
 n_gc = sum(1 for e in cache.values() if 'getchu' in e)
-print(f"store_cache {len(cache)}/1021 dlsite={n_dl} dmm={n_dmm} getchu={n_gc}")
-print("20636:", json.dumps(cache.get('20636'), ensure_ascii=False, indent=1))
+print(f"store_cache {len(cache)} dlsite={n_dl} dmm={n_dmm} getchu={n_gc}")

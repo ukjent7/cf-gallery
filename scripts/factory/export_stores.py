@@ -27,6 +27,7 @@ def run_sql(sql):
 
 store = {}
 B = 100
+failed_batches = []
 for i in range(0, len(gids), B):
     chunk = gids[i:i+B]
     ids = ",".join(chunk)
@@ -35,7 +36,7 @@ for i in range(0, len(gids), B):
         try:
             data = run_sql(sql)
             for vals in data:
-                # order: id, dlsite_id, dlsite_domain, dmm, comike, banner_url, dmm_cnt, dlsite_cnt
+                # order: id, dlsite_id, dlsite_domain, dmm, comike, banner, dmm_cnt, dlsite_cnt
                 gid = vals[0]
                 store[gid] = {
                     "dlsite_id": vals[1] or None,
@@ -52,8 +53,14 @@ for i in range(0, len(gids), B):
             print(f"batch {i//B+1} attempt {attempt+1} ERR {e}")
             time.sleep(3)
     else:
+        failed_batches.append(i // B + 1)
         print(f"batch {i//B+1} FAILED")
     time.sleep(1)
+
+# A partial export must not be written: pipeline.py rolls state back on a
+# nonzero exit, but only if store_ids.json was never overwritten.
+if failed_batches:
+    sys.exit(f"export_stores: {len(failed_batches)} batch(es) failed: {failed_batches}")
 
 json.dump(store, open('store_ids.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 have_dlsite = sum(1 for v in store.values() if v.get('dlsite_id'))
