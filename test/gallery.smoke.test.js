@@ -593,7 +593,7 @@ describe("detail drawer", () => {
     const dsec = doc.querySelector(".dsec-dmm");
     expect(dsec, "FANZA section must exist for 媚肉の香り").toBeTruthy();
     const imgs = [...dsec.querySelectorAll(".strip img")];
-    expect(imgs.length, "FANZA screenshots must have 10 images").toBe(10);
+    expect(imgs.length, "FANZA screenshots must have 24 images").toBe(24);
     expect(imgs[4].getAttribute("src")).toContain("elf_0032/elf_0032js-005.jpg");
     expect(imgs[4].getAttribute("data-full")).toBe("https://pics.dmm.co.jp/digital/pcgame/elf_0032/elf_0032jp-005.jpg");
   });
