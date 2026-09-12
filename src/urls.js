@@ -209,9 +209,9 @@ function vnSearchUrl(name) { return "https://vndb.org/v?sq=" + encodeURIComponen
 
 // --- Worker proxy paths ------------------------------------------------------
 // Always rooted, so the gallery works under a non-root base path too.
-// (The import/export statements the Worker and tests need live at the bottom
-// of this file; scripts/bundle.py strips that block when inlining the file
-// into the gallery, which runs without a module loader.)
+// (The export list the Worker and tests need lives at the bottom of this
+// file; scripts/bundle.ts strips ESM export statements when inlining the
+// file into the gallery, which runs without a module loader.)
 function gcApiMeta(cid) { return "/gc/meta/" + encodeURIComponent(cid); }
 function gcApiCover(cid) { return "/gc/cover/" + cid + ".jpg"; }
 function gcApiSample(cid, n) { return "/gc/sample/" + cid + "/" + n + ".jpg"; }
@@ -274,7 +274,6 @@ function parseDlStems(rid, html) {
   return out;
 }
 
-// BEGIN-EXPORTS
 export {
   BOXED_RE,
   DL_SAMPLE_CAP,
@@ -331,4 +330,3 @@ export {
   vnUrl,
   vnSearchUrl,
 };
-// END-EXPORTS

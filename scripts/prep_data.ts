@@ -43,8 +43,7 @@ import { csvDicts } from "./lib/csv.ts";
 
 const HERE = import.meta.dir;
 const REPO = path.dirname(HERE);
-const WORKSPACE = path.dirname(REPO);
-const DATA_DIR = path.join(REPO, "data");
+let DATA_DIR = path.join(REPO, "data");
 const OUT_DIR = path.join(REPO, "build");
 
 const INPUTS = {
@@ -60,45 +59,23 @@ const INPUTS = {
   universe: "pov559_universe.json",
 };
 
-// repo/data holds the committed snapshot that a fresh clone builds from. The
-// workspace is searched last because the crawl scripts (enrich_dlsite.py,
-// recount_dmm.py, ...) write their results there.
-const SEARCH_DIRS: string[] = [DATA_DIR, WORKSPACE];
+// repo/data is the single canonical input directory: the committed snapshot
+// a fresh clone builds from. Crawl scripts write there, so the build never
+// has to guess which copy wins.
 
 // ---------------------------------------------------------------------------
 
-// Locate INPUTS[key], preferring the repo snapshot. Warn if a newer copy
-// exists elsewhere so a stale commit can never silently win.
+// Locate INPUTS[key] under the canonical data directory.
 function find(key: keyof typeof INPUTS): string | null {
-  const name = INPUTS[key];
-  let chosen: string | null = null;
-  for (const d of SEARCH_DIRS) {
-    const p = path.join(d, name);
-    if (existsSync(p) && statSync(p).isFile()) {
-      chosen = p;
-      break;
-    }
-  }
-  if (chosen === null) return null;
-  for (const d of SEARCH_DIRS) {
-    const other = path.join(d, name);
-    if (other === chosen || !existsSync(other)) continue;
-    if (statSync(other).mtimeMs > statSync(chosen).mtimeMs + 1) {
-      console.log(
-        `warning: ${name} is newer at ${other}\n` +
-          `         but building from ${chosen}\n` +
-          `         (copy it into ${DATA_DIR} to update the snapshot)`,
-      );
-    }
-  }
-  return chosen;
+  const p = path.join(DATA_DIR, INPUTS[key]);
+  return existsSync(p) && statSync(p).isFile() ? p : null;
 }
 
 function load(key: keyof typeof INPUTS, def?: PyVal): PyVal {
   const p = find(key);
   if (p === null) {
     if (def === undefined) {
-      console.error(`error: input ${INPUTS[key]} not found in ${SEARCH_DIRS}`);
+      console.error(`error: input ${INPUTS[key]} not found in ${DATA_DIR}`);
       process.exit(1);
     }
     console.log(`note: ${INPUTS[key]} missing, using default`);
@@ -294,7 +271,7 @@ function leanTags(
 function main() {
   const argv = process.argv.slice(2);
   if (argv.includes("--root")) {
-    SEARCH_DIRS.unshift(path.resolve(argv[argv.indexOf("--root") + 1]));
+    DATA_DIR = path.resolve(argv[argv.indexOf("--root") + 1]);
   }
 
   const rows = load("csv") as unknown as Record<string, string | null>[];

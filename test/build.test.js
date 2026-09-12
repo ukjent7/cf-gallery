@@ -24,19 +24,15 @@ import {
 } from "../src/urls.js";
 
 const REPO = path.join(import.meta.dir, "..");
-const WORKSPACE = path.join(REPO, "..");
 
 function readJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 
-// The full-fidelity source of truth, still in the workspace. If it is absent
-// (fresh clone), the repo snapshot in data/ is the same file.
+// The full-fidelity source of truth: the canonical repo/data snapshot.
 function source(name) {
-  for (const dir of [path.join(REPO, "data"), WORKSPACE]) {
-    const p = path.join(dir, name);
-    if (fs.existsSync(p)) return readJson(p);
-  }
+  const p = path.join(REPO, "data", name);
+  if (fs.existsSync(p)) return readJson(p);
   return null;
 }
 
@@ -335,12 +331,35 @@ describe("build outputs", () => {
     expect(scripts.filter((f) => f.endsWith(".py")), "Python scripts still present in scripts/").toEqual([]);
     for (const s of scripts.filter((f) => f.endsWith(".ts"))) {
       const src = fs.readFileSync(path.join(REPO, "scripts", s), "utf8");
-      // fetch_tags.ts legitimately carries the generated 2231-entry HTML5
-      // entity table (/*@HTML5@*/, ~45KB) for html.unescape parity, so the
-      // cap sits above it; anything approaching this size is still a smell.
+      // fetch_tags.ts used to carry a generated 2231-entry HTML5 entity
+      // table (~45KB); it now parses with happy-dom, so no script should
+      // approach that size again.
       expect(src.length, `${s} is suspiciously large`).toBeLessThan(80000);
       expect(src, `${s} still embeds a full HTML document`).not.toMatch(/<!DOCTYPE html>[\s\S]{2000,}/);
     }
+  });
+
+  test("crawl and bundle helpers stay on their canonical implementations", () => {
+    // The three retired mechanisms must not come back: the hand-rolled
+    // entity table + regex table parser, the BEGIN/END-EXPORTS marker
+    // slicing, and the dual data-directory search.
+    const fetchTags = fs.readFileSync(path.join(REPO, "scripts", "fetch_tags.ts"), "utf8");
+    expect(fetchTags).not.toContain("HTML5_ENTITIES");
+    expect(fetchTags).not.toMatch(/<tr\[\^>\]/);
+    expect(fetchTags).toContain('from "happy-dom"');
+    expect(fetchTags.length).toBeLessThan(30000);
+    const urls = fs.readFileSync(path.join(REPO, "src", "urls.js"), "utf8");
+    expect(urls).not.toContain("BEGIN-EXPORTS");
+    expect(urls).not.toContain("END-EXPORTS");
+    const bundle = fs.readFileSync(path.join(REPO, "scripts", "bundle.ts"), "utf8");
+    // bundle.ts may mention the retired markers only in its regression guard;
+    // the old indexOf-slicing mechanism itself must be gone.
+    expect(bundle).not.toContain('indexOf("// BEGIN');
+    expect(bundle).not.toContain('indexOf("// END');
+    expect(bundle).not.toContain("BEGIN-EXPORTS missing");
+    const prep = fs.readFileSync(path.join(REPO, "scripts", "prep_data.ts"), "utf8");
+    expect(prep).not.toContain("SEARCH_DIRS");
+    expect(prep).not.toContain("WORKSPACE");
   });
 
   test("the retired single-file generator is no longer the build path", () => {

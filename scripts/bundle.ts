@@ -43,18 +43,24 @@ function fail(msg: string): never {
 
 // ---------------------------------------------------------------------------
 
-// src/urls.js verbatim, minus its ESM export block.
+// src/urls.js verbatim, minus its ESM export statements.
 //
-// The gallery has no module loader; the file's declarations become part of the
-// single script. Comments are kept because they document the rules at the
-// point of use.
+// Concatenation contract (single classic <script>, no module loader):
+// payload consts (DATA, CACHE, STORE, FULLCG, BRANDG, TAGS) first, then this
+// file's top-level declarations as shared globals, then the gallery app
+// which reads both. Comments are kept because they document the rules at
+// the point of use.
 function urlsSource(): string {
   const src = readText(path.join(REPO, "src", "urls.js"));
-  const start = src.indexOf("// BEGIN-EXPORTS");
-  if (start < 0) fail("error: // BEGIN-EXPORTS missing from src/urls.js");
-  const end = src.indexOf("// END-EXPORTS") + "// END-EXPORTS".length;
-  if (end < "// END-EXPORTS".length) fail("error: // END-EXPORTS missing from src/urls.js");
-  const stripped = src.slice(0, start) + src.slice(end);
+  if (src.includes("BEGIN-EXPORTS") || src.includes("END-EXPORTS")) {
+    fail("error: src/urls.js still carries BEGIN/END-EXPORTS markers (removed; exports are stripped generically)");
+  }
+  // Strip ESM syntax so the same file serves the Worker (ESM import) and the
+  // file:// gallery (classic script globals): the export list plus any
+  // future `export` prefixes on declarations.
+  let stripped = src.replace(/^\s*export\s*\{[^}]*\}\s*;?\s*$/gm, "\n");
+  stripped = stripped.replace(/^(\s*)export\s+(?=(?:async\s+)?(?:var|let|const|function|class|default)\b)/gm, "$1");
+  if (/^\s*export\b/m.test(stripped)) fail("error: src/urls.js has an export form urlsSource() does not strip");
   // Drop the leading module doc comment's import-era wording, and any
   // leftover blank lines at the join.
   return pyRstrip(stripped.replaceAll("\n\n\n", "\n\n")) + "\n";
