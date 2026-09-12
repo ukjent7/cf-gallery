@@ -598,6 +598,25 @@ describe("detail drawer", () => {
     expect(imgs[4].getAttribute("data-full")).toBe("https://pics.dmm.co.jp/digital/pcgame/elf_0032/elf_0032jp-005.jpg");
   });
 
+  test("boxed-only FANZA (gid 26 アトラク＝ナクア) renders 盒装版 links and mono-floor images", () => {
+    // No download edition exists for this game, so the boxed edition is the
+    // FANZA entry instead of nothing.
+    const { doc, window } = loadGallery();
+    const G = window.GALLERY;
+    const st = G.storeOf("26");
+    expect(st && st.m && st.m.id).toBe("505ali0031");
+    G.setTab("all");
+    G.openDetail("26");
+    const dsec = doc.querySelector(".dsec-dmm");
+    expect(dsec, "FANZA section must exist for boxed-only gid 26").toBeTruthy();
+    const link = dsec.querySelector(".drawer-meta-links a");
+    expect(link.textContent).toContain("盒装版");
+    expect(link.href).toContain("/mono/pcgame/");
+    const imgs = [...dsec.querySelectorAll(".strip img")];
+    expect(imgs.length).toBe(10);
+    expect(imgs[0].getAttribute("src")).toContain("pics.dmm.co.jp/mono/game/505ali0031/");
+  });
+
   test("巨乳家族催眠 (gid 19189 / rank 508) matches DLsite VJ008382 with 9 sample stems", () => {
     const { doc, window } = loadGallery();
     const G = window.GALLERY;
