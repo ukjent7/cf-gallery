@@ -66,7 +66,7 @@ describe("app boot", () => {
     expect(stats.textContent.trim().length, "stats line is empty").toBeGreaterThan(0);
     expect(stats.innerHTML, "stats line lost its 共 N / M lead").toMatch(/^共 <b>\d+<\/b> \/ \d+ 个（EROGE限定）/);
     expect(stats.textContent).toContain("视图：综合");
-    expect(stats.textContent).toContain("已显示 36 个");
+    expect(stats.textContent).toContain(`已显示 ${window.GALLERY.PAGE_SIZE} 个`);
     expect(calls, "boot must not touch the network").toHaveLength(0);
   });
 

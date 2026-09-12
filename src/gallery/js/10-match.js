@@ -1,5 +1,5 @@
 // --- Normalization & Matching Algorithms ---
-import { _BRANDG, _STORE, _TAGS } from "./00-head.js";
+import { _BRANDG, _DATA, _STORE, _TAGS } from "./00-head.js";
 
 export function normStr(s) {
   if (!s) return "";
@@ -169,8 +169,8 @@ export function relatedOf(item, vndbItem) {
   var bg = _BRANDG[item.brand] || item.brand;
   var rel = [];
   var sid = String(item.gid);
-  for (var i = 0; i < DATA.length; i++) {
-    var d = DATA[i];
+  for (var i = 0; i < _DATA.length; i++) {
+    var d = _DATA[i];
     if (String(d.gid) === sid) continue;
     var dbg = _BRANDG[d.brand] || d.brand;
     if (dbg === bg) {
