@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700;900&display=swap');
+
+/* ==========================================================================
+   PROJECT AURA // NOCTURNE VAULT (夜幕缪斯档案馆)
+   CF-Gallery CSS Design System & Visual Engine v2.0
+   ========================================================================== */
+
+:root {
+  /* [CORE COLOR MATRIX] */
+  --bg-void: #06060A;
+  --bg-canvas: #0C0B12;
+  --bg-velvet: #14121E;
+  --bg-surface: #1A1726;
+  --bg-elevated: #242034;
+  --bg-glass: rgba(12, 11, 18, 0.78);
+  --bg-glass-heavy: rgba(8, 7, 13, 0.94);
+
+  /* [NEON SPECTRUM ACCENTS] */
+  --accent-crimson: #FF2A6D;
+  --accent-crimson-glow: rgba(255, 42, 109, 0.32);
+  --accent-crimson-subtle: rgba(255, 42, 109, 0.12);
+  --accent-violet: #A855F7;
+  --accent-violet-glow: rgba(168, 85, 247, 0.28);
+  --accent-gilded: #FFB800;
+  --accent-gilded-glow: rgba(255, 184, 0, 0.35);
+  --accent-emerald: #00F5A0;
+  --accent-cyan: #00D2FF;
+
+  /* [TYPOGRAPHY - UNIFIED NOTO FONTS] */
+  --font-serif: "Noto Serif SC", "Noto Serif CJK SC", "思源宋体", "Source Han Serif SC", "Source Han Serif CN", "Noto Serif JP", "Noto Serif", "Songti SC", "SimSun", serif;
+  --font-sans: "Noto Sans SC", "Noto Sans CJK SC", "思源黑体", "Source Han Sans SC", "Source Han Sans CN", "Noto Sans JP", "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Space Grotesk", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Noto Sans SC", "思源黑体", monospace;
+  --font-editorial: var(--font-serif);
+  --font-ui: var(--font-sans);
+
+  /* [TEXT CONTRAST - HIGH LEGIBILITY, NEVER FAINT] */
+  --text-lumina: #FFFFFF;
+  --text-subtle: #E2E8F0;
+  --text-muted: #CBD5E1;
+  --text-dark: #64748B;
+
+  /* [STROKES & ELEVATIONS] */
+  --border-hairline: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.16);
+  --border-glow: rgba(255, 42, 109, 0.35);
+  --shadow-dock: 0 24px 48px -8px rgba(0, 0, 0, 0.85), 0 0 24px -2px rgba(255, 42, 109, 0.18);
+  --shadow-card: 0 14px 34px -8px rgba(0, 0, 0, 0.75);
+  --shadow-card-hover: 0 26px 54px -10px rgba(0, 0, 0, 0.92), 0 0 32px rgba(255, 42, 109, 0.25);
+
+  /* [SPRING PHYSICS] */
+  --spring-snappy: cubic-bezier(0.2, 0.9, 0.1, 1.05);
+  --spring-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring-cinematic: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Base Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background: rgba(255, 42, 109, 0.45);
+  color: #FFFFFF;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html {
+  background-color: var(--bg-void);
+  color: var(--text-lumina);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-void);
+  position: relative;
+  overflow-x: clip;
+}
+
+body.locked {
+  overflow: hidden !important;
+}
+
+/* Dynamic Ambient Mesh Glow Background */
+.ambient-mesh {
+  position: fixed;
+  top: -20vh;
+  left: -20vw;
+  width: 140vw;
+  height: 140vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+  background: radial-gradient(circle at 75% 20%, rgba(255, 42, 109, 0.12) 0%, transparent 45%),
+              radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.14) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(12, 11, 18, 0.8) 0%, transparent 70%);
+  transition: background 0.8s var(--spring-smooth);
+}
+
+/* Sensory Soft-Blur Safe Mode */
+body.safe-mode .cover img,
+body.safe-mode .strip img,
+body.safe-mode #vimg,
+body.safe-mode .relimg {
+  filter: blur(18px) brightness(0.75);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+body.safe-mode .cover:hover img,
+body.safe-mode .strip:hover img,
+body.safe-mode .relcard:hover .relimg,
+body.safe-mode .relclone:hover .relimg {
+  filter: blur(0px) brightness(1);
+}
+

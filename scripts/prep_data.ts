@@ -30,6 +30,16 @@
 
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import * as path from "node:path";
+import {
+  dumpsCompact,
+  fmtInt,
+  parsePyJson,
+  pyInt,
+  pyStrip,
+  pyTruthy,
+  type PyVal,
+} from "./lib/pyjson.ts";
+import { csvDicts } from "./lib/csv.ts";
 
 const HERE = import.meta.dir;
 const REPO = path.dirname(HERE);
@@ -54,318 +64,6 @@ const INPUTS = {
 // workspace is searched last because the crawl scripts (enrich_dlsite.py,
 // recount_dmm.py, ...) write their results there.
 const SEARCH_DIRS: string[] = [DATA_DIR, WORKSPACE];
-
-// ---------------------------------------------------------------------------
-// Python-parity helpers.
-//
-// Python dicts keep insertion order; JS objects reorder integer-like keys
-// ("20764") numerically, which would scramble the gid-keyed payloads. JSON
-// objects are therefore parsed into Map and both serializers below walk Maps
-// and plain objects in insertion order.
-
-type PyVal = string | number | boolean | null | PyVal[] | Map<string, PyVal>;
-
-// Python json.dump(ensure_ascii=False, separators=(",", ":")).
-function dumpsCompact(v: PyVal): string {
-  return encode(v, null, false, 0);
-}
-
-// Python json.dump(ensure_ascii=False, indent=1, sort_keys=True).
-function dumpsIndentSorted(v: PyVal): string {
-  return encode(v, 1, true, 0);
-}
-
-function encode(v: PyVal, indent: number | null, sortKeys: boolean, level: number): string {
-  if (v === null) return "null";
-  if (typeof v === "boolean") return v ? "true" : "false";
-  if (typeof v === "number") {
-    if (!Number.isInteger(v)) throw new Error(`pyjson: non-integer number ${v}`);
-    return String(v); // -0 prints as "0", like Python json
-  }
-  if (typeof v === "string") return quoteJson(v);
-  // dict (Map or plain object) in insertion order
-  let items = v instanceof Map ? [...v.entries()] : (Object.entries(v as Record<string, PyVal>) as [string, PyVal][]);
-  if (sortKeys) {
-    items = items.slice().sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
-  }
-  if (indent === null) {
-    // separators=(",", ":")
-    if (Array.isArray(v)) return "[" + v.map((x) => encode(x, null, sortKeys, level)).join(",") + "]";
-    if (items.length === 0) return "{}";
-    return "{" + items.map(([k, x]) => quoteJson(k) + ":" + encode(x, null, sortKeys, level)).join(",") + "}";
-  }
-  if (Array.isArray(v)) {
-    if (v.length === 0) return "[]";
-    const inner = " ".repeat(indent * (level + 1));
-    const enc = v.map((x) => inner + encode(x, indent, sortKeys, level + 1));
-    return "[\n" + enc.join(",\n") + "\n" + " ".repeat(indent * level) + "]";
-  }
-  if (items.length === 0) return "{}";
-  const inner = " ".repeat(indent * (level + 1));
-  const items2 = items.map(([k, x]) => inner + quoteJson(k) + ": " + encode(x, indent, sortKeys, level + 1));
-  return "{\n" + items2.join(",\n") + "\n" + " ".repeat(indent * level) + "}";
-}
-
-function quoteJson(s: string): string {
-  let out = '"';
-  for (const ch of s) {
-    const c = ch.codePointAt(0)!;
-    if (ch === '"') out += '\\"';
-    else if (ch === "\\") out += "\\\\";
-    else if (c === 8) out += "\\b";
-    else if (c === 9) out += "\\t";
-    else if (c === 10) out += "\\n";
-    else if (c === 12) out += "\\f";
-    else if (c === 13) out += "\\r";
-    else if (c < 0x20) out += "\\u" + c.toString(16).padStart(4, "0");
-    else out += ch;
-  }
-  return out + '"';
-}
-
-// Recursive-descent parse producing Maps for JSON objects (order-preserving).
-function parsePyJson(text: string): PyVal {
-  let i = 0;
-  const ws = () => {
-    while (i < text.length) {
-      const c = text[i];
-      if (c === " " || c === "\t" || c === "\n" || c === "\r") i++;
-      else break;
-    }
-  };
-  function value(): PyVal {
-    ws();
-    const c = text[i];
-    if (c === "{") return dict();
-    if (c === "[") return array();
-    if (c === '"') return string();
-    if (c === "t" || c === "f") return literal();
-    if (c === "n") {
-      literal();
-      return null;
-    }
-    return number();
-  }
-  function literal(): boolean {
-    const m = /^(true|false|null)/.exec(text.slice(i))!;
-    i += m[0].length;
-    return m[0] === "true";
-  }
-  function number(): number {
-    const m = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/.exec(text.slice(i))!;
-    i += m[0].length;
-    const n = Number(m[0]);
-    if (!Number.isInteger(n)) throw new Error(`pyjson: non-integer number ${m[0]}`);
-    return n;
-  }
-  function string(): string {
-    i++; // opening quote
-    let out = "";
-    while (text[i] !== '"') {
-      if (text[i] === "\\") {
-        const e = text[i + 1];
-        if (e === "u") {
-          out += String.fromCharCode(parseInt(text.slice(i + 2, i + 6), 16));
-          i += 6;
-        } else {
-          out += { '"': '"', "\\": "\\", "/": "/", b: "\b", f: "\f", n: "\n", r: "\r", t: "\t" }[e as never];
-          i += 2;
-        }
-      } else {
-        out += text[i];
-        i++;
-      }
-    }
-    i++; // closing quote
-    return out;
-  }
-  function dict(): Map<string, PyVal> {
-    const m = new Map<string, PyVal>();
-    i++; // {
-    ws();
-    if (text[i] === "}") {
-      i++;
-      return m;
-    }
-    for (;;) {
-      ws();
-      const k = string();
-      ws();
-      i++; // :
-      m.set(k, value());
-      ws();
-      if (text[i] === ",") {
-        i++;
-        continue;
-      }
-      i++; // }
-      return m;
-    }
-  }
-  function array(): PyVal[] {
-    const a: PyVal[] = [];
-    i++; // [
-    ws();
-    if (text[i] === "]") {
-      i++;
-      return a;
-    }
-    for (;;) {
-      a.push(value());
-      ws();
-      if (text[i] === ",") {
-        i++;
-        continue;
-      }
-      i++; // ]
-      return a;
-    }
-  }
-  const v = value();
-  ws();
-  if (i !== text.length) throw new Error("pyjson: trailing data");
-  return v;
-}
-
-// Python str.strip() / str.rstrip(): Python's whitespace set, not JS trim's
-// (no U+FEFF; does include \x1c-\x1f and U+0085).
-const PY_WS = "\t\n\u000b\f\r \u001c\u001d\u001e\u001f   -     　";
-const pyStrip = (s: string) => s.replace(new RegExp(`^[${PY_WS}]+`), "").replace(new RegExp(`[${PY_WS}]+$`), "");
-const pyRstrip = (s: string) => s.replace(new RegExp(`[${PY_WS}]+$`), "");
-
-// Python int(str(v).strip()) with try/except ValueError/TypeError -> 0:
-// only plain (optionally signed) decimal digits parse ("2.5" -> 0, "" -> 0).
-function pyInt(v: unknown): number {
-  if (typeof v === "number") return Number.isFinite(v) ? Math.trunc(v) : 0;
-  if (v === null || v === undefined) return 0;
-  if (typeof v === "boolean") return v ? 1 : 0;
-  const s = pyStrip(String(v));
-  return /^[+-]?\d+$/.test(s) ? parseInt(s, 10) : 0;
-}
-
-// Python truthiness: unlike JS, [] and {} (empty Map here) are falsy.
-function pyTruthy(x: unknown): boolean {
-  return !!x && !(x instanceof Map && x.size === 0) && !(Array.isArray(x) && x.length === 0);
-}
-
-const fmtInt = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-// ---------------------------------------------------------------------------
-// RFC4180 CSV, ported from csv.DictReader(encoding="utf-8-sig", newline=""):
-// quoted fields, embedded delimiters/newlines, "" escapes, CR-LF records, and
-// the leading BOM stripped. _csv's state machine, minus the error paths this
-// dataset never hits (unterminated quote -> _csv.Error like Python).
-function parseCsv(text: string): string[][] {
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let field = "";
-  let state = "START_RECORD";
-  const saveField = () => {
-    row.push(field);
-    field = "";
-  };
-  const saveRow = () => {
-    rows.push(row);
-    row = [];
-  };
-  let i = 0;
-  while (i < text.length) {
-    const c = text[i];
-    switch (state) {
-      case "START_RECORD":
-        if (c === "\n" || c === "\r") i++; // blank record: skipped
-        else state = "START_FIELD";
-        break;
-      case "START_FIELD":
-        if (c === '"') {
-          state = "IN_QUOTED_FIELD";
-          i++;
-        } else if (c === ",") {
-          saveField();
-          i++;
-        } else if (c === "\n" || c === "\r") {
-          saveField();
-          saveRow();
-          state = "EAT_CRNL";
-          i++;
-        } else {
-          field += c;
-          state = "IN_FIELD";
-          i++;
-        }
-        break;
-      case "IN_FIELD":
-        if (c === "\n" || c === "\r") {
-          saveField();
-          saveRow();
-          state = "EAT_CRNL";
-          i++;
-        } else if (c === ",") {
-          saveField();
-          state = "START_FIELD";
-          i++;
-        } else {
-          field += c;
-          i++;
-        }
-        break;
-      case "IN_QUOTED_FIELD":
-        if (c === '"') {
-          state = "QUOTE_IN_QUOTED_FIELD";
-          i++;
-        } else {
-          field += c; // CR-LF inside quotes is kept verbatim
-          i++;
-        }
-        break;
-      case "QUOTE_IN_QUOTED_FIELD":
-        if (c === '"') {
-          field += '"';
-          state = "IN_QUOTED_FIELD";
-          i++;
-        } else if (c === ",") {
-          saveField();
-          state = "START_FIELD";
-          i++;
-        } else if (c === "\n" || c === "\r") {
-          saveField();
-          saveRow();
-          state = "EAT_CRNL";
-          i++;
-        } else {
-          field += c;
-          state = "IN_FIELD";
-          i++;
-        }
-        break;
-      case "EAT_CRNL":
-        if (c === "\n" || c === "\r") i++;
-        else state = "START_RECORD";
-        break;
-    }
-  }
-  if (state === "IN_QUOTED_FIELD") throw new Error("csv: unexpected end of data");
-  if (state === "START_FIELD" || state === "IN_FIELD" || state === "QUOTE_IN_QUOTED_FIELD") {
-    saveField();
-    saveRow();
-  }
-  return rows;
-}
-
-// DictReader: first row is the header; short rows read as null, extras under
-// the None restkey are dropped (unused by the transforms).
-function csvDicts(text: string): Record<string, string | null>[] {
-  const rows = parseCsv(text);
-  if (rows.length === 0) return [];
-  const header = rows[0];
-  return rows.slice(1).map((r) => {
-    const d: Record<string, string | null> = {};
-    header.forEach((h, i) => {
-      d[h] = i < r.length ? r[i] : null;
-    });
-    return d;
-  });
-}
 
 // ---------------------------------------------------------------------------
 
@@ -580,7 +278,11 @@ function leanTags(
     const rows = Array.isArray(games) ? (games as PyVal[]) : (games as Map<string, PyVal>)?.get("gids");
     const gids = new Set<string>();
     for (const e of Array.isArray(rows) ? (rows as PyVal[]) : []) {
-      const gid = pyStrip(String(e?.get("id") ?? ""));
+      // EGS rows are {id, ...} maps; VNDB rows are plain gid strings.
+      const raw = e instanceof Map ? e.get("id") : typeof e === "object" && e !== null
+        ? (e as Record<string, unknown>).id
+        : e;
+      const gid = pyStrip(String(raw ?? ""));
       if (gidSet.has(gid)) gids.add(gid);
     }
     if (gids.size === 0 || [...gidSet].every((g) => gids.has(g))) continue;

@@ -42,8 +42,9 @@ var INFLIGHT_TTL_MS = 30000;
 var lastUpstreamAt = 0;
 var inflight = new Map();
 
-// Thin validation wrappers over the shared rules, kept as named exports so the
-// route table and the tests speak one language.
+// Worker-level validation contract, used by the route table and the tests.
+// The id shapes delegate to the shared rules in src/urls.js; the sample
+// range additionally encodes this worker's display cap policy.
 export function isValidCid(cid) {
   return isGetchuCid(cid);
 }
@@ -67,18 +68,20 @@ export function isValidDlDomain(d) {
 export { dlProductUrl, dmmDetailUrl, gcCoverUrl, gcProductUrl, gcSampleUrl };
 export { parseDlStems, parseDmmMax, parseSampleMax };
 
-// Route table: one place mapping path -> what to do with it.
+// Route table: one place mapping path -> what to do with it. Every ok()
+// handler takes the parsed params (and the raw match when needed), so the
+// next route addition does not have to guess the convention.
 var ROUTES = [
-  { re: /^\/gc\/meta\/([A-Za-z0-9_.-]+)$/, kind: "meta", idOf: function (m) { return { cid: m[1] }; }, ok: isGetchuCid },
-  { re: /^\/gc\/cover\/([A-Za-z0-9_.-]+)\.jpg$/, kind: "cover", idOf: function (m) { return { cid: m[1] }; }, ok: isGetchuCid },
+  { re: /^\/gc\/meta\/([A-Za-z0-9_.-]+)$/, kind: "meta", idOf: function (m) { return { cid: m[1] }; }, ok: function (p) { return isGetchuCid(p.cid); } },
+  { re: /^\/gc\/cover\/([A-Za-z0-9_.-]+)\.jpg$/, kind: "cover", idOf: function (m) { return { cid: m[1] }; }, ok: function (p) { return isGetchuCid(p.cid); } },
   {
     re: /^\/gc\/sample\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)\.jpg$/,
     kind: "sample",
     idOf: function (m) { return { cid: m[1], n: Number(m[2]) }; },
-    ok: function (params, m) { return isGetchuCid(m[1]) && isValidSampleN(Number(m[2])); },
+    ok: function (p) { return isGetchuCid(p.cid) && isValidSampleN(p.n); },
   },
-  { re: /^\/dm\/meta\/([A-Za-z0-9_.-]+)$/, kind: "dmm-meta", idOf: function (m) { return { cid: m[1] }; }, ok: isDmmCid },
-  { re: /^\/dl\/meta\/([A-Za-z0-9_.-]+)$/, kind: "dl-meta", idOf: function (m) { return { rid: m[1] }; }, ok: isDlId },
+  { re: /^\/dm\/meta\/([A-Za-z0-9_.-]+)$/, kind: "dmm-meta", idOf: function (m) { return { cid: m[1] }; }, ok: function (p) { return isDmmCid(p.cid); } },
+  { re: /^\/dl\/meta\/([A-Za-z0-9_.-]+)$/, kind: "dl-meta", idOf: function (m) { return { rid: m[1] }; }, ok: function (p) { return isDlId(p.rid); } },
 ];
 
 export function parseRoute(pathname) {
@@ -87,8 +90,7 @@ export function parseRoute(pathname) {
     var m = r.re.exec(pathname);
     if (!m) continue;
     var params = r.idOf(m);
-    var key = Object.keys(params)[0];
-    if (!r.ok(params[key], m)) return null;
+    if (!r.ok(params, m)) return null;
     return Object.assign({ kind: r.kind }, params);
   }
   return null;

@@ -11,7 +11,7 @@
 //
 // Usage: bun scripts/bundle.ts [--out PATH] [--check]
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
 import * as path from "node:path";
 
@@ -28,166 +28,8 @@ const PAYLOAD_ORDER = ["DATA", "CACHE", "STORE", "FULLCG", "BRANDG", "TAGS"];
 // gid keys keep insertion order, and both serializers reproduce Python
 // json.dump byte-for-byte.
 
-type PyVal = string | number | boolean | null | PyVal[] | Map<string, PyVal>;
+import { dumpsCompact, fmtInt, parsePyJson, pyRstrip, type PyVal } from "./lib/pyjson.ts";
 
-function dumpsCompact(v: PyVal): string {
-  return encode(v, null, false, 0);
-}
-
-function encode(v: PyVal, indent: number | null, sortKeys: boolean, level: number): string {
-  if (v === null) return "null";
-  if (typeof v === "boolean") return v ? "true" : "false";
-  if (typeof v === "number") {
-    if (!Number.isInteger(v)) throw new Error(`pyjson: non-integer number ${v}`);
-    return String(v); // -0 prints as "0", like Python json
-  }
-  if (typeof v === "string") return quoteJson(v);
-  let items = v instanceof Map ? [...v.entries()] : (Object.entries(v as Record<string, PyVal>) as [string, PyVal][]);
-  if (sortKeys) {
-    items = items.slice().sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
-  }
-  if (indent === null) {
-    // separators=(",", ":")
-    if (Array.isArray(v)) return "[" + v.map((x) => encode(x, null, sortKeys, level)).join(",") + "]";
-    if (items.length === 0) return "{}";
-    return "{" + items.map(([k, x]) => quoteJson(k) + ":" + encode(x, null, sortKeys, level)).join(",") + "}";
-  }
-  if (Array.isArray(v)) {
-    if (v.length === 0) return "[]";
-    const inner = " ".repeat(indent * (level + 1));
-    const enc = v.map((x) => inner + encode(x, indent, sortKeys, level + 1));
-    return "[\n" + enc.join(",\n") + "\n" + " ".repeat(indent * level) + "]";
-  }
-  if (items.length === 0) return "{}";
-  const inner = " ".repeat(indent * (level + 1));
-  const items2 = items.map(([k, x]) => inner + quoteJson(k) + ": " + encode(x, indent, sortKeys, level + 1));
-  return "{\n" + items2.join(",\n") + "\n" + " ".repeat(indent * level) + "}";
-}
-
-function quoteJson(s: string): string {
-  let out = '"';
-  for (const ch of s) {
-    const c = ch.codePointAt(0)!;
-    if (ch === '"') out += '\\"';
-    else if (ch === "\\") out += "\\\\";
-    else if (c === 8) out += "\\b";
-    else if (c === 9) out += "\\t";
-    else if (c === 10) out += "\\n";
-    else if (c === 12) out += "\\f";
-    else if (c === 13) out += "\\r";
-    else if (c < 0x20) out += "\\u" + c.toString(16).padStart(4, "0");
-    else out += ch;
-  }
-  return out + '"';
-}
-
-function parsePyJson(text: string): PyVal {
-  let i = 0;
-  const ws = () => {
-    while (i < text.length) {
-      const c = text[i];
-      if (c === " " || c === "\t" || c === "\n" || c === "\r") i++;
-      else break;
-    }
-  };
-  function literal(): boolean {
-    const m = /^(true|false|null)/.exec(text.slice(i))!;
-    i += m[0].length;
-    return m[0] === "true";
-  }
-  function number(): number {
-    const m = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/.exec(text.slice(i))!;
-    i += m[0].length;
-    const n = Number(m[0]);
-    if (!Number.isInteger(n)) throw new Error(`pyjson: non-integer number ${m[0]}`);
-    return n;
-  }
-  function string(): string {
-    i++; // opening quote
-    let out = "";
-    while (text[i] !== '"') {
-      if (text[i] === "\\") {
-        const e = text[i + 1];
-        if (e === "u") {
-          out += String.fromCharCode(parseInt(text.slice(i + 2, i + 6), 16));
-          i += 6;
-        } else {
-          out += { '"': '"', "\\": "\\", "/": "/", b: "\b", f: "\f", n: "\n", r: "\r", t: "\t" }[e as never];
-          i += 2;
-        }
-      } else {
-        out += text[i];
-        i++;
-      }
-    }
-    i++; // closing quote
-    return out;
-  }
-  function dict(): Map<string, PyVal> {
-    const m = new Map<string, PyVal>();
-    i++; // {
-    ws();
-    if (text[i] === "}") {
-      i++;
-      return m;
-    }
-    for (;;) {
-      ws();
-      const k = string();
-      ws();
-      i++; // :
-      m.set(k, value());
-      ws();
-      if (text[i] === ",") {
-        i++;
-        continue;
-      }
-      i++; // }
-      return m;
-    }
-  }
-  function array(): PyVal[] {
-    const a: PyVal[] = [];
-    i++; // [
-    ws();
-    if (text[i] === "]") {
-      i++;
-      return a;
-    }
-    for (;;) {
-      a.push(value());
-      ws();
-      if (text[i] === ",") {
-        i++;
-        continue;
-      }
-      i++; // ]
-      return a;
-    }
-  }
-  function value(): PyVal {
-    ws();
-    const c = text[i];
-    if (c === "{") return dict();
-    if (c === "[") return array();
-    if (c === '"') return string();
-    if (c === "t" || c === "f") return literal();
-    if (c === "n") {
-      literal();
-      return null;
-    }
-    return number();
-  }
-  const v = value();
-  ws();
-  if (i !== text.length) throw new Error("pyjson: trailing data");
-  return v;
-}
-
-// Python str.rstrip() and text-mode read(): Python's whitespace set, plus
-// universal-newline translation of CRLF/CR to LF.
-const PY_WS = "\t\n\u000b\f\r \x1c\x1d\x1e\x1f\x85\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000";
-const pyRstrip = (s: string) => s.replace(new RegExp(`[${PY_WS}]+$`), "");
 const rstripNl = (s: string) => s.replace(/\n+$/, ""); // Python .rstrip("\n")
 
 function readText(p: string): string {
@@ -198,8 +40,6 @@ function fail(msg: string): never {
   console.error(msg);
   process.exit(1);
 }
-
-const fmtInt = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 // ---------------------------------------------------------------------------
 
@@ -240,8 +80,17 @@ function build(outPath?: string, checkOnly = false): string {
   const data = parsePyJson(readText(dataPath)) as Map<string, PyVal>;
 
   const shell = readText(path.join(GALLERY, "index.src.html"));
-  const css = readText(path.join(GALLERY, "style.css"));
-  const app = readText(path.join(GALLERY, "app.js"));
+  // The client is authored as focused modules under js/ and css/ and
+  // concatenated here, so no single source file grows past a healthy size
+  // while the shipped artifact stays one self-contained document.
+  const cssDir = path.join(GALLERY, "css");
+  const jsDir = path.join(GALLERY, "js");
+  const css = existsSync(cssDir)
+    ? readdirSync(cssDir).filter((f) => f.endsWith(".css")).sort().map((f) => rstripNl(readText(path.join(cssDir, f)))).join("\n")
+    : rstripNl(readText(path.join(GALLERY, "style.css")));
+  const app = existsSync(jsDir)
+    ? readdirSync(jsDir).filter((f) => f.endsWith(".js")).sort().map((f) => rstripNl(readText(path.join(jsDir, f)))).join("\n")
+    : rstripNl(readText(path.join(GALLERY, "app.js")));
 
   for (const token of ["/*__STYLE__*/", "/*__PAYLOAD__*/", "/*__URLS__*/", "/*__APP__*/"]) {
     if (!shell.includes(token)) fail(`error: ${token} missing from index.src.html`);

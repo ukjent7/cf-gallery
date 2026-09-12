@@ -195,14 +195,16 @@ describe("the lean payload loses nothing", () => {
 describe("tag payload", () => {
   test("TAGS is the union of the tag and POV crawls intersected with DATA", () => {
     // egs_tags.json (user tags) and egs_povs.json (POV 属性) both hold every
-    // game carrying the name (rows with id/name/sellday/n); a same-named key
-    // merges as the union. The payload keeps only the ids the 寝取 gallery
+    // game carrying the name (rows with id/name/sellday/n); vndb_tags.json
+    // holds {id, name, gids} with plain gid strings. A same-named key merges
+    // as the union. The payload keeps only the ids the 寝取 gallery
     // renders, numerically sorted. Anything else would make chips filter on
     // games that can never be shown.
     const rawTags = source("egs_tags.json");
     if (!rawTags) return;
     const rawPovs = source("egs_povs.json");
     if (!rawPovs) return;
+    const rawVndb = source("vndb_tags.json");
     const gids = new Set(built.DATA.map((d) => String(d.gid)));
     for (const [tag, payload] of Object.entries(built.TAGS)) {
       const rawIds = new Set();
@@ -212,6 +214,13 @@ describe("tag payload", () => {
           if (gids.has(id)) rawIds.add(id);
         }
       }
+      // VNDB shape: {key: {id, name, gids: [gid, ...]}}.
+      const vndbEntry = rawVndb?.[tag];
+      const vndbGids = Array.isArray(vndbEntry) ? vndbEntry : vndbEntry?.gids;
+      for (const gid of vndbGids || []) {
+        const id = String(typeof gid === "object" && gid !== null ? gid.id : gid);
+        if (gids.has(id)) rawIds.add(id);
+      }
       const merged = [...rawIds].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
       expect(payload, `TAGS["${tag}"] diverged from the raw crawls`).toEqual(merged);
       for (const gid of payload) {
@@ -219,7 +228,7 @@ describe("tag payload", () => {
       }
     }
     for (const tag of Object.keys(built.TAGS)) {
-      expect(tag in rawTags || tag in rawPovs, `tag "${tag}" is not in either raw crawl`).toBe(true);
+      expect(tag in rawTags || tag in rawPovs || (rawVndb && tag in rawVndb), `tag "${tag}" is not in any raw crawl`).toBe(true);
     }
   });
 
@@ -283,9 +292,32 @@ describe("build outputs", () => {
   test("the shipped document is newer than every input to the build", () => {
     const doc = path.join(REPO, "public", "index.html");
     const mtime = fs.statSync(doc).mtimeMs;
-    for (const f of ["src/urls.js", "src/gallery/app.js", "src/gallery/style.css",
-      "src/gallery/index.src.html", "build/data.json"]) {
+    const inputs = ["src/urls.js", "src/gallery/index.src.html", "build/data.json"];
+    for (const dir of ["src/gallery/js", "src/gallery/css"]) {
+      for (const f of fs.readdirSync(path.join(REPO, dir)).filter((f) => f.endsWith(".js") || f.endsWith(".css"))) {
+        inputs.push(`${dir}/${f}`);
+      }
+    }
+    // Legacy single-file sources were split into js/ and css/; fail loudly
+    // if they ever reappear as competing inputs.
+    for (const legacy of ["src/gallery/app.js", "src/gallery/style.css"]) {
+      expect(fs.existsSync(path.join(REPO, legacy)), `${legacy} must stay deleted (split into js/ and css/)`).toBe(false);
+    }
+    for (const f of inputs) {
       expect(fs.statSync(path.join(REPO, f)).mtimeMs, `${f} changed after the build`).toBeLessThanOrEqual(mtime);
+    }
+  });
+
+  test("client modules stay under the 1k-line decomposition limit", () => {
+    // The gallery client and stylesheet used to live in two 2.4k-line files.
+    // They are authored as focused modules now; no single module may sprawl
+    // back past 1000 lines without an explicit decision.
+    for (const dir of ["src/gallery/js", "src/gallery/css"]) {
+      for (const f of fs.readdirSync(path.join(REPO, dir))) {
+        const p = path.join(REPO, dir, f);
+        const lines = fs.readFileSync(p, "utf8").split("\n").length;
+        expect(lines, `${dir}/${f} has ${lines} lines`).toBeLessThan(1000);
+      }
     }
   });
 

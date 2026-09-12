@@ -1,0 +1,214 @@
+/* ==========================================================================
+   Main Stage & Constellation Filter Matrix (Sticky Top Header Area)
+   ========================================================================== */
+.main-stage {
+  max-width: 1780px;
+  margin: 0 auto;
+  padding: 12px clamp(16px, 3vw, 48px) 120px;
+  position: relative;
+  z-index: 1;
+}
+
+.tag-row {
+  position: sticky;
+  top: 52px;
+  z-index: 480;
+  margin-bottom: 24px;
+  background: rgba(8, 7, 13, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 12px 18px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75);
+  transition: all 0.3s var(--spring-smooth);
+}
+
+.tag-row[hidden] {
+  display: none !important;
+}
+
+.matrix-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+}
+
+.matrix-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.matrix-group-med {
+  flex-shrink: 0;
+}
+
+.matrix-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.14);
+  flex-shrink: 0;
+}
+
+.matrix-group-tags {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 320px;
+}
+
+.matrix-label {
+  font-family: var(--font-serif);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chip-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fchip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-hairline);
+  color: var(--text-subtle);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s var(--spring-snappy);
+}
+
+.fchip:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-lumina);
+}
+
+.fchip.on {
+  background: var(--accent-crimson);
+  color: #FFFFFF;
+  border-color: var(--accent-crimson);
+  box-shadow: 0 0 12px var(--accent-crimson-glow);
+  font-weight: 700;
+}
+
+.fchip.tier-ex.on {
+  background: var(--accent-gilded);
+  border-color: var(--accent-gilded);
+  box-shadow: 0 0 12px var(--accent-gilded-glow);
+  color: #000000;
+}
+
+.fchip.tier-s.on {
+  background: var(--accent-crimson);
+  border-color: var(--accent-crimson);
+}
+
+.fchip.tier-a.on {
+  background: var(--accent-violet);
+  border-color: var(--accent-violet);
+  box-shadow: 0 0 12px var(--accent-violet-glow);
+}
+
+.fchip.tier-b.on {
+  background: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  color: #000000;
+}
+
+.btn-reset {
+  margin-left: auto;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-reset:hover {
+  color: var(--accent-crimson);
+  border-color: var(--accent-crimson);
+}
+
+.tag-chips-stream {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  max-height: 80px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  flex: 1;
+}
+
+.tagchip {
+  background: rgba(20, 18, 30, 0.6);
+  border: 1px solid var(--border-hairline);
+  color: var(--text-subtle);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s var(--spring-snappy);
+}
+
+.tagchip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-lumina);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tagchip.on {
+  background: var(--accent-violet-glow);
+  border-color: var(--accent-violet);
+  color: #FFFFFF;
+  box-shadow: 0 0 10px var(--accent-violet-glow);
+  font-weight: 600;
+}
+
+.tagcount {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1px 5px;
+  border-radius: 8px;
+}
+
+.tagchip.on .tagcount {
+  color: var(--text-lumina);
+  background: rgba(168, 85, 247, 0.4);
+}
+

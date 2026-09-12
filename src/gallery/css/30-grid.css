@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Workspace Viewport & Gallery Grid
+   ========================================================================== */
+.workspace-viewport {
+  position: relative;
+  width: 100%;
+}
+
+.showcase-stream {
+  width: 100%;
+}
+
+/* Gallery Showcase Grid */
+.grid-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 28px;
+  width: 100%;
+}
+
+.grid-showcase.density-compact {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+  gap: 16px !important;
+}
+
+.grid-showcase.density-large {
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)) !important;
+  gap: 36px !important;
+}
+
+

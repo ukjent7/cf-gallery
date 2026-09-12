@@ -1,0 +1,142 @@
+/* ==========================================================================
+   Top Minimalist Status Bar (Permanently Pinned at Page Top)
+   ========================================================================== */
+.topbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 52px;
+  background: rgba(6, 6, 10, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  z-index: 500;
+}
+
+.topbar-inner {
+  max-width: 1780px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-serif);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.cyber-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-crimson);
+  box-shadow: 0 0 10px var(--accent-crimson);
+  animation: pulse-glow 2.4s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.brand-monogram {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: var(--accent-crimson);
+  font-size: 1.15rem;
+}
+
+.brand-sep {
+  color: var(--text-muted);
+  font-weight: 300;
+  margin: 0 2px;
+}
+
+.brand-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-lumina);
+  font-size: 1.02rem;
+}
+
+.brand-tag {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-subtle);
+  background: rgba(255, 255, 255, 0.07);
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-left: 6px;
+}
+
+.topbar-stats {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-subtle);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar-stats b {
+  color: var(--accent-crimson);
+  font-weight: 700;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.pill-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-hairline);
+  color: var(--text-subtle);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s var(--spring-snappy);
+}
+
+.pill-action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-lumina);
+  border-color: var(--border-highlight);
+}
+
+.pill-action-btn.active {
+  background: var(--accent-crimson-subtle);
+  color: var(--accent-crimson);
+  border-color: var(--accent-crimson);
+}
+
+.pill-action-hazard:hover {
+  background: rgba(255, 42, 109, 0.15);
+  color: var(--accent-crimson);
+  border-color: var(--accent-crimson);
+}
+
