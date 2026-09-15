@@ -55,14 +55,25 @@ def sync_csv():
         print("pipeline: csv synced")
 
 
-def stage_export():
+def stage_export(allow_fallback=False):
     sync_csv()
-    shutil.copy(STORE, STORE + ".prev")
-    try:
+    if not os.path.exists(STORE):
         sh(["../export_stores.py"])
-    except SystemExit:
+        return True
+
+    shutil.copy(STORE, STORE + ".prev")
+    env = dict(os.environ, PYTHONPATH=FACTORY + os.pathsep +
+               os.environ.get("PYTHONPATH", ""))
+    r = subprocess.run([sys.executable, "../export_stores.py"], cwd=STATE, env=env)
+    if r.returncode != 0:
         shutil.copy(STORE + ".prev", STORE)
-        raise
+        if os.path.exists(STORE + ".prev"):
+            os.remove(STORE + ".prev")
+        if allow_fallback:
+            print(f"pipeline: EGS export unavailable ({r.returncode}), preserving existing store_ids.json")
+            return False
+        sys.exit(f"pipeline: ../export_stores.py failed ({r.returncode})")
+    return True
 
 
 def stage_merge():
@@ -123,10 +134,15 @@ def main():
         stage = args[args.index("--stage") + 1]
     if "--limit" in args:
         limit = args[args.index("--limit") + 1]
+    exported = True
     if stage in ("all", "export"):
-        stage_export()
+        allow_fb = (stage == "all") or ("--allow-fallback" in args) or bool(os.environ.get("PIPELINE_ALLOW_FALLBACK"))
+        exported = stage_export(allow_fallback=allow_fb)
     if stage in ("all", "merge"):
-        stage_merge()
+        if exported:
+            stage_merge()
+        else:
+            print("pipeline: export was skipped/unavailable, merge skipped")
     if stage in ("all", "enrich"):
         sh(["../enrich_dmm.py"], limit)
     if stage in ("all", "recount"):

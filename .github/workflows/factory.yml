@@ -37,6 +37,7 @@ jobs:
       - name: Run factory pipeline
         env:
           PIPELINE_LIMIT: ${{ inputs.limit }}
+          EGS_PROXY: ${{ secrets.EGS_PROXY }}
         run: python3 scripts/factory/pipeline.py --all
 
       - uses: oven-sh/setup-bun@v2

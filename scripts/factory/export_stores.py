@@ -1,15 +1,61 @@
 """Export store IDs for the 1021 eroge-only games from EGS."""
-import csv, json, re, time, requests
+import csv
+import html as H
+import json
+import os
+import re
+import sys
+import time
 
-URL = 'https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/sql_for_erogamer_form.php'
-rows = list(csv.DictReader(open('pov559_netori_eroge_only_by_median.csv', encoding='utf-8-sig')))
-gids = [r['game_id'] for r in rows]
-print("total", len(gids))
+import requests
+
+DEFAULT_URL = 'http://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/sql_for_erogamer_form.php'
+URL = os.environ.get('EGS_URL', DEFAULT_URL)
+
+HEADERS = {
+    'User-Agent': (
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+        '(KHTML, like Gecko) Chrome/120.0 Safari/537.36'
+    ),
+}
+PROXIES = {
+    'http': os.environ['EGS_PROXY'],
+    'https': os.environ['EGS_PROXY'],
+} if os.environ.get('EGS_PROXY') else None
 
 COLS = "id, dlsite_id, dlsite_domain, dmm, comike, banner_url, dmm_sample_image_count, dlsite_sample_image_count"
 
-def run_sql(sql):
-    r = requests.post(URL, data={'sql': sql}, timeout=45)
+
+def probe_egs(session):
+    """Fast probe with short connect timeout to test if EGS is reachable."""
+    targets = [URL]
+    if URL.startswith('https://'):
+        targets.append('http://' + URL[len('https://'):])
+    for target in targets:
+        try:
+            r = session.post(
+                target,
+                data={'sql': 'SELECT 1'},
+                headers=HEADERS,
+                proxies=PROXIES,
+                timeout=(5, 10),
+            )
+            if r.status_code == 200:
+                return target
+        except Exception:
+            continue
+    return None
+
+
+def run_sql(sql, s=None):
+    client = s or session or requests
+    r = client.post(
+        URL,
+        data={'sql': sql},
+        headers=HEADERS,
+        proxies=PROXIES,
+        timeout=(5, 30),
+    )
     r.encoding = 'utf-8'
     m = re.search(r'<div id="query_result_main"><table>(.*?)</table>', r.text, re.S)
     if not m:
@@ -19,11 +65,28 @@ def run_sql(sql):
     out = []
     for tr in trs[1:]:
         tds = re.findall(r'<td>(.*?)</td>', tr, re.S)
-        # strip tags, unescape
-        import html as H
         vals = [H.unescape(re.sub(r'<.*?>', '', c)).strip() for c in tds]
         out.append(vals)
     return out
+
+
+csv_path = 'pov559_netori_eroge_only_by_median.csv'
+if not os.path.exists(csv_path):
+    repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    csv_path = os.path.join(repo_root, 'data', 'pov559_netori_eroge_only_by_median.csv')
+rows = list(csv.DictReader(open(csv_path, encoding='utf-8-sig')))
+gids = [r['game_id'] for r in rows]
+print("total", len(gids))
+
+session = requests.Session()
+active_url = probe_egs(session)
+if not active_url:
+    print(
+        "export_stores: EGS (erogamescape.dyndns.org) is unreachable "
+        "(connection timed out or IP blocked by host firewall)."
+    )
+    sys.exit(2)
+URL = active_url
 
 store = {}
 B = 100
