@@ -184,9 +184,17 @@ def main():
     limit = None
     only = None
     if "--limit" in args:
-        limit = int(args[args.index("--limit") + 1])
+        idx = args.index("--limit")
+        if idx + 1 < len(args):
+            val = args[idx + 1].strip()
+            if val:
+                limit = int(val)
     if "--gids" in args:
-        only = set(args[args.index("--gids") + 1].split(","))
+        idx = args.index("--gids")
+        if idx + 1 < len(args):
+            val = args[idx + 1].strip()
+            if val:
+                only = set(filter(None, val.split(",")))
     merge_only = "--merge-only" in args
     digital_only = "--digital-only" in args
     fill_gaps = "--fill-gaps" in args

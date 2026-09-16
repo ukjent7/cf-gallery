@@ -37,8 +37,8 @@ def storeless(v):
 
 
 def sh(args, limit=None):
-    if limit is not None and not any(a in ("--limit", "--gids") for a in args):
-        args = args + ["--limit", str(limit)]
+    if limit is not None and str(limit).strip() and not any(a in ("--limit", "--gids") for a in args):
+        args = args + ["--limit", str(limit).strip()]
     env = dict(os.environ, PYTHONPATH=FACTORY + os.pathsep +
                os.environ.get("PYTHONPATH", ""))
     r = subprocess.run([sys.executable] + args, cwd=STATE, env=env)
@@ -129,11 +129,22 @@ def stage_cache():
 def main():
     args = sys.argv[1:]
     stage = "all"
-    limit = os.environ.get("PIPELINE_LIMIT")
+    limit = (os.environ.get("PIPELINE_LIMIT") or "").strip() or None
     if "--stage" in args:
-        stage = args[args.index("--stage") + 1]
+        idx = args.index("--stage")
+        if idx + 1 < len(args):
+            stage = args[idx + 1].strip()
     if "--limit" in args:
-        limit = args[args.index("--limit") + 1]
+        idx = args.index("--limit")
+        if idx + 1 < len(args):
+            limit = args[idx + 1].strip() or None
+        else:
+            limit = None
+    if limit is not None:
+        try:
+            limit = str(int(limit))
+        except ValueError:
+            sys.exit(f"pipeline: invalid limit {limit!r}")
     exported = True
     if stage in ("all", "export"):
         allow_fb = (stage == "all") or ("--allow-fallback" in args) or bool(os.environ.get("PIPELINE_ALLOW_FALLBACK"))
