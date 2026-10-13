@@ -112,11 +112,13 @@ def main():
         if not r.get("ok") or gid not in store:
             continue
         if r.get("n") is not None and store[gid].get("dmm"):
-            store[gid]["dmm_n"] = r["n"]
-            n += 1
+            if r["n"] > 0 or not store[gid].get("dmm_n"):
+                store[gid]["dmm_n"] = r["n"]
+                n += 1
         if r.get("n2") is not None and store[gid].get("dmm2"):
-            store[gid]["dmm2_n"] = r["n2"]
-            n += 1
+            if r["n2"] > 0 or not store[gid].get("dmm2_n"):
+                store[gid]["dmm2_n"] = r["n2"]
+                n += 1
     import shutil
     shutil.copy(STORE_PATH, STORE_PATH + ".bak")
     json.dump(store, open(STORE_PATH, "w", encoding="utf-8"),

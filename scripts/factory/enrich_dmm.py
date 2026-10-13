@@ -35,6 +35,9 @@ SEARCH_URL = "https://www.dmm.co.jp/search/=/searchstr={q}/"
 
 STORE_PATH = "store_ids.json"
 CSV_PATH = "pov559_netori_eroge_only_by_median.csv"
+if not os.path.exists(CSV_PATH):
+    repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    CSV_PATH = os.path.join(repo_root, "data", "pov559_netori_eroge_only_by_median.csv")
 OUT_PATH = "dmm_counterparts.json"
 
 
