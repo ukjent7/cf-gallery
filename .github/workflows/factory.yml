@@ -4,7 +4,7 @@ name: factory
 # then rebuild + test. Opens a PR, never pushes to main directly.
 on:
   schedule:
-    - cron: "0 20 * * 0"
+    - cron: "0 20 1 * *"
   workflow_dispatch:
     inputs:
       limit:
@@ -55,8 +55,8 @@ jobs:
         with:
           branch: factory/update
           delete-branch: true
-          commit-message: "chore(factory): weekly store snapshot update"
-          title: "chore(factory): weekly store snapshot update"
+          commit-message: "chore(factory): monthly store snapshot update"
+          title: "chore(factory): monthly store snapshot update"
           body: |
             Automated factory run (`pipeline.py --all` + `bun run check`).
             Review the `data/store_cache.json` diff before merging;
