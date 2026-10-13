@@ -96,7 +96,7 @@ def stage_merge():
         elif (new.get("dmm") and new.get("dmm_n") == 0
                 and new.get("dmm") == old.get("dmm")):
             measured = (counts.get(gid) or {}).get("n")
-            if isinstance(measured, int):
+            if isinstance(measured, int) and measured > 0:
                 new["dmm_n"] = measured
             elif (old.get("dmm_n") or 0) > 0:
                 new["dmm_n"] = old["dmm_n"]
@@ -105,6 +105,8 @@ def stage_merge():
                 new[k] = old[k]
     json.dump(fresh, open(STORE, "w", encoding="utf-8", newline="\n"),
               ensure_ascii=False, indent=1)
+    if os.path.exists(STORE + ".prev"):
+        os.remove(STORE + ".prev")
     print(f"pipeline: merged {len(fresh)} rows")
 
 

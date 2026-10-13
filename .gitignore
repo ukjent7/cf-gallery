@@ -5,5 +5,8 @@ dist-check.js
 tmp/
 __pycache__/
 *.sig
+*.bak
+*.prev
 DESIGN_SPEC.md
 scripts/fetch_vndb_tags.ts
+scripts/factory/state/pov559_netori_eroge_only_by_median.csv

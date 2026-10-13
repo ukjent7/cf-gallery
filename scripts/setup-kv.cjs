@@ -20,10 +20,10 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const WORKER_NAME = "pov559-gallery";
+const WORKER_NAME = "cf-gallery";
 const KV_BINDING = "GC_META";
 const KV_NAMESPACE_NAME = `${WORKER_NAME}-${KV_BINDING}`;
-const SUPPORTED_TITLES = [KV_NAMESPACE_NAME, KV_BINDING];
+const SUPPORTED_TITLES = [KV_NAMESPACE_NAME, `pov559-gallery-${KV_BINDING}`, KV_BINDING];
 const WRANGLER_CONFIG_PATH = path.join(__dirname, "..", "wrangler.json");
 const SEED_PATH = path.join(__dirname, "..", "kv-bulk.json");
 // Seeded hits carry crawl data; 30 days matches META_TTL_S in src/index.js so a
