@@ -1,27 +1,28 @@
 // --- Artwork Resolver ---
 import { _CACHE, liveCache, USE_GC } from "./00-head.js";
 import { storeOf } from "./10-match.js";
+
 // Each store is described once; views only declare a priority order.
 // The fallback chain and shot list then fall out of the table instead of
 // five copy-pasted branches.
 function artworkSources(item, st, v) {
-  var dmEntry = st && (st.m || st.m2);
-  var dl = st && st.l;
-  var gc = st && st.g;
-  var dmmFull = dmEntry ? dmmPkgUrl(dmEntry.id) : "";
-  var dlFull = dl ? dlMainUrl(dl) : "";
-  var dlJpgUrl = dl ? dlJpg(dlFull) : "";
-  var gcCover = gc ? (USE_GC ? gcApiCover(gc.id) : egsImg(item.gid, 1)) : "";
-  var vndbCover = v && v.img ? v.img : "";
+  const dmEntry = st && (st.m || st.m2);
+  const dl = st && st.l;
+  const gc = st && st.g;
+  const dmmFull = dmEntry ? dmmPkgUrl(dmEntry.id) : "";
+  const dlFull = dl ? dlMainUrl(dl) : "";
+  const dlJpgUrl = dl ? dlJpg(dlFull) : "";
+  const gcCover = gc ? (USE_GC ? gcApiCover(gc.id) : egsImg(item.gid, 1)) : "";
+  const vndbCover = v && v.img ? v.img : "";
   return {
     dmm: dmEntry ? {
       thumb: dmmFull,
       full: dmmFull,
       extras: dmmPkgFallbacks(dmEntry.id),
-      shots: function () {
-        var out = [];
-        var n = Math.min(dmEntry.n || 0, DMM_SAMPLE_CAP);
-        for (var i = 1; i <= n; i++) out.push(dmmSampleBig(dmEntry.id, i));
+      shots: () => {
+        const out = [];
+        const n = Math.min(dmEntry.n || 0, DMM_SAMPLE_CAP);
+        for (let i = 1; i <= n; i++) out.push(dmmSampleBig(dmEntry.id, i));
         return out;
       }
     } : null,
@@ -29,17 +30,17 @@ function artworkSources(item, st, v) {
       thumb: dlFull,
       full: dlFull,
       extras: dlJpgUrl && dlJpgUrl !== dlFull ? [dlJpgUrl] : [],
-      shots: function () { return dlSamples(dl); }
+      shots: () => dlSamples(dl)
     } : null,
     gc: gc ? {
       thumb: gcCover || egsImg(item.gid, 1),
       full: gcCover || egsImg(item.gid, 1),
       extras: (gc && USE_GC) ? [gcApiSample(gc.id, 1)] : [],
-      shots: function () {
-        var out = [];
-        var n = Math.min(gc.n || 0, GETCHU_SAMPLE_CAP);
+      shots: () => {
+        const out = [];
+        const n = Math.min(gc.n || 0, GETCHU_SAMPLE_CAP);
         if (USE_GC && n > 1) {
-          for (var i = 2; i <= n; i++) out.push(gcApiSample(gc.id, i));
+          for (let i = 2; i <= n; i++) out.push(gcApiSample(gc.id, i));
         }
         return out;
       }
@@ -48,7 +49,7 @@ function artworkSources(item, st, v) {
       thumb: vnThumb(vndbCover) || vndbCover,
       full: vndbCover,
       extras: [],
-      shots: function () { return (v && v.shots) || []; }
+      shots: () => (v && v.shots) || []
     } : null
   };
 }
@@ -68,15 +69,15 @@ function fallbackOrder(view, primary) {
 }
 
 export function getArtworkFor(item, view) {
-  var gid = String(item.gid);
-  var st = storeOf(gid);
-  var v = liveCache.get(gid) || (_CACHE[gid] || null);
-  var src = artworkSources(item, st, v);
-  var egsCover = egsImg(item.gid, 1);
+  const gid = String(item.gid);
+  const st = storeOf(gid);
+  const v = liveCache.get(gid) || (_CACHE[gid] || null);
+  const src = artworkSources(item, st, v);
+  const egsCover = egsImg(item.gid, 1);
 
   // Primary cover: the requested view when available, else
   // FANZA -> DLsite -> Getchu -> VNDB -> EGS.
-  var primary = null;
+  let primary = null;
   if (view === "dmm" && src.dmm) primary = "dmm";
   else if (view === "dlsite" && src.dl) primary = "dl";
   else if (view === "getchu" && src.gc) primary = "gc";
@@ -87,26 +88,25 @@ export function getArtworkFor(item, view) {
   else if (src.gc) primary = "gc";
   else if (src.vndb) primary = "vndb";
 
-  var thumb = "";
-  var full = "";
-  var fbList = [];
-  var shots = [];
+  let thumb = "";
+  let full = "";
+  const fbList = [];
+  let shots = [];
   if (primary && src[primary]) {
-    var p = src[primary];
+    const p = src[primary];
     thumb = p.thumb;
     full = p.full;
     // VNDB thumb differs from its full art; keep the full art behind it.
     if (primary === "vndb" && thumb !== full) fbList.push(full);
-    var order = fallbackOrder(view === "all" ? "all" : view, primary);
-    for (var oi = 0; oi < order.length; oi++) {
-      var key = order[oi];
+    const order = fallbackOrder(view === "all" ? "all" : view, primary);
+    for (const key of order) {
       if (key === primary) continue;
       if (key === "dmmExtras") {
-        if (src.dmm) fbList.push.apply(fbList, src.dmm.extras);
+        if (src.dmm) fbList.push(...src.dmm.extras);
       } else if (key === "dlJpg") {
-        if (src.dl) fbList.push.apply(fbList, src.dl.extras);
+        if (src.dl) fbList.push(...src.dl.extras);
       } else if (key === "gcSample") {
-        if (src.gc) fbList.push.apply(fbList, src.gc.extras);
+        if (src.gc) fbList.push(...src.gc.extras);
       } else if (key === "dl" && src.dl) {
         if (src.dl.thumb) fbList.push(src.dl.thumb);
       } else if (key === "dmm" && src.dmm) {
@@ -133,13 +133,11 @@ export function getArtworkFor(item, view) {
   if (!thumb) thumb = full;
 
   fbList.push(egsCover);
-  var fb = fbList
-    .filter(function (u, idx, arr) {
-      return u && !sameUrl(u, thumb) && arr.indexOf(u) === idx;
-    })
+  const fb = fbList
+    .filter((u, idx, arr) => u && !sameUrl(u, thumb) && arr.indexOf(u) === idx)
     .join("|");
 
-  return { thumb: thumb, full: full, shots: shots, fb: fb || null };
+  return { thumb, full, shots, fb: fb || null };
 }
 
 export function escHtml(s) {
@@ -153,7 +151,7 @@ export function escHtml(s) {
 }
 
 export function getMedClass(med) {
-  var m = med || 0;
+  const m = med || 0;
   if (m >= 85) return "med-ex";
   if (m >= 80) return "med-s";
   if (m >= 75) return "med-a";
@@ -165,9 +163,9 @@ function sameUrl(a, b) {
   if (!a || !b) return false;
   if (a === b) return true;
   try {
-    var base = typeof location !== "undefined" ? location.href : "http://localhost/";
+    const base = typeof location !== "undefined" ? location.href : "http://localhost/";
     return new URL(a, base).href === new URL(b, base).href;
-  } catch (e) {
+  } catch {
     return a === b;
   }
 }
@@ -184,23 +182,21 @@ export function chainImgErr(el) {
     return;
   }
 
-  var currentSrc = el.getAttribute("src") || el.src || "";
-  var rawFb = el.getAttribute("data-fb") || "";
-  var fb = rawFb.split("|").filter(function (u) {
-    return u && !sameUrl(u, currentSrc);
-  });
+  const currentSrc = el.getAttribute("src") || el.src || "";
+  const rawFb = el.getAttribute("data-fb") || "";
+  const fb = rawFb.split("|").filter((u) => u && !sameUrl(u, currentSrc));
 
   if (fb.length > 0) {
-    var nextUrl = fb[0];
+    const nextUrl = fb[0];
     el.setAttribute("data-fb", fb.slice(1).join("|"));
     el.setAttribute("data-full", nextUrl);
     el.setAttribute("src", nextUrl);
     el.src = nextUrl;
     if (el.dataset) el.dataset.origSrc = nextUrl;
   } else {
-    var strip = el.closest(".strip");
+    const strip = el.closest(".strip");
     if (strip) {
-      el.style.display = "none";
+      strip.style ? (el.style.display = "none") : null;
     } else {
       el.classList.add("img-load-failed");
     }
@@ -211,8 +207,8 @@ export function chainImgErr(el) {
 // Detect Getchu nowprinting placeholder: 200x200 or containing nowprinting, and trigger fallback
 export function checkImgLoaded(el) {
   if (!el) return;
-  var src = el.getAttribute("src") || el.src || "";
-  if (src.indexOf("nowprinting") !== -1 || (el.naturalWidth === 200 && el.naturalHeight === 200 && (src.indexOf("/gc/") !== -1 || src.indexOf("getchu.com") !== -1))) {
+  const src = el.getAttribute("src") || el.src || "";
+  if (src.includes("nowprinting") || (el.naturalWidth === 200 && el.naturalHeight === 200 && (src.includes("/gc/") || src.includes("getchu.com")))) {
     chainImgErr(el);
     return;
   }
@@ -222,4 +218,3 @@ export function checkImgLoaded(el) {
   el.classList.remove("img-load-failed");
 }
 /** @type {any} */ (window).checkImgLoaded = checkImgLoaded;
-

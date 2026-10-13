@@ -9,27 +9,28 @@ import { closeDetail, openDetail } from "./40-drawer.js";
 import { preloadedReady, preloadedUrls, preloadImageUrl, preloadLightboxNeighbors, startRelAutoScroll, stopRelAutoScroll } from "./45-rails-preload.js";
 import { closeLightbox, openLightbox, stepLightbox, syncStageAspectRatio } from "./50-lightbox.js";
 import { initGallery } from "./60-events.js";
+
 export function setTab(view) {
   if (!ADAPTERS[view]) return;
   S.tab = view;
 
   // Update active tab button
-  var tabs = document.querySelectorAll("#views .vtab");
-  tabs.forEach(function (/** @type {any} */ tab) {
+  const tabs = document.querySelectorAll("#views .vtab");
+  tabs.forEach((/** @type {any} */ tab) => {
     if (tab.dataset.view === view) tab.classList.add("on");
     else tab.classList.remove("on");
   });
 
   // Update grid dataset.view
-  var grid = document.getElementById("grid");
+  const grid = document.getElementById("grid");
   if (grid) grid.dataset.view = view;
 
   // Update onlyMatchedLabel
-  var label = document.getElementById("onlyMatchedLabel");
+  const label = document.getElementById("onlyMatchedLabel");
   if (label) label.textContent = ADAPTERS[view].matchedLabel;
 
   // Update onlyMatched if checked
-  var matchedCheck = document.getElementById("onlyMatched");
+  const matchedCheck = document.getElementById("onlyMatched");
   if (matchedCheck) S.matched = /** @type {HTMLInputElement} */ (matchedCheck).checked;
 
   applyFilter();
@@ -60,37 +61,36 @@ if (typeof document !== "undefined") {
   TAGS: _TAGS,
   FULLCG: _FULLCG,
   BRANDG: _BRANDG,
-  ADAPTERS: ADAPTERS,
-  liveCache: liveCache,
-  LIVE_KEY: LIVE_KEY,
-  LIVE_BUDGET: LIVE_BUDGET,
-  PAGE_SIZE: PAGE_SIZE,
-  saveLive: saveLive,
-  storeOf: storeOf,
-  tagsOf: tagsOf,
-  dlEntry: dlEntry,
-  dmmEntries: dmmEntries,
-  gcEntry: gcEntry,
-  relatedOf: relatedOf,
-  exactPick: exactPick,
-  containsPick: containsPick,
-  cleanStr: cleanStr,
-  setTab: setTab,
-  getTab: getTab,
-  getTagSel: getTagSel,
-  toggleTag: toggleTag,
-  openDetail: openDetail,
-  closeDetail: closeDetail,
-  openLightbox: openLightbox,
-  closeLightbox: closeLightbox,
-  stepLightbox: stepLightbox,
-  preloadImageUrl: preloadImageUrl,
-  preloadLightboxNeighbors: preloadLightboxNeighbors,
-  preloadedUrls: preloadedUrls,
-  preloadedReady: preloadedReady,
-  syncStageAspectRatio: syncStageAspectRatio,
-  startRelAutoScroll: startRelAutoScroll,
-  stopRelAutoScroll: stopRelAutoScroll,
-  chainImgErr: chainImgErr
+  ADAPTERS,
+  liveCache,
+  LIVE_KEY,
+  LIVE_BUDGET,
+  PAGE_SIZE,
+  saveLive,
+  storeOf,
+  tagsOf,
+  dlEntry,
+  dmmEntries,
+  gcEntry,
+  relatedOf,
+  exactPick,
+  containsPick,
+  cleanStr,
+  setTab,
+  getTab,
+  getTagSel,
+  toggleTag,
+  openDetail,
+  closeDetail,
+  openLightbox,
+  closeLightbox,
+  stepLightbox,
+  preloadImageUrl,
+  preloadLightboxNeighbors,
+  preloadedUrls,
+  preloadedReady,
+  syncStageAspectRatio,
+  startRelAutoScroll,
+  stopRelAutoScroll,
+  chainImgErr
 };
-

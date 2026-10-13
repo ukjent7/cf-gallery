@@ -20,6 +20,7 @@ fallback, so boxed-only games still gain a FANZA entry.
 """
 import csv
 import json
+import os
 import re
 import sys
 import time

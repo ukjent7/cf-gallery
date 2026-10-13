@@ -67,7 +67,7 @@ g.count2 ORDER BY g.id`;
 // so no hand-rolled entity table is needed; <br> becomes a newline, header
 // rows are skipped, and only direct <td> children are read.
 
-function cellTextFromElement(td: Element): string {
+function cellTextFromElement(td: any): string {
   for (const br of td.querySelectorAll("br")) br.replaceWith("\n");
   return pyStrip(td.textContent ?? "");
 }
@@ -83,7 +83,7 @@ export function firstTableRows(seg: string): string[][] {
       if (tr.querySelector("th")) continue;
       const cells = [...tr.children].filter((el) => el.tagName.toLowerCase() === "td");
       if (!cells.length) continue;
-      rows.push(cells.map((td) => cellTextFromElement(td as Element)));
+      rows.push(cells.map((td) => cellTextFromElement(td)));
     }
     return rows;
   } finally {
@@ -274,10 +274,10 @@ async function main() {
   // named entries (a POV refresh should not also re-hit the tag endpoint).
   const crawlAll = tagArgs.length === 0 && povArgs.length === 0;
   const tagList = [...new Set(tagArgs.length ? tagArgs : crawlAll ? [...DEFAULT_TAGS, ...tags.keys()] : [])];
-  const povList: (string | number)[] = [...new Set(povArgs.length ? povArgs : crawlAll ? [...povs.keys()] : [])];
+  const povList: (string | number)[] = [...new Set<string | number>(povArgs.length ? povArgs : crawlAll ? [...povs.keys()] : [])];
   const ids = csvIds();
   for (const tag of tagList) {
-    tags.set(tag, await crawlTag(tag, ids));
+    tags.set(tag, (await crawlTag(tag, ids)) as any);
   }
   const universes: [number, Record<string, PyVal>[]][] = [];
   for (const pov of povList) {
@@ -287,7 +287,7 @@ async function main() {
       continue;
     }
     const { key, entries, universe } = await crawlPov(id, ids);
-    povs.set(key, entries);
+    povs.set(key, entries as any);
     if (universe !== null) universes.push([id, universe]);
   }
   dump(TAGS_PATH, tags);

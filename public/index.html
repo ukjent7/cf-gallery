@@ -2789,20 +2789,20 @@ const TAGS = {"親子丼":["2187","2838","2879","7293","7485","7763","8921","932
 // apart again.
 
 // --- validation limits -------------------------------------------------------
-var MAX_CID_LEN = 10;      // Getchu numeric id
-var MAX_DMM_CID_LEN = 32;
-var MAX_DL_ID_LEN = 12;
-var GETCHU_SAMPLE_CAP = 40; // per-store display caps: deliberate, not a mismatch
-var DMM_SAMPLE_CAP = 60;
-var DL_SAMPLE_CAP = 40;
+const MAX_CID_LEN = 10;      // Getchu numeric id
+const MAX_DMM_CID_LEN = 32;
+const MAX_DL_ID_LEN = 12;
+const GETCHU_SAMPLE_CAP = 40; // per-store display caps: deliberate, not a mismatch
+const DMM_SAMPLE_CAP = 60;
+const DL_SAMPLE_CAP = 40;
 
 // --- ID shape rules ----------------------------------------------------------
-var DOUJIN_RE = /^d_/i;
+const DOUJIN_RE = /^d_/i;
 // FANZA boxed (mono floor) ids are digits + brand letters + digits, e.g.
 // 676apc14679, 1272tdi10. The optional trailing letter covers variants like
 // 123abc456x. Verified against all 908 cids in the dataset: identical results
 // to the stricter form, so the tolerant one is kept.
-var BOXED_RE = /^[0-9]+[a-z]+[0-9]+[a-z]?$/i;
+const BOXED_RE = /^[0-9]+[a-z]+[0-9]+[a-z]?$/i;
 
 function isGetchuCid(cid) {
   return typeof cid === "string" && cid.length >= 1 && cid.length <= MAX_CID_LEN && /^[0-9]+$/.test(cid);
@@ -2821,10 +2821,10 @@ function isDlId(rid) {
 // the other DLsite storefronts. An unknown/missing domain falls back per work
 // type, but a stored domain is always honoured -- rewriting VJ works to maniax
 // would 404.
-var DL_DOMAINS = ["maniax", "pro", "home", "soft", "bookgirl", "manga", "aix", "bl"];
+const DL_DOMAINS = ["maniax", "pro", "home", "soft", "bookgirl", "manga", "aix", "bl"];
 
 function isDlDomain(d) {
-  return DL_DOMAINS.indexOf(d) >= 0;
+  return DL_DOMAINS.includes(d);
 }
 
 function isDoujin(cid) { return DOUJIN_RE.test(cid || ""); }
@@ -2839,11 +2839,11 @@ function dmmFloor(cid) {
   return "digital";
 }
 
-var FLOOR_LABEL = { doujin: "同人", boxed: "盒装版", digital: "下载版" };
+const FLOOR_LABEL = { doujin: "同人", boxed: "盒装版", digital: "下载版" };
 function dmmFloorLabel(cid) { return FLOOR_LABEL[dmmFloor(cid)]; }
 
 // --- Getchu ------------------------------------------------------------------
-var GC_HOST = "https://www.getchu.com";
+const GC_HOST = "https://www.getchu.com";
 
 function gcProductUrl(cid) { return GC_HOST + "/soft.phtml?id=" + cid; }
 function gcCoverUrl(cid) { return GC_HOST + "/brandnew/" + cid + "/rc" + cid + "package.jpg"; }
@@ -2851,7 +2851,7 @@ function gcSampleUrl(cid, n) { return GC_HOST + "/brandnew/" + cid + "/c" + cid 
 
 // --- FANZA -------------------------------------------------------------------
 function dmmDetailUrl(cid) {
-  var floor = dmmFloor(cid);
+  const floor = dmmFloor(cid);
   if (floor === "doujin") return "https://www.dmm.co.jp/dc/doujin/-/detail/=/cid=" + cid + "/";
   if (floor === "boxed") return "https://www.dmm.co.jp/mono/pcgame/-/detail/=/cid=" + cid + "/";
   return "https://dlsoft.dmm.co.jp/detail/" + cid + "/";
@@ -2860,7 +2860,7 @@ function dmmDetailUrl(cid) {
 // Image host per floor. doujin lives on its own host; boxed on mono/game;
 // download edition on digital/pcgame.
 function dmmImageBase(cid) {
-  var floor = dmmFloor(cid);
+  const floor = dmmFloor(cid);
   if (floor === "doujin") return "https://doujin-assets.dmm.co.jp/digital/game/" + cid;
   if (floor === "boxed") return "https://pics.dmm.co.jp/mono/game/" + cid;
   return "https://pics.dmm.co.jp/digital/pcgame/" + cid;
@@ -2868,24 +2868,24 @@ function dmmImageBase(cid) {
 
 // Every floor a cid could plausibly live on, primary first. Used as the
 // onerror fallback chain so a misclassified cid still renders.
-var DMM_FLOORS = ["digital", "boxed", "doujin"];
+const DMM_FLOORS = ["digital", "boxed", "doujin"];
 function dmmImageBases(cid) {
-  var here = dmmFloor(cid);
-  var out = [];
-  for (var i = 0; i < DMM_FLOORS.length; i++) {
-    var floor = DMM_FLOORS[i];
+  const here = dmmFloor(cid);
+  const out = [];
+  for (let i = 0; i < DMM_FLOORS.length; i++) {
+    const floor = DMM_FLOORS[i];
     if (floor === "doujin") out.push("https://doujin-assets.dmm.co.jp/digital/game/" + cid);
     else if (floor === "boxed") out.push("https://pics.dmm.co.jp/mono/game/" + cid);
     else out.push("https://pics.dmm.co.jp/digital/pcgame/" + cid);
   }
   // rotate so the classified floor leads
-  var k = out.splice(DMM_FLOORS.indexOf(here), 1)[0];
+  const k = out.splice(DMM_FLOORS.indexOf(here), 1)[0];
   return [k].concat(out);
 }
 
 function dmmPkgUrl(cid) { return dmmImageBase(cid) + "/" + cid + "pl.jpg"; }
 function dmmPkgFallbacks(cid) {
-  return dmmImageBases(cid).slice(1).map(function (b) { return b + "/" + cid + "pl.jpg"; });
+  return dmmImageBases(cid).slice(1).map((b) => b + "/" + cid + "pl.jpg");
 }
 // ps.jpg is the small package thumb on the digital/boxed floors; doujin has none.
 function dmmPkgThumb(cid) {
@@ -2901,11 +2901,11 @@ function dmmSampleSmall(cid, i) {
 // big = full sample for the viewer, small = 120x90 tile for the grid,
 // rest = onerror chain (other floors' big then small, primary excluded).
 function dmmSampleChain(cid, i) {
-  var z = String(i).padStart(3, "0");
-  var bases = dmmImageBases(cid);
-  var primary = bases[0];
-  var rest = [];
-  for (var k = 1; k < bases.length; k++) {
+  const z = String(i).padStart(3, "0");
+  const bases = dmmImageBases(cid);
+  const primary = bases[0];
+  const rest = [];
+  for (let k = 1; k < bases.length; k++) {
     rest.push(bases[k] + "/" + cid + "jp-" + z + ".jpg");
     rest.push(bases[k] + "/" + cid + "js-" + z + ".jpg");
   }
@@ -2920,20 +2920,20 @@ function dmmSearchUrl(q) {
 }
 
 // --- DLsite ------------------------------------------------------------------
-var DL_IMG = "https://img.dlsite.jp";
+const DL_IMG = "https://img.dlsite.jp";
 
 // RJxxxxxx -> VJ00xxxxxx style grouping folder: id digits rounded up to the
 // next thousand, zero padded to the same width.
 function dlFolder(rid) {
-  var m = /^([A-Z]+)(\d+)$/.exec(rid || "");
+  const m = /^([A-Z]+)(\d+)$/.exec(rid || "");
   if (!m) return "RJ00000000";
-  var digits = m[2];
-  var g = (Math.floor((parseInt(digits, 10) - 1) / 1000) + 1) * 1000;
+  const digits = m[2];
+  const g = (Math.floor((parseInt(digits, 10) - 1) / 1000) + 1) * 1000;
   return m[1] + String(g).padStart(digits.length, "0");
 }
 
 function dlWorkType(rid) {
-  return String(rid || "").indexOf("VJ") === 0 ? "professional" : "doujin";
+  return String(rid || "").startsWith("VJ") ? "professional" : "doujin";
 }
 
 // DLsite mirrors every work under its canonical domain and falls back to
@@ -2965,14 +2965,14 @@ function dlJpg(u) { return String(u).replace(/\.webp$/, ".jpg"); }
 function dlStems(d) {
   if (!d) return [];
   if (d.sm && d.sm.length) return d.sm.slice(0, DL_SAMPLE_CAP);
-  var n = Math.min(d.n || 0, DL_SAMPLE_CAP);
-  var out = [];
-  for (var i = 1; i <= n; i++) out.push("smp" + i);
+  const n = Math.min(d.n || 0, DL_SAMPLE_CAP);
+  const out = [];
+  for (let i = 1; i <= n; i++) out.push("smp" + i);
   return out;
 }
 
-function dlSamples(d) { return dlStems(d).map(function (s) { return dlSampleUrl(d, s); }); }
-function dlSampleThumbs(d) { return dlStems(d).map(function (s) { return dlSampleThumbUrl(d, s); }); }
+function dlSamples(d) { return dlStems(d).map((s) => dlSampleUrl(d, s)); }
+function dlSampleThumbs(d) { return dlStems(d).map((s) => dlSampleThumbUrl(d, s)); }
 
 // --- ErogameScape ------------------------------------------------------------
 function egsUrl(gid) {
@@ -3014,11 +3014,11 @@ function reEscape(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); 
 
 // Largest sample index on a Getchu product page.
 function parseSampleMax(cid, html) {
-  var re = new RegExp("c" + reEscape(cid) + "sample(\\d+)\\.jpg", "g");
-  var m;
-  var max = 0;
+  const re = new RegExp("c" + reEscape(cid) + "sample(\\d+)\\.jpg", "g");
+  let m;
+  let max = 0;
   while ((m = re.exec(html)) !== null) {
-    var v = parseInt(m[1], 10);
+    const v = parseInt(m[1], 10);
     if (v > max) max = v;
   }
   return max;
@@ -3027,11 +3027,11 @@ function parseSampleMax(cid, html) {
 // Largest sample index on a FANZA detail page. jp- is full size, js- is the
 // 120x90 thumbnail; both carry the same index.
 function parseDmmMax(cid, html) {
-  var re = new RegExp(reEscape(cid) + "(js|jp)-(\\d+)\\.jpg", "g");
-  var m;
-  var max = 0;
+  const re = new RegExp(reEscape(cid) + "(js|jp)-(\\d+)\\.jpg", "g");
+  let m;
+  let max = 0;
   while ((m = re.exec(html)) !== null) {
-    var v = parseInt(m[2], 10);
+    const v = parseInt(m[2], 10);
     if (v > max) max = v;
   }
   return max;
@@ -3041,19 +3041,20 @@ function parseDmmMax(cid, html) {
 // smpa1) and cannot be derived from the id, which is why non-default stems are
 // stored in the payload.
 function parseDlStems(rid, html) {
-  var re = new RegExp(reEscape(rid) + "_img_(smp[a-z]*\\d+)\\.(?:jpg|webp)", "g");
-  var m;
-  var seen = {};
-  var out = [];
+  const re = new RegExp(reEscape(rid) + "_img_(smp[a-z]*\\d+)\\.(?:jpg|webp)", "g");
+  let m;
+  const seen = {};
+  const out = [];
   while ((m = re.exec(html)) !== null) {
     if (!seen[m[1]]) {
       seen[m[1]] = true;
       out.push(m[1]);
     }
   }
-  out.sort(function (a, b) {
-    var ma = /^smp([a-z]*)(\d+)$/.exec(a);
-    var mb = /^smp([a-z]*)(\d+)$/.exec(b);
+  out.sort((a, b) => {
+    const ma = /^smp([a-z]*)(\d+)$/.exec(a);
+    const mb = /^smp([a-z]*)(\d+)$/.exec(b);
+    if (!ma || !mb) return 0;
     if (ma[1] !== mb[1]) return ma[1] < mb[1] ? -1 : 1;
     return parseInt(ma[2], 10) - parseInt(mb[2], 10);
   });
@@ -3063,72 +3064,70 @@ function parseDlStems(rid, html) {
 // PROJECT AURA // NOCTURNE VAULT (夜幕缪斯档案馆)
 // CF-Gallery Client Application & Telemetry Engine v2.0
 
-var USE_GC = typeof window !== "undefined" && window.location && window.location.protocol !== "file:";
+const USE_GC = typeof window !== "undefined" && window.location && window.location.protocol !== "file:";
 /** @type {any} */ (window).USE_GC = USE_GC; // file:// probe reads it via window.eval
 
-
 // Global Datasets & Fallbacks
-var _DATA = typeof DATA !== "undefined" ? DATA : [];
-var _STORE = typeof STORE !== "undefined" ? STORE : {};
-var _CACHE = typeof CACHE !== "undefined" ? CACHE : {};
-var _TAGS = typeof TAGS !== "undefined" ? TAGS : {};
-var _FULLCG = typeof FULLCG !== "undefined" ? FULLCG : {};
-var _BRANDG = typeof BRANDG !== "undefined" ? BRANDG : {};
+const _DATA = typeof DATA !== "undefined" ? DATA : [];
+const _STORE = typeof STORE !== "undefined" ? STORE : {};
+const _CACHE = typeof CACHE !== "undefined" ? CACHE : {};
+const _TAGS = typeof TAGS !== "undefined" ? TAGS : {};
+const _FULLCG = typeof FULLCG !== "undefined" ? FULLCG : {};
+const _BRANDG = typeof BRANDG !== "undefined" ? BRANDG : {};
 
-var PAGE_SIZE = 36;
-var LIVE_KEY = "vndb_live_v4";
-var LIVE_BUDGET = 900000;
+const PAGE_SIZE = 36;
+const LIVE_KEY = "vndb_live_v4";
+const LIVE_BUDGET = 900000;
 
 // --- Live Cache Storage & Eviction ---
-var liveCache = new Map();
+const liveCache = new Map();
 
 // Seed baked CACHE
-for (var cKey of Object.keys(_CACHE)) {
-  if (_CACHE[cKey]) liveCache.set(String(cKey), _CACHE[cKey]);
+for (const [cKey, val] of Object.entries(_CACHE)) {
+  if (val) liveCache.set(String(cKey), val);
 }
 
 // Restore and migrate localStorage
 try {
-  var rawLive = typeof localStorage !== "undefined" ? localStorage.getItem(LIVE_KEY) : null;
+  const rawLive = typeof localStorage !== "undefined" ? localStorage.getItem(LIVE_KEY) : null;
   if (rawLive) {
-    var parsedLive = JSON.parse(rawLive);
+    const parsedLive = JSON.parse(rawLive);
     if (parsedLive && typeof parsedLive === "object") {
-      for (var pKey of Object.keys(parsedLive)) {
-        var entry = parsedLive[pKey];
+      for (const [pKey, entry] of Object.entries(parsedLive)) {
         if (!entry) continue;
         // Migration guard: weak matches must be dropped
-        if (entry.via && (entry.via.indexOf("vn-core:") === 0 || entry.via.indexOf("release:") === 0)) {
+        if (entry.via && (entry.via.startsWith("vn-core:") || entry.via.startsWith("release:"))) {
           continue;
         }
         liveCache.set(String(pKey), entry);
       }
     }
   }
-} catch (e) {
+} catch {
   if (typeof localStorage !== "undefined") {
-    try { localStorage.removeItem(LIVE_KEY); } catch (_) {}
+    try { localStorage.removeItem(LIVE_KEY); } catch {}
   }
 }
 
 function saveLive() {
   if (typeof localStorage === "undefined") return;
-  var kept = [];
-  liveCache.forEach(function (v, k) {
+  let kept = [];
+  liveCache.forEach((v, k) => {
     if (v && !_CACHE[k]) kept.push(k);
   });
   // Bounded eviction: one proportional cut is enough in practice (entries
   // are similarly sized), with a second pass only to verify. Never loop
   // full 900KB serializations unboundedly.
-  for (var attempt = 0; attempt < 3; attempt++) {
-    var o = {};
-    for (var i = 0; i < kept.length; i++) o[kept[i]] = liveCache.get(kept[i]);
-    var s = JSON.stringify(o);
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const o = {};
+    for (let i = 0; i < kept.length; i++) o[kept[i]] = liveCache.get(kept[i]);
+    const s = JSON.stringify(o);
     if (s.length <= LIVE_BUDGET) {
-      try { localStorage.setItem(LIVE_KEY, s); } catch (e) { /* private mode */ }
+      try { localStorage.setItem(LIVE_KEY, s); } catch {}
       return;
     }
     if (!kept.length) return;
-    var drop = Math.max(1, Math.ceil(kept.length * (1 - LIVE_BUDGET / s.length)));
+    const drop = Math.max(1, Math.ceil(kept.length * (1 - LIVE_BUDGET / s.length)));
     kept = kept.slice(drop);
   }
 }
@@ -3151,19 +3150,18 @@ function cleanStr(s) {
 }
 
 function exactPick(candidates, titles, item) {
-  if (!candidates || !candidates.length || !titles || !titles.length) return null;
-  var targetNorms = titles.map(normStr);
-  var targetCleans = titles.map(cleanStr);
-  var matched = [];
-  for (var i = 0; i < candidates.length; i++) {
-    var c = candidates[i];
-    var cT = normStr(c.title);
-    var cA = normStr(c.alttitle);
-    var cTClean = cleanStr(c.title);
-    var cAClean = cleanStr(c.alttitle);
+  if (!candidates?.length || !titles?.length) return null;
+  const targetNorms = titles.map(normStr);
+  const targetCleans = titles.map(cleanStr);
+  const matched = [];
+  for (const c of candidates) {
+    const cT = normStr(c.title);
+    const cA = normStr(c.alttitle);
+    const cTClean = cleanStr(c.title);
+    const cAClean = cleanStr(c.alttitle);
     if (
-      targetNorms.indexOf(cT) >= 0 || (c.alttitle && targetNorms.indexOf(cA) >= 0) ||
-      targetCleans.indexOf(cTClean) >= 0 || (c.alttitle && targetCleans.indexOf(cAClean) >= 0)
+      targetNorms.includes(cT) || (c.alttitle && targetNorms.includes(cA)) ||
+      targetCleans.includes(cTClean) || (c.alttitle && targetCleans.includes(cAClean))
     ) {
       matched.push(c);
     }
@@ -3171,35 +3169,34 @@ function exactPick(candidates, titles, item) {
   if (!matched.length) return null;
   if (matched.length === 1) return matched[0];
   if (item && item.sellday) {
-    var y = item.sellday.slice(0, 4);
-    var yMatch = matched.find(function (c) { return c.released && c.released.indexOf(y) === 0; });
+    const y = item.sellday.slice(0, 4);
+    const yMatch = matched.find((c) => c.released && c.released.startsWith(y));
     if (yMatch) return yMatch;
   }
   return matched[0];
 }
 
 function containsPick(candidates, coreTitle, item) {
-  if (!candidates || !candidates.length || !coreTitle) return null;
-  var q = normStr(coreTitle);
-  var qClean = cleanStr(coreTitle);
-  var matched = [];
-  for (var i = 0; i < candidates.length; i++) {
-    var c = candidates[i];
-    var cT = normStr(c.title);
-    var cA = normStr(c.alttitle);
-    var cTClean = cleanStr(c.title);
-    var cAClean = cleanStr(c.alttitle);
+  if (!candidates?.length || !coreTitle) return null;
+  const q = normStr(coreTitle);
+  const qClean = cleanStr(coreTitle);
+  const matched = [];
+  for (const c of candidates) {
+    const cT = normStr(c.title);
+    const cA = normStr(c.alttitle);
+    const cTClean = cleanStr(c.title);
+    const cAClean = cleanStr(c.alttitle);
     if (
-      cT.indexOf(q) >= 0 || (c.alttitle && cA.indexOf(q) >= 0) ||
-      (qClean && (cTClean.indexOf(qClean) >= 0 || (c.alttitle && cAClean.indexOf(qClean) >= 0)))
+      cT.includes(q) || (c.alttitle && cA.includes(q)) ||
+      (qClean && (cTClean.includes(qClean) || (c.alttitle && cAClean.includes(qClean))))
     ) {
       matched.push(c);
     }
   }
   if (!matched.length) return null;
   if (item && item.sellday) {
-    var y = item.sellday.slice(0, 4);
-    var yMatch = matched.find(function (c) { return c.released && c.released.indexOf(y) === 0; });
+    const y = item.sellday.slice(0, 4);
+    const yMatch = matched.find((c) => c.released && c.released.startsWith(y));
     if (yMatch) return yMatch;
   }
   return matched[0];
@@ -3215,7 +3212,7 @@ function dlEntry(st) {
 }
 
 function dmmEntries(st) {
-  var out = [];
+  const out = [];
   if (st) {
     if (st.m) out.push(st.m);
     if (st.m2) out.push(st.m2);
@@ -3230,22 +3227,21 @@ function gcEntry(st) {
 // Inverted tag index: the AND filter and tag badges run per card, so
 // membership must be O(1), not indexOf over the 534-entry 堕ちる過程 array.
 // TAGS is build-time data and never mutates at runtime.
-var TAG_SETS = {};
-var GID_TAGS = new Map();
-var TAG_KEYS = Object.keys(_TAGS);
-for (var _ti = 0; _ti < TAG_KEYS.length; _ti++) {
-  var _tag = TAG_KEYS[_ti];
-  var _set = new Set(_TAGS[_tag].map(String));
+const TAG_SETS = {};
+const GID_TAGS = new Map();
+const TAG_KEYS = Object.keys(_TAGS);
+for (const _tag of TAG_KEYS) {
+  const _set = new Set(_TAGS[_tag].map(String));
   TAG_SETS[_tag] = _set;
-  _set.forEach(function (gid) {
-    var list = GID_TAGS.get(gid);
+  _set.forEach((gid) => {
+    const list = GID_TAGS.get(gid);
     if (list) list.push(_tag);
     else GID_TAGS.set(gid, [_tag]);
   });
 }
 
 function tagsOf(gid) {
-  var list = GID_TAGS.get(String(gid));
+  const list = GID_TAGS.get(String(gid));
   return list ? list.slice() : [];
 }
 
@@ -3259,38 +3255,36 @@ function cleanGameTitle(name) {
 }
 
 function getSignificantTokens(name) {
-  var cleaned = cleanGameTitle(name);
-  var matches = cleaned.match(/[a-zA-Z]{3,}|[\u30a0-\u30ff]{2,}|[\u4e00-\u9fa5]{2,}/g) || [];
-  var stopWords = {
-    "完全版": 1, "通常版": 1, "初回版": 1, "劇場版": 1, "外伝": 1, "前編": 1, "後編": 1, "特别版": 1, "体验版": 1, "リメイク": 1,
+  const cleaned = cleanGameTitle(name);
+  const matches = cleaned.match(/[a-zA-Z]{3,}|[\u30a0-\u30ff]{2,}|[\u4e00-\u9fa5]{2,}/g) || [];
+  const stopWords = {
+    "完全版": 1, "通常版": 1, "初回版": 1, "劇場版": 1, "外传": 1, "外伝": 1, "前編": 1, "後編": 1, "特别版": 1, "体验版": 1, "リメイク": 1,
     "dos": 1, "win": 1, "remake": 1, "edition": 1, "version": 1, "plus": 1, "special": 1, "fandisc": 1, "disc": 1
   };
-  return matches.filter(function (t) { return !stopWords[t.toLowerCase()]; });
+  return matches.filter((t) => !stopWords[t.toLowerCase()]);
 }
 
 function isSeriesMatch(nameA, nameB) {
   if (!nameA || !nameB) return false;
-  var crossMap = {
+  const crossMap = {
     "rance": "ランス", "ランス": "rance",
     "white album": "ホワイトアルバム",
     "toheart": "トゥハート",
     "dc": "ダ・カーポ"
   };
-  var tokensA = getSignificantTokens(nameA);
-  var tokensB = getSignificantTokens(nameB);
+  const tokensA = getSignificantTokens(nameA);
+  const tokensB = getSignificantTokens(nameB);
 
-  for (var i = 0; i < tokensA.length; i++) {
-    var tA = tokensA[i];
-    var lowA = tA.toLowerCase();
-    var crossA = crossMap[lowA];
-    for (var j = 0; j < tokensB.length; j++) {
-      var tB = tokensB[j];
-      var lowB = tB.toLowerCase();
+  for (const tA of tokensA) {
+    const lowA = tA.toLowerCase();
+    const crossA = crossMap[lowA];
+    for (const tB of tokensB) {
+      const lowB = tB.toLowerCase();
       if (lowA === lowB) return true;
-      if (crossA && lowB.indexOf(crossA) !== -1) return true;
-      if (crossMap[lowB] && lowA.indexOf(crossMap[lowB]) !== -1) return true;
+      if (crossA && lowB.includes(crossA)) return true;
+      if (crossMap[lowB] && lowA.includes(crossMap[lowB])) return true;
       if (tA.length >= 3 && tB.length >= 3) {
-        if (tA.indexOf(tB) !== -1 || tB.indexOf(tA) !== -1) return true;
+        if (tA.includes(tB) || tB.includes(tA)) return true;
       }
     }
   }
@@ -3299,20 +3293,19 @@ function isSeriesMatch(nameA, nameB) {
 
 function relatedOf(item, vndbItem) {
   if (!item || !item.brand) return [];
-  var bg = _BRANDG[item.brand] || item.brand;
-  var rel = [];
-  var sid = String(item.gid);
-  for (var i = 0; i < _DATA.length; i++) {
-    var d = _DATA[i];
+  const bg = _BRANDG[item.brand] || item.brand;
+  const rel = [];
+  const sid = String(item.gid);
+  for (const d of _DATA) {
     if (String(d.gid) === sid) continue;
-    var dbg = _BRANDG[d.brand] || d.brand;
+    const dbg = _BRANDG[d.brand] || d.brand;
     if (dbg === bg) {
-      var isSeries = isSeriesMatch(item.name, d.name);
-      rel.push(Object.assign({}, d, { sameBrand: true, sameSeries: isSeries }));
+      const isSeries = isSeriesMatch(item.name, d.name);
+      rel.push({ ...d, sameBrand: true, sameSeries: isSeries });
     }
   }
   // Prioritize series siblings first, then rank by highest median
-  rel.sort(function (a, b) {
+  rel.sort((a, b) => {
     if (a.sameSeries && !b.sameSeries) return -1;
     if (!a.sameSeries && b.sameSeries) return 1;
     return (b.median || 0) - (a.median || 0);
@@ -3331,7 +3324,7 @@ function hasStoreRow(st) {
   return Boolean(st && (st.l || st.m || st.m2 || st.g));
 }
 
-var ADAPTER_SPECS = {
+const ADAPTER_SPECS = {
   all: { navLabel: "综合", matchedLabel: "只看有图", any: true },
   vndb: { navLabel: "VNDB", matchedLabel: "只看已匹配", vndb: true },
   dlsite: { navLabel: "DLsite", matchedLabel: "只看DLsite", stores: ["l"] },
@@ -3341,20 +3334,23 @@ var ADAPTER_SPECS = {
 
 function specHas(spec, item, st, v) {
   if (spec.vndb) return hasVndbArt(v);
-  if (spec.stores) return spec.stores.some(function (k) { return Boolean(st && st[k]); });
+  if (spec.stores) return spec.stores.some((k) => Boolean(st && st[k]));
   return hasVndbArt(v) || hasStoreRow(st);
 }
 
-var ADAPTERS = {};
-Object.keys(ADAPTER_SPECS).forEach(function (key) {
-  var spec = ADAPTER_SPECS[key];
-  ADAPTERS[key] = { navLabel: spec.navLabel, matchedLabel: spec.matchedLabel, has: specHas.bind(null, spec) };
-});
+const ADAPTERS = {};
+for (const [key, spec] of Object.entries(ADAPTER_SPECS)) {
+  ADAPTERS[key] = {
+    navLabel: spec.navLabel,
+    matchedLabel: spec.matchedLabel,
+    has: (item, st, v) => specHas(spec, item, st, v),
+  };
+}
 
 // --- State Variables ---
 // One shared object: ESM bindings are read-only in consumers, so cross-file
 // updates go through property assignment, never rebinding.
-var S = {
+const S = {
   tab: "all",
   sort: "rank",
   density: 0, // 0: auto, 1: compact, 2: large
@@ -3369,45 +3365,45 @@ var S = {
   audio: true,
   focus: 0
 };
-var sessionMetaCache = new Set();
-var origDocTitle = typeof document !== "undefined" ? document.title : "";
-var audioCtx = null;
+const sessionMetaCache = new Set();
+const origDocTitle = typeof document !== "undefined" ? document.title : "";
+let audioCtx = null;
 
 // --- Sound Effects Synthesis ---
-function playBeep(freq, type, dur) {
+function playBeep(freq = 440, type = "sine", dur = 0.05) {
   if (!S.audio || typeof window === "undefined") return;
   try {
     if (!audioCtx) {
-      var AudioContext = window.AudioContext || /** @type {any} */ (window).webkitAudioContext;
-      if (AudioContext) audioCtx = new AudioContext();
+      const AudioCtxConstructor = window.AudioContext || /** @type {any} */ (window).webkitAudioContext;
+      if (AudioCtxConstructor) audioCtx = new AudioCtxConstructor();
     }
     if (audioCtx && audioCtx.state === "suspended") {
       audioCtx.resume();
     }
     if (!audioCtx) return;
-    var osc = audioCtx.createOscillator();
-    var gain = audioCtx.createGain();
-    osc.type = type || "sine";
-    osc.frequency.setValueAtTime(freq || 440, audioCtx.currentTime);
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
     gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + (dur || 0.05));
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     osc.start();
-    osc.stop(audioCtx.currentTime + (dur || 0.05));
-  } catch (_) {}
+    osc.stop(audioCtx.currentTime + dur);
+  } catch {}
 }
 
 // --- UI State Restoration ---
 try {
-  var rawUi = typeof localStorage !== "undefined" ? localStorage.getItem("ui_v1") : null;
+  const rawUi = typeof localStorage !== "undefined" ? localStorage.getItem("ui_v1") : null;
   if (rawUi) {
-    var parsedUi = JSON.parse(rawUi);
+    const parsedUi = JSON.parse(rawUi);
     if (parsedUi && Array.isArray(parsedUi.tags)) {
-      S.tags = parsedUi.tags.filter(function (t) { return t in _TAGS; });
+      S.tags = parsedUi.tags.filter((t) => t in _TAGS);
     }
   }
-} catch (_) {
+} catch {
   S.tags = [];
 }
 
@@ -3415,30 +3411,31 @@ function persistTags() {
   if (typeof localStorage === "undefined") return;
   try {
     localStorage.setItem("ui_v1", JSON.stringify({ tags: S.tags }));
-  } catch (_) {}
+  } catch {}
 }
 // --- Artwork Resolver ---
+
 // Each store is described once; views only declare a priority order.
 // The fallback chain and shot list then fall out of the table instead of
 // five copy-pasted branches.
 function artworkSources(item, st, v) {
-  var dmEntry = st && (st.m || st.m2);
-  var dl = st && st.l;
-  var gc = st && st.g;
-  var dmmFull = dmEntry ? dmmPkgUrl(dmEntry.id) : "";
-  var dlFull = dl ? dlMainUrl(dl) : "";
-  var dlJpgUrl = dl ? dlJpg(dlFull) : "";
-  var gcCover = gc ? (USE_GC ? gcApiCover(gc.id) : egsImg(item.gid, 1)) : "";
-  var vndbCover = v && v.img ? v.img : "";
+  const dmEntry = st && (st.m || st.m2);
+  const dl = st && st.l;
+  const gc = st && st.g;
+  const dmmFull = dmEntry ? dmmPkgUrl(dmEntry.id) : "";
+  const dlFull = dl ? dlMainUrl(dl) : "";
+  const dlJpgUrl = dl ? dlJpg(dlFull) : "";
+  const gcCover = gc ? (USE_GC ? gcApiCover(gc.id) : egsImg(item.gid, 1)) : "";
+  const vndbCover = v && v.img ? v.img : "";
   return {
     dmm: dmEntry ? {
       thumb: dmmFull,
       full: dmmFull,
       extras: dmmPkgFallbacks(dmEntry.id),
-      shots: function () {
-        var out = [];
-        var n = Math.min(dmEntry.n || 0, DMM_SAMPLE_CAP);
-        for (var i = 1; i <= n; i++) out.push(dmmSampleBig(dmEntry.id, i));
+      shots: () => {
+        const out = [];
+        const n = Math.min(dmEntry.n || 0, DMM_SAMPLE_CAP);
+        for (let i = 1; i <= n; i++) out.push(dmmSampleBig(dmEntry.id, i));
         return out;
       }
     } : null,
@@ -3446,17 +3443,17 @@ function artworkSources(item, st, v) {
       thumb: dlFull,
       full: dlFull,
       extras: dlJpgUrl && dlJpgUrl !== dlFull ? [dlJpgUrl] : [],
-      shots: function () { return dlSamples(dl); }
+      shots: () => dlSamples(dl)
     } : null,
     gc: gc ? {
       thumb: gcCover || egsImg(item.gid, 1),
       full: gcCover || egsImg(item.gid, 1),
       extras: (gc && USE_GC) ? [gcApiSample(gc.id, 1)] : [],
-      shots: function () {
-        var out = [];
-        var n = Math.min(gc.n || 0, GETCHU_SAMPLE_CAP);
+      shots: () => {
+        const out = [];
+        const n = Math.min(gc.n || 0, GETCHU_SAMPLE_CAP);
         if (USE_GC && n > 1) {
-          for (var i = 2; i <= n; i++) out.push(gcApiSample(gc.id, i));
+          for (let i = 2; i <= n; i++) out.push(gcApiSample(gc.id, i));
         }
         return out;
       }
@@ -3465,7 +3462,7 @@ function artworkSources(item, st, v) {
       thumb: vnThumb(vndbCover) || vndbCover,
       full: vndbCover,
       extras: [],
-      shots: function () { return (v && v.shots) || []; }
+      shots: () => (v && v.shots) || []
     } : null
   };
 }
@@ -3485,15 +3482,15 @@ function fallbackOrder(view, primary) {
 }
 
 function getArtworkFor(item, view) {
-  var gid = String(item.gid);
-  var st = storeOf(gid);
-  var v = liveCache.get(gid) || (_CACHE[gid] || null);
-  var src = artworkSources(item, st, v);
-  var egsCover = egsImg(item.gid, 1);
+  const gid = String(item.gid);
+  const st = storeOf(gid);
+  const v = liveCache.get(gid) || (_CACHE[gid] || null);
+  const src = artworkSources(item, st, v);
+  const egsCover = egsImg(item.gid, 1);
 
   // Primary cover: the requested view when available, else
   // FANZA -> DLsite -> Getchu -> VNDB -> EGS.
-  var primary = null;
+  let primary = null;
   if (view === "dmm" && src.dmm) primary = "dmm";
   else if (view === "dlsite" && src.dl) primary = "dl";
   else if (view === "getchu" && src.gc) primary = "gc";
@@ -3504,26 +3501,25 @@ function getArtworkFor(item, view) {
   else if (src.gc) primary = "gc";
   else if (src.vndb) primary = "vndb";
 
-  var thumb = "";
-  var full = "";
-  var fbList = [];
-  var shots = [];
+  let thumb = "";
+  let full = "";
+  const fbList = [];
+  let shots = [];
   if (primary && src[primary]) {
-    var p = src[primary];
+    const p = src[primary];
     thumb = p.thumb;
     full = p.full;
     // VNDB thumb differs from its full art; keep the full art behind it.
     if (primary === "vndb" && thumb !== full) fbList.push(full);
-    var order = fallbackOrder(view === "all" ? "all" : view, primary);
-    for (var oi = 0; oi < order.length; oi++) {
-      var key = order[oi];
+    const order = fallbackOrder(view === "all" ? "all" : view, primary);
+    for (const key of order) {
       if (key === primary) continue;
       if (key === "dmmExtras") {
-        if (src.dmm) fbList.push.apply(fbList, src.dmm.extras);
+        if (src.dmm) fbList.push(...src.dmm.extras);
       } else if (key === "dlJpg") {
-        if (src.dl) fbList.push.apply(fbList, src.dl.extras);
+        if (src.dl) fbList.push(...src.dl.extras);
       } else if (key === "gcSample") {
-        if (src.gc) fbList.push.apply(fbList, src.gc.extras);
+        if (src.gc) fbList.push(...src.gc.extras);
       } else if (key === "dl" && src.dl) {
         if (src.dl.thumb) fbList.push(src.dl.thumb);
       } else if (key === "dmm" && src.dmm) {
@@ -3550,13 +3546,11 @@ function getArtworkFor(item, view) {
   if (!thumb) thumb = full;
 
   fbList.push(egsCover);
-  var fb = fbList
-    .filter(function (u, idx, arr) {
-      return u && !sameUrl(u, thumb) && arr.indexOf(u) === idx;
-    })
+  const fb = fbList
+    .filter((u, idx, arr) => u && !sameUrl(u, thumb) && arr.indexOf(u) === idx)
     .join("|");
 
-  return { thumb: thumb, full: full, shots: shots, fb: fb || null };
+  return { thumb, full, shots, fb: fb || null };
 }
 
 function escHtml(s) {
@@ -3570,7 +3564,7 @@ function escHtml(s) {
 }
 
 function getMedClass(med) {
-  var m = med || 0;
+  const m = med || 0;
   if (m >= 85) return "med-ex";
   if (m >= 80) return "med-s";
   if (m >= 75) return "med-a";
@@ -3582,9 +3576,9 @@ function sameUrl(a, b) {
   if (!a || !b) return false;
   if (a === b) return true;
   try {
-    var base = typeof location !== "undefined" ? location.href : "http://localhost/";
+    const base = typeof location !== "undefined" ? location.href : "http://localhost/";
     return new URL(a, base).href === new URL(b, base).href;
-  } catch (e) {
+  } catch {
     return a === b;
   }
 }
@@ -3601,23 +3595,21 @@ function chainImgErr(el) {
     return;
   }
 
-  var currentSrc = el.getAttribute("src") || el.src || "";
-  var rawFb = el.getAttribute("data-fb") || "";
-  var fb = rawFb.split("|").filter(function (u) {
-    return u && !sameUrl(u, currentSrc);
-  });
+  const currentSrc = el.getAttribute("src") || el.src || "";
+  const rawFb = el.getAttribute("data-fb") || "";
+  const fb = rawFb.split("|").filter((u) => u && !sameUrl(u, currentSrc));
 
   if (fb.length > 0) {
-    var nextUrl = fb[0];
+    const nextUrl = fb[0];
     el.setAttribute("data-fb", fb.slice(1).join("|"));
     el.setAttribute("data-full", nextUrl);
     el.setAttribute("src", nextUrl);
     el.src = nextUrl;
     if (el.dataset) el.dataset.origSrc = nextUrl;
   } else {
-    var strip = el.closest(".strip");
+    const strip = el.closest(".strip");
     if (strip) {
-      el.style.display = "none";
+      strip.style ? (el.style.display = "none") : null;
     } else {
       el.classList.add("img-load-failed");
     }
@@ -3628,8 +3620,8 @@ function chainImgErr(el) {
 // Detect Getchu nowprinting placeholder: 200x200 or containing nowprinting, and trigger fallback
 function checkImgLoaded(el) {
   if (!el) return;
-  var src = el.getAttribute("src") || el.src || "";
-  if (src.indexOf("nowprinting") !== -1 || (el.naturalWidth === 200 && el.naturalHeight === 200 && (src.indexOf("/gc/") !== -1 || src.indexOf("getchu.com") !== -1))) {
+  const src = el.getAttribute("src") || el.src || "";
+  if (src.includes("nowprinting") || (el.naturalWidth === 200 && el.naturalHeight === 200 && (src.includes("/gc/") || src.includes("getchu.com")))) {
     chainImgErr(el);
     return;
   }
@@ -3642,13 +3634,13 @@ function checkImgLoaded(el) {
 
 // --- Filtering & Sorting Pipeline ---
 function applyFilter() {
-  var adapter = ADAPTERS[S.tab];
-  var q = normStr(S.query);
+  const adapter = ADAPTERS[S.tab];
+  const q = normStr(S.query);
 
-  S.list = _DATA.filter(function (item) {
-    var gid = String(item.gid);
-    var st = storeOf(gid);
-    var v = liveCache.get(gid) || null;
+  S.list = _DATA.filter((item) => {
+    const gid = String(item.gid);
+    const st = storeOf(gid);
+    const v = liveCache.get(gid) || null;
 
     // Only Matched Checkbox
     if (S.matched) {
@@ -3662,17 +3654,17 @@ function applyFilter() {
 
     // Tag Constellation (AND Intersection)
     if (S.tags.length > 0) {
-      for (var i = 0; i < S.tags.length; i++) {
-        var tSet = TAG_SETS[S.tags[i]];
+      for (const tag of S.tags) {
+        const tSet = TAG_SETS[tag];
         if (!tSet || !tSet.has(gid)) return false;
       }
     }
 
     // Omni Search Query
     if (q) {
-      var matchTitle = normStr(item.name).indexOf(q) >= 0;
-      var matchBrand = normStr(item.brand).indexOf(q) >= 0;
-      var matchGid = gid === q;
+      const matchTitle = normStr(item.name).includes(q);
+      const matchBrand = normStr(item.brand).includes(q);
+      const matchGid = gid === q;
       if (!matchTitle && !matchBrand && !matchGid) {
         return false;
       }
@@ -3683,22 +3675,14 @@ function applyFilter() {
 
   // Sort Pipeline
   if (S.sort === "median") {
-    S.list.sort(function (a, b) {
-      return (b.median || 0) - (a.median || 0) || a.rank - b.rank;
-    });
+    S.list.sort((a, b) => (b.median || 0) - (a.median || 0) || a.rank - b.rank);
   } else if (S.sort === "count2") {
-    S.list.sort(function (a, b) {
-      return (b.count2 || 0) - (a.count2 || 0) || a.rank - b.rank;
-    });
+    S.list.sort((a, b) => (b.count2 || 0) - (a.count2 || 0) || a.rank - b.rank);
   } else if (S.sort === "sellday") {
-    S.list.sort(function (a, b) {
-      return (b.sellday || "").localeCompare(a.sellday || "") || a.rank - b.rank;
-    });
+    S.list.sort((a, b) => (b.sellday || "").localeCompare(a.sellday || "") || a.rank - b.rank);
   } else {
     // Default: rank
-    S.list.sort(function (a, b) {
-      return a.rank - b.rank;
-    });
+    S.list.sort((a, b) => a.rank - b.rank);
   }
 
   S.count = PAGE_SIZE;
@@ -3706,44 +3690,45 @@ function applyFilter() {
   updateStatsBar();
 }
 // --- Card Element Factory ---
+
 function createCardElement(item) {
-  var gid = String(item.gid);
-  var st = storeOf(gid);
-  var v = liveCache.get(gid) || null;
-  var art = getArtworkFor(item, S.tab);
+  const gid = String(item.gid);
+  const st = storeOf(gid);
+  const v = liveCache.get(gid) || null;
+  const art = getArtworkFor(item, S.tab);
 
-  var hasD = Boolean(dlEntry(st));
-  var hasF = dmmEntries(st).length > 0;
-  var hasG = Boolean(gcEntry(st));
-  var hasV = Boolean(v);
+  const hasD = Boolean(dlEntry(st));
+  const hasF = dmmEntries(st).length > 0;
+  const hasG = Boolean(gcEntry(st));
+  const hasV = Boolean(v);
 
-  var wrap = document.createElement("div");
+  const wrap = document.createElement("div");
   wrap.className = "cardwrap";
   wrap.dataset.gid = gid;
 
-  var article = document.createElement("article");
+  const article = document.createElement("article");
   article.className = "card" + (item.rank <= 10 ? " rank-top10" : "");
   article.dataset.gid = gid;
 
   // Rating tier class
-  var medClass = getMedClass(item.median);
+  const medClass = getMedClass(item.median);
 
   // Tags list
-  var itemTags = tagsOf(gid);
-  var tagsHtml = "";
+  const itemTags = tagsOf(gid);
+  let tagsHtml = "";
   if (itemTags.length > 0) {
-    tagsHtml = itemTags.slice(0, 3).map(function (t) {
-      return '<span class="tagbadge">' + escHtml(t) + '</span>';
-    }).join("");
+    tagsHtml = itemTags.slice(0, 3).map((t) =>
+      '<span class="tagbadge">' + escHtml(t) + '</span>'
+    ).join("");
   }
 
   // Direct Store Actions
-  var storeLinksHtml = "";
+  let storeLinksHtml = "";
   if (st && st.l) {
     storeLinksHtml += '<a href="' + escHtml(dlProductUrl(st.l.id, st.l.d)) + '" target="_blank" rel="noopener">DLsite</a>';
   }
   if (st && (st.m || st.m2)) {
-    var dm = st.m || st.m2;
+    const dm = st.m || st.m2;
     storeLinksHtml += '<a href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA</a>';
   }
   if (st && st.g) {
@@ -3756,7 +3741,7 @@ function createCardElement(item) {
   }
 
   // Always ensure at least 2 links and one containing erogamescape
-  var egsLinkHtml = '<a href="' + escHtml(egsUrl(item.gid)) + '" target="_blank" rel="noopener">批评空间</a>';
+  const egsLinkHtml = '<a href="' + escHtml(egsUrl(item.gid)) + '" target="_blank" rel="noopener">批评空间</a>';
 
   article.innerHTML =
     '<div class="cover" data-act="detail">' +
@@ -3784,10 +3769,10 @@ function createCardElement(item) {
       '</div>' +
     '</div>';
 
-  var coverEl = article.querySelector(".cover");
+  const coverEl = article.querySelector(".cover");
 
   // Click on cover opens detail drawer
-  coverEl.addEventListener("click", function (/** @type {any} */ e) {
+  coverEl.addEventListener("click", (/** @type {any} */ e) => {
     if (e.target.closest("a") || e.target.closest("button") || e.target.classList.contains("scrub-segment")) {
       return;
     }
@@ -3796,29 +3781,29 @@ function createCardElement(item) {
   });
 
   // 3D Magnetic Tilt Physics
-  article.addEventListener("mousemove", function (e) {
-    var rect = article.getBoundingClientRect();
-    var x = e.clientX - rect.left;
-    var y = e.clientY - rect.top;
-    var dx = (x / rect.width - 0.5) * 2;
-    var dy = (y / rect.height - 0.5) * 2;
+  article.addEventListener("mousemove", (e) => {
+    const rect = article.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const dx = (x / rect.width - 0.5) * 2;
+    const dy = (y / rect.height - 0.5) * 2;
     article.style.setProperty("--rx", (-dy * 7).toFixed(2) + "deg");
     article.style.setProperty("--ry", (dx * 7).toFixed(2) + "deg");
   });
-  article.addEventListener("mouseleave", function () {
+  article.addEventListener("mouseleave", () => {
     article.style.setProperty("--rx", "0deg");
     article.style.setProperty("--ry", "0deg");
   });
 
   // Hover Scrubbing Preview
   if (art.shots && art.shots.length > 0) {
-    var scrubStrip = coverEl.querySelector(".scrub-strip");
-    var imgEl = coverEl.querySelector("img");
-    var scrubList = [art.thumb].concat(art.shots.slice(0, 5));
-    scrubList.forEach(function (shotUrl) {
-      var seg = document.createElement("div");
+    const scrubStrip = coverEl.querySelector(".scrub-strip");
+    const imgEl = coverEl.querySelector("img");
+    const scrubList = [art.thumb, ...art.shots.slice(0, 5)];
+    scrubList.forEach((shotUrl) => {
+      const seg = document.createElement("div");
       seg.className = "scrub-segment";
-      seg.addEventListener("mouseenter", function () {
+      seg.addEventListener("mouseenter", () => {
         if (!imgEl.dataset.origSrc) {
           imgEl.dataset.origSrc = imgEl.getAttribute("src") || imgEl.src;
         }
@@ -3829,23 +3814,23 @@ function createCardElement(item) {
       scrubStrip.appendChild(seg);
     });
 
-    function restoreCover() {
+    const restoreCover = () => {
       imgEl.dataset.scrubbing = "false";
-      var orig = imgEl.dataset.origSrc || art.thumb;
+      const orig = imgEl.dataset.origSrc || art.thumb;
       if (orig) {
         imgEl.setAttribute("src", orig);
         imgEl.src = orig;
       }
-    }
+    };
 
     scrubStrip.addEventListener("mouseleave", restoreCover);
     coverEl.addEventListener("mouseleave", restoreCover);
   }
 
   // Manual VNDB Match Button
-  var fetchBtn = article.querySelector('[data-act="fetch"]');
+  const fetchBtn = article.querySelector('[data-act="fetch"]');
   if (fetchBtn) {
-    fetchBtn.addEventListener("click", function (e) {
+    fetchBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       e.preventDefault();
       playBeep(650, "triangle", 0.08);
@@ -3859,18 +3844,18 @@ function createCardElement(item) {
 
 // --- Showcase Grid Renderer ---
 function renderShowcaseGrid() {
-  var grid = document.getElementById("grid");
+  const grid = document.getElementById("grid");
   if (!grid) return;
 
   grid.dataset.view = S.tab;
   grid.innerHTML = "";
 
-  var slice = S.list.slice(0, S.count);
-  for (var i = 0; i < slice.length; i++) {
-    grid.appendChild(createCardElement(slice[i]));
+  const slice = S.list.slice(0, S.count);
+  for (const item of slice) {
+    grid.appendChild(createCardElement(item));
   }
 
-  var moreBtn = document.getElementById("more");
+  const moreBtn = document.getElementById("more");
   if (moreBtn) {
     if (S.count >= S.list.length) {
       moreBtn.style.display = "none";
@@ -3878,7 +3863,6 @@ function renderShowcaseGrid() {
       moreBtn.style.display = "inline-block";
     }
   }
-
 }
 
 function renderNextPage() {
@@ -3889,13 +3873,13 @@ function renderNextPage() {
 }
 
 function updateStatsBar() {
-  var stats = document.getElementById("stats");
+  const stats = document.getElementById("stats");
   if (!stats) return;
 
-  var adapter = ADAPTERS[S.tab];
-  var tagInfo = S.tags.length > 0 ? " · 标签AND：" + S.tags.join("+") : "";
-  var medInfo = S.med > 0 ? " · 中央值≥" + S.med : "";
-  var shown = Math.min(S.count, S.list.length);
+  const adapter = ADAPTERS[S.tab];
+  const tagInfo = S.tags.length > 0 ? " · 标签AND：" + S.tags.join("+") : "";
+  const medInfo = S.med > 0 ? " · 中央值≥" + S.med : "";
+  const shown = Math.min(S.count, S.list.length);
 
   stats.innerHTML =
     "共 <b>" + S.list.length + "</b> / " + _DATA.length + " 个（EROGE限定） · " +
@@ -3905,11 +3889,11 @@ function updateStatsBar() {
 
 // --- Tag Constellation Chips Renderer ---
 function renderTagChips() {
-  var container = document.getElementById("tagchips");
-  var tagRow = document.getElementById("tagrow");
+  const container = document.getElementById("tagchips");
+  const tagRow = document.getElementById("tagrow");
   if (!container || !tagRow) return;
 
-  var tagKeys = Object.keys(_TAGS);
+  const tagKeys = Object.keys(_TAGS);
   if (!tagKeys.length) {
     tagRow.hidden = true;
     return;
@@ -3917,16 +3901,16 @@ function renderTagChips() {
   tagRow.hidden = false;
   container.innerHTML = "";
 
-  tagKeys.forEach(function (tag) {
-    var btn = document.createElement("button");
+  tagKeys.forEach((tag) => {
+    const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "tagchip" + (S.tags.indexOf(tag) >= 0 ? " on" : "");
+    btn.className = "tagchip" + (S.tags.includes(tag) ? " on" : "");
     btn.dataset.tag = tag;
     btn.innerHTML =
       '<span class="tagname">' + escHtml(tag) + '</span>' +
       '<span class="tagcount">' + _TAGS[tag].length + '</span>';
 
-    btn.addEventListener("click", function () {
+    btn.addEventListener("click", () => {
       toggleTag(tag);
     });
     container.appendChild(btn);
@@ -3935,7 +3919,7 @@ function renderTagChips() {
 
 function toggleTag(tag) {
   playBeep(480, "sine", 0.04);
-  var idx = S.tags.indexOf(tag);
+  const idx = S.tags.indexOf(tag);
   if (idx >= 0) {
     S.tags.splice(idx, 1);
   } else {
@@ -3946,6 +3930,7 @@ function toggleTag(tag) {
   applyFilter();
 }
 // --- Group / Circle Mapping & Romaji Search Helpers for External Full-CG ---
+
 function slugify(s) {
   return String(s == null ? "" : s).toLowerCase()
     .replace(/-/g, "_").replace(/[^a-z0-9 _]+/g, "")
@@ -3953,15 +3938,15 @@ function slugify(s) {
 }
 
 function brandSlug(brand) {
-  var b = String(brand == null ? "" : brand).trim().replace(/・/g, " ");
+  const b = String(brand == null ? "" : brand).trim().replace(/・/g, " ");
   if (!/^[A-Za-z0-9][A-Za-z0-9 _.'-]{0,40}$/.test(b)) return null;
   return slugify(b) || null;
 }
 
 function groupFor(brand) {
-  var k = String(brand == null ? "" : brand).trim();
+  const k = String(brand == null ? "" : brand).trim();
   if (_BRANDG[k]) {
-    var s = slugify(_BRANDG[k]);
+    const s = slugify(_BRANDG[k]);
     if (s) return s;
   }
   return brandSlug(brand);
@@ -3982,7 +3967,7 @@ function romajiTitle(item, v) {
 
 function coreTitle(title) {
   if (!title) return "";
-  var m = title.match(/^([^~～:\-–—]+?)(?:\s+[-–—~～:]|\s*~|\s*～)/);
+  const m = title.match(/^([^~～:\-–—]+?)(?:\s+[-–—~～:]|\s*~|\s*～)/);
   return (m && m[1].trim().length >= 2) ? m[1].trim() : title.trim();
 }
 
@@ -3992,10 +3977,10 @@ function cleanSearchTitle(title) {
 }
 
 function hitomiSiteUrl(item, v) {
-  var parts = ["type:gamecg"];
-  var g = groupFor(item.brand);
+  const parts = ["type:gamecg"];
+  const g = groupFor(item.brand);
   if (g) parts.push("group:" + g);
-  var t = cleanSearchTitle(coreTitle(romajiTitle(item, v)))
+  const t = cleanSearchTitle(coreTitle(romajiTitle(item, v)))
     .replace(/[~:!?,/\\()[\]{}*+^$#@|<>]/g, " ")
     .replace(/(^|\s)-+/g, "$1")
     .replace(/\s+/g, " ")
@@ -4005,31 +3990,31 @@ function hitomiSiteUrl(item, v) {
 }
 
 function ehSiteUrl(item, v) {
-  var parts = [];
-  var g = groupFor(item.brand);
+  const parts = [];
+  const g = groupFor(item.brand);
   if (g) parts.push("group:" + g + "$");
-  var t = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
+  const t = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
   if (t) parts.push('title:"' + t + '"');
   return "https://e-hentai.org/?f_search=" + encodeURIComponent(parts.join(" ")) + "&f_apply=Apply+Filter";
 }
 
 function fullcgGoogleUrl(site, item, v) {
-  var raw = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
-  var q = 'site:' + site + ' "' + raw + '"';
+  const raw = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
+  let q = 'site:' + site + ' "' + raw + '"';
   if (item.name && item.name !== raw) {
     q += ' OR "' + cleanSearchTitle(item.name) + '"';
   }
-  if (site.indexOf("hitomi") === 0) q = "gamecg " + q;
+  if (site.startsWith("hitomi")) q = "gamecg " + q;
   return "https://www.google.com/search?q=" + encodeURIComponent(q);
 }
 
 // Attach lightbox + prefetch listeners to every image in a rebuilt strip.
 function attachStripListeners(imgs, item) {
-  imgs.forEach(function (imgEl, idx) {
-    imgEl.addEventListener("click", function () {
+  imgs.forEach((imgEl, idx) => {
+    imgEl.addEventListener("click", () => {
       openLightbox(imgEl.getAttribute("data-full"), (idx + 1) + " / " + imgs.length + " " + item.name, imgs, idx, item);
     });
-    imgEl.addEventListener("mouseenter", function () {
+    imgEl.addEventListener("mouseenter", () => {
       preloadImageUrl(imgEl.getAttribute("data-full") || imgEl.src);
     });
   });
@@ -4041,38 +4026,43 @@ function attachStripListeners(imgs, item) {
 function refreshLiveMeta(cacheKey, url, update, sectionSel, countName, render, item) {
   if (!USE_GC || sessionMetaCache.has(cacheKey)) return;
   sessionMetaCache.add(cacheKey);
+
   fetch(url)
-    .then(function (r) { return r.json(); })
-    .then(function (res) {
+    .then((r) => (r.ok ? r.json() : null))
+    .then((res) => {
       if (!update(res)) return;
-      var sec = document.querySelector(sectionSel);
+      const sec = document.querySelector(sectionSel);
       if (!sec) return;
-      var strip = sec.querySelector(".strip");
-      var lc = sec.querySelector('[data-livecount="' + countName + '"]');
-      if (!strip) return;
-      strip.innerHTML = render();
-      if (lc) lc.textContent = String(strip.querySelectorAll("img").length);
-      attachStripListeners(strip.querySelectorAll("img"), item);
+      const cnt = sec.querySelector('[data-livecount="' + countName + '"]');
+      const st = (storeOf(item.gid) || {})[countName === "dl" ? "l" : countName === "gc" ? "g" : "m"];
+      const n = (st && st.n) || (st && st.sm ? st.sm.length : 0);
+      if (cnt && n) cnt.textContent = String(n);
+      const strip = sec.querySelector(".strip");
+      if (strip) {
+        strip.innerHTML = render();
+        attachStripListeners(strip.querySelectorAll("img"), item);
+      }
     })
-    .catch(function () { return null; });
+    .catch(() => {});
 }
 // --- Detail Drawer System ---
+
 function openDetail(gid) {
-  var item = _DATA.find(function (d) { return String(d.gid) === String(gid); });
+  const item = _DATA.find((d) => String(d.gid) === String(gid));
   if (!item) return;
 
-  var drawer = document.getElementById("drawer");
-  var dhead = document.getElementById("dhead");
-  var dbody = document.getElementById("dbody");
+  const drawer = document.getElementById("drawer");
+  const dhead = document.getElementById("dhead");
+  const dbody = document.getElementById("dbody");
   if (!drawer || !dhead || !dbody) return;
 
   // Reset scroll position immediately so previous scroll offset doesn't stick
   dbody.scrollTop = 0;
   if (dbody.scrollTo) dbody.scrollTo(0, 0);
 
-  var st = storeOf(gid) || {};
-  var v = liveCache.get(String(gid)) || (_CACHE[String(gid)] || null);
-  var itemTags = tagsOf(gid);
+  const st = storeOf(gid) || {};
+  const v = liveCache.get(String(gid)) || (_CACHE[String(gid)] || null);
+  const itemTags = tagsOf(gid);
 
   // Auto-fetch VNDB live if not cached yet
   if (!v && item && !sessionMetaCache.has("vn:" + gid)) {
@@ -4083,7 +4073,7 @@ function openDetail(gid) {
   // Populate Header
   dhead.querySelector("h2").textContent = "#" + item.rank + " " + item.name;
 
-  var hintText =
+  const hintText =
     "社团：" + (item.brand || "未知") + " · 发售日：" + (item.sellday || "未知") + "\n" +
     "中央值 " + (item.median || "-") + " · 评分 " + (item.count2 || "-") + "人 · POV: " + (item.povs || "寝取") + "\n" +
     "注册标签: " + (itemTags.length ? itemTags.join(" / ") : "无") + "\n" +
@@ -4091,11 +4081,11 @@ function openDetail(gid) {
   dhead.querySelector(".hint").textContent = hintText;
 
   // 1. DLsite Section
-  var dlHtml = "";
-  var dlCount = 0;
+  let dlHtml = "";
+  let dlCount = 0;
   if (st && st.l) {
-    var dlSt = st.l;
-    var stems = dlStems(dlSt);
+    const dlSt = st.l;
+    const stems = dlStems(dlSt);
     dlCount = stems.length;
     dlHtml =
       '<div class="drawer-section drawer-store-section dsec-dl" data-store="dl">' +
@@ -4104,36 +4094,36 @@ function openDetail(gid) {
           '<a href="' + escHtml(dlProductUrl(dlSt.id, dlSt.d)) + '" target="_blank" rel="noopener">DLsite 商品页面 (' + escHtml(dlSt.id) + ')</a>' +
         '</div>' +
         '<div class="strip">' +
-          stems.map(function (s) {
-            return '<img src="' + escHtml(dlSampleThumbUrl(dlSt, s)) + '" data-full="' + escHtml(dlSampleUrl(dlSt, s)) + '" alt="DLsite sample" loading="lazy" decoding="async">';
-          }).join("") +
+          stems.map((s) =>
+            '<img src="' + escHtml(dlSampleThumbUrl(dlSt, s)) + '" data-full="' + escHtml(dlSampleUrl(dlSt, s)) + '" alt="DLsite sample" loading="lazy" decoding="async">'
+          ).join("") +
         '</div>' +
       '</div>';
 
     // Live DLsite meta check if unharvested
     if (dlSt.un) {
-      refreshLiveMeta("dl:" + dlSt.id, dlApiMeta(dlSt.id, dlSt.d), function (res) {
-      if (!(res && res.stems && res.stems.length)) return false;
-      dlSt.sm = res.stems;
-      delete dlSt.un;
-      return true;
-    }, ".dsec-dl", "dl", function () {
-      return dlStems(dlSt).map(function (s) {
-        return '<img src="' + escHtml(dlSampleThumbUrl(dlSt, s)) + '" data-full="' + escHtml(dlSampleUrl(dlSt, s)) + '" alt="DLsite sample" loading="lazy" decoding="async">';
-      }).join("");
-    }, item);
+      refreshLiveMeta("dl:" + dlSt.id, dlApiMeta(dlSt.id, dlSt.d), (res) => {
+        if (!(res && res.stems && res.stems.length)) return false;
+        dlSt.sm = res.stems;
+        delete dlSt.un;
+        return true;
+      }, ".dsec-dl", "dl", () => {
+        return dlStems(dlSt).map((s) =>
+          '<img src="' + escHtml(dlSampleThumbUrl(dlSt, s)) + '" data-full="' + escHtml(dlSampleUrl(dlSt, s)) + '" alt="DLsite sample" loading="lazy" decoding="async">'
+        ).join("");
+      }, item);
     }
   }
 
   // 2. FANZA Section
-  var dmmHtml = "";
-  var dmmCount = 0;
-  var dmmList = dmmEntries(st);
+  let dmmHtml = "";
+  let dmmCount = 0;
+  const dmmList = dmmEntries(st);
   if (dmmList.length > 0) {
-    var dmmSamples = [];
-    dmmList.forEach(function (dm) {
-      var n = Math.min(dm.n || 0, DMM_SAMPLE_CAP);
-      for (var i = 1; i <= n; i++) {
+    const dmmSamples = [];
+    dmmList.forEach((dm) => {
+      const n = Math.min(dm.n || 0, DMM_SAMPLE_CAP);
+      for (let i = 1; i <= n; i++) {
         dmmSamples.push({
           big: dmmSampleBig(dm.id, i),
           small: dmmSampleSmall(dm.id, i)
@@ -4147,27 +4137,27 @@ function openDetail(gid) {
         '<div class="drawer-section drawer-store-section dsec-dmm" data-store="dmm">' +
           '<h3 id="dsec-h-dmm">FANZA 截帧图集 (<span data-livecount="dmm">' + dmmCount + '</span>)</h3>' +
           '<div class="drawer-meta-links">' +
-            dmmList.map(function (dm) {
-              return '<a href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA ' + escHtml(dmmFloorLabel(dm.id)) + ' (' + escHtml(dm.id) + ')</a>';
-            }).join("") +
+            dmmList.map((dm) =>
+              '<a href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA ' + escHtml(dmmFloorLabel(dm.id)) + ' (' + escHtml(dm.id) + ')</a>'
+            ).join("") +
           '</div>' +
           '<div class="strip">' +
-            dmmSamples.map(function (s) {
-              return '<img src="' + escHtml(s.small) + '" data-full="' + escHtml(s.big) + '" alt="FANZA sample" loading="lazy" decoding="async">';
-            }).join("") +
+            dmmSamples.map((s) =>
+              '<img src="' + escHtml(s.small) + '" data-full="' + escHtml(s.big) + '" alt="FANZA sample" loading="lazy" decoding="async">'
+            ).join("") +
           '</div>' +
         '</div>';
     }
 
     // Live DMM meta check (only if count unknown)
     if (typeof dmmList[0].n !== "number" || dmmList[0].n <= 0) {
-      refreshLiveMeta("dm:" + dmmList[0].id, dmApiMeta(dmmList[0].id), function (res) {
+      refreshLiveMeta("dm:" + dmmList[0].id, dmApiMeta(dmmList[0].id), (res) => {
         if (!(res && typeof res.n === "number" && res.n > 0)) return false;
         dmmList[0].n = res.n;
         return true;
-      }, ".dsec-dmm", "dmm", function () {
-        var out = [];
-        for (var k = 1; k <= Math.min(dmmList[0].n, DMM_SAMPLE_CAP); k++) {
+      }, ".dsec-dmm", "dmm", () => {
+        const out = [];
+        for (let k = 1; k <= Math.min(dmmList[0].n, DMM_SAMPLE_CAP); k++) {
           out.push('<img src="' + escHtml(dmmSampleSmall(dmmList[0].id, k)) + '" data-full="' + escHtml(dmmSampleBig(dmmList[0].id, k)) + '" alt="FANZA sample" loading="lazy" decoding="async">');
         }
         return out.join("");
@@ -4176,15 +4166,15 @@ function openDetail(gid) {
   }
 
   // 3. Getchu Section
-  var gcHtml = "";
-  var gcCount = 0;
+  let gcHtml = "";
+  let gcCount = 0;
   if (st && st.g) {
-    var gc = st.g;
-    var gcSamples = [];
-    var gn = Math.min(gc.n || 0, GETCHU_SAMPLE_CAP);
+    const gc = st.g;
+    const gcSamples = [];
+    const gn = Math.min(gc.n || 0, GETCHU_SAMPLE_CAP);
     // Sample 1 is the package cover; promotional samples start from sample 2
     if (USE_GC && gn > 1) {
-      for (var gi = 2; gi <= gn; gi++) {
+      for (let gi = 2; gi <= gn; gi++) {
         gcSamples.push(gcApiSample(gc.id, gi));
       }
     }
@@ -4199,23 +4189,23 @@ function openDetail(gid) {
           '</div>' +
           (!USE_GC ? '<p class="drawer-hint" style="font-size:0.84rem;color:var(--text-muted);">本地文件模式：Getchu 官方图片受防盗链保护，需在部署后的站点（通过 Worker 代理）在线鉴赏原画。</p>' : '') +
           '<div class="strip">' +
-            gcSamples.map(function (u) {
-              return '<img src="' + escHtml(u) + '" data-full="' + escHtml(u) + '" alt="Getchu sample" loading="lazy" decoding="async">';
-            }).join("") +
+            gcSamples.map((u) =>
+              '<img src="' + escHtml(u) + '" data-full="' + escHtml(u) + '" alt="Getchu sample" loading="lazy" decoding="async">'
+            ).join("") +
           '</div>' +
         '</div>';
     }
 
     // Live Getchu meta check (only if count unknown)
     if (typeof gc.n !== "number" || gc.n <= 0) {
-      refreshLiveMeta("gc:" + gc.id, gcApiMeta(gc.id), function (res) {
+      refreshLiveMeta("gc:" + gc.id, gcApiMeta(gc.id), (res) => {
         if (!(res && typeof res.n === "number" && res.n > 1)) return false;
         gc.n = res.n;
         return true;
-      }, ".dsec-gc", "gc", function () {
-        var out = [];
-        for (var k = 2; k <= Math.min(gc.n, GETCHU_SAMPLE_CAP); k++) {
-          var su = gcApiSample(gc.id, k);
+      }, ".dsec-gc", "gc", () => {
+        const out = [];
+        for (let k = 2; k <= Math.min(gc.n, GETCHU_SAMPLE_CAP); k++) {
+          const su = gcApiSample(gc.id, k);
           out.push('<img src="' + escHtml(su) + '" data-full="' + escHtml(su) + '" alt="Getchu sample" loading="lazy" decoding="async">');
         }
         return out.join("");
@@ -4224,9 +4214,9 @@ function openDetail(gid) {
   }
 
   // 4. VNDB Section
-  var vndbHtml = "";
-  var vndbShots = v && v.shots ? v.shots : [];
-  var vndbCount = vndbShots.length;
+  let vndbHtml = "";
+  const vndbShots = v && v.shots ? v.shots : [];
+  const vndbCount = vndbShots.length;
   vndbHtml =
     '<div class="drawer-section drawer-store-section dsec-vndb" data-store="vndb">' +
       '<h3 id="dsec-h-vndb">VNDB 视觉小说画廊 (<span data-livecount="vndb">' + vndbCount + '</span>)</h3>' +
@@ -4237,21 +4227,21 @@ function openDetail(gid) {
       '</div>' +
       (vndbShots.length > 0 ? (
         '<div class="strip">' +
-          vndbShots.map(function (u) {
-            return '<img src="' + escHtml(vnThumb(u)) + '" data-full="' + escHtml(u) + '" alt="VNDB shot" loading="lazy" decoding="async">';
-          }).join("") +
+          vndbShots.map((u) =>
+            '<img src="' + escHtml(vnThumb(u)) + '" data-full="' + escHtml(u) + '" alt="VNDB shot" loading="lazy" decoding="async">'
+          ).join("") +
         '</div>'
       ) : '') +
     '</div>';
 
   // Store Tabs Navigation (On-demand viewing & network deferral)
-  var storeTabs = [];
+  const storeTabs = [];
   if (dmmHtml) storeTabs.push({ id: "dmm", label: "FANZA", icon: "💎", count: dmmCount });
   if (dlHtml) storeTabs.push({ id: "dl", label: "DLsite", icon: "🔷", count: dlCount });
   if (gcHtml) storeTabs.push({ id: "gc", label: "Getchu", icon: "🔶", count: gcCount });
   if (vndbShots.length > 0) storeTabs.push({ id: "vndb", label: "VNDB", icon: "🌐", count: vndbShots.length });
 
-  var defaultStoreTab = "all";
+  let defaultStoreTab = "all";
   if (storeTabs.length >= 2) {
     if (S.tab === "dmm" && dmmHtml) defaultStoreTab = "dmm";
     else if (S.tab === "dlsite" && dlHtml) defaultStoreTab = "dl";
@@ -4263,13 +4253,13 @@ function openDetail(gid) {
     else if (vndbShots.length > 0) defaultStoreTab = "vndb";
   }
 
-  var tabsBarHtml = "";
+  let tabsBarHtml = "";
   if (storeTabs.length >= 2) {
     tabsBarHtml =
       '<div class="drawer-store-tabs" role="tablist" aria-label="画册图源筛选">' +
         '<span class="drawer-tabs-label">画册图源</span>' +
-        storeTabs.map(function (tb) {
-          var isAct = tb.id === defaultStoreTab;
+        storeTabs.map((tb) => {
+          const isAct = tb.id === defaultStoreTab;
           return '<button type="button" class="drawer-tab' + (isAct ? ' active' : '') + '" data-store-tab="' + tb.id + '">' +
             '<span class="tab-icon">' + tb.icon + '</span> ' + tb.label + ' <span class="tab-badge">' + tb.count + '</span>' +
           '</button>';
@@ -4278,7 +4268,7 @@ function openDetail(gid) {
       '</div>';
   }
 
-  var mainSections = [];
+  const mainSections = [];
   if (tabsBarHtml) mainSections.push(tabsBarHtml);
   if (dmmHtml) mainSections.push(dmmHtml);
   if (dlHtml) mainSections.push(dlHtml);
@@ -4286,14 +4276,14 @@ function openDetail(gid) {
   if (vndbHtml) mainSections.push(vndbHtml);
 
   // 5. Full CG Section
-  var fullcg = _FULLCG[gid];
-  var g = groupFor(item.brand);
-  var fullRomaji = romajiTitle(item, v);
-  var searchTitle = coreTitle(fullRomaji);
-  var hitomiUrl = hitomiSiteUrl(item, v);
-  var ehUrl = ehSiteUrl(item, v);
+  const fullcg = _FULLCG[gid];
+  const g = groupFor(item.brand);
+  const fullRomaji = romajiTitle(item, v);
+  const searchTitle = coreTitle(fullRomaji);
+  const hitomiUrl = hitomiSiteUrl(item, v);
+  const ehUrl = ehSiteUrl(item, v);
 
-  var fullcgLinks = [];
+  const fullcgLinks = [];
   if (fullcg && fullcg.hitomi) {
     fullcgLinks.push('<a href="' + escHtml(fullcg.hitomi) + '" target="_blank" rel="noopener" class="fullcg-btn-direct">Hitomi 全CG 直连</a>');
   }
@@ -4323,15 +4313,15 @@ function openDetail(gid) {
   );
 
   // Side Rails: Related Games (Flanking Left & Right Rails with Large Covers)
-  var related = relatedOf(item, v);
-  var relRailLeftHtml = "";
-  var relRailRightHtml = "";
+  const related = relatedOf(item, v);
+  let relRailLeftHtml = "";
+  let relRailRightHtml = "";
 
   function createRelCardHtml(r, isClone) {
-    var rArt = getArtworkFor(r, S.tab);
-    var tagLabel = r.sameSeries ? "系列" : (r.sameBrand ? "同社" : "");
-    var medClass = getMedClass(r.median);
-    var cardClass = isClone ? "relclone" : "relcard";
+    const rArt = getArtworkFor(r, S.tab);
+    const tagLabel = r.sameSeries ? "系列" : (r.sameBrand ? "同社" : "");
+    const medClass = getMedClass(r.median);
+    const cardClass = isClone ? "relclone" : "relcard";
 
     return (
       '<div class="' + cardClass + '" role="button" tabindex="0" data-act="detail" data-gid="' + r.gid + '" title="' + escHtml(r.name) + '">' +
@@ -4351,24 +4341,24 @@ function openDetail(gid) {
   }
 
   if (related.length > 0) {
-    var mid = related.length <= 3 ? related.length : Math.ceil(related.length / 2);
-    var leftList = related.slice(0, mid);
-    var rightList = related.slice(mid);
+    const mid = related.length <= 3 ? related.length : Math.ceil(related.length / 2);
+    const leftList = related.slice(0, mid);
+    const rightList = related.slice(mid);
 
-    var leftScroll = leftList.length >= 3;
-    var rightScroll = rightList.length >= 3;
+    const leftScroll = leftList.length >= 3;
+    const rightScroll = rightList.length >= 3;
 
-    var hasSeries = leftList.some(function (r) { return r.sameSeries; });
-    var leftTitle = hasSeries ? "同系列 / 关联作" : "同社代表作";
-    var rightTitle = "同社更多作品";
+    const hasSeries = leftList.some((r) => r.sameSeries);
+    const leftTitle = hasSeries ? "同系列 / 关联作" : "同社代表作";
+    const rightTitle = "同社更多作品";
 
     relRailLeftHtml =
       '<aside class="relrail left' + (leftScroll ? ' has-scroll' : '') + '" aria-label="左侧同社/系列推荐">' +
         '<h4 class="relhead"><span class="relhead-title">' + escHtml(leftTitle) + '</span>' + (leftScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
         '<div class="relrail-viewport' + (leftScroll ? ' has-autoscroll' : '') + '" data-rail="left">' +
           '<div class="relrail-track">' +
-            leftList.map(function (r) { return createRelCardHtml(r, false); }).join("") +
-            (leftScroll ? leftList.map(function (r) { return createRelCardHtml(r, true); }).join("") : "") +
+            leftList.map((r) => createRelCardHtml(r, false)).join("") +
+            (leftScroll ? leftList.map((r) => createRelCardHtml(r, true)).join("") : "") +
           '</div>' +
         '</div>' +
       '</aside>';
@@ -4379,15 +4369,15 @@ function openDetail(gid) {
           '<h4 class="relhead"><span class="relhead-title">' + escHtml(rightTitle) + '</span>' + (rightScroll ? '<span class="relhead-badge">自动循环</span>' : '') + '</h4>' +
           '<div class="relrail-viewport' + (rightScroll ? ' has-autoscroll' : '') + '" data-rail="right">' +
             '<div class="relrail-track">' +
-              rightList.map(function (r) { return createRelCardHtml(r, false); }).join("") +
-              (rightScroll ? rightList.map(function (r) { return createRelCardHtml(r, true); }).join("") : "") +
+              rightList.map((r) => createRelCardHtml(r, false)).join("") +
+              (rightScroll ? rightList.map((r) => createRelCardHtml(r, true)).join("") : "") +
             '</div>' +
           '</div>' +
         '</aside>';
     }
   }
 
-  var bodyHtml =
+  const bodyHtml =
     '<div class="relstrip pavilion-layout' + (related.length === 0 ? ' no-rel' : (related.length === 1 ? ' single-rel' : '')) + '">' +
       relRailLeftHtml +
       '<div class="pavilion-main">' + mainSections.join("") + '</div>' +
@@ -4400,19 +4390,19 @@ function openDetail(gid) {
 
   // Drawer Store Tabs switching logic (On-demand gallery filtering & bandwidth protection)
   function applyStoreTab(targetTab, shouldScroll) {
-    var storeSections = dbody.querySelectorAll(".drawer-store-section");
-    storeSections.forEach(function (sec) {
+    const storeSections = dbody.querySelectorAll(".drawer-store-section");
+    storeSections.forEach((sec) => {
       if (targetTab === "all" || sec.getAttribute("data-store") === targetTab) {
         sec.classList.remove("dsec-hidden");
       } else {
         sec.classList.add("dsec-hidden");
       }
     });
-    dbody.querySelectorAll(".drawer-tab").forEach(function (btn) {
+    dbody.querySelectorAll(".drawer-tab").forEach((btn) => {
       btn.classList.toggle("active", btn.getAttribute("data-store-tab") === targetTab);
     });
     if (shouldScroll) {
-      var targetEl = targetTab === "all"
+      const targetEl = targetTab === "all"
         ? dbody.querySelector(".drawer-store-tabs")
         : dbody.querySelector('.drawer-store-section[data-store="' + targetTab + '"]');
       if (targetEl && targetEl.scrollIntoView) {
@@ -4425,32 +4415,32 @@ function openDetail(gid) {
     applyStoreTab(defaultStoreTab, false);
   }
 
-  dbody.querySelectorAll(".drawer-tab").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var target = btn.getAttribute("data-store-tab");
+  dbody.querySelectorAll(".drawer-tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-store-tab");
       playBeep(640, "sine", 0.03);
       applyStoreTab(target, true);
     });
   });
 
   // Attach Lightbox click triggers on strip images & predictive hover prefetch
-  var stripImages = dbody.querySelectorAll(".strip img");
+  const stripImages = dbody.querySelectorAll(".strip img");
   attachStripListeners(stripImages, item);
 
   // Background prefetch first 2 full screenshots on opening detail
-  for (var pi = 0; pi < Math.min(stripImages.length, 2); pi++) {
+  for (let pi = 0; pi < Math.min(stripImages.length, 2); pi++) {
     preloadImageUrl(stripImages[pi].getAttribute("data-full") || stripImages[pi].getAttribute("src"));
   }
 
   // Attach Recommendation card click triggers (supports original cards and infinite loop clones)
-  dbody.querySelectorAll(".relcard[data-act='detail'], .relclone[data-act='detail']").forEach(function (/** @type {any} */ cardEl) {
-    cardEl.addEventListener("click", function () {
-      var sel = window.getSelection ? window.getSelection().toString().trim() : "";
+  dbody.querySelectorAll(".relcard[data-act='detail'], .relclone[data-act='detail']").forEach((/** @type {any} */ cardEl) => {
+    cardEl.addEventListener("click", () => {
+      const sel = window.getSelection ? window.getSelection().toString().trim() : "";
       if (sel.length > 0) return;
       playBeep(520, "sine", 0.04);
       openDetail(cardEl.dataset.gid);
     });
-    cardEl.addEventListener("keydown", function (e) {
+    cardEl.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         playBeep(520, "sine", 0.04);
@@ -4460,9 +4450,9 @@ function openDetail(gid) {
   });
 
   // Re-query VNDB button trigger
-  var refetchBtn = dbody.querySelector('[data-act="refetch"]');
+  const refetchBtn = dbody.querySelector('[data-act="refetch"]');
   if (refetchBtn) {
-    refetchBtn.addEventListener("click", function () {
+    refetchBtn.addEventListener("click", () => {
       triggerVndbFetch(gid, item, true);
     });
   }
@@ -4476,23 +4466,24 @@ function openDetail(gid) {
 
 function closeDetail() {
   stopRelAutoScroll();
-  var drawer = document.getElementById("drawer");
+  const drawer = document.getElementById("drawer");
   if (!drawer) return;
   drawer.classList.remove("open");
   drawer.setAttribute("aria-hidden", "true");
-  var dbody = document.getElementById("dbody");
+  const dbody = document.getElementById("dbody");
   if (dbody) {
     dbody.scrollTop = 0;
     if (dbody.scrollTo) dbody.scrollTo(0, 0);
   }
-  var lb = document.getElementById("lightbox");
+  const lb = document.getElementById("lightbox");
   if (!lb || !lb.classList.contains("open")) {
     document.body.classList.remove("locked");
   }
 }
 // --- Flanking Rails Infinite Auto-Scroller Engine ---
-var relScrollAnimationId = null;
-var relAutoScrollEngines = [];
+
+let relScrollAnimationId = null;
+let relAutoScrollEngines = [];
 
 function stopRelAutoScroll() {
   if (relScrollAnimationId) {
@@ -4507,42 +4498,42 @@ function startRelAutoScroll() {
   if (typeof window === "undefined" || typeof document === "undefined") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  var viewports = document.querySelectorAll("#dbody .relrail-viewport.has-autoscroll");
+  const viewports = document.querySelectorAll("#dbody .relrail-viewport.has-autoscroll");
   if (!viewports.length) return;
 
-  viewports.forEach(function (vp) {
-    var track = vp.querySelector(".relrail-track");
+  viewports.forEach((vp) => {
+    const track = vp.querySelector(".relrail-track");
     if (!track) return;
 
-    var engine = {
-      vp: vp,
-      track: track,
+    const engine = {
+      vp,
+      track,
       pos: vp.scrollTop || 0,
       paused: false,
       pauseUntil: 0
     };
 
-    vp.addEventListener("mouseenter", function () {
+    vp.addEventListener("mouseenter", () => {
       engine.paused = true;
     });
-    vp.addEventListener("mouseleave", function () {
+    vp.addEventListener("mouseleave", () => {
       engine.paused = false;
       engine.pauseUntil = Date.now() + 400;
       engine.pos = vp.scrollTop;
     });
-    vp.addEventListener("wheel", function () {
+    vp.addEventListener("wheel", () => {
       engine.pauseUntil = Date.now() + 1200;
       engine.pos = vp.scrollTop;
     }, { passive: true });
-    vp.addEventListener("touchstart", function () {
+    vp.addEventListener("touchstart", () => {
       engine.paused = true;
     }, { passive: true });
-    vp.addEventListener("touchend", function () {
+    vp.addEventListener("touchend", () => {
       engine.paused = false;
       engine.pauseUntil = Date.now() + 600;
       engine.pos = vp.scrollTop;
     }, { passive: true });
-    vp.addEventListener("scroll", function () {
+    vp.addEventListener("scroll", () => {
       if (engine.paused || Date.now() < engine.pauseUntil) {
         engine.pos = vp.scrollTop;
       }
@@ -4553,26 +4544,26 @@ function startRelAutoScroll() {
 
   if (!relAutoScrollEngines.length) return;
 
-  var lastTime = performance.now();
-  var SPEED_PX_PER_SEC = 85; // brisk, engaging showcase speed (~3.8s per card)
+  let lastTime = performance.now();
+  const SPEED_PX_PER_SEC = 85; // brisk, engaging showcase speed (~3.8s per card)
 
   function tick(now) {
-    var dt = (now - lastTime) / 1000;
+    let dt = (now - lastTime) / 1000;
     lastTime = now;
     if (dt > 0.1) dt = 0.016;
 
-    var nowMs = Date.now();
-    relAutoScrollEngines.forEach(function (eng) {
-      var vp = eng.vp;
-      var track = eng.track;
-      if (!vp || !track) return;
+    const nowMs = Date.now();
+    for (const eng of relAutoScrollEngines) {
+      const vp = eng.vp;
+      const track = eng.track;
+      if (!vp || !track) continue;
 
-      var halfHeight = track.scrollHeight / 2;
-      if (halfHeight <= 0) return;
+      const halfHeight = track.scrollHeight / 2;
+      if (halfHeight <= 0) continue;
 
       if (eng.paused || nowMs < eng.pauseUntil) {
         eng.pos = vp.scrollTop;
-        return;
+        continue;
       }
 
       eng.pos += SPEED_PX_PER_SEC * dt;
@@ -4585,7 +4576,7 @@ function startRelAutoScroll() {
       }
 
       vp.scrollTop = eng.pos;
-    });
+    }
 
     relScrollAnimationId = requestAnimationFrame(tick);
   }
@@ -4596,13 +4587,13 @@ function startRelAutoScroll() {
 // --- Predictive Image Preloader System ---
 // Bounded: a long session must not grow these Sets without limit. Sets
 // iterate in insertion order, so evicting the oldest entry is O(1).
-var PRELOAD_CAP = 500;
-var preloadedUrls = new Set();
-var preloadedReady = new Set();
+const PRELOAD_CAP = 500;
+const preloadedUrls = new Set();
+const preloadedReady = new Set();
 
 function capSet(set) {
   while (set.size > PRELOAD_CAP) {
-    var oldest = set.values().next().value;
+    const oldest = set.values().next().value;
     set.delete(oldest);
   }
 }
@@ -4615,21 +4606,21 @@ function preloadImageUrl(url) {
 
   if (typeof Image === "undefined") return;
   try {
-    var img = new Image();
+    const img = new Image();
     img.decoding = "async";
     img.loading = "eager";
 
-    var markReady = function () {
+    const markReady = () => {
       preloadedReady.add(url);
       capSet(preloadedReady);
     };
 
     img.onload = markReady;
-    img.onerror = function () {};
+    img.onerror = () => {};
 
     if (typeof img.decode === "function") {
       img.src = url;
-      img.decode().then(markReady).catch(function () {
+      img.decode().then(markReady).catch(() => {
         if (img.complete && img.naturalWidth > 0) {
           markReady();
         }
@@ -4637,32 +4628,32 @@ function preloadImageUrl(url) {
     } else {
       img.src = url;
     }
-  } catch (e) {}
+  } catch {}
 }
 
 function preloadFromLbItem(el) {
   if (!el) return;
-  var fullUrl = (el.getAttribute && el.getAttribute("data-full")) || el.src;
+  const fullUrl = (el.getAttribute && el.getAttribute("data-full")) || el.src;
   if (fullUrl) preloadImageUrl(fullUrl);
-  var fbUrl = el.getAttribute && el.getAttribute("data-fb");
+  const fbUrl = el.getAttribute && el.getAttribute("data-fb");
   if (fbUrl) preloadImageUrl(fbUrl);
 }
 
-function preloadLightboxNeighbors(centerIdx, radius) {
+function preloadLightboxNeighbors(centerIdx, radius = 3) {
   if (!LB.imgs || !LB.imgs.length) return;
-  var len = LB.imgs.length;
+  const len = LB.imgs.length;
   if (len <= 1) return;
-  var r = radius || 3;
-  var visited = new Set();
+  const r = radius;
+  const visited = new Set();
   visited.add(centerIdx);
 
-  for (var d = 1; d <= r; d++) {
-    var forward = (centerIdx + d) % len;
+  for (let d = 1; d <= r; d++) {
+    const forward = (centerIdx + d) % len;
     if (!visited.has(forward)) {
       visited.add(forward);
       preloadFromLbItem(LB.imgs[forward]);
     }
-    var backward = (centerIdx - d + len * 10) % len;
+    const backward = (centerIdx - d + len * 10) % len;
     if (!visited.has(backward)) {
       visited.add(backward);
       preloadFromLbItem(LB.imgs[backward]);
@@ -4672,35 +4663,35 @@ function preloadLightboxNeighbors(centerIdx, radius) {
 // --- Zenith Aurora Lightbox Stage ---
 
 // Lightbox session state, shared with the rails preloader.
-var LB = { imgs: [], idx: 0, item: null };
-var lbLoadToken = 0;
+const LB = { imgs: [], idx: 0, item: null };
+let lbLoadToken = 0;
 
 function syncStageAspectRatio(el) {
-  var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+  const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
   if (!vimg || !el) return;
-  var w = el.naturalWidth || (el.getAttribute && Number(el.getAttribute("width"))) || el.width;
-  var h = el.naturalHeight || (el.getAttribute && Number(el.getAttribute("height"))) || el.height;
+  const w = el.naturalWidth || (el.getAttribute && Number(el.getAttribute("width"))) || el.width;
+  const h = el.naturalHeight || (el.getAttribute && Number(el.getAttribute("height"))) || el.height;
   if (w && h && h > 0) {
-    var r = +(w / h).toFixed(4);
+    const r = +(w / h).toFixed(4);
     vimg.style.setProperty("--img-ratio", String(r));
   }
 }
 
 function setLightboxImage(fullUrl) {
-  var stage = document.getElementById("lbImageStage");
-  var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+  const stage = document.getElementById("lbImageStage");
+  const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
   if (!vimg) return;
 
-  var token = ++lbLoadToken;
+  const token = ++lbLoadToken;
 
   // Pre-sync aspect ratio from the active thumbnail to eliminate layout pop
-  var currentImg = LB.imgs[LB.idx];
+  const currentImg = LB.imgs[LB.idx];
   if (currentImg) syncStageAspectRatio(currentImg);
 
   if (stage) stage.classList.remove("is-error");
 
   // Check if this exact image is already confirmed loaded on this element
-  var isAlreadyLoaded = (vimg.dataset.loadedUrl === fullUrl && vimg.getAttribute("src") === fullUrl && vimg.naturalWidth > 0);
+  const isAlreadyLoaded = (vimg.dataset.loadedUrl === fullUrl && vimg.getAttribute("src") === fullUrl && vimg.naturalWidth > 0);
 
   if (isAlreadyLoaded) {
     syncStageAspectRatio(vimg);
@@ -4718,12 +4709,12 @@ function setLightboxImage(fullUrl) {
   // Synchronously set src so attributes and synchronous tests stay in sync
   vimg.src = fullUrl;
 
-  var cleanup = function () {
+  const cleanup = () => {
     vimg.removeEventListener("load", onLoaded);
     vimg.removeEventListener("error", onError);
   };
 
-  var onLoaded = function () {
+  const onLoaded = () => {
     cleanup();
     if (token !== lbLoadToken) return;
     preloadedReady.add(fullUrl);
@@ -4734,17 +4725,17 @@ function setLightboxImage(fullUrl) {
       stage.classList.remove("is-loading");
       stage.classList.remove("is-error");
     }
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
       vimg.classList.remove("is-loading");
       vimg.classList.remove("is-switching");
     });
   };
 
-  var onError = function () {
+  const onError = () => {
     cleanup();
     if (token !== lbLoadToken) return;
-    var curImg = LB.imgs[LB.idx];
-    var fb = curImg && curImg.getAttribute("data-fb");
+    const curImg = LB.imgs[LB.idx];
+    const fb = curImg && curImg.getAttribute("data-fb");
     if (fb && fb !== fullUrl) {
       setLightboxImage(fb);
       return;
@@ -4763,20 +4754,20 @@ function setLightboxImage(fullUrl) {
   // If preloaded, decode asynchronously for instant presentation
   if (preloadedReady.has(fullUrl)) {
     if (typeof vimg.decode === "function") {
-      vimg.decode().then(function () {
+      vimg.decode().then(() => {
         if (token === lbLoadToken) onLoaded();
-      }).catch(function () {
+      }).catch(() => {
         // let normal onload fire
       });
     }
   }
 }
 
-function openLightbox(fullUrl, caption, imgs, index, item) {
-  var lb = document.getElementById("lightbox");
-  var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
-  var vcap = document.getElementById("vcap");
-  var vthumbs = document.getElementById("vthumbs");
+function openLightbox(fullUrl, caption, imgs, index = 0, item = null) {
+  const lb = document.getElementById("lightbox");
+  const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+  const vcap = document.getElementById("vcap");
+  const vthumbs = document.getElementById("vthumbs");
   if (!lb || !vimg || !vcap || !vthumbs) return;
 
   LB.imgs = imgs ? Array.from(imgs) : [];
@@ -4788,24 +4779,24 @@ function openLightbox(fullUrl, caption, imgs, index, item) {
 
   // Build Thumbnail Strip
   vthumbs.innerHTML = "";
-  LB.imgs.forEach(function (imgEl, i) {
-    var btn = document.createElement("button");
+  LB.imgs.forEach((imgEl, i) => {
+    const btn = document.createElement("button");
     btn.type = "button";
     btn.dataset.vi = String(i);
     if (i === LB.idx) btn.classList.add("cur");
 
-    var thumb = document.createElement("img");
+    const thumb = document.createElement("img");
     thumb.src = imgEl.src;
     thumb.alt = "Thumb " + (i + 1);
     thumb.loading = "lazy";
     btn.appendChild(thumb);
 
-    btn.addEventListener("click", function () {
+    btn.addEventListener("click", () => {
       LB.idx = i;
       updateLightboxState();
     });
     // Predictive hover prefetch when hovering thumb
-    btn.addEventListener("mouseenter", function () {
+    btn.addEventListener("mouseenter", () => {
       preloadFromLbItem(imgEl);
     });
     vthumbs.appendChild(btn);
@@ -4821,14 +4812,14 @@ function openLightbox(fullUrl, caption, imgs, index, item) {
 
 function updateLightboxState() {
   if (!LB.imgs.length) return;
-  var currentImg = LB.imgs[LB.idx];
-  var full = currentImg.getAttribute("data-full") || currentImg.src;
+  const currentImg = LB.imgs[LB.idx];
+  const full = currentImg.getAttribute("data-full") || currentImg.src;
   setLightboxImage(full);
   document.getElementById("vcap").textContent =
     (LB.idx + 1) + " / " + LB.imgs.length + " " + (LB.item ? LB.item.name : "");
 
-  var thumbs = document.querySelectorAll("#vthumbs button[data-vi]");
-  thumbs.forEach(function (t, i) {
+  const thumbs = document.querySelectorAll("#vthumbs button[data-vi]");
+  thumbs.forEach((t, i) => {
     if (i === LB.idx) t.classList.add("cur");
     else t.classList.remove("cur");
   });
@@ -4838,23 +4829,23 @@ function updateLightboxState() {
 }
 
 function closeLightbox() {
-  var lb = document.getElementById("lightbox");
+  const lb = document.getElementById("lightbox");
   if (!lb) return;
   lb.classList.remove("open");
   lb.setAttribute("aria-hidden", "true");
-  var stage = document.getElementById("lbImageStage");
+  const stage = document.getElementById("lbImageStage");
   if (stage) {
     stage.classList.remove("is-loading");
     stage.classList.remove("is-error");
   }
-  var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+  const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
   if (vimg) {
     vimg.classList.remove("is-switching");
     vimg.classList.remove("is-loading");
     vimg.src = "";
     delete vimg.dataset.loadedUrl;
   }
-  var drawer = document.getElementById("drawer");
+  const drawer = document.getElementById("drawer");
   if (!drawer || !drawer.classList.contains("open")) {
     document.body.classList.remove("locked");
   }
@@ -4867,6 +4858,7 @@ function stepLightbox(delta) {
   playBeep(450, "sine", 0.02);
 }
 // --- VNDB Live Lookup Stub/Handler ---
+
 function triggerVndbFetch(gid, item, force) {
   if (!item) return;
   // Query upstream VNDB API
@@ -4878,18 +4870,18 @@ function triggerVndbFetch(gid, item, force) {
       fields: "id,title,alttitle,released,image.url,screenshots.url"
     })
   })
-  .then(function (r) { return r.json(); })
-  .then(function (res) {
+  .then((r) => r.json())
+  .then((res) => {
     if (res && res.results && res.results.length > 0) {
-      var pick = exactPick(res.results, [item.name], item) || containsPick(res.results, item.name, item);
+      const pick = exactPick(res.results, [item.name], item) || containsPick(res.results, item.name, item);
       if (pick) {
-        var entry = {
+        const entry = {
           id: pick.id,
           title: pick.title,
           alttitle: pick.alttitle,
           released: pick.released,
           img: pick.image ? pick.image.url : null,
-          shots: (pick.screenshots || []).map(function (s) { return s.url; }),
+          shots: (pick.screenshots || []).map((s) => s.url),
           via: "vn:" + pick.title
         };
         liveCache.set(String(gid), entry);
@@ -4897,23 +4889,23 @@ function triggerVndbFetch(gid, item, force) {
         applyFilter();
 
         // If detail drawer is currently open for this game, refresh its VNDB display live
-        var drawer = document.getElementById("drawer");
+        const drawer = document.getElementById("drawer");
         if (drawer && drawer.classList.contains("open")) {
-          var dhead = document.getElementById("dhead");
-          if (dhead && dhead.querySelector("h2") && dhead.querySelector("h2").textContent.indexOf("#" + item.rank + " ") === 0) {
+          const dhead = document.getElementById("dhead");
+          if (dhead && dhead.querySelector("h2") && dhead.querySelector("h2").textContent.startsWith("#" + item.rank + " ")) {
             openDetail(gid);
           }
         }
       }
     }
   })
-  .catch(function () {});
+  .catch(() => {});
 }
 
 // --- Boss-Key Mode Toggle ---
 function toggleBossMode() {
   S.boss = !S.boss;
-  var shield = document.getElementById("bossShield");
+  const shield = document.getElementById("bossShield");
   if (shield) {
     if (S.boss) {
       shield.classList.add("open");
@@ -4929,31 +4921,31 @@ function toggleBossMode() {
 
 // --- Fate Roller Holographic Matrix ---
 function triggerFateRoller() {
-  var modal = document.getElementById("fateModal");
-  var reel = document.getElementById("fateReel");
-  var result = document.getElementById("fateResult");
+  const modal = document.getElementById("fateModal");
+  const reel = document.getElementById("fateReel");
+  const result = document.getElementById("fateResult");
   if (!modal || !reel || !result) return;
 
   // Use current filtered pool (respects user search/tag/view filters), fallback to full dataset
-  var pool = S.list && S.list.length ? S.list : _DATA;
+  const pool = S.list && S.list.length ? S.list : _DATA;
   if (!pool || !pool.length) return;
 
   modal.classList.add("open");
   modal.setAttribute("aria-hidden", "false");
   playBeep(600, "sawtooth", 0.2);
 
-  var count = 0;
-  var interval = setInterval(function () {
-    var rand = pool[Math.floor(Math.random() * pool.length)];
+  let count = 0;
+  const interval = setInterval(() => {
+    const rand = pool[Math.floor(Math.random() * pool.length)];
     reel.textContent = rand.name;
     count++;
     if (count >= 12) {
       clearInterval(interval);
-      var finalPick = pool[Math.floor(Math.random() * pool.length)];
+      const finalPick = pool[Math.floor(Math.random() * pool.length)];
       reel.textContent = finalPick.name;
 
-      var mc = getMedClass(finalPick.median);
-      var medBadge = finalPick.median
+      const mc = getMedClass(finalPick.median);
+      const medBadge = finalPick.median
         ? '<span class="medpill ' + mc + '" style="position:static;display:inline-block;margin-left:6px;vertical-align:middle;">' + finalPick.median + '</span>'
         : '<span style="color:var(--text-muted);margin-left:6px;">暂无评分</span>';
 
@@ -4964,9 +4956,9 @@ function triggerFateRoller() {
           '中央值：' + medBadge + ' · 评分人数：' + (finalPick.count2 || "-") + '人 · POV: ' + escHtml(finalPick.povs || "寝取") +
         '</div>';
 
-      var confirmBtn = document.getElementById("fateConfirmBtn");
+      const confirmBtn = document.getElementById("fateConfirmBtn");
       if (confirmBtn) {
-        confirmBtn.onclick = function () {
+        confirmBtn.onclick = () => {
           modal.classList.remove("open");
           modal.setAttribute("aria-hidden", "true");
           openDetail(finalPick.gid);
@@ -4976,28 +4968,29 @@ function triggerFateRoller() {
   }, 60);
 }
 // --- Event Wireup & Boot Initializer ---
+
 function initGallery() {
   // 0. Delegated cover-image fallback: load/error do not bubble, but a
   // capture listener on each container replaces every inline
   // onload/onerror attribute in the card, rail, and strip templates.
   // window.chainImgErr / window.checkImgLoaded stay as the testable units.
-  var gridEl = document.getElementById("grid");
-  var dbodyEl = document.getElementById("dbody");
-  [gridEl, dbodyEl].forEach(function (root) {
+  const gridEl = document.getElementById("grid");
+  const dbodyEl = document.getElementById("dbody");
+  [gridEl, dbodyEl].forEach((root) => {
     if (!root) return;
-    root.addEventListener("error", function (/** @type {any} */ e) {
+    root.addEventListener("error", (/** @type {any} */ e) => {
       if (e.target && e.target.tagName === "IMG") chainImgErr(e.target);
     }, true);
-    root.addEventListener("load", function (/** @type {any} */ e) {
+    root.addEventListener("load", (/** @type {any} */ e) => {
       if (e.target && e.target.tagName === "IMG") checkImgLoaded(e.target);
     }, true);
   });
 
   // 1. Data Source View Tabs
-  var viewsNav = document.getElementById("views");
+  const viewsNav = document.getElementById("views");
   if (viewsNav) {
-    viewsNav.addEventListener("click", function (/** @type {any} */ e) {
-      var tab = e.target.closest(".vtab");
+    viewsNav.addEventListener("click", (/** @type {any} */ e) => {
+      const tab = e.target.closest(".vtab");
       if (tab && tab.dataset.view) {
         playBeep(520, "sine", 0.03);
         setTab(tab.dataset.view);
@@ -5006,9 +4999,9 @@ function initGallery() {
   }
 
   // 2. Sort Dimension Selector
-  var sortSelect = /** @type {HTMLSelectElement} */ (document.getElementById("sort"));
+  const sortSelect = /** @type {HTMLSelectElement} */ (document.getElementById("sort"));
   if (sortSelect) {
-    sortSelect.addEventListener("change", function () {
+    sortSelect.addEventListener("change", () => {
       S.sort = sortSelect.value;
       playBeep(450, "sine", 0.03);
       applyFilter();
@@ -5016,10 +5009,10 @@ function initGallery() {
   }
 
   // 3. Density Cycler
-  var densityBtn = document.getElementById("density");
-  var grid = document.getElementById("grid");
+  const densityBtn = document.getElementById("density");
+  const grid = document.getElementById("grid");
   if (densityBtn && grid) {
-    densityBtn.addEventListener("click", function () {
+    densityBtn.addEventListener("click", () => {
       S.density = (S.density + 1) % 3;
       playBeep(500, "triangle", 0.04);
       if (S.density === 0) {
@@ -5038,9 +5031,9 @@ function initGallery() {
   }
 
   // 4. Only Matched Checkbox
-  var matchedCheck = /** @type {HTMLInputElement} */ (document.getElementById("onlyMatched"));
+  const matchedCheck = /** @type {HTMLInputElement} */ (document.getElementById("onlyMatched"));
   if (matchedCheck) {
-    matchedCheck.addEventListener("change", function () {
+    matchedCheck.addEventListener("change", () => {
       S.matched = matchedCheck.checked;
       playBeep(400, "sine", 0.03);
       applyFilter();
@@ -5048,23 +5041,23 @@ function initGallery() {
   }
 
   // 5. Omni Search Input
-  var searchInput = /** @type {HTMLInputElement} */ (document.getElementById("omniSearch"));
+  const searchInput = /** @type {HTMLInputElement} */ (document.getElementById("omniSearch"));
   if (searchInput) {
-    searchInput.addEventListener("input", function () {
+    searchInput.addEventListener("input", () => {
       S.query = searchInput.value.trim();
       applyFilter();
     });
   }
 
   // 6. Median Score Filter Chips
-  var medChips = document.getElementById("medchips");
+  const medChips = document.getElementById("medchips");
   if (medChips) {
-    medChips.addEventListener("click", function (/** @type {any} */ e) {
-      var chip = e.target.closest(".fchip");
+    medChips.addEventListener("click", (/** @type {any} */ e) => {
+      const chip = e.target.closest(".fchip");
       if (chip && chip.dataset.med !== undefined) {
         S.med = Number(chip.dataset.med);
         playBeep(540, "sine", 0.03);
-        medChips.querySelectorAll(".fchip").forEach(function (/** @type {any} */ c) {
+        medChips.querySelectorAll(".fchip").forEach((/** @type {any} */ c) => {
           c.classList.toggle("on", Number(c.dataset.med) === S.med);
         });
         applyFilter();
@@ -5073,9 +5066,9 @@ function initGallery() {
   }
 
   // 7. Reset Filter Button
-  var resetBtn = document.getElementById("reset");
+  const resetBtn = document.getElementById("reset");
   if (resetBtn) {
-    resetBtn.addEventListener("click", function () {
+    resetBtn.addEventListener("click", () => {
       playBeep(350, "square", 0.06);
       S.tags = [];
       S.med = 0;
@@ -5084,7 +5077,7 @@ function initGallery() {
       persistTags();
       renderTagChips();
       if (medChips) {
-        medChips.querySelectorAll(".fchip").forEach(function (/** @type {any} */ c) {
+        medChips.querySelectorAll(".fchip").forEach((/** @type {any} */ c) => {
           c.classList.toggle("on", c.dataset.med === "0");
         });
       }
@@ -5093,16 +5086,16 @@ function initGallery() {
   }
 
   // 8. Load More Button & Intersection Observer
-  var moreBtn = document.getElementById("more");
+  const moreBtn = document.getElementById("more");
   if (moreBtn) {
-    moreBtn.addEventListener("click", function () {
+    moreBtn.addEventListener("click", () => {
       renderNextPage();
     });
 
     if (typeof window.IntersectionObserver !== "undefined") {
-      var observer = new window.IntersectionObserver(function (entries) {
-        for (var i = 0; i < entries.length; i++) {
-          if (entries[i].isIntersecting && moreBtn.style.display !== "none") {
+      const observer = new window.IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && moreBtn.style.display !== "none") {
             renderNextPage();
           }
         }
@@ -5112,15 +5105,15 @@ function initGallery() {
   }
 
   // 9. Drawer Controls
-  var dclose = document.getElementById("dclose");
+  const dclose = document.getElementById("dclose");
   if (dclose) dclose.addEventListener("click", closeDetail);
 
-  var drawerOverlay = document.getElementById("drawer");
+  const drawerOverlay = document.getElementById("drawer");
   if (drawerOverlay) {
-    var backdrop = drawerOverlay.querySelector(".backdrop");
+    const backdrop = drawerOverlay.querySelector(".backdrop");
     if (backdrop) {
-      backdrop.addEventListener("click", function (/** @type {any} */ e) {
-        var sel = window.getSelection ? window.getSelection().toString().trim() : "";
+      backdrop.addEventListener("click", (/** @type {any} */ e) => {
+        const sel = window.getSelection ? window.getSelection().toString().trim() : "";
         if (sel.length > 0) return;
         if (e.target === backdrop) closeDetail();
       });
@@ -5128,50 +5121,50 @@ function initGallery() {
   }
 
   // 10. Lightbox Controls
-  var vprev = document.getElementById("vprev");
+  const vprev = document.getElementById("vprev");
   if (vprev) {
-    vprev.addEventListener("click", function () {
+    vprev.addEventListener("click", () => {
       stepLightbox(-1);
     });
   }
 
-  var vnext = document.getElementById("vnext");
+  const vnext = document.getElementById("vnext");
   if (vnext) {
-    vnext.addEventListener("click", function () {
+    vnext.addEventListener("click", () => {
       stepLightbox(1);
     });
   }
 
-  var vclose = document.getElementById("vclose");
+  const vclose = document.getElementById("vclose");
   if (vclose) vclose.addEventListener("click", closeLightbox);
 
-  var vopen = document.getElementById("vopen");
+  const vopen = document.getElementById("vopen");
   if (vopen) {
-    vopen.addEventListener("click", function () {
-      var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+    vopen.addEventListener("click", () => {
+      const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
       if (vimg) {
-        var targetUrl = vimg.getAttribute("src") || vimg.src;
+        const targetUrl = vimg.getAttribute("src") || vimg.src;
         if (targetUrl) window.open(targetUrl);
       }
     });
   }
 
   // Mouse wheel image switching with inertia throttle
-  var lastLbWheelTime = 0;
-  var lbEl = document.getElementById("lightbox");
+  let lastLbWheelTime = 0;
+  const lbEl = document.getElementById("lightbox");
   if (lbEl) {
-    lbEl.addEventListener("wheel", function (/** @type {any} */ e) {
+    lbEl.addEventListener("wheel", (/** @type {any} */ e) => {
       if (!lbEl.classList.contains("open") || !LB.imgs.length) return;
       // Keep natural scroll on bottom thumbnail strip
       if (e.target.closest("#vthumbs")) return;
 
       if (e.preventDefault) e.preventDefault();
 
-      var now = Date.now();
+      const now = Date.now();
       if (now - lastLbWheelTime < 180) return;
 
-      var dy = e.deltaY;
-      var dx = e.deltaX;
+      const dy = e.deltaY;
+      const dx = e.deltaX;
       if (dy === undefined && dx === undefined) return;
       if (Math.abs(dy || 0) < 6 && Math.abs(dx || 0) < 6) return;
 
@@ -5184,7 +5177,7 @@ function initGallery() {
     }, { passive: false });
 
     // Allow closing lightbox by clicking backdrop/viewport outside image and controls
-    lbEl.addEventListener("click", function (/** @type {any} */ e) {
+    lbEl.addEventListener("click", (/** @type {any} */ e) => {
       if (
         e.target.closest("#vimg") ||
         e.target.closest(".lb-nav-arrow") ||
@@ -5199,13 +5192,13 @@ function initGallery() {
       closeLightbox();
     });
 
-    var lbRetryBtn = document.getElementById("lbRetryBtn");
+    const lbRetryBtn = document.getElementById("lbRetryBtn");
     if (lbRetryBtn) {
-      lbRetryBtn.addEventListener("click", function (/** @type {any} */ e) {
+      lbRetryBtn.addEventListener("click", (/** @type {any} */ e) => {
         e.stopPropagation();
         if (LB.imgs && LB.imgs.length && LB.imgs[LB.idx]) {
-          var curImg = LB.imgs[LB.idx];
-          var full = curImg.getAttribute("data-full") || curImg.src;
+          const curImg = LB.imgs[LB.idx];
+          const full = curImg.getAttribute("data-full") || curImg.src;
           setLightboxImage(full);
         }
       });
@@ -5213,9 +5206,9 @@ function initGallery() {
   }
 
   // 11. Topbar Actions: Safe Mode, Sound, Boss Key
-  var safeBtn = document.getElementById("safeModeBtn");
+  const safeBtn = document.getElementById("safeModeBtn");
   if (safeBtn) {
-    safeBtn.addEventListener("click", function () {
+    safeBtn.addEventListener("click", () => {
       S.safe = !S.safe;
       document.body.classList.toggle("safe-mode", S.safe);
       safeBtn.classList.toggle("active", S.safe);
@@ -5223,29 +5216,29 @@ function initGallery() {
     });
   }
 
-  var audioBtn = document.getElementById("audioToggleBtn");
-  var audioIcon = document.getElementById("audioIcon");
+  const audioBtn = document.getElementById("audioToggleBtn");
+  const audioIcon = document.getElementById("audioIcon");
   if (audioBtn) {
-    audioBtn.addEventListener("click", function () {
+    audioBtn.addEventListener("click", () => {
       S.audio = !S.audio;
       if (audioIcon) audioIcon.textContent = S.audio ? "🔊" : "🔇";
       if (S.audio) playBeep(520, "sine", 0.04);
     });
   }
 
-  var bossBtn = document.getElementById("bossKeyBtn");
+  const bossBtn = document.getElementById("bossKeyBtn");
   if (bossBtn) {
     bossBtn.addEventListener("click", toggleBossMode);
   }
 
   // 12. Fate Roller Controls
-  var fateBtn = document.getElementById("fateRollerBtn");
+  const fateBtn = document.getElementById("fateRollerBtn");
   if (fateBtn) fateBtn.addEventListener("click", triggerFateRoller);
 
-  var fateClose = document.getElementById("fateCloseBtn");
+  const fateClose = document.getElementById("fateCloseBtn");
   if (fateClose) {
-    fateClose.addEventListener("click", function () {
-      var m = document.getElementById("fateModal");
+    fateClose.addEventListener("click", () => {
+      const m = document.getElementById("fateModal");
       if (m) {
         m.classList.remove("open");
         m.setAttribute("aria-hidden", "true");
@@ -5253,25 +5246,24 @@ function initGallery() {
     });
   }
 
-  var fateReroll = document.getElementById("fateRerollBtn");
+  const fateReroll = document.getElementById("fateRerollBtn");
   if (fateReroll) fateReroll.addEventListener("click", triggerFateRoller);
 
-
   // 16. Global Master Keyboard Shortcuts
-  document.addEventListener("keydown", function (/** @type {any} */ e) {
+  document.addEventListener("keydown", (/** @type {any} */ e) => {
     // Escape
     if (e.key === "Escape") {
-      var lb = document.getElementById("lightbox");
+      const lb = document.getElementById("lightbox");
       if (lb && lb.classList.contains("open")) {
         closeLightbox();
         return;
       }
-      var dr = document.getElementById("drawer");
+      const dr = document.getElementById("drawer");
       if (dr && dr.classList.contains("open")) {
         closeDetail();
         return;
       }
-      var fm = document.getElementById("fateModal");
+      const fm = document.getElementById("fateModal");
       if (fm && fm.classList.contains("open")) {
         fm.classList.remove("open");
         fm.setAttribute("aria-hidden", "true");
@@ -5310,7 +5302,7 @@ function initGallery() {
     }
 
     // Lightbox Navigation: Left / Right
-    var lbEl = document.getElementById("lightbox");
+    const lbEl = document.getElementById("lightbox");
     if (lbEl && lbEl.classList.contains("open")) {
       if (e.key === "ArrowLeft") {
         if (vprev) vprev.click();
@@ -5323,13 +5315,13 @@ function initGallery() {
     }
 
     // Gallery J / K Navigation
-    var cards = /** @type {any} */ (document.querySelectorAll("#grid .cardwrap"));
+    const cards = /** @type {any} */ (document.querySelectorAll("#grid .cardwrap"));
     if (!cards.length) return;
 
     if (e.key === "j" || e.key === "J" || e.key === "ArrowDown") {
       e.preventDefault();
       S.focus = Math.min(S.focus + 1, cards.length - 1);
-      var targetCard = cards[S.focus];
+      const targetCard = cards[S.focus];
       if (targetCard) {
         targetCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
         playBeep(420, "sine", 0.02);
@@ -5340,7 +5332,7 @@ function initGallery() {
     if (e.key === "k" || e.key === "K" || e.key === "ArrowUp") {
       e.preventDefault();
       S.focus = Math.max(S.focus - 1, 0);
-      var tCard = cards[S.focus];
+      const tCard = cards[S.focus];
       if (tCard) {
         tCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
         playBeep(460, "sine", 0.02);
@@ -5350,7 +5342,7 @@ function initGallery() {
 
     // Open current focused item: Enter
     if (e.key === "Enter") {
-      var curWrap = cards[S.focus];
+      const curWrap = cards[S.focus];
       if (curWrap && curWrap.dataset.gid) {
         openDetail(curWrap.dataset.gid);
       }
@@ -5359,9 +5351,9 @@ function initGallery() {
 
     // Direct Store Jump: D (DLsite), E (EGS)
     if (e.key === "d" || e.key === "D") {
-      var dWrap = cards[S.focus];
+      const dWrap = cards[S.focus];
       if (dWrap && dWrap.dataset.gid) {
-        var dSt = storeOf(dWrap.dataset.gid);
+        const dSt = storeOf(dWrap.dataset.gid);
         if (dSt && dSt.l) {
           window.open(dlProductUrl(dSt.l.id, dSt.l.d));
         }
@@ -5370,7 +5362,7 @@ function initGallery() {
     }
 
     if (e.key === "e" || e.key === "E") {
-      var eWrap = cards[S.focus];
+      const eWrap = cards[S.focus];
       if (eWrap && eWrap.dataset.gid) {
         window.open(egsUrl(eWrap.dataset.gid));
       }
@@ -5383,34 +5375,35 @@ function initGallery() {
   applyFilter();
 
   // Register Service Worker for Cache-First offline media caching (HTTP/HTTPS only)
-  if (typeof window !== "undefined" && "serviceWorker" in navigator && window.location && window.location.protocol && window.location.protocol.indexOf("http") === 0) {
+  if (typeof window !== "undefined" && "serviceWorker" in navigator && window.location && window.location.protocol && window.location.protocol.startsWith("http")) {
     try {
-      navigator.serviceWorker.register("/sw.js").catch(function () {});
-    } catch (e) {}
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    } catch {}
   }
 }
 // --- Public View Tab Switcher ---
+
 function setTab(view) {
   if (!ADAPTERS[view]) return;
   S.tab = view;
 
   // Update active tab button
-  var tabs = document.querySelectorAll("#views .vtab");
-  tabs.forEach(function (/** @type {any} */ tab) {
+  const tabs = document.querySelectorAll("#views .vtab");
+  tabs.forEach((/** @type {any} */ tab) => {
     if (tab.dataset.view === view) tab.classList.add("on");
     else tab.classList.remove("on");
   });
 
   // Update grid dataset.view
-  var grid = document.getElementById("grid");
+  const grid = document.getElementById("grid");
   if (grid) grid.dataset.view = view;
 
   // Update onlyMatchedLabel
-  var label = document.getElementById("onlyMatchedLabel");
+  const label = document.getElementById("onlyMatchedLabel");
   if (label) label.textContent = ADAPTERS[view].matchedLabel;
 
   // Update onlyMatched if checked
-  var matchedCheck = document.getElementById("onlyMatched");
+  const matchedCheck = document.getElementById("onlyMatched");
   if (matchedCheck) S.matched = /** @type {HTMLInputElement} */ (matchedCheck).checked;
 
   applyFilter();
@@ -5441,38 +5434,38 @@ if (typeof document !== "undefined") {
   TAGS: _TAGS,
   FULLCG: _FULLCG,
   BRANDG: _BRANDG,
-  ADAPTERS: ADAPTERS,
-  liveCache: liveCache,
-  LIVE_KEY: LIVE_KEY,
-  LIVE_BUDGET: LIVE_BUDGET,
-  PAGE_SIZE: PAGE_SIZE,
-  saveLive: saveLive,
-  storeOf: storeOf,
-  tagsOf: tagsOf,
-  dlEntry: dlEntry,
-  dmmEntries: dmmEntries,
-  gcEntry: gcEntry,
-  relatedOf: relatedOf,
-  exactPick: exactPick,
-  containsPick: containsPick,
-  cleanStr: cleanStr,
-  setTab: setTab,
-  getTab: getTab,
-  getTagSel: getTagSel,
-  toggleTag: toggleTag,
-  openDetail: openDetail,
-  closeDetail: closeDetail,
-  openLightbox: openLightbox,
-  closeLightbox: closeLightbox,
-  stepLightbox: stepLightbox,
-  preloadImageUrl: preloadImageUrl,
-  preloadLightboxNeighbors: preloadLightboxNeighbors,
-  preloadedUrls: preloadedUrls,
-  preloadedReady: preloadedReady,
-  syncStageAspectRatio: syncStageAspectRatio,
-  startRelAutoScroll: startRelAutoScroll,
-  stopRelAutoScroll: stopRelAutoScroll,
-  chainImgErr: chainImgErr
+  ADAPTERS,
+  liveCache,
+  LIVE_KEY,
+  LIVE_BUDGET,
+  PAGE_SIZE,
+  saveLive,
+  storeOf,
+  tagsOf,
+  dlEntry,
+  dmmEntries,
+  gcEntry,
+  relatedOf,
+  exactPick,
+  containsPick,
+  cleanStr,
+  setTab,
+  getTab,
+  getTagSel,
+  toggleTag,
+  openDetail,
+  closeDetail,
+  openLightbox,
+  closeLightbox,
+  stepLightbox,
+  preloadImageUrl,
+  preloadLightboxNeighbors,
+  preloadedUrls,
+  preloadedReady,
+  syncStageAspectRatio,
+  startRelAutoScroll,
+  stopRelAutoScroll,
+  chainImgErr
 };
 })();</script>
 </body>

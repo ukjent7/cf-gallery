@@ -3,35 +3,35 @@ import { playBeep } from "./15-state.js";
 import { capSet, preloadedReady, preloadFromLbItem, preloadLightboxNeighbors } from "./45-rails-preload.js";
 
 // Lightbox session state, shared with the rails preloader.
-export var LB = { imgs: [], idx: 0, item: null };
-var lbLoadToken = 0;
+export const LB = { imgs: [], idx: 0, item: null };
+let lbLoadToken = 0;
 
 export function syncStageAspectRatio(el) {
-  var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+  const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
   if (!vimg || !el) return;
-  var w = el.naturalWidth || (el.getAttribute && Number(el.getAttribute("width"))) || el.width;
-  var h = el.naturalHeight || (el.getAttribute && Number(el.getAttribute("height"))) || el.height;
+  const w = el.naturalWidth || (el.getAttribute && Number(el.getAttribute("width"))) || el.width;
+  const h = el.naturalHeight || (el.getAttribute && Number(el.getAttribute("height"))) || el.height;
   if (w && h && h > 0) {
-    var r = +(w / h).toFixed(4);
+    const r = +(w / h).toFixed(4);
     vimg.style.setProperty("--img-ratio", String(r));
   }
 }
 
 export function setLightboxImage(fullUrl) {
-  var stage = document.getElementById("lbImageStage");
-  var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+  const stage = document.getElementById("lbImageStage");
+  const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
   if (!vimg) return;
 
-  var token = ++lbLoadToken;
+  const token = ++lbLoadToken;
 
   // Pre-sync aspect ratio from the active thumbnail to eliminate layout pop
-  var currentImg = LB.imgs[LB.idx];
+  const currentImg = LB.imgs[LB.idx];
   if (currentImg) syncStageAspectRatio(currentImg);
 
   if (stage) stage.classList.remove("is-error");
 
   // Check if this exact image is already confirmed loaded on this element
-  var isAlreadyLoaded = (vimg.dataset.loadedUrl === fullUrl && vimg.getAttribute("src") === fullUrl && vimg.naturalWidth > 0);
+  const isAlreadyLoaded = (vimg.dataset.loadedUrl === fullUrl && vimg.getAttribute("src") === fullUrl && vimg.naturalWidth > 0);
 
   if (isAlreadyLoaded) {
     syncStageAspectRatio(vimg);
@@ -49,12 +49,12 @@ export function setLightboxImage(fullUrl) {
   // Synchronously set src so attributes and synchronous tests stay in sync
   vimg.src = fullUrl;
 
-  var cleanup = function () {
+  const cleanup = () => {
     vimg.removeEventListener("load", onLoaded);
     vimg.removeEventListener("error", onError);
   };
 
-  var onLoaded = function () {
+  const onLoaded = () => {
     cleanup();
     if (token !== lbLoadToken) return;
     preloadedReady.add(fullUrl);
@@ -65,17 +65,17 @@ export function setLightboxImage(fullUrl) {
       stage.classList.remove("is-loading");
       stage.classList.remove("is-error");
     }
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
       vimg.classList.remove("is-loading");
       vimg.classList.remove("is-switching");
     });
   };
 
-  var onError = function () {
+  const onError = () => {
     cleanup();
     if (token !== lbLoadToken) return;
-    var curImg = LB.imgs[LB.idx];
-    var fb = curImg && curImg.getAttribute("data-fb");
+    const curImg = LB.imgs[LB.idx];
+    const fb = curImg && curImg.getAttribute("data-fb");
     if (fb && fb !== fullUrl) {
       setLightboxImage(fb);
       return;
@@ -94,20 +94,20 @@ export function setLightboxImage(fullUrl) {
   // If preloaded, decode asynchronously for instant presentation
   if (preloadedReady.has(fullUrl)) {
     if (typeof vimg.decode === "function") {
-      vimg.decode().then(function () {
+      vimg.decode().then(() => {
         if (token === lbLoadToken) onLoaded();
-      }).catch(function () {
+      }).catch(() => {
         // let normal onload fire
       });
     }
   }
 }
 
-export function openLightbox(fullUrl, caption, imgs, index, item) {
-  var lb = document.getElementById("lightbox");
-  var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
-  var vcap = document.getElementById("vcap");
-  var vthumbs = document.getElementById("vthumbs");
+export function openLightbox(fullUrl, caption, imgs, index = 0, item = null) {
+  const lb = document.getElementById("lightbox");
+  const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+  const vcap = document.getElementById("vcap");
+  const vthumbs = document.getElementById("vthumbs");
   if (!lb || !vimg || !vcap || !vthumbs) return;
 
   LB.imgs = imgs ? Array.from(imgs) : [];
@@ -119,24 +119,24 @@ export function openLightbox(fullUrl, caption, imgs, index, item) {
 
   // Build Thumbnail Strip
   vthumbs.innerHTML = "";
-  LB.imgs.forEach(function (imgEl, i) {
-    var btn = document.createElement("button");
+  LB.imgs.forEach((imgEl, i) => {
+    const btn = document.createElement("button");
     btn.type = "button";
     btn.dataset.vi = String(i);
     if (i === LB.idx) btn.classList.add("cur");
 
-    var thumb = document.createElement("img");
+    const thumb = document.createElement("img");
     thumb.src = imgEl.src;
     thumb.alt = "Thumb " + (i + 1);
     thumb.loading = "lazy";
     btn.appendChild(thumb);
 
-    btn.addEventListener("click", function () {
+    btn.addEventListener("click", () => {
       LB.idx = i;
       updateLightboxState();
     });
     // Predictive hover prefetch when hovering thumb
-    btn.addEventListener("mouseenter", function () {
+    btn.addEventListener("mouseenter", () => {
       preloadFromLbItem(imgEl);
     });
     vthumbs.appendChild(btn);
@@ -152,14 +152,14 @@ export function openLightbox(fullUrl, caption, imgs, index, item) {
 
 function updateLightboxState() {
   if (!LB.imgs.length) return;
-  var currentImg = LB.imgs[LB.idx];
-  var full = currentImg.getAttribute("data-full") || currentImg.src;
+  const currentImg = LB.imgs[LB.idx];
+  const full = currentImg.getAttribute("data-full") || currentImg.src;
   setLightboxImage(full);
   document.getElementById("vcap").textContent =
     (LB.idx + 1) + " / " + LB.imgs.length + " " + (LB.item ? LB.item.name : "");
 
-  var thumbs = document.querySelectorAll("#vthumbs button[data-vi]");
-  thumbs.forEach(function (t, i) {
+  const thumbs = document.querySelectorAll("#vthumbs button[data-vi]");
+  thumbs.forEach((t, i) => {
     if (i === LB.idx) t.classList.add("cur");
     else t.classList.remove("cur");
   });
@@ -169,23 +169,23 @@ function updateLightboxState() {
 }
 
 export function closeLightbox() {
-  var lb = document.getElementById("lightbox");
+  const lb = document.getElementById("lightbox");
   if (!lb) return;
   lb.classList.remove("open");
   lb.setAttribute("aria-hidden", "true");
-  var stage = document.getElementById("lbImageStage");
+  const stage = document.getElementById("lbImageStage");
   if (stage) {
     stage.classList.remove("is-loading");
     stage.classList.remove("is-error");
   }
-  var vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
+  const vimg = /** @type {HTMLImageElement} */ (document.getElementById("vimg"));
   if (vimg) {
     vimg.classList.remove("is-switching");
     vimg.classList.remove("is-loading");
     vimg.src = "";
     delete vimg.dataset.loadedUrl;
   }
-  var drawer = document.getElementById("drawer");
+  const drawer = document.getElementById("drawer");
   if (!drawer || !drawer.classList.contains("open")) {
     document.body.classList.remove("locked");
   }
@@ -197,4 +197,3 @@ export function stepLightbox(delta) {
   updateLightboxState();
   playBeep(450, "sine", 0.02);
 }
-

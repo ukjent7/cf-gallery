@@ -1,8 +1,10 @@
 // --- Group / Circle Mapping & Romaji Search Helpers for External Full-CG ---
 import { _BRANDG, USE_GC } from "./00-head.js";
+import { storeOf } from "./10-match.js";
 import { sessionMetaCache } from "./15-state.js";
 import { preloadImageUrl } from "./45-rails-preload.js";
 import { openLightbox } from "./50-lightbox.js";
+
 function slugify(s) {
   return String(s == null ? "" : s).toLowerCase()
     .replace(/-/g, "_").replace(/[^a-z0-9 _]+/g, "")
@@ -10,15 +12,15 @@ function slugify(s) {
 }
 
 function brandSlug(brand) {
-  var b = String(brand == null ? "" : brand).trim().replace(/・/g, " ");
+  const b = String(brand == null ? "" : brand).trim().replace(/・/g, " ");
   if (!/^[A-Za-z0-9][A-Za-z0-9 _.'-]{0,40}$/.test(b)) return null;
   return slugify(b) || null;
 }
 
 export function groupFor(brand) {
-  var k = String(brand == null ? "" : brand).trim();
+  const k = String(brand == null ? "" : brand).trim();
   if (_BRANDG[k]) {
-    var s = slugify(_BRANDG[k]);
+    const s = slugify(_BRANDG[k]);
     if (s) return s;
   }
   return brandSlug(brand);
@@ -39,7 +41,7 @@ export function romajiTitle(item, v) {
 
 export function coreTitle(title) {
   if (!title) return "";
-  var m = title.match(/^([^~～:\-–—]+?)(?:\s+[-–—~～:]|\s*~|\s*～)/);
+  const m = title.match(/^([^~～:\-–—]+?)(?:\s+[-–—~～:]|\s*~|\s*～)/);
   return (m && m[1].trim().length >= 2) ? m[1].trim() : title.trim();
 }
 
@@ -49,10 +51,10 @@ function cleanSearchTitle(title) {
 }
 
 export function hitomiSiteUrl(item, v) {
-  var parts = ["type:gamecg"];
-  var g = groupFor(item.brand);
+  const parts = ["type:gamecg"];
+  const g = groupFor(item.brand);
   if (g) parts.push("group:" + g);
-  var t = cleanSearchTitle(coreTitle(romajiTitle(item, v)))
+  const t = cleanSearchTitle(coreTitle(romajiTitle(item, v)))
     .replace(/[~:!?,/\\()[\]{}*+^$#@|<>]/g, " ")
     .replace(/(^|\s)-+/g, "$1")
     .replace(/\s+/g, " ")
@@ -62,31 +64,31 @@ export function hitomiSiteUrl(item, v) {
 }
 
 export function ehSiteUrl(item, v) {
-  var parts = [];
-  var g = groupFor(item.brand);
+  const parts = [];
+  const g = groupFor(item.brand);
   if (g) parts.push("group:" + g + "$");
-  var t = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
+  const t = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
   if (t) parts.push('title:"' + t + '"');
   return "https://e-hentai.org/?f_search=" + encodeURIComponent(parts.join(" ")) + "&f_apply=Apply+Filter";
 }
 
 export function fullcgGoogleUrl(site, item, v) {
-  var raw = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
-  var q = 'site:' + site + ' "' + raw + '"';
+  const raw = cleanSearchTitle(coreTitle(romajiTitle(item, v)));
+  let q = 'site:' + site + ' "' + raw + '"';
   if (item.name && item.name !== raw) {
     q += ' OR "' + cleanSearchTitle(item.name) + '"';
   }
-  if (site.indexOf("hitomi") === 0) q = "gamecg " + q;
+  if (site.startsWith("hitomi")) q = "gamecg " + q;
   return "https://www.google.com/search?q=" + encodeURIComponent(q);
 }
 
 // Attach lightbox + prefetch listeners to every image in a rebuilt strip.
 export function attachStripListeners(imgs, item) {
-  imgs.forEach(function (imgEl, idx) {
-    imgEl.addEventListener("click", function () {
+  imgs.forEach((imgEl, idx) => {
+    imgEl.addEventListener("click", () => {
       openLightbox(imgEl.getAttribute("data-full"), (idx + 1) + " / " + imgs.length + " " + item.name, imgs, idx, item);
     });
-    imgEl.addEventListener("mouseenter", function () {
+    imgEl.addEventListener("mouseenter", () => {
       preloadImageUrl(imgEl.getAttribute("data-full") || imgEl.src);
     });
   });
@@ -98,19 +100,22 @@ export function attachStripListeners(imgs, item) {
 export function refreshLiveMeta(cacheKey, url, update, sectionSel, countName, render, item) {
   if (!USE_GC || sessionMetaCache.has(cacheKey)) return;
   sessionMetaCache.add(cacheKey);
-  fetch(url)
-    .then(function (r) { return r.json(); })
-    .then(function (res) {
-      if (!update(res)) return;
-      var sec = document.querySelector(sectionSel);
-      if (!sec) return;
-      var strip = sec.querySelector(".strip");
-      var lc = sec.querySelector('[data-livecount="' + countName + '"]');
-      if (!strip) return;
-      strip.innerHTML = render();
-      if (lc) lc.textContent = String(strip.querySelectorAll("img").length);
-      attachStripListeners(strip.querySelectorAll("img"), item);
-    })
-    .catch(function () { return null; });
-}
 
+  fetch(url)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((res) => {
+      if (!update(res)) return;
+      const sec = document.querySelector(sectionSel);
+      if (!sec) return;
+      const cnt = sec.querySelector('[data-livecount="' + countName + '"]');
+      const st = (storeOf(item.gid) || {})[countName === "dl" ? "l" : countName === "gc" ? "g" : "m"];
+      const n = (st && st.n) || (st && st.sm ? st.sm.length : 0);
+      if (cnt && n) cnt.textContent = String(n);
+      const strip = sec.querySelector(".strip");
+      if (strip) {
+        strip.innerHTML = render();
+        attachStripListeners(strip.querySelectorAll("img"), item);
+      }
+    })
+    .catch(() => {});
+}

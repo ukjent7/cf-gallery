@@ -121,7 +121,8 @@ function leanData(csvRows: Record<string, string | null>[], universe: PyVal): an
   }
   const seen = new Set(data.map((d) => d.gid));
   const extras: any[] = [];
-  for (const e of universe ?? []) {
+  const uniList = Array.isArray(universe) ? universe : [];
+  for (const e of uniList) {
     const row = e as Map<string, PyVal>;
     const gid = pyStrip(String(row?.get?.("id") ?? ""));
     if (!gid || seen.has(gid)) continue;
@@ -201,9 +202,9 @@ function leanCache(vndbCache: Map<string, PyVal>): Map<string, PyVal> {
   // {gid: {id, title, alttitle, released, img, shots[urls], extra, release, via}}
   const out = new Map<string, PyVal>();
   for (const [gid, v0] of vndbCache) {
-    const v = v0 ?? new Map<string, PyVal>();
+    const v = v0 instanceof Map ? v0 : new Map<string, PyVal>();
     const pick = v.get("pick");
-    if (!pyTruthy(pick)) {
+    if (!pyTruthy(pick) || !(pick instanceof Map)) {
       out.set(String(gid), null);
       continue;
     }
@@ -213,10 +214,10 @@ function leanCache(vndbCache: Map<string, PyVal>): Map<string, PyVal> {
       title: p.get("title") ?? null,
       alttitle: p.get("alttitle") ?? null,
       released: p.get("released") ?? null,
-      img: urlOf(p.get("image")),
+      img: urlOf(p.get("image") as PyVal),
       shots: ((Array.isArray(p.get("screenshots")) ? (p.get("screenshots") as PyVal[]) : []).slice(0, 30) as PyVal[])
         .map((s) => urlOf(s))
-        .filter((u) => u),
+        .filter((u): u is string => Boolean(u)),
       extra: (Array.isArray(v.get("extra_vns")) ? (v.get("extra_vns") as Map<string, PyVal>[]) : [])
         .filter((e) => pyTruthy(e.get("id")))
         .map((e) => ({ id: e.get("id") ?? null, title: e.get("title") ?? null, alttitle: e.get("alttitle") ?? null })),

@@ -18,19 +18,18 @@ export function cleanStr(s) {
 }
 
 export function exactPick(candidates, titles, item) {
-  if (!candidates || !candidates.length || !titles || !titles.length) return null;
-  var targetNorms = titles.map(normStr);
-  var targetCleans = titles.map(cleanStr);
-  var matched = [];
-  for (var i = 0; i < candidates.length; i++) {
-    var c = candidates[i];
-    var cT = normStr(c.title);
-    var cA = normStr(c.alttitle);
-    var cTClean = cleanStr(c.title);
-    var cAClean = cleanStr(c.alttitle);
+  if (!candidates?.length || !titles?.length) return null;
+  const targetNorms = titles.map(normStr);
+  const targetCleans = titles.map(cleanStr);
+  const matched = [];
+  for (const c of candidates) {
+    const cT = normStr(c.title);
+    const cA = normStr(c.alttitle);
+    const cTClean = cleanStr(c.title);
+    const cAClean = cleanStr(c.alttitle);
     if (
-      targetNorms.indexOf(cT) >= 0 || (c.alttitle && targetNorms.indexOf(cA) >= 0) ||
-      targetCleans.indexOf(cTClean) >= 0 || (c.alttitle && targetCleans.indexOf(cAClean) >= 0)
+      targetNorms.includes(cT) || (c.alttitle && targetNorms.includes(cA)) ||
+      targetCleans.includes(cTClean) || (c.alttitle && targetCleans.includes(cAClean))
     ) {
       matched.push(c);
     }
@@ -38,35 +37,34 @@ export function exactPick(candidates, titles, item) {
   if (!matched.length) return null;
   if (matched.length === 1) return matched[0];
   if (item && item.sellday) {
-    var y = item.sellday.slice(0, 4);
-    var yMatch = matched.find(function (c) { return c.released && c.released.indexOf(y) === 0; });
+    const y = item.sellday.slice(0, 4);
+    const yMatch = matched.find((c) => c.released && c.released.startsWith(y));
     if (yMatch) return yMatch;
   }
   return matched[0];
 }
 
 export function containsPick(candidates, coreTitle, item) {
-  if (!candidates || !candidates.length || !coreTitle) return null;
-  var q = normStr(coreTitle);
-  var qClean = cleanStr(coreTitle);
-  var matched = [];
-  for (var i = 0; i < candidates.length; i++) {
-    var c = candidates[i];
-    var cT = normStr(c.title);
-    var cA = normStr(c.alttitle);
-    var cTClean = cleanStr(c.title);
-    var cAClean = cleanStr(c.alttitle);
+  if (!candidates?.length || !coreTitle) return null;
+  const q = normStr(coreTitle);
+  const qClean = cleanStr(coreTitle);
+  const matched = [];
+  for (const c of candidates) {
+    const cT = normStr(c.title);
+    const cA = normStr(c.alttitle);
+    const cTClean = cleanStr(c.title);
+    const cAClean = cleanStr(c.alttitle);
     if (
-      cT.indexOf(q) >= 0 || (c.alttitle && cA.indexOf(q) >= 0) ||
-      (qClean && (cTClean.indexOf(qClean) >= 0 || (c.alttitle && cAClean.indexOf(qClean) >= 0)))
+      cT.includes(q) || (c.alttitle && cA.includes(q)) ||
+      (qClean && (cTClean.includes(qClean) || (c.alttitle && cAClean.includes(qClean))))
     ) {
       matched.push(c);
     }
   }
   if (!matched.length) return null;
   if (item && item.sellday) {
-    var y = item.sellday.slice(0, 4);
-    var yMatch = matched.find(function (c) { return c.released && c.released.indexOf(y) === 0; });
+    const y = item.sellday.slice(0, 4);
+    const yMatch = matched.find((c) => c.released && c.released.startsWith(y));
     if (yMatch) return yMatch;
   }
   return matched[0];
@@ -82,7 +80,7 @@ export function dlEntry(st) {
 }
 
 export function dmmEntries(st) {
-  var out = [];
+  const out = [];
   if (st) {
     if (st.m) out.push(st.m);
     if (st.m2) out.push(st.m2);
@@ -97,22 +95,21 @@ export function gcEntry(st) {
 // Inverted tag index: the AND filter and tag badges run per card, so
 // membership must be O(1), not indexOf over the 534-entry 堕ちる過程 array.
 // TAGS is build-time data and never mutates at runtime.
-export var TAG_SETS = {};
-var GID_TAGS = new Map();
-var TAG_KEYS = Object.keys(_TAGS);
-for (var _ti = 0; _ti < TAG_KEYS.length; _ti++) {
-  var _tag = TAG_KEYS[_ti];
-  var _set = new Set(_TAGS[_tag].map(String));
+export const TAG_SETS = {};
+const GID_TAGS = new Map();
+const TAG_KEYS = Object.keys(_TAGS);
+for (const _tag of TAG_KEYS) {
+  const _set = new Set(_TAGS[_tag].map(String));
   TAG_SETS[_tag] = _set;
-  _set.forEach(function (gid) {
-    var list = GID_TAGS.get(gid);
+  _set.forEach((gid) => {
+    const list = GID_TAGS.get(gid);
     if (list) list.push(_tag);
     else GID_TAGS.set(gid, [_tag]);
   });
 }
 
 export function tagsOf(gid) {
-  var list = GID_TAGS.get(String(gid));
+  const list = GID_TAGS.get(String(gid));
   return list ? list.slice() : [];
 }
 
@@ -126,38 +123,36 @@ function cleanGameTitle(name) {
 }
 
 function getSignificantTokens(name) {
-  var cleaned = cleanGameTitle(name);
-  var matches = cleaned.match(/[a-zA-Z]{3,}|[\u30a0-\u30ff]{2,}|[\u4e00-\u9fa5]{2,}/g) || [];
-  var stopWords = {
-    "完全版": 1, "通常版": 1, "初回版": 1, "劇場版": 1, "外伝": 1, "前編": 1, "後編": 1, "特别版": 1, "体验版": 1, "リメイク": 1,
+  const cleaned = cleanGameTitle(name);
+  const matches = cleaned.match(/[a-zA-Z]{3,}|[\u30a0-\u30ff]{2,}|[\u4e00-\u9fa5]{2,}/g) || [];
+  const stopWords = {
+    "完全版": 1, "通常版": 1, "初回版": 1, "劇場版": 1, "外传": 1, "外伝": 1, "前編": 1, "後編": 1, "特别版": 1, "体验版": 1, "リメイク": 1,
     "dos": 1, "win": 1, "remake": 1, "edition": 1, "version": 1, "plus": 1, "special": 1, "fandisc": 1, "disc": 1
   };
-  return matches.filter(function (t) { return !stopWords[t.toLowerCase()]; });
+  return matches.filter((t) => !stopWords[t.toLowerCase()]);
 }
 
 function isSeriesMatch(nameA, nameB) {
   if (!nameA || !nameB) return false;
-  var crossMap = {
+  const crossMap = {
     "rance": "ランス", "ランス": "rance",
     "white album": "ホワイトアルバム",
     "toheart": "トゥハート",
     "dc": "ダ・カーポ"
   };
-  var tokensA = getSignificantTokens(nameA);
-  var tokensB = getSignificantTokens(nameB);
+  const tokensA = getSignificantTokens(nameA);
+  const tokensB = getSignificantTokens(nameB);
 
-  for (var i = 0; i < tokensA.length; i++) {
-    var tA = tokensA[i];
-    var lowA = tA.toLowerCase();
-    var crossA = crossMap[lowA];
-    for (var j = 0; j < tokensB.length; j++) {
-      var tB = tokensB[j];
-      var lowB = tB.toLowerCase();
+  for (const tA of tokensA) {
+    const lowA = tA.toLowerCase();
+    const crossA = crossMap[lowA];
+    for (const tB of tokensB) {
+      const lowB = tB.toLowerCase();
       if (lowA === lowB) return true;
-      if (crossA && lowB.indexOf(crossA) !== -1) return true;
-      if (crossMap[lowB] && lowA.indexOf(crossMap[lowB]) !== -1) return true;
+      if (crossA && lowB.includes(crossA)) return true;
+      if (crossMap[lowB] && lowA.includes(crossMap[lowB])) return true;
       if (tA.length >= 3 && tB.length >= 3) {
-        if (tA.indexOf(tB) !== -1 || tB.indexOf(tA) !== -1) return true;
+        if (tA.includes(tB) || tB.includes(tA)) return true;
       }
     }
   }
@@ -166,24 +161,22 @@ function isSeriesMatch(nameA, nameB) {
 
 export function relatedOf(item, vndbItem) {
   if (!item || !item.brand) return [];
-  var bg = _BRANDG[item.brand] || item.brand;
-  var rel = [];
-  var sid = String(item.gid);
-  for (var i = 0; i < _DATA.length; i++) {
-    var d = _DATA[i];
+  const bg = _BRANDG[item.brand] || item.brand;
+  const rel = [];
+  const sid = String(item.gid);
+  for (const d of _DATA) {
     if (String(d.gid) === sid) continue;
-    var dbg = _BRANDG[d.brand] || d.brand;
+    const dbg = _BRANDG[d.brand] || d.brand;
     if (dbg === bg) {
-      var isSeries = isSeriesMatch(item.name, d.name);
-      rel.push(Object.assign({}, d, { sameBrand: true, sameSeries: isSeries }));
+      const isSeries = isSeriesMatch(item.name, d.name);
+      rel.push({ ...d, sameBrand: true, sameSeries: isSeries });
     }
   }
   // Prioritize series siblings first, then rank by highest median
-  rel.sort(function (a, b) {
+  rel.sort((a, b) => {
     if (a.sameSeries && !b.sameSeries) return -1;
     if (!a.sameSeries && b.sameSeries) return 1;
     return (b.median || 0) - (a.median || 0);
   });
   return rel.slice(0, 8);
 }
-

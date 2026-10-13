@@ -6,20 +6,20 @@
 // apart again.
 
 // --- validation limits -------------------------------------------------------
-var MAX_CID_LEN = 10;      // Getchu numeric id
-var MAX_DMM_CID_LEN = 32;
-var MAX_DL_ID_LEN = 12;
-var GETCHU_SAMPLE_CAP = 40; // per-store display caps: deliberate, not a mismatch
-var DMM_SAMPLE_CAP = 60;
-var DL_SAMPLE_CAP = 40;
+const MAX_CID_LEN = 10;      // Getchu numeric id
+const MAX_DMM_CID_LEN = 32;
+const MAX_DL_ID_LEN = 12;
+const GETCHU_SAMPLE_CAP = 40; // per-store display caps: deliberate, not a mismatch
+const DMM_SAMPLE_CAP = 60;
+const DL_SAMPLE_CAP = 40;
 
 // --- ID shape rules ----------------------------------------------------------
-var DOUJIN_RE = /^d_/i;
+const DOUJIN_RE = /^d_/i;
 // FANZA boxed (mono floor) ids are digits + brand letters + digits, e.g.
 // 676apc14679, 1272tdi10. The optional trailing letter covers variants like
 // 123abc456x. Verified against all 908 cids in the dataset: identical results
 // to the stricter form, so the tolerant one is kept.
-var BOXED_RE = /^[0-9]+[a-z]+[0-9]+[a-z]?$/i;
+const BOXED_RE = /^[0-9]+[a-z]+[0-9]+[a-z]?$/i;
 
 function isGetchuCid(cid) {
   return typeof cid === "string" && cid.length >= 1 && cid.length <= MAX_CID_LEN && /^[0-9]+$/.test(cid);
@@ -38,10 +38,10 @@ function isDlId(rid) {
 // the other DLsite storefronts. An unknown/missing domain falls back per work
 // type, but a stored domain is always honoured -- rewriting VJ works to maniax
 // would 404.
-var DL_DOMAINS = ["maniax", "pro", "home", "soft", "bookgirl", "manga", "aix", "bl"];
+const DL_DOMAINS = ["maniax", "pro", "home", "soft", "bookgirl", "manga", "aix", "bl"];
 
 function isDlDomain(d) {
-  return DL_DOMAINS.indexOf(d) >= 0;
+  return DL_DOMAINS.includes(d);
 }
 
 function isDoujin(cid) { return DOUJIN_RE.test(cid || ""); }
@@ -56,11 +56,11 @@ function dmmFloor(cid) {
   return "digital";
 }
 
-var FLOOR_LABEL = { doujin: "同人", boxed: "盒装版", digital: "下载版" };
+const FLOOR_LABEL = { doujin: "同人", boxed: "盒装版", digital: "下载版" };
 function dmmFloorLabel(cid) { return FLOOR_LABEL[dmmFloor(cid)]; }
 
 // --- Getchu ------------------------------------------------------------------
-var GC_HOST = "https://www.getchu.com";
+const GC_HOST = "https://www.getchu.com";
 
 function gcProductUrl(cid) { return GC_HOST + "/soft.phtml?id=" + cid; }
 function gcCoverUrl(cid) { return GC_HOST + "/brandnew/" + cid + "/rc" + cid + "package.jpg"; }
@@ -68,7 +68,7 @@ function gcSampleUrl(cid, n) { return GC_HOST + "/brandnew/" + cid + "/c" + cid 
 
 // --- FANZA -------------------------------------------------------------------
 function dmmDetailUrl(cid) {
-  var floor = dmmFloor(cid);
+  const floor = dmmFloor(cid);
   if (floor === "doujin") return "https://www.dmm.co.jp/dc/doujin/-/detail/=/cid=" + cid + "/";
   if (floor === "boxed") return "https://www.dmm.co.jp/mono/pcgame/-/detail/=/cid=" + cid + "/";
   return "https://dlsoft.dmm.co.jp/detail/" + cid + "/";
@@ -77,7 +77,7 @@ function dmmDetailUrl(cid) {
 // Image host per floor. doujin lives on its own host; boxed on mono/game;
 // download edition on digital/pcgame.
 function dmmImageBase(cid) {
-  var floor = dmmFloor(cid);
+  const floor = dmmFloor(cid);
   if (floor === "doujin") return "https://doujin-assets.dmm.co.jp/digital/game/" + cid;
   if (floor === "boxed") return "https://pics.dmm.co.jp/mono/game/" + cid;
   return "https://pics.dmm.co.jp/digital/pcgame/" + cid;
@@ -85,24 +85,24 @@ function dmmImageBase(cid) {
 
 // Every floor a cid could plausibly live on, primary first. Used as the
 // onerror fallback chain so a misclassified cid still renders.
-var DMM_FLOORS = ["digital", "boxed", "doujin"];
+const DMM_FLOORS = ["digital", "boxed", "doujin"];
 function dmmImageBases(cid) {
-  var here = dmmFloor(cid);
-  var out = [];
-  for (var i = 0; i < DMM_FLOORS.length; i++) {
-    var floor = DMM_FLOORS[i];
+  const here = dmmFloor(cid);
+  const out = [];
+  for (let i = 0; i < DMM_FLOORS.length; i++) {
+    const floor = DMM_FLOORS[i];
     if (floor === "doujin") out.push("https://doujin-assets.dmm.co.jp/digital/game/" + cid);
     else if (floor === "boxed") out.push("https://pics.dmm.co.jp/mono/game/" + cid);
     else out.push("https://pics.dmm.co.jp/digital/pcgame/" + cid);
   }
   // rotate so the classified floor leads
-  var k = out.splice(DMM_FLOORS.indexOf(here), 1)[0];
+  const k = out.splice(DMM_FLOORS.indexOf(here), 1)[0];
   return [k].concat(out);
 }
 
 function dmmPkgUrl(cid) { return dmmImageBase(cid) + "/" + cid + "pl.jpg"; }
 function dmmPkgFallbacks(cid) {
-  return dmmImageBases(cid).slice(1).map(function (b) { return b + "/" + cid + "pl.jpg"; });
+  return dmmImageBases(cid).slice(1).map((b) => b + "/" + cid + "pl.jpg");
 }
 // ps.jpg is the small package thumb on the digital/boxed floors; doujin has none.
 function dmmPkgThumb(cid) {
@@ -118,11 +118,11 @@ function dmmSampleSmall(cid, i) {
 // big = full sample for the viewer, small = 120x90 tile for the grid,
 // rest = onerror chain (other floors' big then small, primary excluded).
 function dmmSampleChain(cid, i) {
-  var z = String(i).padStart(3, "0");
-  var bases = dmmImageBases(cid);
-  var primary = bases[0];
-  var rest = [];
-  for (var k = 1; k < bases.length; k++) {
+  const z = String(i).padStart(3, "0");
+  const bases = dmmImageBases(cid);
+  const primary = bases[0];
+  const rest = [];
+  for (let k = 1; k < bases.length; k++) {
     rest.push(bases[k] + "/" + cid + "jp-" + z + ".jpg");
     rest.push(bases[k] + "/" + cid + "js-" + z + ".jpg");
   }
@@ -137,20 +137,20 @@ function dmmSearchUrl(q) {
 }
 
 // --- DLsite ------------------------------------------------------------------
-var DL_IMG = "https://img.dlsite.jp";
+const DL_IMG = "https://img.dlsite.jp";
 
 // RJxxxxxx -> VJ00xxxxxx style grouping folder: id digits rounded up to the
 // next thousand, zero padded to the same width.
 function dlFolder(rid) {
-  var m = /^([A-Z]+)(\d+)$/.exec(rid || "");
+  const m = /^([A-Z]+)(\d+)$/.exec(rid || "");
   if (!m) return "RJ00000000";
-  var digits = m[2];
-  var g = (Math.floor((parseInt(digits, 10) - 1) / 1000) + 1) * 1000;
+  const digits = m[2];
+  const g = (Math.floor((parseInt(digits, 10) - 1) / 1000) + 1) * 1000;
   return m[1] + String(g).padStart(digits.length, "0");
 }
 
 function dlWorkType(rid) {
-  return String(rid || "").indexOf("VJ") === 0 ? "professional" : "doujin";
+  return String(rid || "").startsWith("VJ") ? "professional" : "doujin";
 }
 
 // DLsite mirrors every work under its canonical domain and falls back to
@@ -182,14 +182,14 @@ function dlJpg(u) { return String(u).replace(/\.webp$/, ".jpg"); }
 function dlStems(d) {
   if (!d) return [];
   if (d.sm && d.sm.length) return d.sm.slice(0, DL_SAMPLE_CAP);
-  var n = Math.min(d.n || 0, DL_SAMPLE_CAP);
-  var out = [];
-  for (var i = 1; i <= n; i++) out.push("smp" + i);
+  const n = Math.min(d.n || 0, DL_SAMPLE_CAP);
+  const out = [];
+  for (let i = 1; i <= n; i++) out.push("smp" + i);
   return out;
 }
 
-function dlSamples(d) { return dlStems(d).map(function (s) { return dlSampleUrl(d, s); }); }
-function dlSampleThumbs(d) { return dlStems(d).map(function (s) { return dlSampleThumbUrl(d, s); }); }
+function dlSamples(d) { return dlStems(d).map((s) => dlSampleUrl(d, s)); }
+function dlSampleThumbs(d) { return dlStems(d).map((s) => dlSampleThumbUrl(d, s)); }
 
 // --- ErogameScape ------------------------------------------------------------
 function egsUrl(gid) {
@@ -231,11 +231,11 @@ function reEscape(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); 
 
 // Largest sample index on a Getchu product page.
 function parseSampleMax(cid, html) {
-  var re = new RegExp("c" + reEscape(cid) + "sample(\\d+)\\.jpg", "g");
-  var m;
-  var max = 0;
+  const re = new RegExp("c" + reEscape(cid) + "sample(\\d+)\\.jpg", "g");
+  let m;
+  let max = 0;
   while ((m = re.exec(html)) !== null) {
-    var v = parseInt(m[1], 10);
+    const v = parseInt(m[1], 10);
     if (v > max) max = v;
   }
   return max;
@@ -244,11 +244,11 @@ function parseSampleMax(cid, html) {
 // Largest sample index on a FANZA detail page. jp- is full size, js- is the
 // 120x90 thumbnail; both carry the same index.
 function parseDmmMax(cid, html) {
-  var re = new RegExp(reEscape(cid) + "(js|jp)-(\\d+)\\.jpg", "g");
-  var m;
-  var max = 0;
+  const re = new RegExp(reEscape(cid) + "(js|jp)-(\\d+)\\.jpg", "g");
+  let m;
+  let max = 0;
   while ((m = re.exec(html)) !== null) {
-    var v = parseInt(m[2], 10);
+    const v = parseInt(m[2], 10);
     if (v > max) max = v;
   }
   return max;
@@ -258,19 +258,20 @@ function parseDmmMax(cid, html) {
 // smpa1) and cannot be derived from the id, which is why non-default stems are
 // stored in the payload.
 function parseDlStems(rid, html) {
-  var re = new RegExp(reEscape(rid) + "_img_(smp[a-z]*\\d+)\\.(?:jpg|webp)", "g");
-  var m;
-  var seen = {};
-  var out = [];
+  const re = new RegExp(reEscape(rid) + "_img_(smp[a-z]*\\d+)\\.(?:jpg|webp)", "g");
+  let m;
+  const seen = {};
+  const out = [];
   while ((m = re.exec(html)) !== null) {
     if (!seen[m[1]]) {
       seen[m[1]] = true;
       out.push(m[1]);
     }
   }
-  out.sort(function (a, b) {
-    var ma = /^smp([a-z]*)(\d+)$/.exec(a);
-    var mb = /^smp([a-z]*)(\d+)$/.exec(b);
+  out.sort((a, b) => {
+    const ma = /^smp([a-z]*)(\d+)$/.exec(a);
+    const mb = /^smp([a-z]*)(\d+)$/.exec(b);
+    if (!ma || !mb) return 0;
     if (ma[1] !== mb[1]) return ma[1] < mb[1] ? -1 : 1;
     return parseInt(ma[2], 10) - parseInt(mb[2], 10);
   });

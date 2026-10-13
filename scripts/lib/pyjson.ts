@@ -7,7 +7,7 @@
 // and plain objects in insertion order, reproducing Python
 // json.dump(ensure_ascii=False) byte-for-byte.
 
-export type PyVal = string | number | boolean | null | PyVal[] | Map<string, PyVal>;
+export type PyVal = string | number | boolean | null | PyVal[] | Map<string, PyVal> | Record<string, any>;
 
 // Python str.strip()/rstrip() whitespace set (no U+FEFF; includes \x1c-\x1f
 // and U+0085). Escaped form is canonical: identical to the old literal
@@ -72,9 +72,11 @@ export function quoteJson(s: string): string {
 }
 
 function entriesOf(v: PyVal): [string, PyVal][] {
-  return v instanceof Map
-    ? [...v.entries()]
-    : (Object.entries(v as Record<string, PyVal>) as [string, PyVal][]);
+  if (v instanceof Map) return [...v.entries()];
+  if (v && typeof v === "object" && !Array.isArray(v)) {
+    return Object.entries(v as Record<string, PyVal>);
+  }
+  return [];
 }
 
 export function encode(

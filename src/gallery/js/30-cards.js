@@ -6,44 +6,45 @@ import { applyFilter } from "./20-filter.js";
 import { escHtml, getArtworkFor, getMedClass } from "./25-artwork.js";
 import { openDetail } from "./40-drawer.js";
 import { triggerVndbFetch } from "./55-vndb-chrome.js";
+
 function createCardElement(item) {
-  var gid = String(item.gid);
-  var st = storeOf(gid);
-  var v = liveCache.get(gid) || null;
-  var art = getArtworkFor(item, S.tab);
+  const gid = String(item.gid);
+  const st = storeOf(gid);
+  const v = liveCache.get(gid) || null;
+  const art = getArtworkFor(item, S.tab);
 
-  var hasD = Boolean(dlEntry(st));
-  var hasF = dmmEntries(st).length > 0;
-  var hasG = Boolean(gcEntry(st));
-  var hasV = Boolean(v);
+  const hasD = Boolean(dlEntry(st));
+  const hasF = dmmEntries(st).length > 0;
+  const hasG = Boolean(gcEntry(st));
+  const hasV = Boolean(v);
 
-  var wrap = document.createElement("div");
+  const wrap = document.createElement("div");
   wrap.className = "cardwrap";
   wrap.dataset.gid = gid;
 
-  var article = document.createElement("article");
+  const article = document.createElement("article");
   article.className = "card" + (item.rank <= 10 ? " rank-top10" : "");
   article.dataset.gid = gid;
 
   // Rating tier class
-  var medClass = getMedClass(item.median);
+  const medClass = getMedClass(item.median);
 
   // Tags list
-  var itemTags = tagsOf(gid);
-  var tagsHtml = "";
+  const itemTags = tagsOf(gid);
+  let tagsHtml = "";
   if (itemTags.length > 0) {
-    tagsHtml = itemTags.slice(0, 3).map(function (t) {
-      return '<span class="tagbadge">' + escHtml(t) + '</span>';
-    }).join("");
+    tagsHtml = itemTags.slice(0, 3).map((t) =>
+      '<span class="tagbadge">' + escHtml(t) + '</span>'
+    ).join("");
   }
 
   // Direct Store Actions
-  var storeLinksHtml = "";
+  let storeLinksHtml = "";
   if (st && st.l) {
     storeLinksHtml += '<a href="' + escHtml(dlProductUrl(st.l.id, st.l.d)) + '" target="_blank" rel="noopener">DLsite</a>';
   }
   if (st && (st.m || st.m2)) {
-    var dm = st.m || st.m2;
+    const dm = st.m || st.m2;
     storeLinksHtml += '<a href="' + escHtml(dmmDetailUrl(dm.id)) + '" target="_blank" rel="noopener">FANZA</a>';
   }
   if (st && st.g) {
@@ -56,7 +57,7 @@ function createCardElement(item) {
   }
 
   // Always ensure at least 2 links and one containing erogamescape
-  var egsLinkHtml = '<a href="' + escHtml(egsUrl(item.gid)) + '" target="_blank" rel="noopener">批评空间</a>';
+  const egsLinkHtml = '<a href="' + escHtml(egsUrl(item.gid)) + '" target="_blank" rel="noopener">批评空间</a>';
 
   article.innerHTML =
     '<div class="cover" data-act="detail">' +
@@ -84,10 +85,10 @@ function createCardElement(item) {
       '</div>' +
     '</div>';
 
-  var coverEl = article.querySelector(".cover");
+  const coverEl = article.querySelector(".cover");
 
   // Click on cover opens detail drawer
-  coverEl.addEventListener("click", function (/** @type {any} */ e) {
+  coverEl.addEventListener("click", (/** @type {any} */ e) => {
     if (e.target.closest("a") || e.target.closest("button") || e.target.classList.contains("scrub-segment")) {
       return;
     }
@@ -96,29 +97,29 @@ function createCardElement(item) {
   });
 
   // 3D Magnetic Tilt Physics
-  article.addEventListener("mousemove", function (e) {
-    var rect = article.getBoundingClientRect();
-    var x = e.clientX - rect.left;
-    var y = e.clientY - rect.top;
-    var dx = (x / rect.width - 0.5) * 2;
-    var dy = (y / rect.height - 0.5) * 2;
+  article.addEventListener("mousemove", (e) => {
+    const rect = article.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const dx = (x / rect.width - 0.5) * 2;
+    const dy = (y / rect.height - 0.5) * 2;
     article.style.setProperty("--rx", (-dy * 7).toFixed(2) + "deg");
     article.style.setProperty("--ry", (dx * 7).toFixed(2) + "deg");
   });
-  article.addEventListener("mouseleave", function () {
+  article.addEventListener("mouseleave", () => {
     article.style.setProperty("--rx", "0deg");
     article.style.setProperty("--ry", "0deg");
   });
 
   // Hover Scrubbing Preview
   if (art.shots && art.shots.length > 0) {
-    var scrubStrip = coverEl.querySelector(".scrub-strip");
-    var imgEl = coverEl.querySelector("img");
-    var scrubList = [art.thumb].concat(art.shots.slice(0, 5));
-    scrubList.forEach(function (shotUrl) {
-      var seg = document.createElement("div");
+    const scrubStrip = coverEl.querySelector(".scrub-strip");
+    const imgEl = coverEl.querySelector("img");
+    const scrubList = [art.thumb, ...art.shots.slice(0, 5)];
+    scrubList.forEach((shotUrl) => {
+      const seg = document.createElement("div");
       seg.className = "scrub-segment";
-      seg.addEventListener("mouseenter", function () {
+      seg.addEventListener("mouseenter", () => {
         if (!imgEl.dataset.origSrc) {
           imgEl.dataset.origSrc = imgEl.getAttribute("src") || imgEl.src;
         }
@@ -129,23 +130,23 @@ function createCardElement(item) {
       scrubStrip.appendChild(seg);
     });
 
-    function restoreCover() {
+    const restoreCover = () => {
       imgEl.dataset.scrubbing = "false";
-      var orig = imgEl.dataset.origSrc || art.thumb;
+      const orig = imgEl.dataset.origSrc || art.thumb;
       if (orig) {
         imgEl.setAttribute("src", orig);
         imgEl.src = orig;
       }
-    }
+    };
 
     scrubStrip.addEventListener("mouseleave", restoreCover);
     coverEl.addEventListener("mouseleave", restoreCover);
   }
 
   // Manual VNDB Match Button
-  var fetchBtn = article.querySelector('[data-act="fetch"]');
+  const fetchBtn = article.querySelector('[data-act="fetch"]');
   if (fetchBtn) {
-    fetchBtn.addEventListener("click", function (e) {
+    fetchBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       e.preventDefault();
       playBeep(650, "triangle", 0.08);
@@ -159,18 +160,18 @@ function createCardElement(item) {
 
 // --- Showcase Grid Renderer ---
 export function renderShowcaseGrid() {
-  var grid = document.getElementById("grid");
+  const grid = document.getElementById("grid");
   if (!grid) return;
 
   grid.dataset.view = S.tab;
   grid.innerHTML = "";
 
-  var slice = S.list.slice(0, S.count);
-  for (var i = 0; i < slice.length; i++) {
-    grid.appendChild(createCardElement(slice[i]));
+  const slice = S.list.slice(0, S.count);
+  for (const item of slice) {
+    grid.appendChild(createCardElement(item));
   }
 
-  var moreBtn = document.getElementById("more");
+  const moreBtn = document.getElementById("more");
   if (moreBtn) {
     if (S.count >= S.list.length) {
       moreBtn.style.display = "none";
@@ -178,7 +179,6 @@ export function renderShowcaseGrid() {
       moreBtn.style.display = "inline-block";
     }
   }
-
 }
 
 export function renderNextPage() {
@@ -189,13 +189,13 @@ export function renderNextPage() {
 }
 
 export function updateStatsBar() {
-  var stats = document.getElementById("stats");
+  const stats = document.getElementById("stats");
   if (!stats) return;
 
-  var adapter = ADAPTERS[S.tab];
-  var tagInfo = S.tags.length > 0 ? " · 标签AND：" + S.tags.join("+") : "";
-  var medInfo = S.med > 0 ? " · 中央值≥" + S.med : "";
-  var shown = Math.min(S.count, S.list.length);
+  const adapter = ADAPTERS[S.tab];
+  const tagInfo = S.tags.length > 0 ? " · 标签AND：" + S.tags.join("+") : "";
+  const medInfo = S.med > 0 ? " · 中央值≥" + S.med : "";
+  const shown = Math.min(S.count, S.list.length);
 
   stats.innerHTML =
     "共 <b>" + S.list.length + "</b> / " + _DATA.length + " 个（EROGE限定） · " +
@@ -205,11 +205,11 @@ export function updateStatsBar() {
 
 // --- Tag Constellation Chips Renderer ---
 export function renderTagChips() {
-  var container = document.getElementById("tagchips");
-  var tagRow = document.getElementById("tagrow");
+  const container = document.getElementById("tagchips");
+  const tagRow = document.getElementById("tagrow");
   if (!container || !tagRow) return;
 
-  var tagKeys = Object.keys(_TAGS);
+  const tagKeys = Object.keys(_TAGS);
   if (!tagKeys.length) {
     tagRow.hidden = true;
     return;
@@ -217,16 +217,16 @@ export function renderTagChips() {
   tagRow.hidden = false;
   container.innerHTML = "";
 
-  tagKeys.forEach(function (tag) {
-    var btn = document.createElement("button");
+  tagKeys.forEach((tag) => {
+    const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "tagchip" + (S.tags.indexOf(tag) >= 0 ? " on" : "");
+    btn.className = "tagchip" + (S.tags.includes(tag) ? " on" : "");
     btn.dataset.tag = tag;
     btn.innerHTML =
       '<span class="tagname">' + escHtml(tag) + '</span>' +
       '<span class="tagcount">' + _TAGS[tag].length + '</span>';
 
-    btn.addEventListener("click", function () {
+    btn.addEventListener("click", () => {
       toggleTag(tag);
     });
     container.appendChild(btn);
@@ -235,7 +235,7 @@ export function renderTagChips() {
 
 export function toggleTag(tag) {
   playBeep(480, "sine", 0.04);
-  var idx = S.tags.indexOf(tag);
+  const idx = S.tags.indexOf(tag);
   if (idx >= 0) {
     S.tags.splice(idx, 1);
   } else {
@@ -245,4 +245,3 @@ export function toggleTag(tag) {
   renderTagChips();
   applyFilter();
 }
-

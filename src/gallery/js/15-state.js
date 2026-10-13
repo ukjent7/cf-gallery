@@ -11,7 +11,7 @@ function hasStoreRow(st) {
   return Boolean(st && (st.l || st.m || st.m2 || st.g));
 }
 
-var ADAPTER_SPECS = {
+const ADAPTER_SPECS = {
   all: { navLabel: "综合", matchedLabel: "只看有图", any: true },
   vndb: { navLabel: "VNDB", matchedLabel: "只看已匹配", vndb: true },
   dlsite: { navLabel: "DLsite", matchedLabel: "只看DLsite", stores: ["l"] },
@@ -21,20 +21,23 @@ var ADAPTER_SPECS = {
 
 function specHas(spec, item, st, v) {
   if (spec.vndb) return hasVndbArt(v);
-  if (spec.stores) return spec.stores.some(function (k) { return Boolean(st && st[k]); });
+  if (spec.stores) return spec.stores.some((k) => Boolean(st && st[k]));
   return hasVndbArt(v) || hasStoreRow(st);
 }
 
-export var ADAPTERS = {};
-Object.keys(ADAPTER_SPECS).forEach(function (key) {
-  var spec = ADAPTER_SPECS[key];
-  ADAPTERS[key] = { navLabel: spec.navLabel, matchedLabel: spec.matchedLabel, has: specHas.bind(null, spec) };
-});
+export const ADAPTERS = {};
+for (const [key, spec] of Object.entries(ADAPTER_SPECS)) {
+  ADAPTERS[key] = {
+    navLabel: spec.navLabel,
+    matchedLabel: spec.matchedLabel,
+    has: (item, st, v) => specHas(spec, item, st, v),
+  };
+}
 
 // --- State Variables ---
 // One shared object: ESM bindings are read-only in consumers, so cross-file
 // updates go through property assignment, never rebinding.
-export var S = {
+export const S = {
   tab: "all",
   sort: "rank",
   density: 0, // 0: auto, 1: compact, 2: large
@@ -49,45 +52,45 @@ export var S = {
   audio: true,
   focus: 0
 };
-export var sessionMetaCache = new Set();
-export var origDocTitle = typeof document !== "undefined" ? document.title : "";
-var audioCtx = null;
+export const sessionMetaCache = new Set();
+export const origDocTitle = typeof document !== "undefined" ? document.title : "";
+let audioCtx = null;
 
 // --- Sound Effects Synthesis ---
-export function playBeep(freq, type, dur) {
+export function playBeep(freq = 440, type = "sine", dur = 0.05) {
   if (!S.audio || typeof window === "undefined") return;
   try {
     if (!audioCtx) {
-      var AudioContext = window.AudioContext || /** @type {any} */ (window).webkitAudioContext;
-      if (AudioContext) audioCtx = new AudioContext();
+      const AudioCtxConstructor = window.AudioContext || /** @type {any} */ (window).webkitAudioContext;
+      if (AudioCtxConstructor) audioCtx = new AudioCtxConstructor();
     }
     if (audioCtx && audioCtx.state === "suspended") {
       audioCtx.resume();
     }
     if (!audioCtx) return;
-    var osc = audioCtx.createOscillator();
-    var gain = audioCtx.createGain();
-    osc.type = type || "sine";
-    osc.frequency.setValueAtTime(freq || 440, audioCtx.currentTime);
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
     gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + (dur || 0.05));
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     osc.start();
-    osc.stop(audioCtx.currentTime + (dur || 0.05));
-  } catch (_) {}
+    osc.stop(audioCtx.currentTime + dur);
+  } catch {}
 }
 
 // --- UI State Restoration ---
 try {
-  var rawUi = typeof localStorage !== "undefined" ? localStorage.getItem("ui_v1") : null;
+  const rawUi = typeof localStorage !== "undefined" ? localStorage.getItem("ui_v1") : null;
   if (rawUi) {
-    var parsedUi = JSON.parse(rawUi);
+    const parsedUi = JSON.parse(rawUi);
     if (parsedUi && Array.isArray(parsedUi.tags)) {
-      S.tags = parsedUi.tags.filter(function (t) { return t in _TAGS; });
+      S.tags = parsedUi.tags.filter((t) => t in _TAGS);
     }
   }
-} catch (_) {
+} catch {
   S.tags = [];
 }
 
@@ -95,6 +98,5 @@ export function persistTags() {
   if (typeof localStorage === "undefined") return;
   try {
     localStorage.setItem("ui_v1", JSON.stringify({ tags: S.tags }));
-  } catch (_) {}
+  } catch {}
 }
-

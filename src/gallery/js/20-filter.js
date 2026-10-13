@@ -5,13 +5,13 @@ import { renderShowcaseGrid, updateStatsBar } from "./30-cards.js";
 
 // --- Filtering & Sorting Pipeline ---
 export function applyFilter() {
-  var adapter = ADAPTERS[S.tab];
-  var q = normStr(S.query);
+  const adapter = ADAPTERS[S.tab];
+  const q = normStr(S.query);
 
-  S.list = _DATA.filter(function (item) {
-    var gid = String(item.gid);
-    var st = storeOf(gid);
-    var v = liveCache.get(gid) || null;
+  S.list = _DATA.filter((item) => {
+    const gid = String(item.gid);
+    const st = storeOf(gid);
+    const v = liveCache.get(gid) || null;
 
     // Only Matched Checkbox
     if (S.matched) {
@@ -25,17 +25,17 @@ export function applyFilter() {
 
     // Tag Constellation (AND Intersection)
     if (S.tags.length > 0) {
-      for (var i = 0; i < S.tags.length; i++) {
-        var tSet = TAG_SETS[S.tags[i]];
+      for (const tag of S.tags) {
+        const tSet = TAG_SETS[tag];
         if (!tSet || !tSet.has(gid)) return false;
       }
     }
 
     // Omni Search Query
     if (q) {
-      var matchTitle = normStr(item.name).indexOf(q) >= 0;
-      var matchBrand = normStr(item.brand).indexOf(q) >= 0;
-      var matchGid = gid === q;
+      const matchTitle = normStr(item.name).includes(q);
+      const matchBrand = normStr(item.brand).includes(q);
+      const matchGid = gid === q;
       if (!matchTitle && !matchBrand && !matchGid) {
         return false;
       }
@@ -46,22 +46,14 @@ export function applyFilter() {
 
   // Sort Pipeline
   if (S.sort === "median") {
-    S.list.sort(function (a, b) {
-      return (b.median || 0) - (a.median || 0) || a.rank - b.rank;
-    });
+    S.list.sort((a, b) => (b.median || 0) - (a.median || 0) || a.rank - b.rank);
   } else if (S.sort === "count2") {
-    S.list.sort(function (a, b) {
-      return (b.count2 || 0) - (a.count2 || 0) || a.rank - b.rank;
-    });
+    S.list.sort((a, b) => (b.count2 || 0) - (a.count2 || 0) || a.rank - b.rank);
   } else if (S.sort === "sellday") {
-    S.list.sort(function (a, b) {
-      return (b.sellday || "").localeCompare(a.sellday || "") || a.rank - b.rank;
-    });
+    S.list.sort((a, b) => (b.sellday || "").localeCompare(a.sellday || "") || a.rank - b.rank);
   } else {
     // Default: rank
-    S.list.sort(function (a, b) {
-      return a.rank - b.rank;
-    });
+    S.list.sort((a, b) => a.rank - b.rank);
   }
 
   S.count = PAGE_SIZE;
